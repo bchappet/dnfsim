@@ -193,7 +193,7 @@ public class FEFStatMap extends StatMap {
 		private String axe;
 		private int bubbleId; 
 
-		public BubbleMap(int bubbleId, String axe, String theName,Var dt, Space space,List<AbstractMap> tracks, Parameter... maps){
+		public BubbleMap(int bubbleId, String axe, String theName,Parameter dt, Space space,List<AbstractMap> tracks, Parameter... maps){
 			super(theName, dt, space, tracks, maps);
 			this.axe = axe;
 			this.bubbleId = bubbleId;
@@ -244,7 +244,7 @@ public class FEFStatMap extends StatMap {
 	protected class ErrorDistance extends StatMap
 	{
 
-		public ErrorDistance(String theName, Var dt, Space space,List<AbstractMap> tracks,
+		public ErrorDistance(String theName, Parameter dt, Space space,List<AbstractMap> tracks,
 				Parameter centerX,Parameter centerY) {
 			super(theName, dt, space, tracks,centerX,centerY);
 		}

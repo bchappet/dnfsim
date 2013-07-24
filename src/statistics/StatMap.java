@@ -15,7 +15,7 @@ public abstract class StatMap extends Map {
 	/**List of the trackable objects**/
 	protected List<AbstractMap> tracks;
 	
-	public StatMap(String theName,Var dt, Space space,List<AbstractMap> tracks, Parameter... maps)
+	public StatMap(String theName,Parameter dt, Space space,List<AbstractMap> tracks, Parameter... maps)
 	{
 		super(theName,null,dt,space,maps);
 		this.tracks = tracks;
