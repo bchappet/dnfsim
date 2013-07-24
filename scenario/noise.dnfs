@@ -1,0 +1,7 @@
+tck_nb=1;
+noise_amp=0;
+wait=10;
+noise_amp=3;
+noise_dt=1;
+wait=50;
+tck_nb=2;

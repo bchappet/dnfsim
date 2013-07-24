@@ -1,0 +1,16 @@
+n=10;
+buff_cap=47;
+wrap=F;
+ia=2.33;
+ib=-1.59;
+wa=0.0043;
+wb=0.17;
+tau=0.64;
+threshold=0.75;
+alpha=10.00;
+hard_dt=0.0004;
+disp_dt=0.01;
+dt=0.1;
+
+
+
