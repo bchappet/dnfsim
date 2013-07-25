@@ -73,7 +73,7 @@ public class Leaf  implements Parameter{
 	}
 
 	@Override
-	public Var getDt() {
+	public Parameter getDt() {
 		return map.getDt();
 	}
 
