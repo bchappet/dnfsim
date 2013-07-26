@@ -40,7 +40,7 @@ public class FiltreLucasKanade {
     
     private Space space;
     
-    int test = 0;
+    int test = 0; 
     
     /**
      * Créer une filtre de type lucas kanade
