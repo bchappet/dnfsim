@@ -113,7 +113,7 @@ public class ModelCMSVA extends Model {
     protected AbstractMap cawmtfef;
     protected AbstractMap wawmfef;
     
-    protected Map inputVideo;
+    protected Map inputData;
     protected Map inputTest;
     
     /**
@@ -154,7 +154,7 @@ public class ModelCMSVA extends Model {
 
     @Override
     public List<Parameter> getDefaultDisplayedParameter() {
-        Parameter[] ret = {inputVideo/*,inputTest*/,input, focus, fef, wm/*,
+        Parameter[] ret = {inputData/*,inputTest*/,input, focus, fef, wm/*,
             cafti,clftf,wafi,wlff,cafeftf,
             cafeftwm,clfeftfef,cafefti,wafefwm,
             wlfeffef,wafeff,wafefi,cawmtfef,wawmfef*/};
@@ -222,27 +222,27 @@ public class ModelCMSVA extends Model {
 //        inputTest = new Map("inputTest", inputTestUM);
 //        inputTest.constructMemory();
 //        inputTest.toParallel();
-        ConfigurationInput dataVideo = new ConfigurationInput();
-        dataVideo.deviceName = "/dev/video0";
-        dataVideo.driverName = "video4linux2";
-        dataVideo.width = 320 ;
-        dataVideo.heigth = 240;
-        dataVideo.fps = 30;
-        dataVideo.nameImage = "framesTraiteesScaled_";
-        dataVideo.pathImages = "tmp";
-        dataVideo.pathVideo = "AFightD.mpg";
-        dataVideo.cpf = 1; // => 10 frames par secondes vu que le model est a 10 cps
+        ConfigurationInput metaData = new ConfigurationInput();
+        metaData.deviceName = "/dev/video0";
+        metaData.driverName = "video4linux2";
+        metaData.width = 320 ;
+        metaData.heigth = 240;
+        metaData.fps = 30;
+        metaData.nameImage = "framesTraiteesScaled_";
+        metaData.pathImages = "tmp";
+        metaData.pathVideo = "AFightD.mpg";
+        metaData.cpf = 1; // => 10 frames par secondes vu que le model est a 10 cps
         UnitModel inputVideoUM = new UnitModelInput( command.get(CNFTCommandLine.INPUT_DT), 
                                         space2d,
-                                        dataVideo, 
+                                        metaData, 
                                         ReaderInput.TYPE_BILINEAR,
-                                        ReaderInput.STEP); 
-        inputVideo = new Map("inputVideo", inputVideoUM);
-        inputVideo.constructMemory();
-        inputVideo.toParallel();
+                                        ReaderInput.WEBCAM); 
+        inputData = new Map("inputVideo", inputVideoUM);
+        inputData.constructMemory();
+        inputData.toParallel();
         UnitModel lucasKanadeUM = new UnitModelLucasKanade(command.get(CNFTCommandLine.INPUT_DT), 
                                         space2d,
-                                        inputVideo/*inputTest*/,
+                                        inputData/*inputTest*/,
                                         new Var(2), // épaisseur de la fenêtre de voisinage 
                                         new Var(FALSE), // on veut des poid ou pas
                                         new Var(999), // intensité du poid 

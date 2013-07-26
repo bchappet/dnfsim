@@ -18,7 +18,7 @@ import javax.imageio.ImageIO;
  * @author nicolas
  */
 public abstract class AbstractReader implements InterfaceReader{
-    int i = 0;
+//    int i = 0;
 
     @Override
     public abstract int get(double time, int x, int y);
@@ -43,12 +43,12 @@ public abstract class AbstractReader implements InterfaceReader{
         at.scale(sx, sy);
         AffineTransformOp scaleOp = new AffineTransformOp(at, type);
         after = scaleOp.filter(before, after);
-        try {
-                ImageIO.write(after, "png", new File("tmp/framesTraiteesScaled_"+i));
-            } catch (IOException ex) {
-                Logger.getLogger(AbstractReader.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        i++;
+//        try {
+//                ImageIO.write(after, "png", new File("tmp/framesTraiteesScaled_"+i));
+//            } catch (IOException ex) {
+//                Logger.getLogger(AbstractReader.class.getName()).log(Level.SEVERE, null, ex);
+//            }
+//        i++;
         return after;
     } 
 }

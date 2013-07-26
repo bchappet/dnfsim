@@ -75,6 +75,7 @@ public class ReaderImages extends AbstractReader{
     @Override
     public int get(double time, int x, int y) {
         int computation = (int) (time * cps);
+        System.out.println("computation : "+computation);
         System.out.println("time : "+time);
         System.out.println("Math.floor(computation/cpf) : "+Math.floor(computation/cpf));
         return frames.get((int)Math.floor(computation/cpf)).getRGB(x, y);
