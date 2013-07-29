@@ -275,7 +275,6 @@ public class ModelCNFT extends Model{
 		//Construct the input as a sum of theses params
 		UnitModel sum = new Sum(command.get(CNFTCommandLine.INPUT_DT),space2d, mNoise);
 		this.input = new Map(INPUT,sum);
-
 		modifyModel();
 
 	}

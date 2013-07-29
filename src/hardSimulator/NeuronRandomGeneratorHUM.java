@@ -14,7 +14,6 @@ public class NeuronRandomGeneratorHUM extends UnitModel {
 
 	//Parameters
 	protected static final int PROBA = 0;
-	protected static final int PRECISION_PROBA = 1;
 
 	
 	

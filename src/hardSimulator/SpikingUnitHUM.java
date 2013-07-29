@@ -101,12 +101,12 @@ public class SpikingUnitHUM extends UnitModel {
 
 		activate = 0;
 
-		if((int)clk.get() % compute_clk == 0){
-//			System.out.println("Compute clk");
+		if(((int)clk.get() ) % compute_clk == 0){
+//			System.out.println("Compute clk. clk :" + clk.get() + " compute_clk  " +  compute_clk);
 
 			double input = params.get(INPUT).get(coord);
-			double dt_tau = params.get(INTEGRATION_DT).get()/params.get(TAU).get();
-			double div = Hardware.shiftRight(potential.get(),1/dt_tau,(int)params.get(FRAC).get());//simulate fp bit shifting
+			double tau_dt = params.get(TAU).get()/params.get(INTEGRATION_DT).get();
+			double div = Hardware.shiftRight(potential.get(),tau_dt,(int)params.get(FRAC).get());//simulate fp bit shifting
 //			System.out.println("div : " + div);
 			double sum = input - div;
 //			System.out.println("sum : " + sum);
@@ -134,8 +134,10 @@ public class SpikingUnitHUM extends UnitModel {
 			summedInh.set(0);
 		}
 
-
+		
 		clk.set(clk.get()+1);
+//		System.out.println(clk.get());
+		
 		return activation.get();
 	}
 

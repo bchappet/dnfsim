@@ -56,43 +56,44 @@ public class ModelHardware extends ModelNSpike {
 		
 		//We transform each parameter in fp param with frac precision
 		Parameter frac = command.get(CNFTCommandLine.FRAC);
+		Parameter proba_frac = command.get(CNFTCommandLine.PROBA_FRAC);
 		Var dt = command.get(CNFTCommandLine.DT);
 
 		
-		fp_hppa = new TrajectoryUnitMap("fp_pa_hidden",dt,extendedSpace,hppa,frac){
+		fp_hppa = new TrajectoryUnitMap("fp_pa_hidden",dt,noDimSpace,hppa,proba_frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
 		
 
-		fp_hppb = new TrajectoryUnitMap("fp_pb_hidden",dt,extendedSpace,hppb,frac){
+		fp_hppb = new TrajectoryUnitMap("fp_pb_hidden",dt,noDimSpace,hppb,proba_frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
-		fp_hpA = new TrajectoryUnitMap("fp_pA_hidden",dt,extendedSpace,hpA,frac){
+		fp_hpA = new TrajectoryUnitMap("fp_pA_hidden",dt,noDimSpace,hpA,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
-		fp_hpB = new TrajectoryUnitMap("fp_pB_hidden",dt,extendedSpace,hpB,frac){
+		fp_hpB = new TrajectoryUnitMap("fp_pB_hidden",dt,noDimSpace,hpB,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		Parameter threshold = command.get(CNFTCommandLine.THRESHOLD);
-		fp_threshold = new TrajectoryUnitMap("fp_threshold",dt,extendedSpace,threshold,frac){
+		fp_threshold = new TrajectoryUnitMap("fp_threshold",dt,noDimSpace,threshold,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 
@@ -101,6 +102,11 @@ public class ModelHardware extends ModelNSpike {
 		fp_hpA.toStatic();
 		fp_hpB.toStatic();
 		fp_threshold.toStatic();
+		System.out.println("pa : " +fp_hppa.get());
+		System.out.println("pb : " +fp_hppb.get());
+		System.out.println("ia : "+fp_hpA.get());
+		System.out.println("ib : " +fp_hpB.get());
+		System.out.println("th : " + fp_threshold.get());
 		
 	}
 

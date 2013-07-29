@@ -66,7 +66,7 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String HARD_DT = "hard_dt";//hard ware map refreshing rate
 	public static final String DT = "dt";
 	public static final String DISPLAY_DT = "disp_dt"; //time refresh rate for running simu
-	public static final String BUFF_CAP = "buff_cap";
+	public static final String BUFF_WIDTH = "buff_width";
 	public static final String PRECISION = "precision";
 	public static final String COMPUTE_CLK = "compute_clk";//frequecy of computation for har model
 
@@ -120,7 +120,7 @@ public class CNFTCommandLine extends CommandLine{
 				+DISTR_WIDTH+"=0.1;"		+DT+"=0.1;"
 				+NOISE_DT+"=0.1;"			+HARD_DT+"=0.01;"
 				+INPUT_DT+"=0.1;"			+DISPLAY_DT+"=0.1;"
-				+BUFF_CAP+"=50;"			+PRECISION+"=8;"
+				+BUFF_WIDTH+"=6;"			+PRECISION+"=8;"
 				+COMPUTE_CLK+"=10;"			
 				+INH_CST+"=-1;"				+TAU_DT+"=6.3999999999999995;"
 				+INPUT_FILES+"=src/tests/files/input;"
@@ -391,6 +391,19 @@ public class CNFTCommandLine extends CommandLine{
 			for(int i = 0 ; i < Integer.parseInt(value) ; i++)
 			{
 				runner.step();
+			}
+		}
+		else if(command.equals("waitNsave"))
+		{
+			for(int i = 0 ; i < Integer.parseInt(value) ; i++)
+			{
+				
+				runner.step();
+				try {
+					ret = runner.saveMaps("save_"+i);
+				} catch (IOException e) {
+					throw new CommandLineFormatException("IO error",e);
+				}
 			}
 		}
 		else if(command.equals("print")){

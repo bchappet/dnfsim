@@ -176,6 +176,11 @@ public class Leaf  implements Parameter{
 		
 	}
 
+	@Override
+	public double getDelay(int delay, int index) {
+		return map.getDelay(delay, index);
+	}
+
 	
 
 	

@@ -56,7 +56,7 @@ public class ModelNSpike extends ModelESpike{
 		pn = command.get(CNFTCommandLine.N);
 
 		Parameter ppa = command.get(CNFTCommandLine.WA);
-		hppa = new TrajectoryUnitMap("pa_hidden",command.get(CNFTCommandLine.DT),extendedSpace,ppa) {
+		hppa = new TrajectoryUnitMap("pa_hidden",command.get(CNFTCommandLine.DT),noDimSpace,ppa) {
 			@Override
 			public double computeTrajectory(double... param)   {
 				return Math.pow(param[0],
@@ -65,7 +65,7 @@ public class ModelNSpike extends ModelESpike{
 		};
 
 		Parameter ppb = command.get(CNFTCommandLine.WB);
-		hppb = new TrajectoryUnitMap("pb_hidden",command.get(CNFTCommandLine.DT),extendedSpace, ppb) {
+		hppb = new TrajectoryUnitMap("pb_hidden",command.get(CNFTCommandLine.DT),noDimSpace, ppb) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return Math.pow(param[0],
@@ -74,7 +74,7 @@ public class ModelNSpike extends ModelESpike{
 		};
 
 		Parameter pA =  command.get(CNFTCommandLine.IA);
-		hpA = new TrajectoryUnitMap("A_hidden",command.get(CNFTCommandLine.DT),extendedSpace,pA,alphaP,pn) {
+		hpA = new TrajectoryUnitMap("A_hidden",command.get(CNFTCommandLine.DT),noDimSpace,pA,alphaP,pn) {
 			//A = A /(res*res*n)*(40*40)/alpha
 			@Override
 			public double computeTrajectory(double... param) {
@@ -86,7 +86,7 @@ public class ModelNSpike extends ModelESpike{
 			}
 		};
 		Parameter pB =  command.get(CNFTCommandLine.IB);
-		hpB  = new TrajectoryUnitMap("B_hidden",command.get(CNFTCommandLine.DT),extendedSpace, pB,alphaP,pn) {
+		hpB  = new TrajectoryUnitMap("B_hidden",command.get(CNFTCommandLine.DT),noDimSpace, pB,alphaP,pn) {
 			//B = B /(res*res*n)*(40*40)/alpha
 			@Override
 			public double computeTrajectory(double... param) {

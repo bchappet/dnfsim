@@ -3,6 +3,12 @@ package utils;
 public class Hardware {
 
 	/**
+	 * Rounding mode
+	 */
+	public static final int CAST = 0;
+	public final static int ROUND = 1;
+
+	/**
 	 * 
 	 * @param logic_vector LBV...HBV
 	 * @return the integer equivalent of the logic vector
@@ -10,11 +16,11 @@ public class Hardware {
 	public static int toInteger(int[] logic_vector) {
 		int res = 0;
 		for(int i = 0 ;i < logic_vector.length ; i++){
-			 res += Math.pow(2, i) * logic_vector[i];
+			res += Math.pow(2, i) * logic_vector[i];
 		}
 		return res;
 	}
-	
+
 	/**
 	 * Transform a integer into a 6 bit logic_vector LBV...HBV
 	 *  
@@ -31,7 +37,7 @@ public class Hardware {
 			rest = rest / 2;
 			i ++;
 		}
-		
+
 		for(int j=i ; j < arraySize ; j++){
 			logic_vector[i] = 0;
 		}
@@ -45,12 +51,20 @@ public class Hardware {
 	 * @param frac
 	 * @return
 	 */
-	public static double toFPDouble(double val, int frac) {
+	public static double toFPDouble(double val, int frac,int roundingMode) {
 		double fact =  Math.pow(2,frac);
-		return Math.round(val*fact)/fact;
+		double to_round =  val*fact;
+
+		double rounded = 0;
+		switch(roundingMode){
+		case CAST : rounded = (int) to_round;break;
+		case ROUND : rounded = Math.round(to_round);break;
+		}
+
+		return rounded/fact;
 
 	}
-	
+
 	/**
 	 * Simulate a shifting
 	 * @param val : the fp val to shift (divide)
@@ -60,9 +74,9 @@ public class Hardware {
 	 */
 	public static double shiftRight(double val, double div,int frac) {
 		double tmp = val/div;
-		double res = toFPDouble(tmp,frac);
+		double res = toFPDouble(tmp,frac,CAST);
 		return res;
-		
+
 	}
 
 }

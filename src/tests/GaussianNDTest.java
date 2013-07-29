@@ -48,5 +48,12 @@ public class GaussianNDTest {
 		
 		
 	}
+	
+	@Test
+	public void testDisplay() throws NullCoordinateException {
+		
+		
+		System.out.println(gauss.displayMemory());
+	}
 
 }

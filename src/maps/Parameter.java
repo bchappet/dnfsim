@@ -114,6 +114,8 @@ public interface Parameter extends Node,Cloneable{
 	public double getDelay(int delay, Double... coord) throws NullCoordinateException;
 	
 	
+	public double getDelay(int delay,int index);
+	
 	
 	/**
 	 * Add memories buffers

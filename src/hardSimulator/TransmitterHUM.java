@@ -11,7 +11,7 @@ import coordinates.Space;
 public class TransmitterHUM extends UnitModel {
 
 	//parameters
-	protected static final int PRECISION = 0;
+	protected static final int BUFFER_SIZE = 0; //width of buffer TODO
 
 	//in
 	protected int[] input;
@@ -22,11 +22,15 @@ public class TransmitterHUM extends UnitModel {
 
 	//var
 	protected Var buffer;
+	
+	protected int bufferLimit;
 
 
 	public TransmitterHUM(Parameter dt, Space space, Parameter... parameters) {
 		super(dt,space,parameters);
 		buffer = new Var(0);
+		bufferLimit = (int) Math.pow(2, getParam(BUFFER_SIZE).get(coord)) - 1;
+		input = new int[]{};
 		
 	}
 	
@@ -49,9 +53,11 @@ public class TransmitterHUM extends UnitModel {
 //		System.out.println("transmitter : nbActiv: " + nbActiveInput + " input : " + Arrays.toString(input));
 
 		buffer.addThis(nbActiveInput);
+		if(buffer.val > bufferLimit) //Buffer limitation
+			buffer.set(0);
 
 		if(buffer.get() != 0d){
-			if(proba == 1){//we transmit the spike if proba ==1
+			if( proba == 1){//we transmit the spike if proba ==1
 				spike = 1;
 			}else{
 				spike = 0;

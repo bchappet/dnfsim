@@ -63,6 +63,7 @@ public class ModelGSpike extends ModelCNFT {
 		resetedPotential.addParameters(new Leaf(potential),pth,new Leaf(potential),new Var("High",0));
 		focus.addParameters( new Leaf(potential), pth, new Var("Low",0),new Var("High",1));
 		potential.constructMemory();
+
 		this.root = potential;
 	}
 

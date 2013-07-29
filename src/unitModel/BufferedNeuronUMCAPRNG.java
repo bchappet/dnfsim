@@ -1,9 +1,6 @@
 package unitModel;
 
 
-import java.util.Arrays;
-
-import console.CNFTCommandLine;
 import maps.AbstractUnitMap;
 import maps.Parameter;
 import maps.Var;
@@ -11,6 +8,7 @@ import neuronBuffer.BufferedNeuronUM;
 import neuronBuffer.LeakyBuffer;
 import routing.Routing;
 import cellularAutomata.PRNGWrapperUM;
+import console.CNFTCommandLine;
 import coordinates.Space;
 
 public class BufferedNeuronUMCAPRNG extends BufferedNeuronUM {
@@ -40,7 +38,7 @@ public class BufferedNeuronUMCAPRNG extends BufferedNeuronUM {
 		try{
 			capacity =  params.get(CAPACITY);
 		}catch (IndexOutOfBoundsException e) {
-			capacity = new Var(CNFTCommandLine.BUFF_CAP,Integer.MAX_VALUE);
+			capacity = new Var(CNFTCommandLine.BUFF_WIDTH,Integer.MAX_VALUE);
 		}
 		
 		bufs = new LeakyBuffer[NB_BUFF];

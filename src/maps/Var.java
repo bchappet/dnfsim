@@ -274,6 +274,11 @@ public class Var implements Parameter,Cloneable {
 		
 	}
 
+	@Override
+	public double getDelay(int delay, int index) {
+		return get();
+	}
+
 	
 
 }
