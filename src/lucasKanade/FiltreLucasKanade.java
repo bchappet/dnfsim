@@ -134,6 +134,7 @@ public class FiltreLucasKanade {
         // on parcours chaque couche, on commence par la ligne nord de la couche, puis sud etc ...
         for (int couche = 1; couche <= voisinage; couche++) {
             double gaussian =  gaussian(couche);
+//            System.out.println("gaussian : "+gaussian);
 //            System.out.println("couche : "+couche);
 //            System.out.println("début points nord");
             //somme points nord

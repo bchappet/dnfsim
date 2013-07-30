@@ -44,7 +44,7 @@ public class UnitModelLucasKanade extends UnitModel{
     public double compute() throws NullCoordinateException {
         Double[] tab = space.discreteProj(coord);
         Matrix V = filtreLucasKanade.getLocalImageFlowVector((int)Math.round(tab[Space.X]), (int)Math.round(tab[Space.Y]), params.get(MAP));
-        return V.norm2();//Math.random();
+        return V.norm2();
     }
     
 }
