@@ -41,7 +41,7 @@ public class ModelRSDNF extends ModelNSpike {
 	
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
 		addParameters(command.get(CNFTCommandLine.HARD_DT));
-		addParameters(command.get(CNFTCommandLine.BUFF_CAP));
+		addParameters(command.get(CNFTCommandLine.BUFF_WIDTH));
 		super.initializeParameters();
 	}
 
@@ -52,7 +52,7 @@ public class ModelRSDNF extends ModelNSpike {
 	{
 		cnft = (AbstractMap) getLateralWeights(
 				CNFT,command.get(CNFTCommandLine.DT),command.get(CNFTCommandLine.HARD_DT),space2d,
-				pn,hpA,hppa,pn,hpB,hppb,focus,new Var("focusThreshold",0),command.get(CNFTCommandLine.BUFF_CAP));
+				pn,hpA,hppa,pn,hpB,hppb,focus,new Var("focusThreshold",0),command.get(CNFTCommandLine.BUFF_WIDTH));
 	}
 	
 	protected  Parameter getLateralWeights(String name,Var dt,Var dtHard,Space space2D,

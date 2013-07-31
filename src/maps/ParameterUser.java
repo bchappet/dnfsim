@@ -45,7 +45,7 @@ public abstract class ParameterUser implements Cloneable {
 			clone = (ParameterUser) super.clone();
 			clone.dt = this.dt; //shared
 			//copy but the parameter are shared!!
-			clone.params = (List<Parameter>) ((ArrayList)this.params).clone();
+		//	clone.params = (List<Parameter>) ((ArrayList)this.params).clone();
 			clone.space = this.space;//shared
 			clone.time = this.time.clone(); //copy
 		}catch(CloneNotSupportedException e){
@@ -54,6 +54,8 @@ public abstract class ParameterUser implements Cloneable {
 		}
 		return clone;
 	}
+	
+
 
 	/**
 	 * Return the {@link Parameter} having the specified name
@@ -129,16 +131,7 @@ public abstract class ParameterUser implements Cloneable {
 		params.remove(p);
 	}
 	
-	/**
-	 * In some specific case,  we want a different parameter instance for each
-	 * unit model of the map.
-	 * As the parameters are shared by default, one should call cloneParameter
-	 * in the cloning methods redefinition.
-	 * @param p
-	 */
-	public void cloneParameter(int index){
-		params.set(index, params.get(index).clone());
-	}
+	
 
 
 

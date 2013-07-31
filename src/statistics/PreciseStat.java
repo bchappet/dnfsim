@@ -1,5 +1,7 @@
 package statistics;
 
+import java.util.List;
+
 import maps.AbstractMap;
 import maps.Leaf;
 import maps.Parameter;
@@ -19,7 +21,7 @@ public class PreciseStat extends Stat {
 	
 
 	public StatMap[] getDefaultStatistics(Leaf leaf,
-			Leaf cnftExc, Leaf cnftInh, AbstractMap... tracks) throws CommandLineFormatException{
+			Leaf cnftExc, Leaf cnftInh, List<AbstractMap> tracks) throws CommandLineFormatException{
 		StatMap[] tmp = super.getDefaultStatistics(leaf, tracks);
 		StatMap[] ret = new StatMap[tmp.length + 1];
 		System.arraycopy(tmp, 0, ret, 0, tmp.length);
@@ -34,7 +36,7 @@ public class PreciseStat extends Stat {
 	 * @return
 	 */
 	protected StatMap getMaxWeigth(Leaf cnftExc,Leaf cnftInh) {
-		StatMap wsum = new StatMap(Statistics.MAX_WEIGHT,dt,noDimSpace,cnftExc,cnftInh){
+		StatMap wsum = new StatMap(Statistics.MAX_WEIGHT,dt,noDimSpace,tracks,cnftExc,cnftInh){
 
 			@Override
 			public double computeStatistic() {

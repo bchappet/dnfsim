@@ -37,7 +37,7 @@ public class Map extends AbstractUnitMap {
 	{
 		super(name,um,dt,space,maps);
 	}
-
+	
 
 
 
@@ -57,6 +57,7 @@ public class Map extends AbstractUnitMap {
 			this.units =  new ArrayList<Unit>();
 			//Construct as much unitModel as necessary
 			//with the correct coordinate
+			//System.out.println(this.name + " construct memory vol = " + space.getDiscreteVolume());
 			for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
 			{
 				UnitModel u = (UnitModel)unitModel.clone();
@@ -133,6 +134,8 @@ public class Map extends AbstractUnitMap {
 		
 		return clone;
 	}
+
+	
 
 	
 

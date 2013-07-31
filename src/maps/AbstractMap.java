@@ -292,25 +292,49 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * Return a string containing the map caracteristics and values (if memory)
 	 * @throws NullCoordinateException 
 	 */
+//	public String displayMemory() throws NullCoordinateException {
+//		String string = "";
+//		int index = 0;
+//		for(int i = 0 ; i < space.getResolution()-1 ; i++){
+//			for(int j = 0 ; j < space.getResolution()-1 ; j++){
+//				string += ((int)(this.get(index)*10000))/10000. + ",";
+//				index ++;
+//			}
+//			string += ((int)(this.get(index)*10000))/10000.;
+//			index ++;
+//
+//			string +="\n";
+//		}
+//
+//		for(int j = 0 ; j < space.getResolution()-1 ; j++){
+//			string += ((int)(this.get(index)*10000))/10000. + ",";
+//			index ++;
+//		}
+//		string += ((int)(this.get(index)*10000))/10000.;
+//		index ++;
+//
+//		return string;
+//	}
+	
 	public String displayMemory() throws NullCoordinateException {
 		String string = "";
 		int index = 0;
 		for(int i = 0 ; i < space.getResolution()-1 ; i++){
 			for(int j = 0 ; j < space.getResolution()-1 ; j++){
-				string += ((int)(this.get(index)*10000))/10000. + ",";
+				string += this.get(index) + ",";
 				index ++;
 			}
-			string += ((int)(this.get(index)*10000))/10000.;
+			string += this.get(index);
 			index ++;
 
 			string +="\n";
 		}
 
 		for(int j = 0 ; j < space.getResolution()-1 ; j++){
-			string += ((int)(this.get(index)*10000))/10000. + ",";
+			string += this.get(index) + ",";
 			index ++;
 		}
-		string += ((int)(this.get(index)*10000))/10000.;
+		string += this.get(index);
 		index ++;
 
 		return string;

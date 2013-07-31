@@ -182,6 +182,14 @@ public class Matrix extends AbstractMap implements Cloneable {
 		values[index] = newVal;
 		
 	}
+
+
+
+	@Override
+	public double getDelay(int delay, int index) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 	
 	
 

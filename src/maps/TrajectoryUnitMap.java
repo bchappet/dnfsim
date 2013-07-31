@@ -25,7 +25,7 @@ public abstract class TrajectoryUnitMap extends Map {
 	public TrajectoryUnitMap(String theName,Var dt, Space space, Parameter... maps)
 	{
 		super(theName,null,dt,space,maps);
-		//System.out.println("Nom : " + name + " space : " + space);
+//		System.out.println("Nom : " + name + " space : " + space);
 		this.unitModel = new UnitModel(this) {
 			@Override
 			public double compute(){

@@ -22,6 +22,7 @@ public class SpikingUM extends UnitModel {
 	@Override
 	public double compute() throws NullCoordinateException {
 		//System.out.println(this);
+		//System.out.println(params + " @"+params.hashCode());
 		return computation2(params.get(POTENTIAL).get(coord),
 				params.get(THRESHOLD).get(coord),
 				params.get(LOW).get(coord),params.get(HIGH).get(coord));

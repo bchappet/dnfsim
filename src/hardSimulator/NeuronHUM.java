@@ -18,7 +18,7 @@ public class NeuronHUM extends UnitModel {
 
 	//Parameters
 	protected static final int PROBA = 0;
-	protected static final int PRECISION = 1;
+	protected static final int BUFFER_WIDTH = 1;
 	protected static final int NB_SPIKE = 2;
 	protected static final int COMPUTE_CLK = 3;
 
@@ -54,13 +54,14 @@ public class NeuronHUM extends UnitModel {
 
 	public NeuronHUM(Parameter dt,Space space,Parameter...parameters ){
 		super(dt,space,parameters);
-		SourceHUM theSource = new SourceHUM(dt,space,params.get(NB_SPIKE),params.get(PRECISION));
+		SourceHUM theSource = new SourceHUM(dt,space,params.get(NB_SPIKE),params.get(BUFFER_WIDTH));
 		NeuronRandomGeneratorHUM randomGen = new NeuronRandomGeneratorHUM(dt,space,params.get(PROBA));
 
-		TransmitterHUM transN = new TransmitterHUM(dt,space,params.get(PRECISION));
-		TransmitterHUM transS = new TransmitterHUM(dt,space,params.get(PRECISION));
-		TransmitterHUM transE = new TransmitterHUM(dt,space,params.get(PRECISION));
-		TransmitterHUM transW = new TransmitterHUM(dt,space,params.get(PRECISION));
+		TransmitterHUM transN = new TransmitterHUM(dt,space,params.get(BUFFER_WIDTH));
+		TransmitterHUM transS = new TransmitterHUM(dt,space,params.get(BUFFER_WIDTH));
+			
+		TransmitterHUM transE = new TransmitterHUM(dt,space,params.get(BUFFER_WIDTH));
+		TransmitterHUM transW = new TransmitterHUM(dt,space,params.get(BUFFER_WIDTH));
 
 		addSubUnits(theSource,randomGen,
 				transN,transS,transE,transW);
@@ -116,15 +117,15 @@ public class NeuronHUM extends UnitModel {
 //		System.out.println("neuron inports : " +Arrays.toString(inPorts));
 //		System.out.println("neuron source spike : " + sourceSpike);
 
-		transN.setInput(new int[]{inPorts[SOUTH],sourceSpike});
+		transN.setInput(new int[]{sourceSpike,inPorts[SOUTH]});
 		transN.setProba(randResults[NORTH]);
-		transS.setInput(new int[]{inPorts[NORTH],sourceSpike});
+		transS.setInput(new int[]{sourceSpike,inPorts[NORTH]});
 		transS.setProba(randResults[SOUTH]);
-		transE.setInput(new int[]{inPorts[NORTH],inPorts[SOUTH],
-				inPorts[WEST],sourceSpike});
+		transE.setInput(new int[]{sourceSpike,inPorts[NORTH],inPorts[SOUTH],
+				inPorts[WEST]});
 		transE.setProba(randResults[EAST]);
-		transW.setInput(new int[]{inPorts[NORTH],inPorts[SOUTH],
-				inPorts[EAST],sourceSpike});
+		transW.setInput(new int[]{sourceSpike,inPorts[NORTH],inPorts[SOUTH],
+				inPorts[EAST]});
 		transW.setProba(randResults[WEST]);
 
 		

@@ -247,10 +247,9 @@ public class ModelNSpikePrecision extends ModelNSpike{
 	 */
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
-		AbstractMap[] tracks = trackable.toArray(new AbstractMap[]{trackable.get(0)});
 		PreciseStat stat = new PreciseStat(command.get(CNFTCommandLine.DT),noDimSpace,this);
 		stats = new Statistics("Stats",command.get(CNFTCommandLine.DT), 
-				noDimSpace,stat.getDefaultStatistics(new Leaf(potential),new Leaf(cnfta),new Leaf(cnftb),tracks));
+				noDimSpace,stat.getDefaultStatistics(new Leaf(potential),new Leaf(cnfta),new Leaf(cnftb),trackable));
 
 	}
 	

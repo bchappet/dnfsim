@@ -1,7 +1,5 @@
 package unitModel;
 
-import java.util.Arrays;
-
 import maps.Precomputation;
 import maps.Unit;
 import routing.Routing;

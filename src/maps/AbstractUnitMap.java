@@ -209,6 +209,22 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		}
 
 	}
+	
+	@Override
+	public double getDelay(int delay, int index) {
+		if(isMemory)
+		{
+			//System.err.println("Nom : " + this.name + ". space : " + this.space);
+			double ret = units.get(index).get(delay);
+			return ret;
+		}
+		else
+		{
+			//NoMemory
+			unitModel.setCoord(space.indexToCoord(index));
+			return unitModel.computeActivity();
+		}
+	}
 
 	@Override
 	public void addMemories(int nb,UnitModel... historic) throws NullCoordinateException{
