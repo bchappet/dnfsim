@@ -41,7 +41,8 @@ import statistics.Statistics;
 import unitModel.CosTraj;
 import input.ConfigurationInput;
 import input.ReaderInput;
-import input.UnitModelInput;
+import input.UnitModelInputBrightness;
+import input.UnitModelInputHSB;
 import statistics.CharacAccError;
 
 /**
@@ -213,7 +214,7 @@ public class ModelCMSVA extends Model {
         modifyModel();
 
         inputData.toParallel();
-
+//
 //        ConfigurationInput metaData = new ConfigurationInput();
 //        metaData.deviceName = "/dev/video0";
 //        metaData.driverName = "video4linux2";
@@ -224,15 +225,17 @@ public class ModelCMSVA extends Model {
 //        metaData.pathImages = "tmp";
 //        metaData.pathVideo = "AFightD.mpg";
 //        metaData.cpf = 1; // => 10 frames par secondes vu que le model est a 10 cps
-//        UnitModel inputVideoUM = new UnitModelInput( command.get(CNFTCommandLine.INPUT_DT), 
+//        UnitModel inputVideoUM = new UnitModelInputBrightness/*HSB*/( command.get(CNFTCommandLine.INPUT_DT), 
 //                                        space2d,
 //                                        metaData, 
 //                                        ReaderInput.TYPE_BILINEAR,
-//                                        ReaderInput.STEP); 
+//                                        ReaderInput.STEP);
+////                                        300, /* rouge */
+////                                        30); 
 //        inputData = new Map("inputData", inputVideoUM);
 //        inputData.constructMemory();
 //        inputData.toParallel();
-
+//
         UnitModel lucasKanadeUM = new UnitModelLucasKanade(command.get(CNFTCommandLine.INPUT_DT),
                 space2d,
                 inputData/*inputTest*/,
@@ -581,7 +584,7 @@ public class ModelCMSVA extends Model {
      */
     protected AbstractMap constructTrack(String name, int num, int nbTrack) throws NullCoordinateException, CommandLineFormatException {
         Map cx = new Map("CenterX_" + num, new CosTraj(command.get(CNFTCommandLine.TRACK_DT), noDimSpace,
-                new Var("center", 0), new Var("radius", 0.3), new Var("period", 36/*3.6*/), new Var("phase", num / (double) nbTrack + 0)) {
+                new Var("center", 0), new Var("radius", 0.3), new Var("period", 3/*3.6*/), new Var("phase", num / (double) nbTrack + 0)) {
 //			@Override
 //			public double compute() throws NullCoordinateException {
 //				double ret =  params.get(CENTER).get()+params.get(RADIUS).get()*
@@ -596,7 +599,7 @@ public class ModelCMSVA extends Model {
 //			}
         };
         Map cy = new Map("CenterY_" + num, new CosTraj(command.get(CNFTCommandLine.TRACK_DT), noDimSpace,
-                new Var("center", 0), new Var("radius", 0.3), new Var("period", 36/*3.6*/), new Var("phase", num / (double) nbTrack + 0.25)));
+                new Var("center", 0), new Var("radius", 0.3), new Var("period",3/*3.6*/), new Var("phase", num / (double) nbTrack + 0.25)));
 
 
         UnitModel track = new GaussianND(command.get(CNFTCommandLine.TRACK_DT), space2d,
