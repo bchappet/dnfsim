@@ -14,6 +14,7 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -264,16 +265,11 @@ public class GUI extends JApplet {
 
 	@Override
 	public void repaint(){
-		//lock.lock();
-		try{
 			//Update the listeners
 			for(int i =0 ; i < updated.size() ; i++)
 				updated.get(i).update();
 			super.repaint();
 
-		}finally{
-			//lock.unlock();
-		}
 	}
 
 
@@ -296,8 +292,8 @@ public class GUI extends JApplet {
 	}
 
 	/**
-	 * Reconstruct the model inorder to change the resolution for instance
-	 * @throws Exception
+	 * Reconstruct the model in order to change the resolution for instance
+	 * @throws Exception 
 	 */
 	public void resetHard() throws Exception{
 
@@ -312,8 +308,10 @@ public class GUI extends JApplet {
 			root.replaceModel(newModel);
 			
 			maps.clear();
+			
 			for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
 			{
+				System.out.println("Display : " + p.getName() + "@" +p.hashCode());
 				DisplayNode disp = treeView.getNode(p);
 				maps.addView(disp.getQuickViewPanel());
 			}
@@ -411,21 +409,55 @@ public class GUI extends JApplet {
 			}
 		});
 
-		//		JButton testButton = new JButton("Test");
-		//		testButton.addActionListener(new ActionListener() {
-		//
-		//			@Override
-		//			public void actionPerformed(ActionEvent arg0) {
-		//				Characteristics ch = root.getActiveModel().getCharac();
-		//				try {
-		//					ch.compute();
-		//				} catch (NullCoordinateException e) {
-		//					e.printStackTrace();
-		//				}
-		//				System.out.println(ch.getWtrace().toString());
-		//				//	txtArea.setCaretPosition(txtArea.getDocument().getLength());
-		//			}
-		//		});
+				JButton testButton = new JButton("Test");
+				testButton.addActionListener(new ActionListener() {
+		
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						lock.lock();
+						runner.test();
+						Model model = root.getActiveModel();
+						
+						try{
+							DisplayNode node = treeView.getNode(model);
+							try{
+								model.initialize(Printer.readFile(new URL("file:"+contextPath.getPath()+model.getName()+".dnfs")));
+							}catch (FileNotFoundException e) {
+								System.out.println(e.getMessage());
+								System.out.println("Launching with defaults parameters");
+								model.initialize();
+							}
+							//	System.out.println("new tree");
+							//	System.out.println(model.getRootParam().toStringRecursive(0));
+							model.getCommandLine().setRunner(runner);
+							runner.setModel(model);
+							node.construct();
+							root.setActiveModel(model);
+							//execute the script in the model context file : //file format : contextPath/modelName.dnfs
+							updated.clear();
+							maps.clear();
+							for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
+							{
+								DisplayNode disp = treeView.getNode(p);
+								maps.addView(disp.getQuickViewPanel());
+							}
+							stat.changeStatistics(model.getStatistics());
+							((ModelDisplayNode)node).signalTreeChanged();
+						} catch (MalformedURLException e) {
+							e.printStackTrace();
+						} catch (CommandLineFormatException e) {
+							e.printStackTrace();
+						} catch (NullCoordinateException e) {
+							e.printStackTrace();
+						} catch (CloneNotSupportedException e) {
+							e.printStackTrace();
+						}
+						
+						lock.unlock();
+						
+						
+					}
+				});
 
 		//header.setLayout(new GridLayout(1, 0));
 
@@ -437,7 +469,7 @@ public class GUI extends JApplet {
 		header.add(timeStepCommand);
 		header.add(saveButton);
 		header.add(saveStatsButton);
-		//header.add(testButton);
+		header.add(testButton);
 
 		/*
 		 * JPanel curseurs = new JPanel(); curseurs.setLayout(new

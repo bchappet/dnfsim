@@ -22,5 +22,7 @@ public class RandTrajUnitModel extends UnitModel {
 	public double compute() throws NullCoordinateException {
 		return params.get(CENTER).get(coord) + params.get(RADIUS).get()*(2*Math.random()-1);
 	}
+	
+	
 
 }

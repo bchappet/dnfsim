@@ -13,6 +13,7 @@ public enum Models{
 	ESPIKE("ESpike",ModelESpike.class,false),
 	ESPIKE2("ESpike2",ModelESpike2.class,false),
 	NSPIKE("NSpike",ModelNSpike.class,false),
+	NSPIKE_PRECISION("NSpikePrecision",ModelNSpikePrecision.class,false),
 	NSPIKE2("NSpikeAssynch",ModelNSpike2.class,true),
 	BILAYER_SPIKE("BilayerSpike",ModelBilayerSpike.class,false),
 	RSDNF("RSDNF",ModelRSDNF.class,false),

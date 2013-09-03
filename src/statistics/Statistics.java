@@ -48,6 +48,7 @@ public class Statistics{
 	public static final String ACC_ERROR = "Acceptable Error";
 	public static final String FOCUS = "Focus";
 	public static final String TRUE_ERROR ="True Error";
+	public static final String MAX ="Max";
 	
 	
 	/**Determin the update time of the dynamic parameter**/

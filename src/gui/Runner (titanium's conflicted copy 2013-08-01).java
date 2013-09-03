@@ -6,30 +6,14 @@ import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
 import model.Model;
-import console.CNFTCommandLine;
+import model.Root;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 
 
-/**
- * This is the Runnable which will handle the model computation.
- * 
- * If a scenario is given at the construction of the printer, it will be executed on thread start, as many 
- * time as "iteration" attribute value.
- * Otherwise, if a gui is present, the thread wait for play to be true.
- * 
- * As several thread can be lauched with the same model, the core used is given by the "core" attribute.
- * 
- * 
- * 
- * 
- * 
- * @author bchappet
- *
- */
 public class Runner  implements Runnable{
 
-	/**Speed ratio of the simulation if 1, simulation seconds = real seconds**/
+	/**Speed ratio of the simulation for 1, simulation seconds = real seconds**/
 	protected double speedRatio = 1;
 	/**Is the simulation running?**/
 	protected boolean play = false;
@@ -38,7 +22,6 @@ public class Runner  implements Runnable{
 
 	protected GUI gui;
 	protected Model model;
-	/**If not null the scenario is lauched on thread start**/
 	protected String scenario;
 	/**Number of iteration of computation**/
 	protected int iteration = 1;
@@ -48,10 +31,13 @@ public class Runner  implements Runnable{
 
 	/**share with the GUI if there is a gui**/
 	protected Lock lock;
-	/**save every step if true with format save_core_it_Map.csv**/
+	/**save every step if true with format save_core_it_computation#_Map.csv**/
 	protected boolean savemap;
 	/**Core used #**/
 	protected int core;
+	
+	
+	protected int numComputation; //Computation # start with 0
 
 
 
@@ -63,23 +49,31 @@ public class Runner  implements Runnable{
 		this.gui = null;
 		this.printer = printer;
 		this.lock = new ReentrantLock(true);
+		this.numComputation = 0;
 	}
-	
-	
+
 	public void setLock(Lock lock){
 		this.lock = lock;
 	}
 
 
-	/**
-	 * One update of the model**
-	 
-	 */
+
 	public void step()
 	{
 		try {
 			update();
-			
+			if(savemap){
+				try {
+					this.saveMaps("maps/save_"+core+"_"+iteration+"_"+numComputation);
+				} catch (NullCoordinateException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				} catch (IOException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
+			}
+			numComputation ++;
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		}
@@ -90,14 +84,10 @@ public class Runner  implements Runnable{
 			play = false;
 
 	}
-	
-	/**
-	 * Update the model
-	 * @throws CommandLineFormatException
-	 */
+
 	protected void update() throws CommandLineFormatException
 	{
-		lock.lock(); //this lock ensure that we do not change the displayed model or change parameters during computation
+		lock.lock();
 		try{
 			model.update();
 			if(gui!= null)
@@ -114,14 +104,13 @@ public class Runner  implements Runnable{
 
 
 
-		//Lauch scenario if there is one
+		//Lauch scenario
 		try{
-			if(scenario != null){ //as many time as iteration
+			if(scenario != null){
 				for(int i = 0 ; i< iteration ; i ++){
-					//System.out.println("scenar : " + scenario);
+
 					String ret = model.getCommandLine().parseCommand(scenario);
-					
-					printer.print(ret);//as sevaral thread want to print their results, we ordonance the display with a printer
+					printer.print(ret);
 
 					reinitialize();
 					reset();
@@ -131,7 +120,7 @@ public class Runner  implements Runnable{
 			e.printStackTrace();
 		}
 
-		if(gui != null){ //if there is a gui, we wait for play
+		if(gui != null){
 
 			while( !exit )
 			{
@@ -166,7 +155,7 @@ public class Runner  implements Runnable{
 
 
 	/**
-	 * Reinitialize parameters with the  default script and the context command
+	 * Reinitialize every command line parameter to their initial value
 	 */
 	public void reinitialize()
 	{
@@ -241,11 +230,6 @@ public class Runner  implements Runnable{
 
 	}
 
-	/**
-	 * Save statistics in the given file
-	 * @param filename
-	 * @throws IOException
-	 */
 	public void saveStats(String filename) throws IOException {
 		model.getStatistics().save(filename);
 	}
@@ -262,16 +246,9 @@ public class Runner  implements Runnable{
 		
 	}
 
-	/**
-	 * This will be to change model resolution
-	 * @deprecated do not work for now
-	 * @throws Exception
-	 */
 	public void hardReset() throws Exception {
-		if(gui != null){
-			//System.out.println("Hard reset");
+		if(gui != null)
 			gui.resetHard();
-		}
 		
 	}
 
@@ -280,24 +257,9 @@ public class Runner  implements Runnable{
 		
 	}
 
-	/**
-	 * If save map is true, each iteration will be saved
-	 * @param savemap
-	 * @param core
-	 */
 	public void setSavemap(boolean savemap, int core) {
 		this.savemap = savemap;
 		this.core = core;
-		
-	}
-
-
-	public void test() {
-		try {
-			model.test();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
 	}
 

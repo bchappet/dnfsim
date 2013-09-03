@@ -31,7 +31,7 @@ public class VHDLGeneratorSpikingCNFT extends VHDLGeneratorCNFT {
 	public static void main(String[] args){
 		
 		
-		int res = 19;
+		int res = Integer.parseInt(args[0]);
 		CommandLine command = null;
 		try {
 			command = new CommandLine(

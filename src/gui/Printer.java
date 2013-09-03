@@ -27,6 +27,7 @@ public class Printer{
 	public static final String NB_CORE = "core";
 	public static final String ITERATION = "it";
 	public static final String INFO = "info";
+	public static final String SAVE_MAP = "savemap"; //save map at every computation
 
 	/**Nb iteration printed**/
 	protected int nb = 0;
@@ -88,6 +89,11 @@ public class Printer{
 			argsToProperties(args);
 
 			String context = System.getProperty(CONTEXT);
+			String savemapStr = System.getProperty(SAVE_MAP);
+			boolean savemap = false;
+			if(savemapStr != null && savemapStr.equals("true")){
+				savemap = true;
+			}
 			String model = System.getProperty(MODEL);
 			if(model == null){
 				System.err.println("The model should be precised. For instance " +
@@ -150,6 +156,7 @@ public class Printer{
 
 					runners[i] = new Runner(modelM,scenario,printer);
 					runners[i].setIteration(iterations[i]);
+					runners[i].setSavemap(savemap,i);
 
 					root.getActiveModel().initialize(contextScript);
 					root.getActiveModel().getCommandLine().setRunner(runners[i]);

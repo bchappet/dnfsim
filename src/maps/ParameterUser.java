@@ -1,5 +1,6 @@
 package maps;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -130,6 +131,22 @@ public abstract class ParameterUser implements Cloneable {
 	protected void removeParameter(Parameter p) {
 		params.remove(p);
 	}
+	
+	/**
+	 * remplace un paramÃ¨tre d'un nom par un paramÃ¨tre du mÃªme nom
+	 * @param p paramÃ¨tre remplaÃ§ant
+	 */
+	public void replaceParameter(Parameter p) {
+		String nomParam = p.getName();
+		boolean stop = false;
+		int i = 0;
+		while (!stop) {
+			if (stop = nomParam.equals(this.params.get(i).getName()))
+				this.params.set(i, p);
+			i++;
+		}
+	}
+
 	
 	
 

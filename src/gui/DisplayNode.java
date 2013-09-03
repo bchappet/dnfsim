@@ -150,6 +150,8 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 		}
 		else
 		{
+			//System.out.println("This : " + linked.getName());
+			//System.out.println("Childrens : " + childrens);
 			int i =0;
 			while(ret == null && i < childrens.size() )
 			{

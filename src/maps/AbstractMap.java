@@ -95,6 +95,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 */
 	public void update(double timeLimit) throws NullCoordinateException
 	{
+//		System.out.println("Update : " + name);
 		//		while (time.val<timeLimit) {
 		//			if(!isStatic)
 		//			{
@@ -430,7 +431,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * to find a parameter with the given path a.b.c...
 	 * We cann add .clone to set a clone of this parameter and return it
 	 * @param path
-	 * @param level
+	 * @param level : begin at 0
 	 * @param name (optional) name of the clone
 	 * @return
 	 * @throws BadPathException
@@ -471,6 +472,13 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			throw new BadPathException("The path " + path + " was bad.Because the parameter " + pa[level-1] + " was not found.");
 		}
 	}
+
+
+	public Set<AbstractMap> getParents() {
+		return parents;
+	}
+	
+	
 
 
 

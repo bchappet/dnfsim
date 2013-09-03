@@ -12,6 +12,7 @@ import java.util.List;
 import maps.AbstractMap;
 import maps.Map;
 import maps.Parameter;
+import maps.Var;
 import statistics.Characteristics;
 import statistics.Statistics;
 import console.CNFTCommandLine;
@@ -19,6 +20,7 @@ import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
+import draft.RandomTestAbstractMap;
 
 public abstract class Model implements Node {
 
@@ -30,7 +32,6 @@ public abstract class Model implements Node {
 
 	protected Statistics stats;
 	protected Characteristics charac;
-	protected Parameter displayDt;// dt for display
 	protected double time;
 	protected Space refSpace;
 	protected CNFTCommandLine command;
@@ -73,7 +74,6 @@ public abstract class Model implements Node {
 					command.getBool(CNFTCommandLine.WRAP));
 			this.trackable = new LinkedList<AbstractMap>();
 			parameters = new LinkedList<Parameter>();
-			this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
 			initializeParameters();
 			initializeStatistics();
 			initializeCharacteristics();
@@ -101,11 +101,13 @@ public abstract class Model implements Node {
 
 			command = new CNFTCommandLine(contextScript, this);
 			this.refSpace = new DefaultRoundedSpace(
+					
 					command.get(CNFTCommandLine.RESOLUTION), 2,
 					command.getBool(CNFTCommandLine.WRAP));
+			//System.out.println("space res : " +command.get(CNFTCommandLine.RESOLUTION).get() );
+//			System.err.println("dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get());
 			this.trackable = new LinkedList<AbstractMap>();
 			parameters = new LinkedList<Parameter>();
-			this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
 			initializeParameters();
 			initializeStatistics();
 			initializeCharacteristics();
@@ -128,7 +130,6 @@ public abstract class Model implements Node {
 				command.getBool(CNFTCommandLine.WRAP));
 		this.trackable = new LinkedList<AbstractMap>();
 		parameters = new LinkedList<Parameter>();
-		this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
 		initializeParameters();
 		initializeStatistics();
 		initializeCharacteristics();
@@ -194,10 +195,13 @@ public abstract class Model implements Node {
 	public void update() throws NullCoordinateException,
 			CommandLineFormatException {
 		this.modifyModel();
+//		System.out.println("time : " + time + " dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get() );
+		this.time += command.get(CNFTCommandLine.DISPLAY_DT).get();
+//		System.out.println("this.time : " + this.time);
 		
-		this.time += displayDt.get();
 		
 		for(Parameter p : parameters){
+//			System.out.println("time "+time);
 			if(p instanceof Map){
 				((Map)p).update(time);
 			}
@@ -205,6 +209,7 @@ public abstract class Model implements Node {
 		
 		
 		if (!assynchronousComputation) {
+			
 			root.update(time);
 		} else {
 			int size = refSpace.getDiscreteVolume();
@@ -213,7 +218,7 @@ public abstract class Model implements Node {
 			}
 		}
 		stats.update(time);
-		//System.out.println(stats.getWtrace());
+//		System.out.println(stats.getWtrace());
 	}
 
 	public abstract void modifyModel() throws CommandLineFormatException,
@@ -277,6 +282,12 @@ public abstract class Model implements Node {
 			parameters.add(p);
 		}
 	}
+	
+	public void removeParameters(Parameter... params) {
+		for (Parameter p : params) {
+			parameters.remove(p);
+		}
+	}
 
 	/**
 	 * Information about the model
@@ -299,8 +310,8 @@ public abstract class Model implements Node {
 		return time;
 	}
 
-	public double getDt() {
-		return displayDt.get();
+	public double getDt() throws CommandLineFormatException {
+		return command.get(CNFTCommandLine.DISPLAY_DT).get();
 	}
 
 	/**
@@ -350,7 +361,7 @@ public abstract class Model implements Node {
 	
 
 	/**
-	 * Recurively look for a parameter
+	 * Recursively look for a parameter
 	 * 
 	 * @param keyName
 	 * @return
@@ -386,6 +397,11 @@ public abstract class Model implements Node {
 
 	public boolean isInitilized() {
 		return isInitilized;
+	}
+
+	public void test() throws Exception {
+		
+		
 	}
 
 	

@@ -1,19 +1,20 @@
 package statistics;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import maps.AbstractMap;
 import maps.AbstractUnitMap;
+import maps.BadPathException;
 import maps.Leaf;
 import maps.Map;
 import maps.Parameter;
 import maps.Track;
-import maps.Unit;
 import maps.Var;
+import maps.VarString;
 import model.Model;
+import model.ModelCNFT;
 import console.CNFTCommandLine;
 import console.CommandLineFormatException;
 import coordinates.Space;
@@ -86,6 +87,8 @@ public class Stat {
 		list.add(getGoodFocus(leaf, convergence, sizeBubble.get(0), sizeBubble.get(1),error));
 		list.add(trueError);
 		list.add(getAccError(leaf, convergence, trueError));
+		list.add(getMax(leaf,ModelCNFT.POTENTIAL));
+		
 		StatMap[] ret = new StatMap[list.size()];
 		for(int i = 0 ; i < ret.length ; i++)
 			ret[i] = list.get(i);
@@ -96,6 +99,40 @@ public class Stat {
 	
 	
 	
+	private StatMap getMax(Leaf leaf,String name) {
+		if (name == null || name.isEmpty()){
+			name = leaf.getName();
+		}
+		StatMap max = new StatMap(Statistics.MAX,dt,noDimSpace,tracks,leaf,new VarString("subMap",name)){
+
+			@Override
+			public double computeStatistic() {
+				String name = ((VarString) getParam(1)).getString();
+				Map map = (Map) ((Leaf)getParam(0)).getMap();
+				Parameter param;
+				if(map.getName().equals(name))
+					param = map;
+				else
+					param = map.getParameter(name);
+				if( param==null)
+					param = map.getParameter(name+"_leaf");
+				
+			
+				
+				double max = Double.MIN_VALUE;
+				for(int i = 0 ; i < param.getSpace().getDiscreteVolume() ;i ++){
+					double current = param.get(i);
+					if(current > max)
+						max = current;
+					
+				}
+				return max;
+			}
+			
+		};
+		return max;
+	}
+
 	private StatMap getTrueError(Leaf leaf, StatMap conv,
 			StatMap closestTrack, List<StatMap> coorBubble) {
 		
@@ -278,7 +315,8 @@ public class Stat {
 							//System.out.println("test : " +stats.get(errorId,i) +"<="+ get(ACCERROR));
 							if(errorDist != Statistics.ERROR && errorDist <= acceptableError)
 							{
-								//System.out.println(errorDist +"<="+ acceptableError);
+								
+								//System.out.println("i:" + i +" :: " +errorDist +"<="+ acceptableError);
 								stab ++;
 							}
 							else

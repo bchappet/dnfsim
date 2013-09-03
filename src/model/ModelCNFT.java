@@ -19,6 +19,7 @@ import maps.TrajectoryUnitMap;
 import maps.Var;
 import statistics.Charac;
 import statistics.CharacAccError;
+import statistics.CharacMaxMax;
 import statistics.CharacMeanCompTime;
 import statistics.CharacConvergence;
 import statistics.CharacMeanError;
@@ -36,8 +37,10 @@ import unitModel.Sum;
 import unitModel.UnitModel;
 import console.CNFTCommandLine;
 import console.CommandLineFormatException;
+import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
+import draft.RandomTestAbstractMap;
 
 
 /**
@@ -106,6 +109,7 @@ public class ModelCNFT extends Model{
 		//Extended space is a -1,1 (instead of -0.5,0.5) space
 		// used for lateral weights map in case of non wrapped convolution
 		extendedSpace = space2d.extend(extension);
+		
 
 
 		//Displayed parameter
@@ -115,6 +119,7 @@ public class ModelCNFT extends Model{
 		addParameters(command.get(CNFTCommandLine.DISTR_DT));
 		addParameters(command.get(CNFTCommandLine.NOISE_AMP));
 		addParameters(command.get(CNFTCommandLine.NOISE_DT));
+		//addParamaters(inputs.getDefaultDisplayedParameters(RandomTestAbstractMap.class,command));
 
 
 		initDefaultInput();
@@ -176,10 +181,14 @@ public class ModelCNFT extends Model{
 
 			@Override
 			public double computeTrajectory(double... param) {
-				return param[0] / 
+				//System.out.println("Res : " + extendedSpace.getSimulationSpace().getResolution());
+				
+				double ret = param[0] / 
 						(extendedSpace.getSimulationSpace().getResolution()*
 								extendedSpace.getSimulationSpace().getResolution()) *
 								(40*40)/(param[1]);
+				//System.out.println("Param : " + ret);
+				return ret;
 			}
 		}; 
 		hpA.toStatic();
@@ -246,6 +255,8 @@ public class ModelCNFT extends Model{
 		cnft.constructMemory();
 
 		this.root = potential;
+		
+		
 
 
 
@@ -376,8 +387,9 @@ public class ModelCNFT extends Model{
 		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this, conv);
 		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
 		Charac accError = new CharacAccError(Characteristics.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STABIT));
+		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this,conv);
 
-		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError);
+		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax);
 
 	}
 
@@ -493,6 +505,30 @@ public class ModelCNFT extends Model{
 			out.close();
 		}
 		return ret.subSequence(0, ret.length()-1)+"]";
+	}
+	
+	public void test() throws Exception{
+		// change the input
+		Map map = new RandomTestAbstractMap(INPUT,
+				command.get(CNFTCommandLine.NOISE_DT),space2d,
+				new Var(0),command.get(CNFTCommandLine.NOISE_AMP));
+
+		for(AbstractMap p : input.getParents()){
+			p.replaceParameter(map);
+		}
+		
+		removeParameters(command.get(CNFTCommandLine.NB_TRACKS),
+				command.get(CNFTCommandLine.TRACK_DT),
+				command.get(CNFTCommandLine.NB_DISTRACTERS),
+				command.get(CNFTCommandLine.DISTR_DT),
+				command.get(CNFTCommandLine.NOISE_AMP),
+				command.get(CNFTCommandLine.NOISE_DT));
+		
+		
+		addParameters(command.get(CNFTCommandLine.NOISE_AMP));
+		addParameters(command.get(CNFTCommandLine.NOISE_DT));
+		
+		this.input = map;
 	}
 
 

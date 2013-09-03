@@ -5,4 +5,5 @@ wa=0.11;
 wb=1.01;
 tau=0.65;
 alpha=10.1;
+resolution=59;
 

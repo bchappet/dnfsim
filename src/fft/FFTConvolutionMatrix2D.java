@@ -54,11 +54,11 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 
 
 
-	public FFTConvolutionMatrix2D(String name, Var dt, Space space, Parameter... params) {
+	public FFTConvolutionMatrix2D(String name, Parameter dt, Space space, Parameter... params) {
 		super(name,dt,space,params);
 	}
 
-	public FFTConvolutionMatrix2D(String name, Var dt, Space space, double[] values,
+	public FFTConvolutionMatrix2D(String name, Parameter dt, Space space, double[] values,
 			Parameter... params) {
 		super(name,dt,space,values,params);
 	}

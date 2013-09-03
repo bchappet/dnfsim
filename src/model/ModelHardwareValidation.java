@@ -173,7 +173,7 @@ public class ModelHardwareValidation extends ModelHardware {
 
 
 
-		displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
+		Parameter displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return dt.get()/param[0];

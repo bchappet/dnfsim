@@ -41,6 +41,7 @@ public class Characteristics {
 	public static final String MAX_SUM = "MaxSum";
 	public static final String MEAN_COMP_TIME = "MeanCompTime" ;
 	public static final String ACC_ERROR = "AcceptableError"; 
+	public static final String MAX_MAX = "MaxPotential";
 	
 	
 	protected String name;

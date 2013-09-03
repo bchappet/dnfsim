@@ -106,6 +106,7 @@ public class NSpikeUM extends NeighborhoodUnitModel implements Precomputation{
 	protected int applyProbability(int n,double p) {
 		int sum = 0;
 		for(int i = 0 ; i < n ; i++){
+			//System.out.println("pp:"+p);
 			if(Math.random() <= p){
 				sum ++;
 			}

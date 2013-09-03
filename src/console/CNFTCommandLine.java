@@ -370,16 +370,19 @@ public class CNFTCommandLine extends CommandLine{
 		String ret = "";
 		if(command.equals("resolution"))
 		{
-			Var var = map.get(command);
-			double newVal = Double.parseDouble(value);
-			if(var.get() != newVal){
-				var.set(newVal);
-				try{
-					runner.hardReset();
-				}catch (Exception e) {
-					throw new CommandLineFormatException("HardResetError",e);
-				}
-			}
+//			System.out.println("resolution =" + value);
+//			Var var = map.get(command);
+//			double newVal = Double.parseDouble(value);
+//			if(var.get() != newVal){
+//				var.set(newVal);
+//				try{
+//					runner.hardReset();
+//				}catch (Exception e) {
+//					throw new CommandLineFormatException("HardResetError",e);
+//				}
+//			}
+			//TODO
+			//throw new CommandLineFormatException("Resolution can only be set at the model initialization");
 
 		}
 		else if(command.equals("load"))
@@ -427,6 +430,7 @@ public class CNFTCommandLine extends CommandLine{
 				}
 			}
 		}
+		
 		else if(command.equals("trace")){//return a statistic trace
 			String name = value;
 			
@@ -511,6 +515,12 @@ public class CNFTCommandLine extends CommandLine{
 			model.getCharac().compute();
 			//ret = model.getCharac().toString();
 		}
+		else if(command.equals("args")){
+			for(String k : map.keySet()){
+				ret += k + "=";
+				ret += map.get(k).get()+"; ";
+			}
+		}
 		else if(command.equals("exit"))
 			runner.exit();
 
@@ -547,7 +557,7 @@ public class CNFTCommandLine extends CommandLine{
 						val = 1;
 					else 
 						val = 0;
-
+					
 					map.put(key, new VarBool(key,val));
 				}
 				else if(obj.matches("0b[01]+")){
@@ -563,7 +573,7 @@ public class CNFTCommandLine extends CommandLine{
 				}
 				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 				{
-					//System.out.println("map.add" + key);
+//					System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
 					map.put(key,new Var(key,Double.parseDouble(obj)));
 				}
 				else//String by default
@@ -575,17 +585,17 @@ public class CNFTCommandLine extends CommandLine{
 	}
 
 	/**
-	 * Reinitilize parameters with the 
+	 * Reinitialize parameters with the  default script and the context command
 	 * @throws CommandLineFormatException 
 	 * @throws FileNotFoundException 
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
 	 */
 	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, NumberFormatException, NullCoordinateException {
-		//Reinitilize map
+		//Reinitialize map
 		parseCommand(defaultScript());
 		parseCommand(command);
-		//reinitilize model
+		//Reinitialize model
 	}
 
 	public Map<String, Var> getMap() {

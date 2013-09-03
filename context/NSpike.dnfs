@@ -1,4 +1,3 @@
-resolution=29;
 n=20;
 dt=0.1;
 wrap=F;
@@ -9,5 +8,7 @@ wb=0.17;
 tau=0.64;
 threshold=0.75;
 alpha=10.00;
+
+
 
 
