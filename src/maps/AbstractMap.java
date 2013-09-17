@@ -1,12 +1,11 @@
 package maps;
 
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import unitModel.UnitModel;
-import console.CNFTCommandLine;
+import console.CommandLine;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -124,8 +123,10 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			}
 		}
 		while(time.val < timeLimit){
-			if(!isStatic)
+			if(!isStatic){
+			//	System.err.println(params);
 				this.compute();
+			}
 			time.val = time.val + dt.get();
 		}
 
@@ -219,6 +220,11 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	{
 		this.parents.add(updatable);
 	}
+	
+	@Override
+	public void removeParent(AbstractMap updatable){
+		this.parents.remove(updatable);
+	}
 	@Override
 	public void signalParents()
 	{
@@ -234,11 +240,22 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			p.signalParents();
 	}
 	@Override
-	public void delete()
+	public  void delete()
 	{
-		for(AbstractMap  p : parents){
+		for(Parameter p : params){
+			p.removeParent(this);
+		}
+		
+		super.delete();
+		
+		
+		for(AbstractMap p : parents){
 			p.removeParameter(this);
 		}
+			
+	//	ensure null (accelerate GB collection?)
+		name = null;
+		parents = null;
 	}
 
 
@@ -374,6 +391,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	{
 		String ret = "";
 		ret+= printoffset(offset) + this.name + "\n";
+		
 		for(Parameter p : params)
 		{
 			if(p instanceof AbstractMap)
@@ -381,7 +399,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			else
 				ret += printoffset(offset+1) + p.getName() +"\n";
 		}
-		System.out.println(ret);
+		//System.out.println(ret);
 
 		return ret;
 	}
@@ -437,7 +455,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * @throws BadPathException
 	 * @throws CommandLineFormatException 
 	 */
-	public Parameter getPath(String path,int level,String name,CNFTCommandLine cl) throws BadPathException, CommandLineFormatException {
+	public Parameter getPath(String path,int level,String name,CommandLine cl) throws BadPathException, CommandLineFormatException {
 		String[] pa = path.split("\\.");
 
 

@@ -15,6 +15,8 @@ public class Leaf  implements Parameter{
 	protected List<AbstractMap> parents;
 
 	public Leaf(Parameter map) {
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.map = map;
 		this.name = map.getName() + "_leaf";
 		parents = new LinkedList<AbstractMap>();
@@ -90,11 +92,14 @@ public class Leaf  implements Parameter{
 	}
 
 	@Override
-	public void delete()
+	public void  delete()
 	{
-		for(AbstractMap  p : parents){
-			p.removeParameter(this);
-		}
+//		for(AbstractMap  p : parents){
+//			p.removeParameter(this);
+//		}
+		parents = null;
+		name = null;
+		map = null;
 	}
 
 	@Override

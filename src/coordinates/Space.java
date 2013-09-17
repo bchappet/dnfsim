@@ -911,6 +911,22 @@ public abstract class Space implements Cloneable,Node{
 
 
 
+	/**
+	 * Get a uniform discrete sample on this axis
+	 * @param axis
+	 * @return
+	 */
+	public double getUniformSample(int axis) {
+		double min = origin[axis];
+		double siz =  size[axis];
+		double res = min + (Math.random() * ((siz) ));
+		return  res;
+	}
+
+
+
+	
+
 
 
 

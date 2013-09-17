@@ -4,3 +4,6 @@ wa=0.10;
 wb=1.00;
 tau=0.75;
 alpha=10.0;
+dnf_dt=0.01;
+learn_rate=0.1;
+

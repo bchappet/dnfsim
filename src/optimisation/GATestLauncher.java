@@ -42,8 +42,8 @@ public class GATestLauncher extends GALauncher {
 	public static void main(String[] args) throws CommandLineFormatException, IOException, ClassNotFoundException, SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InterruptedException{
 		
 		GATestLauncher ga = new GATestLauncher();
-		int genMax1 = 20;
-		int genMax2 = 4;
+		int genMax1 = 10;
+		int genMax2 = 20;
 		
 		GAOptimizer gao = new GAOptimizer(ga,new GAPrinter() ,"gen_max="+genMax1+";reevaluate=F;");
 		gao.lauchGA();

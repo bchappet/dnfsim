@@ -2,6 +2,7 @@ package maps;
 
 import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import coordinates.Space;
@@ -23,6 +24,8 @@ public abstract class ParameterUser implements Cloneable {
 
 	public ParameterUser(Parameter dt2,Space space,Parameter ... params)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.dt = dt2;
 		this.space =space;
 		this.time = new Var(0);
@@ -31,13 +34,30 @@ public abstract class ParameterUser implements Cloneable {
 
 		onInitilization();
 	}
+	
+	
 	/**
 	 * Share attributes with param
 	 * @param param
 	 */
 	public ParameterUser(ParameterUser param)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.shareAttributesWith(param);
+	}
+	
+	public synchronized void delete(){
+//		while(!params.isEmpty()){
+//			params.get(0).delete();
+//		}
+		
+	
+		
+		space = null;
+		time = null;
+		dt = null;
+		params = null;
 	}
 
 	public ParameterUser clone(){
@@ -116,7 +136,7 @@ public abstract class ParameterUser implements Cloneable {
 	 * Add parameter to the list
 	 * @param params
 	 */
-	public void addParameters(Parameter ... params)
+	public synchronized void addParameters(Parameter ... params)
 	{
 		for(Parameter p : params)
 		{
@@ -128,7 +148,7 @@ public abstract class ParameterUser implements Cloneable {
 	 * Remove a parameter from the list
 	 * @param p
 	 */
-	protected void removeParameter(Parameter p) {
+	protected synchronized void removeParameter(Parameter p) {
 		params.remove(p);
 	}
 	

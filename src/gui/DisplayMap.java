@@ -44,8 +44,8 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 
 	double contrast = 1;
 
-	protected int sx;
-	protected int sy;
+	protected double sx;
+	protected double sy;
 	protected double[][] buffer;
 	protected double resolution; //TODO : resolution as a Var => avoid to recheck it at each update
 
@@ -118,10 +118,10 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 		Integer[] dim = displayed.getSpace().getSimulationSpace().getDiscreteSize();
 		sx = dim[X];
 		sy = dim[Y];
-		this.buffer = new double[sx][sy];
+		this.buffer = new double[(int)sx][(int)sy];
 		
 		if(trackHigh != null)
-			trackHigh.setDim(sx, sy);
+			trackHigh.setDim((int)sx, (int)sy);
 	}
 
 

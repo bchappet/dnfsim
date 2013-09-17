@@ -7,7 +7,7 @@ import model.Model;
 import statistics.Characteristics;
 import statistics.Statistics;
 
-public class CNFTIndivEvaluator extends IndivEvaluator implements Runnable {
+public class CNFTIndivEvaluator extends IndivEvaluator  {
 
 	public final static int SWITCHING = 5;
 	

@@ -1,6 +1,6 @@
 package console;
 
-import gui.GUI;
+import gui.RunnerGUI;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -57,8 +57,8 @@ public class TextIn extends InputStream implements ActionListener{
 	@Override
 	public synchronized void actionPerformed(ActionEvent e) {
 		TextFieldIn ori = (TextFieldIn) e.getSource();
-		currentString += ori.getText().replace(GUI.INVITE, "") + "\n" ;
-		ori.setText(GUI.INVITE);
+		currentString += ori.getText().replace(RunnerGUI.INVITE, "") + "\n" ;
+		ori.setText(RunnerGUI.INVITE);
 		//this.newInput = true;
 		this.notifyAll();
 	}

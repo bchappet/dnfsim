@@ -2,7 +2,7 @@ package globalTests;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
-import gui.GUI;
+import gui.RunnerGUI;
 import gui.Printer;
 import gui.Runner;
 

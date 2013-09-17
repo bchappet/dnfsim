@@ -53,6 +53,8 @@ public class Characteristics {
 	
 	public Characteristics(Space space,Statistics stats,TrajectoryUnitMap... params)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.name = NAME;
 		this.stats = stats;
 		this.space = space;

@@ -53,7 +53,7 @@ public class CommandLine  {
 	protected  String defaultScript()
 	{
 		return ""
-				+POP_SIZE+"=10;"	+ELITE_RATIO+"=0.4;"
+				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
 				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
 				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
 				;
@@ -181,6 +181,13 @@ public class CommandLine  {
 
 							}
 						}
+						else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
+						{
+							String[] numbers = obj.split(",");
+							var.set(Double.parseDouble(numbers[0]));
+							var.setDefinitionSet(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+							
+						}
 						else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 						{
 							var.set(Double.parseDouble(obj));
@@ -232,6 +239,14 @@ public class CommandLine  {
 						val = 0;
 
 					map.put(key, new VarBool(key,val));
+				}
+				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
+				{
+					String[] numbers = obj.split(",");
+				//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+					Var var = new Var(key,Double.parseDouble(numbers[0]),Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+					map.put(key,var);
+					
 				}
 				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 				{

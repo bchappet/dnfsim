@@ -1,6 +1,7 @@
 package statistics;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,6 +32,8 @@ public class Stat {
 	protected List<AbstractMap> tracks;
 
 	public Stat( Var dt, Space space,Model model, Parameter... maps) {
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.model = model;
 		this.dt = dt;
 		this.space = space;
@@ -608,7 +611,7 @@ public class Stat {
 				AbstractMap centerX = (AbstractMap) this.getParam(0);
 				AbstractMap centerY = (AbstractMap) this.getParam(1);
 				Double[] center = new Double[]{centerX.get(),centerY.get()};
-				if(!(center[Space.X].isNaN()))
+				if(!(center[Space.X].isNaN() || center[Space.X].isInfinite() ))
 				{
 					for(int i = 0 ; i < tracks.size() ; i++)
 					{
@@ -617,8 +620,9 @@ public class Stat {
 						double d = Space.distance(
 								((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter(),
 								center);
-						//System.out.println("focus : " + center);
-						//System.out.println(d);
+						//System.out.println("focus : " + Arrays.toString(center));
+						//System.out.println("Distance : " +Arrays.toString(((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter()) + " and " + Arrays.toString(center) );
+					//	System.out.println("d:"+d + ", minD : " + minD);
 						if(d < minD)
 						{
 							minD = d;

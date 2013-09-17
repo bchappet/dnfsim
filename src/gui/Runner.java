@@ -36,7 +36,7 @@ public class Runner  implements Runnable{
 	/**If true, we exit applet**/
 	protected boolean exit = false;
 
-	protected GUI gui;
+	protected RunnerGUI gui;
 	protected Model model;
 	/**If not null the scenario is lauched on thread start**/
 	protected String scenario;
@@ -83,8 +83,7 @@ public class Runner  implements Runnable{
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		}
-		if(gui != null)
-			gui.repaint();
+		
 
 		if(play)
 			play = false;
@@ -100,8 +99,10 @@ public class Runner  implements Runnable{
 		lock.lock(); //this lock ensure that we do not change the displayed model or change parameters during computation
 		try{
 			model.update();
-			if(gui!= null)
+			if(gui!= null){
+				gui.updateBufferViews();
 				gui.repaint();
+			}
 		}finally{
 			lock.unlock();
 		}
@@ -217,7 +218,7 @@ public class Runner  implements Runnable{
 
 
 
-	public void setGui(GUI gui) {
+	public void setGui(RunnerGUI gui) {
 		this.gui = gui;
 	}
 
@@ -300,6 +301,8 @@ public class Runner  implements Runnable{
 		}
 		
 	}
+
+
 
 	
 	

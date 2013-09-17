@@ -22,9 +22,9 @@ public class SpaceModifier extends JPanel {
 	 */
 	private static final long serialVersionUID = 1812066774759343573L;
 	protected Space space;
-	protected GUI gui;
+	protected RunnerGUI gui;
 
-	public SpaceModifier(GUI gui,Space space) {
+	public SpaceModifier(RunnerGUI gui,Space space) {
 		this.space = space;
 		this.gui = gui;
 		

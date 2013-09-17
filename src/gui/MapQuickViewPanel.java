@@ -15,7 +15,7 @@ public class MapQuickViewPanel extends QuickViewPanel{
 	private static final long serialVersionUID = -4174868071143851696L;
 	protected DisplayMap swgMap;
 
-	public MapQuickViewPanel(GUI gui,Parameter map) {
+	public MapQuickViewPanel(RunnerGUI gui,Parameter map) {
 		super(gui,map);
 		swgMap = new DisplayMap(gui,map);
 		
@@ -26,7 +26,7 @@ public class MapQuickViewPanel extends QuickViewPanel{
 	
 	public void update()
 	{
-		swgMap.update();
+		//swgMap.update();
 	}
 	
 	

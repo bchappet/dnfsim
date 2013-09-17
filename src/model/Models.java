@@ -22,7 +22,9 @@ public enum Models{
 	CNFT_SLOW("CNFTAssynch",ModelCNFTSlow.class,true),
 	CMSVA("CMSVA",ModelCMSVA.class,false),
 	NSPIKE_REAL_PARAM("NSPikeRealParam",ModelNSpikeWithTrueParameters.class,false),
-	MODEL_Hardware_VALIDATION("HardwareValidation",ModelHardwareValidation.class,false);
+	MODEL_Hardware_VALIDATION("HardwareValidation",ModelHardwareValidation.class,false),
+	TEST_SOM("TestSOM",TestSOM.class,false),
+	DNF_SOM("DNFSom",ModelDNFSom.class,false);
 	
 	private final boolean assynch;
 	private final String name;

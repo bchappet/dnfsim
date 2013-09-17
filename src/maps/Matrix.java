@@ -193,6 +193,14 @@ public class Matrix extends AbstractMap implements Cloneable {
 	
 	
 
+	@Override
+	public void delete()
+	{
+		super.delete();
+		values = null;
+	}
+	
+
 	
 	
 

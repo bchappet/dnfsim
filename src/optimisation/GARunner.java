@@ -31,12 +31,12 @@ public class GARunner extends Runner {
 	public void run() {
 		try{
 			
-			System.out.println("start : " + Thread.currentThread());
+			//System.out.println("start : " + Thread.currentThread());
 			model.reset();
 			model.getCommandLine().reinitialize();
 			model.getCommandLine().parseCommand(params+scenario);
 			((GAScenarioPrinter)printer).computeScenarioFitness();
-			System.out.println("end : " + Thread.currentThread());
+		//	System.out.println("end : " + Thread.currentThread());
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);

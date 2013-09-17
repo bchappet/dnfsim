@@ -1,6 +1,8 @@
 package optimisation;
 
+import model.Model;
 import gui.Printer;
+import gui.Runner;
 
 public abstract class IndivEvaluator extends Printer implements Runnable {
 

@@ -182,5 +182,14 @@ public class SubUnitMap extends AbstractUnitMap  {
 		}
 		return res;
 	}
+	
+	@Override
+	public void delete(){
+		super.delete();
+		map = null;
+		
+	}
+	
+	
 
 }

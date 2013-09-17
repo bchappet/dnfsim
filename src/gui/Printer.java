@@ -162,7 +162,7 @@ public class Printer{
 					root.getActiveModel().getCommandLine().setRunner(runners[i]);
 
 					if(showGui){
-						GUI applet =  new GUI(runners[i],root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
+						RunnerGUI applet =  new RunnerGUI(runners[i],root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
 						// Configure the frame to display the Applet
 						applet.setStub(new AppletStub(applet, "CNFT simulation"));
 						runners[i].setLock(applet.getLock());

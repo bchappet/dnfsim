@@ -21,7 +21,7 @@ public class TrajectoryQuickViewPanel extends QuickViewPanel implements Runnable
 	protected DecimalFormat formater;
 	protected JTextField txt;
 
-	public TrajectoryQuickViewPanel(GUI gui,Trajectory function) {
+	public TrajectoryQuickViewPanel(RunnerGUI gui,Trajectory function) {
 		super(gui,(TreeNode) function);
 		this.setLayout(new BorderLayout());
 		this.formater = new DecimalFormat("#0.0000");

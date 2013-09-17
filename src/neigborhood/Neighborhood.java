@@ -75,6 +75,21 @@ public abstract class Neighborhood implements Cloneable {
 		return ret;
 	}
 	
+	/**
+	 * For display : return index of neighboors of current index
+	 * @param index
+	 * @return
+	 */
+	public  int[] getNeighborhood(int index){
+		int[] res = new int[4];
+		Double[][] tmp = getNeighborhood(space.indexToCoord(index));
+		
+		for(int i = 0 ; i < 4 ; i ++){
+			res[i] = space.coordToIndex(tmp[i]);
+		}
+		return res;
+	}
+	
 	
 
 	/**

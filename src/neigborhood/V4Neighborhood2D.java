@@ -22,6 +22,9 @@ public class V4Neighborhood2D extends Neighborhood {
 	public V4Neighborhood2D(Space space,UnitParameter map) {
 		super(space,map);
 	}
+	
+	
+	
 
 	@Override
 	public Double[][] getNeighborhood(Double... coord) throws NullCoordinateException{

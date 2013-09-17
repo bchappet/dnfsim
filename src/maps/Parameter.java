@@ -1,5 +1,7 @@
 package maps;
 
+import com.sun.swing.internal.plaf.synth.resources.synth;
+
 import gui.Node;
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
@@ -173,7 +175,7 @@ public interface Parameter extends Node,Cloneable{
 	/**
 	 * Delete parameter from the tree
 	 */
-	public void delete();
+	public  void delete();
 	
 
 	
@@ -198,6 +200,13 @@ public interface Parameter extends Node,Cloneable{
 	 * @param new Val
 	 */
 	public void setIndex(int index, double newVal);
+
+	/**
+	 * Remove the parent
+	 * @param updatable
+	 */
+	void removeParent(AbstractMap updatable);
+
 
 	
 

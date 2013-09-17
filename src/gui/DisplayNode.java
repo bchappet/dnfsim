@@ -1,7 +1,6 @@
 package gui;
 
 
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
@@ -15,14 +14,16 @@ import javax.swing.JPanel;
 import maps.AbstractMap;
 import maps.AbstractUnitMap;
 import maps.Leaf;
+import maps.NeighborhoodMap;
 import maps.Parameter;
-import maps.Unit;
 import maps.Var;
 import model.Model;
 import model.Root;
 import statistics.Characteristics;
+import unitModel.SomUM;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
+import unitModel.SomUM;
 
 public class DisplayNode implements javax.swing.tree.TreeNode{
 
@@ -63,6 +64,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 			}
 			else if(node instanceof AbstractMap)
 			{
+			
 				son = new MapDisplayNode(this,(AbstractMap) node,gui);
 
 			}

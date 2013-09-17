@@ -89,6 +89,11 @@ public class GAOptimizer {
 	}
 
 
+	/**
+	 * Start the optimization
+	 * @throws CommandLineFormatException
+	 * @throws IOException
+	 */
 	public void lauchGA() throws CommandLineFormatException, IOException {
 
 

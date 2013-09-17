@@ -1,12 +1,16 @@
 package optimisation;
 
+import gui.GUI;
 import gui.Printer;
+import gui.RunnerGUI;
 
-import java.util.List;
-import java.util.concurrent.BlockingDeque;
+import java.awt.Dimension;
+import java.net.URL;
 import java.util.concurrent.BlockingQueue;
 
 import model.Model;
+import model.Root;
+import applet.AppletStub;
 
 public class GAScenarioPrinter extends Printer implements Runnable{
 
@@ -45,6 +49,20 @@ public class GAScenarioPrinter extends Printer implements Runnable{
 			for(int i = 0 ; i < nbIterations ; i++){
 				currentModel = modelPool.take();
 				GARunner runner = new GARunner(currentModel, parameters, scenario,this);
+				System.out.println("OPTIM:parameter:"+parameters);
+				
+				boolean showGui = false;
+
+				if(showGui){
+					URL contextPath = new URL("file:./context/");
+					Root root = new Root();
+					root.addModel(currentModel);
+					root.setActiveModel(currentModel);
+					GUI applet =  new RunnerGUI(runner,root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
+					// Configure the frame to display the Applet
+					applet.setStub(new AppletStub(applet, "CNFT simulation"));
+					runner.setLock(applet.getLock());
+				}
 				thread = new Thread(runner);
 				thread.start();
 			}

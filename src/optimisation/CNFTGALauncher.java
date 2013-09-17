@@ -1,12 +1,17 @@
 package optimisation;
 
+import gui.GUI;
+import gui.RunnerGUI;
 import gui.Printer;
 
+import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
+
+import applet.AppletStub;
 
 import model.Model;
 import model.Models;
@@ -25,25 +30,27 @@ public class CNFTGALauncher extends GALauncher {
 	protected String[] scenarioNames;
 	/**Nb iterations per scenario**/
 	protected int[] nbIterations;
-	
+
 	protected BlockingQueue<Model> modelPool;
-	
+
+	protected URL contextPath;
+
 
 
 	/** Random number generator */
-	
+
 	IndivEvaluator[] indivEvaluator;
 	protected String contextScript;
 	protected String modelName;
-	
+
 	protected int nbThread;
-	
+
 
 	public CNFTGALauncher(String modelName,String context,int nbThread) throws CommandLineFormatException{
-		
 		super();
+		System.out.println("MEM:"+"construct:"+this.getClass());
+
 		this.nbThread = nbThread;
-		URL contextPath;
 		try{
 
 			contextPath = new URL("file:./context/");
@@ -59,11 +66,22 @@ public class CNFTGALauncher extends GALauncher {
 			scenarioNames = getScenariosNames();
 			this.nbIterations = getNbIterations(scenarioNames);
 
+
+
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
 
 	}
+
+	public static int GetScreenWorkingWidth() {
+		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().width;
+	}
+
+	public static int GetScreenWorkingHeight() {
+		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
+	}
+
 	public IndivEvaluator[] getIndividualEvaluator(int popSize) {
 
 		String[] paramNames = getOptimizedParameters();
@@ -73,7 +91,7 @@ public class CNFTGALauncher extends GALauncher {
 			model = Models.getModel(modelName).construct();
 
 
-			
+
 			model.initialize(contextScript);
 			modelPool.add(model);
 			for(int i = 1 ; i < nbThread ; i++){
@@ -81,6 +99,8 @@ public class CNFTGALauncher extends GALauncher {
 				tmp.initialize(contextScript);
 				modelPool.add(tmp);
 			}
+
+
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -91,6 +111,8 @@ public class CNFTGALauncher extends GALauncher {
 
 		for(int i  = 0 ; i < popSize ; i++){
 			ret[i] = new CNFTIndivEvaluator(modelPool, this, scenarioNames,paramNames, nbIterations);
+
+			
 		}
 
 		return ret;
@@ -107,7 +129,7 @@ public class CNFTGALauncher extends GALauncher {
 	}
 
 
-	
+
 	/**
 	 * 
 	 * @param parameters
@@ -121,7 +143,7 @@ public class CNFTGALauncher extends GALauncher {
 
 	protected String[] getScenariosNames() {
 		return new String[]{"emergence.dnfs","tracking.dnfs","competition.dnfs","noise.dnfs","distracters.dnfs","switching.dnfs"};
-//		return new String[]{"distracters.dnfs"};//"emergence.dnfs","tracking.dnfs","competition.dnfs","noise.dnfs","distracters.dnfs","switching.dnfs"};
+		//return new String[]{"competition.dnfs",};//"emergence.dnfs","tracking.dnfs","competition.dnfs","noise.dnfs","distracters.dnfs","switching.dnfs"};
 	}
 
 
@@ -151,15 +173,15 @@ public class CNFTGALauncher extends GALauncher {
 	 */
 	public static void main(String[] args) {
 		try {
-			int popSize = 10;
+			int popSize = 50;
 			int genMax = 50;
-			CNFTGALauncher ga = new CNFTGALauncher("GSpike",null ,8);
-			
+			CNFTGALauncher ga = new CNFTGALauncher("CNFTFFT",null ,8);
+
 			GAOptimizer gao = new GAOptimizer( ga,new GACNFTPrinter(), "pop_size="+popSize+";"+"gen_max="+genMax+";");
 			gao.lauchGA();
 			System.out.println(gao.getGaStats().printOrderedPopulation(genMax-1));
 			System.out.println(gao.getGaStats().getBestIndividualStat(genMax-1));
-			
+
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
@@ -167,10 +189,10 @@ public class CNFTGALauncher extends GALauncher {
 		}
 
 	}
-	
 
-	
 
-	
+
+
+
 
 }

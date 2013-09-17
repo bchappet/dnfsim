@@ -39,7 +39,7 @@ import console.TextFieldIn;
 import coordinates.NullCoordinateException;
 
 
-public class GUI extends JApplet {
+public class RunnerGUI extends GUI {
 
 
 
@@ -47,6 +47,7 @@ public class GUI extends JApplet {
 	public static final String INVITE = ">";
 
 
+	protected Runner runner;
 
 	protected DynamicParamsView maps;
 	protected Root root;
@@ -82,7 +83,10 @@ public class GUI extends JApplet {
 
 	protected boolean showGui = false;
 
-	public GUI(Root root, URL contextPath,Dimension dim){
+	public RunnerGUI(Runner runner,Root root, URL contextPath,Dimension dim){
+		super(root,contextPath,dim);
+		this.runner = runner;
+		this.runner.setGui(this);
 		this.root = root;
 		this.root.addAllModel();
 		this.contextPath = contextPath;
@@ -140,6 +144,7 @@ public class GUI extends JApplet {
 				//	System.out.println("new tree");
 				//	System.out.println(model.getRootParam().toStringRecursive(0));
 				model.getCommandLine().setRunner(runner);
+				runner.setModel(model);
 				node.construct();
 				root.setActiveModel(model);
 				//execute the script in the model context file : //file format : contextPath/modelName.dnfs
@@ -261,7 +266,9 @@ public class GUI extends JApplet {
 
 	@Override
 	public void repaint(){
-			
+//			//Update the listeners
+//			for(int i =0 ; i < updated.size() ; i++)
+//				updated.get(i).update();
 			super.repaint();
 
 	}
@@ -509,6 +516,16 @@ public class GUI extends JApplet {
 	{
 		for(ParamUpdated p : paramUpdated)
 			p.update();
+	}
+	
+	/**
+	 * Update every updated view
+	 * 
+	 */
+	public void updateBufferViews(){
+		for(Updated u : updated){
+			u.update();
+		}
 	}
 
 	public Root getRoot() {

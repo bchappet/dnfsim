@@ -5,8 +5,12 @@ import java.awt.Color;
 
 public class AdaptiveAndEquilibratedColorMap extends AdaptiveColorMap {
 	
+	public static final int STACK_MAX = 1000;
+	
 	protected double beta = 0.01; //Basis of apprentissage
 	protected int  repError = 0; //Repetition of error in the recursive call of closestPoint
+	
+	protected int count = 0; //to avoid a stack overflow when dealing with tremendous values
 
 	public AdaptiveAndEquilibratedColorMap(Color[] fixedColors) {
 		super(fixedColors);
@@ -23,10 +27,19 @@ public class AdaptiveAndEquilibratedColorMap extends AdaptiveColorMap {
 		this.beta = map.beta;
 		this.repError = map.repError;
 	}
+	
+	@Override
+	public Color getColor(double point){
+		//reset the stack overflow couter
+		count = 0;
+		return super.getColor(point);
+	}
 
 
 	public int[] closestPoints(double point)
 	{
+		
+		
 		
 		//We try to diminish the threshold
 //		fixedPoints[fixedPoints.length-1]-= beta;
@@ -44,8 +57,13 @@ public class AdaptiveAndEquilibratedColorMap extends AdaptiveColorMap {
 		}
 		//i >= fixedPoint.length or point <= fixedPoint[i]
 		
+		//increase the stack count
+		count ++;
+//		if(count >= STACK_MAX)
+//			System.out.println("DEBUG:"+"stack overflow!!");
+		
 		//The str is outside the color Map => we rise the thresholds
-		if(i>= fixedPoints.length || point < fixedPoints[0])
+		if((i>= fixedPoints.length || point < fixedPoints[0]) && count < STACK_MAX)
 		{
 			//System.err.println("The str " + point + " is outside the colorMap");
 			if(i>= fixedPoints.length)
@@ -62,7 +80,7 @@ public class AdaptiveAndEquilibratedColorMap extends AdaptiveColorMap {
 			ret = closestPoints(point);
 
 		}
-		else
+		else// the str is inside the color map or we reached the stack limit
 		{
 			
 			ret[0] = i-1;

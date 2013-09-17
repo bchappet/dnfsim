@@ -18,13 +18,14 @@ import coordinates.Space;
 public class MapTest {
 	
 	private Map map;
+	Space space;
 
 	@Before
 	public void setUp() throws Exception {
-		Space space = new DefaultRoundedSpace(new Var(3), 2, true);
-		UnitModel um = new ConstantUnit(new Var(9));
-		Parameter p = new Var("Param",99);
-		map = new Map("map",um,new Var(0.1),space,new Var(0.1),p);
+		space = new DefaultRoundedSpace(new Var("3",3), 2, true);
+		UnitModel um = new ConstantUnit(new Var("9",9));
+		Parameter p = new Var("99",99);
+		map = new Map("map",um,new Var("0.1",0.1),space,new Var("0.1",0.1),p);
 	}
 
 	@After
@@ -33,23 +34,28 @@ public class MapTest {
 
 	@Test
 	public void testClone() {
-		System.out.println("Map UM : " + map.getUnitModel().hashCode());
+		//System.out.println("Map UM : " + map.getUnitModel().hashCode());
 		
 		Map clone = map.clone();
-		System.out.println("clone UM : " + clone.getUnitModel().hashCode());
+		//System.out.println("clone UM : " + clone.getUnitModel().hashCode());
 		
 		assertTrue(map.getUnitModel().hashCode() != clone.getUnitModel().hashCode());
 		
 	}
 	
 	@Test
-	public void testCloneParameter(){
-		Parameter ori = map.getParam(0);
-		System.out.println("param ori " +map.getParam(0).hashCode());
-		map.cloneParameter(0);
-		Parameter cloned = map.getParam(0);
-		System.out.println("param cloned " +map.getParam(0).hashCode());
-		assertFalse(ori.hashCode() == cloned.hashCode());
+	public void testDelete(){
+		Var var1 = new Var("5",5);
+		Map map1 = new Map("map1",new ConstantUnit(var1));
+		map.addParameters(map1);
+		
+		System.out.println(map.toStringRecursive(0));
+		
+		map1.delete();
+		
+		System.out.println(map.toStringRecursive(0));
+		
+		System.out.println(map1.toStringRecursive(0));
 		
 		
 	}
@@ -57,10 +63,10 @@ public class MapTest {
 	@Test
 	public void testCloneMemory() {
 		map.constructMemory();
-		System.out.println("Map UM : " + map.getUnit(0).getUnitModel().hashCode());
+		//System.out.println("Map UM : " + map.getUnit(0).getUnitModel().hashCode());
 		
 		Map clone = map.clone();
-		System.out.println("clone UM : " + clone.getUnit(0).getUnitModel().hashCode());
+		//System.out.println("clone UM : " + clone.getUnit(0).getUnitModel().hashCode());
 		
 		assertTrue(map.getUnit(0).getUnitModel().hashCode() != clone.getUnit(0).getUnitModel().hashCode());
 		

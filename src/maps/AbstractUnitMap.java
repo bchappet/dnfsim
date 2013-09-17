@@ -23,9 +23,9 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	protected UnitModel unitModel;
 	/**Collection of units**/
 	protected AbstractList<Unit> units;
-	
+
 	protected List<SubUnitMap> subUnitMaps;
-	
+
 
 
 
@@ -57,10 +57,10 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		if(unitModel != null)
 			initUnitModel(unitModel);
 	}
-	
+
 	public void addSubUnitMap(SubUnitMap sum) {
 		subUnitMaps.add(sum);
-		
+
 	}
 
 	protected void initUnitModel(UnitModel um) {
@@ -174,7 +174,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		/*if(parallel delay = 1) else delay = 0, getDelay(delay,coord)*/
 		return getDelay(0,coord);
 	}
-	
+
 	public Var getVar(Double ... coord){
 		if(isMemory)
 		{
@@ -209,7 +209,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		}
 
 	}
-	
+
 	@Override
 	public double getDelay(int delay, int index) {
 		if(isMemory)
@@ -272,7 +272,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		AbstractUnitMap clone =
 				(AbstractUnitMap) super.clone();
 		clone.unitModel = unitModel.clone();
-			
+
 		return clone;
 	}
 
@@ -321,14 +321,33 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	public List<SubUnitMap> getSubUnitMaps() {
 		return subUnitMaps;
 	}
-	
+
 	public void setIndex(int index, double val) {
 		units.get(index).getUnitModel().set(val);
-		
+
+	}
+
+	@Override
+	public void delete(){
+		super.delete();
+		if(isMemory){
+			for(Unit u : units){
+				u.delete();
+			}
+		}
+
+		for(SubUnitMap sm : subUnitMaps){
+			sm.delete();
+		}
+
+		unitModel = null;
+		units = null;
+		subUnitMaps = null;
+
 	}
 
 
-	
+
 
 
 

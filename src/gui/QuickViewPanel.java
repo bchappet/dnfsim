@@ -64,9 +64,16 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 		addMouseListener(adapter);
 	}
 
+	@Override
 	public void update() throws NullCoordinateException
 	{
 		//Nothing
+	}
+	
+	@Override
+	public void render(Graphics2D g) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public Parameter getDisplayed()
@@ -163,11 +170,7 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 		// TODO Auto-generated method stub
 
 	}
-	@Override
-	public void render(Graphics2D g) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void interactRelease(EventObject event) {

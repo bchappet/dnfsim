@@ -10,8 +10,8 @@ public abstract class ParameterPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 7326836367162114568L;
-	protected GUI gui;
-	public ParameterPanel(GUI gui)
+	protected RunnerGUI gui;
+	public ParameterPanel(RunnerGUI gui)
 	{
 		super();
 		this.gui = gui;

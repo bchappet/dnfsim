@@ -8,11 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
-
-import plot.Trace;
-import precision.PrecisionVar;
 
 import maps.BadPathException;
 import maps.Parameter;
@@ -20,8 +16,9 @@ import maps.Var;
 import maps.VarBool;
 import maps.VarString;
 import model.Model;
+import plot.Trace;
+import precision.PrecisionVar;
 import statistics.CharacConvergence;
-import statistics.Statistics;
 import coordinates.NullCoordinateException;
 
 /**
@@ -83,6 +80,10 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String PROBA_FRAC = "proba_frac";
 	public static final String FRAC = "frac";
 	
+	//Model som
+	public static final String DT_DNF = "dt_dnf";
+	public static final String LEARNING_RATE = "learn_rate";
+	
 
 
 
@@ -103,28 +104,29 @@ public class CNFTCommandLine extends CommandLine{
 	protected  String defaultScript()
 	{
 		return ""
-				+ACCERROR+"=0.1;"			+ALPHA+"=10.0;"
-				+STABIT+"=10;" 				+IA+"=1.25;"
+				+ACCERROR+"=0.1;"			+ALPHA+"=10,0,20,0.1;"
+				+STABIT+"=10;" 				+IA+"=1.25,-10,10,0.01;"
 				+IA2+"=1;"
-				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70;"
-				+SHAPE_FACTOR+"=1.5;" 		+WA+"=0.10;"
-				+NB_DISTRACTERS+"=0;"		+WB+"=1.00;"
-				+NB_TRACKS+"=2;"
-				+NOISE_AMP+"=0.00;"			+TAU+"=0.75;"
-				+TRACK_INTENSITY+"=1;"		+N+"=10;"
-				+TRACK_WIDTH+"=0.1;"		+RESOLUTION+"=49;"
-				+TRACK_DT+"=0.1;"  			+WRAP+"=T;"
-				+DISTR_DT+"=0.1;"           +THRESHOLD+"=0.75;" 
+				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70-10,10,0.01;"
+				+SHAPE_FACTOR+"=1.5;" 		+WA+"=0.10,0,10,0.01;"
+				+NB_DISTRACTERS+"=0,0,40,1;"		+WB+"=1.00,0,10,0.01;"
+				+NB_TRACKS+"=2,0,40,1;"
+				+NOISE_AMP+"=0.00,0,10,0.01;"			+TAU+"=0.75,0,10,0.01;"
+				+TRACK_INTENSITY+"=1,0,10,0.1;"		+N+"=10,0,100,1;"
+				+TRACK_WIDTH+"=0.1,0,1,0.1;"		+RESOLUTION+"=49,1,200,2;"
+				+TRACK_DT+"=0.1,0,100,0.1;"  			+WRAP+"=T;"
+				+DISTR_DT+"=0.1,0,10,0.1;"           +THRESHOLD+"=0.75,0,10,0.01;" 
 				+THRESHOLD_INHIBITORY+"=0.74;"
-				+DISTR_INTENSITY+"=1;"      +RESTING_POTENTIAL+"=0;"
-				+DISTR_WIDTH+"=0.1;"		+DT+"=0.1;"
-				+NOISE_DT+"=0.1;"			+HARD_DT+"=0.01;"
-				+INPUT_DT+"=0.1;"			+DISPLAY_DT+"=0.1;"
-				+BUFF_WIDTH+"=6;"			+PRECISION+"=8;"
+				+DISTR_INTENSITY+"=1,0,10,0.1;"     +RESTING_POTENTIAL+"=0;"
+				+DISTR_WIDTH+"=0.1,0,1,0.1;"		+DT+"=0.1,0,10,0.1;"
+				+NOISE_DT+"=0.1,0,10,0.1;"			+HARD_DT+"=0.01,0,10,0.01;"
+				+INPUT_DT+"=0.1,0,10,0.1;"			+DISPLAY_DT+"=0.1,0,10,0.1;"
+				+BUFF_WIDTH+"=6;"			+PRECISION+"=8,1,30,1;"
 				+COMPUTE_CLK+"=10;"			
 				+INH_CST+"=-1;"				+TAU_DT+"=6.3999999999999995;"
 				+INPUT_FILES+"=src/tests/files/input;"
-				+PROBA_FRAC+"=7;"			+FRAC+"=8;"
+				+PROBA_FRAC+"=7,1,30,1;"			+FRAC+"=8,1,30,1;"
+				+DT_DNF+"=0.01,0,100,0.01;"			+LEARNING_RATE+"=0.1,0,1,0.001;"	
 				;
 	}
 
@@ -314,6 +316,13 @@ public class CNFTCommandLine extends CommandLine{
 									throw new CommandLineFormatException("Bad binary String format : " + obj);
 
 								}
+							}
+							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
+							{
+								String[] numbers = obj.split(",");
+								var.set(Double.parseDouble(numbers[0]));
+								var.setDefinitionSet(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+								
 							}
 							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 							{
@@ -571,11 +580,21 @@ public class CNFTCommandLine extends CommandLine{
 
 
 				}
+				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
+				{
+					String[] numbers = obj.split(",");
+				//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+					Var var = new Var(key,Double.parseDouble(numbers[0]),Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+					map.put(key,var);
+					
+				}
 				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 				{
-//					System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
-					map.put(key,new Var(key,Double.parseDouble(obj)));
+					//System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
+					Var var = new Var(key,Double.parseDouble(obj));
+					map.put(key,var);
 				}
+				
 				else//String by default
 				{
 					map.put(key, new VarString(key,obj));
