@@ -1,5 +1,9 @@
 package maps;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -9,97 +13,58 @@ import coordinates.Space;
  * @author bchappet
  *
  */
-public class SampleMap extends AbstractMap  {
+public class SampleMap extends VectorMap  {
+	protected List<double[]> memories;
 
 	public SampleMap(String name, Parameter dt, Space space, Parameter... maps) {
 		super(name, dt, space, maps);
 	}
-
-
+	
+	
 	@Override
-	public void compute(int index) {
-		// TODO Auto-generated method stub
+	public void compute() throws NullCoordinateException {
+		//System.out.println("Compute");
+		vect = new double[params.size()];
+		for(int i = 0 ; i < vect.length ; i++){
+			//System.out.println("Param i : " + params.get(i).getName());
+			vect[i] = params.get(i).get();
+		}
+		
+		if(memories != null){
+			memories.add(0, vect.clone());
+			memories.remove(memories.size()-1);
+			
+		}
+
 
 	}
 
-	@Override
-	public double get(Double... coor) throws NullCoordinateException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
-	public Var getVar(Double... coor) {
-		// TODO Auto-generated method stub
-		return null;
+	public double[] getVector(int delay) {
+		return memories.get(delay);
 	}
 
-	@Override
-	public double getDelay(int delay, Double... coord)
-			throws NullCoordinateException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getDelay(int delay, int index) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	@Override
 	public void addMemories(int nb, UnitModel... historic)
 			throws NullCoordinateException {
-		// TODO Auto-generated method stub
-
+		
+		memories = new ArrayList<double[]>(nb+1);
+		double[] vectHist0 = new double[]{historic[0].get(),historic[0].get()};
+		if(vect == null){
+			memories.add(vectHist0);
+		}else{
+			memories.add(vect);
+		}
+		memories.add(vect);
+		for(int i = 0 ; i < nb ; i++ ){
+			double[] vectHistI = new double[]{historic[i].get(),historic[i].get()};
+			memories.add(vectHistI);
+		}
+		
+		
 	}
 
-	@Override
-	public void toParallel() throws NullCoordinateException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void onLine() throws NullCoordinateException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void setIndex(int index, double newVal) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public double[] getValues() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public double get(int index) throws NullCoordinateException {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double getFast(int... coord) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void constructMemory() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void compute() throws NullCoordinateException {
-		// TODO Auto-generated method stub
-
-	}
 
 }

@@ -22,7 +22,7 @@ public class Map extends AbstractUnitMap {
 	 */
 	public Map(String name,UnitModel unitModel) {
 		super(name,unitModel);
-//		/System.out.println("Cretaing map");
+		//		/System.out.println("Cretaing map");
 	}
 
 	/**
@@ -37,7 +37,7 @@ public class Map extends AbstractUnitMap {
 	{
 		super(name,um,dt,space,maps);
 	}
-	
+
 
 
 
@@ -79,16 +79,19 @@ public class Map extends AbstractUnitMap {
 	{
 		if(isMemory)
 		{
+
+			Iterator<Unit> it = getComputationIterator();
 			if(units.get(0).getUnitModel() instanceof Precomputation){
-				for(Unit u : units){
+				while(it.hasNext()){
+					Unit u = it.next();
 					((Precomputation) u.getUnitModel()).precompute();
 				}
 			}
 			//Compute every unit 
-			Iterator<Unit> it = getComputationIterator();
-			while(it.hasNext())
+			Iterator<Unit> it2 = getComputationIterator();
+			while(it2.hasNext())
 			{
-				Unit u = it.next();
+				Unit u = it2.next();
 				u.compute();
 			}
 			if(units.get(0).isParallel())
@@ -108,39 +111,41 @@ public class Map extends AbstractUnitMap {
 
 	/**
 	 * 
-	 * @return the order for computation. With online computation, one 
-	 * could implement assynchronous computation with a random iterator
+	 * @return the order for computation.
+	 * 
 	 */
 	public Iterator<Unit> getComputationIterator()
 	{
-		return units.iterator();
+//		return units.iterator();
+		
+		return new FramedSpaceIterator(space,units);
 	}
 
-	
+
 	@Override
 	public   Map  clone()
 	{
 		Map clone = (Map) super.clone();
-		
+
 		if(clone.isMemory()){
-			
+
 			clone.units = new ArrayList<Unit>();
 			for(Unit u : this.units){
 				clone.units.add(u.clone());
 			}
-			
+
 		}
-		
-		
+
+
 		return clone;
 	}
 
-	
 
-	
 
-	
-		
+
+
+
+
 
 
 

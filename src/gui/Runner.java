@@ -52,6 +52,11 @@ public class Runner  implements Runnable{
 	protected boolean savemap;
 	/**Core used #**/
 	protected int core;
+	
+	/**
+	 * Time of each step
+	 */
+	protected double timeStep = 0.1; //in s
 
 
 
@@ -73,12 +78,13 @@ public class Runner  implements Runnable{
 
 	/**
 	 * One update of the model**
+	 * of time in seconds
 	 
 	 */
 	public void step()
 	{
 		try {
-			update();
+			update(timeStep);
 			
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
@@ -92,17 +98,16 @@ public class Runner  implements Runnable{
 	
 	/**
 	 * Update the model
+	 * time in seconds
 	 * @throws CommandLineFormatException
 	 */
-	protected void update() throws CommandLineFormatException
+	protected void update(double time) throws CommandLineFormatException
 	{
 		lock.lock(); //this lock ensure that we do not change the displayed model or change parameters during computation
 		try{
-			model.update();
-			if(gui!= null){
-				gui.updateBufferViews();
+			model.update(time);
+			if(gui != null)
 				gui.repaint();
-			}
 		}finally{
 			lock.unlock();
 		}
@@ -140,7 +145,7 @@ public class Runner  implements Runnable{
 					while(!play && !exit)
 						Thread.sleep(100);
 					long time_start = System.currentTimeMillis();
-					update();
+					update(timeStep);
 					// Remaining delay to wait after the computations
 					long d = (long)(speedRatio * model.getDt() * 1000)-(System.currentTimeMillis()-time_start);
 					// Wait for the necessary amount of time
@@ -241,6 +246,18 @@ public class Runner  implements Runnable{
 		this.iteration = iteration2;
 
 	}
+	
+	
+
+	public double getTimeStep() {
+		return timeStep;
+	}
+
+
+	public void setTimeStep(double timeStep) {
+		this.timeStep = timeStep;
+	}
+
 
 	/**
 	 * Save statistics in the given file

@@ -14,7 +14,7 @@ public class CNFTIndivEvaluator extends IndivEvaluator  {
 	public final static int MAX_FITNESS = 50;
 
 	protected double fitness;
-	protected CNFTGALauncher gaLauncher;
+	protected GALauncher gaLauncher;
 
 	protected BlockingQueue<Model> modelPool;
 	protected String[] scenarios;
@@ -22,7 +22,7 @@ public class CNFTIndivEvaluator extends IndivEvaluator  {
 
 	protected String[] parameterNames;
 
-	public CNFTIndivEvaluator(BlockingQueue<Model> modelPool,CNFTGALauncher gaLauncher,String[] scenarios,String[] parameterNames,int[] nbIteration) {
+	public CNFTIndivEvaluator(BlockingQueue<Model> modelPool,GALauncher gaLauncher,String[] scenarios,String[] parameterNames,int[] nbIteration) {
 		this.modelPool = modelPool;
 		this.gaLauncher = gaLauncher;
 		this.scenarios = scenarios;

@@ -26,7 +26,7 @@ public class MatrixFileReader extends Matrix {
 	@Override
 	public void compute()  {
 		try {
-			System.out.println("iteration : " + iteration);
+			//System.out.println("iteration : " + iteration);
 			FileReader fr = new FileReader(fileName+"_"+iteration +".fig");
 			BufferedReader br = new BufferedReader(fr);
 			
@@ -40,8 +40,12 @@ public class MatrixFileReader extends Matrix {
 				while((line = br.readLine()) != null){
 					String[] values = line.split(" ");
 					for(String val : values){
-						this.values[i] = Double.parseDouble(val); 
-						i++;
+						try{
+							this.values[i] = Double.parseDouble(val); 
+						}catch (ArrayIndexOutOfBoundsException e) {
+							break;
+						}
+							i++;
 					}
 				}
 			}catch (Exception e) {
@@ -58,6 +62,12 @@ public class MatrixFileReader extends Matrix {
 			e.printStackTrace();
 		}
 		iteration ++;
+	}
+	
+	@Override
+	public void reset(){
+		super.reset();
+		iteration = 0;
 	}
 	
 	

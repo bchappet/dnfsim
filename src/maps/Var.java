@@ -1,5 +1,7 @@
 package maps;
 
+import gui.Updated;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -319,6 +321,18 @@ public class Var implements Parameter,Cloneable {
 	
 	public double getMinimunValue(){
 		return min;
+	}
+
+	@Override
+	public void resetState() {
+		// nothng
+		
+	}
+
+	@Override
+	public void addVue(Updated u) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

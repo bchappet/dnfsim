@@ -49,6 +49,9 @@ public class Statistics{
 	public static final String FOCUS = "Focus";
 	public static final String TRUE_ERROR ="True Error";
 	public static final String MAX ="Max";
+	public static final String TEST_CONV = "TestConv";
+	public static final String LYAPUNOV = "Lyapunov";
+	public static final String MSE_SOM = "MeanSquareError SOM";
 	
 	
 	/**Determin the update time of the dynamic parameter**/
@@ -74,6 +77,9 @@ public class Statistics{
 	protected String name;
 
 	public static final int ERROR = -1;
+
+
+	
 	
 	/**Compatibility with old plotting method**/
 	protected WTrace wtrace;

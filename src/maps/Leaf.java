@@ -1,5 +1,7 @@
 package maps;
 
+import gui.Updated;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -184,6 +186,23 @@ public class Leaf  implements Parameter{
 	@Override
 	public double getDelay(int delay, int index) {
 		return map.getDelay(delay, index);
+	}
+
+	@Override
+	public void resetState() {
+		// nothing
+	}
+
+	@Override
+	public void removeParent(AbstractMap updatable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addVue(Updated u) {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

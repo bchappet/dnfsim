@@ -3,6 +3,8 @@ package optimisation;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import statistics.Characteristics;
+
 import console.CommandLineFormatException;
 
 
@@ -33,6 +35,19 @@ public class GATestLauncher extends GALauncher {
 		public void run() {
 			// nothing
 			
+		}
+
+		@Override
+		public void addScenarioFitness(String scenario, double scenarioFitness) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double getScenarioFitness(int individu, int iteration,
+				int scenarioId, Characteristics charac) {
+			// TODO Auto-generated method stub
+			return 0;
 		}
 		
 	}

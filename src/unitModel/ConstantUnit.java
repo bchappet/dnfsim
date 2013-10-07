@@ -20,6 +20,10 @@ public class ConstantUnit extends UnitModel {
 		this.activity = (Var) params.get(VAR);
 	}
 
+	public ConstantUnit(double d) {
+		this(new Var(d));
+	}
+
 	@Override
 	public double compute() throws NullCoordinateException {
 		return params.get(VAR).get();

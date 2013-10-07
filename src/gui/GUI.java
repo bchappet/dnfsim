@@ -61,8 +61,7 @@ public class GUI extends JApplet {
 	/**This lock is locked when the model is updating**/
 	protected Lock lock;
 
-	/**List of GUI element updated after the model**/
-	protected List<Updated> updated;
+
 
 	/**List of runner element updated when a parameter value change**/
 	protected List<ParamUpdated> paramUpdated;
@@ -493,9 +492,7 @@ public class GUI extends JApplet {
 
 
 
-	public void addUpdated(Updated u) {
-		this.updated.add(u);
-	}
+	
 
 	public void addParamUpdated(ParamUpdated p)
 	{

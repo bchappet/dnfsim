@@ -1,5 +1,8 @@
 package neigborhood;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import maps.Parameter;
 import maps.Unit;
 import maps.UnitParameter;
@@ -19,26 +22,26 @@ import coordinates.Space;
  *
  */
 public abstract class Neighborhood implements Cloneable {
-	
+
 	protected Space space;
 	/**Linked map (can be set later)**/
 	protected UnitParameter map;
-	
+
 	/**This unit will be set if we are out of bounds (optional) but should be set if no wrap and special unit acces**/
 	protected UnitModel nullUnit = new ConstantUnit(new Var(0));
-	
+
 	public Neighborhood(Space space)
 	{
 		this(space,null);
 	}
-	
-	
+
+
 	public Neighborhood(Space space, UnitParameter map)
 	{
 		this.space = space;
 		this.map = map;
 	}
-	
+
 	public Neighborhood clone()
 	{
 		Neighborhood clone = null;
@@ -47,9 +50,9 @@ public abstract class Neighborhood implements Cloneable {
 		} catch (CloneNotSupportedException e) {
 			//no
 		}
-		
+
 		return clone;
-		
+
 	}
 	/**
 	 * Return the neighborhood at specific coordinates
@@ -61,7 +64,7 @@ public abstract class Neighborhood implements Cloneable {
 	{
 		Double[][] neighCoords = this.getNeighborhood(coord);
 		Unit[] ret = new Unit[neighCoords.length];
-		
+
 		for(int i = 0 ; i < ret.length ; i++){
 			try{
 				ret[i] = map.getUnit(space.coordToIndex(neighCoords[i]));
@@ -71,26 +74,37 @@ public abstract class Neighborhood implements Cloneable {
 				ret[i] = new Unit(nullUnit);
 			}
 		}
-		
+
 		return ret;
 	}
-	
+
 	/**
 	 * For display : return index of neighboors of current index
 	 * @param index
 	 * @return
 	 */
 	public  int[] getNeighborhood(int index){
-		int[] res = new int[4];
+
 		Double[][] tmp = getNeighborhood(space.indexToCoord(index));
-		
-		for(int i = 0 ; i < 4 ; i ++){
-			res[i] = space.coordToIndex(tmp[i]);
+		List<Integer> list = new ArrayList<Integer>(4);
+		for(int i = 0 ; i < tmp.length ; i ++){
+			boolean noNull = true;
+			for(int j = 0 ; j < tmp[i].length ; j++){
+				noNull &= tmp[i][j] != null;
+			}
+			if(noNull){
+				list.add( space.coordToIndex(tmp[i]));
+			}
 		}
+		int[] res= new int[list.size()];
+		for(int i = 0 ; i < res.length ; i++){
+			res[i] = list.get(i);
+		}
+		
 		return res;
 	}
-	
-	
+
+
 
 	/**
 	 * Return the neihgborhood coordinates at specific continous coordinate
@@ -116,5 +130,5 @@ public abstract class Neighborhood implements Cloneable {
 		this.nullUnit = um;
 	}
 
-	
+
 }

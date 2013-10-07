@@ -19,7 +19,7 @@ public class GAScenarioPrinter extends Printer implements Runnable{
 	protected BlockingQueue<Model> modelPool;
 	protected int scenarioId;
 	protected Model currentModel;
-	protected CNFTIndivEvaluator  indivEvaluator;
+	protected IndivEvaluator  indivEvaluator;
 
 	protected double scenarioFitness = 0;
 
@@ -28,7 +28,7 @@ public class GAScenarioPrinter extends Printer implements Runnable{
 	protected int nbIterations;
 
 
-	public GAScenarioPrinter(int individu,BlockingQueue<Model> modelPool,int scenarioID,CNFTIndivEvaluator gaLauncher,
+	public GAScenarioPrinter(int individu,BlockingQueue<Model> modelPool,int scenarioID,IndivEvaluator gaLauncher,
 			String parameters,String scenario,int nbIterations) {
 		super(0);
 		this.individu = individu;

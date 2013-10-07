@@ -83,6 +83,8 @@ public class CNFTCommandLine extends CommandLine{
 	//Model som
 	public static final String DT_DNF = "dt_dnf";
 	public static final String LEARNING_RATE = "learn_rate";
+	public static final String STAT_DT = "stat_dt";
+	public static final String FILE_DT = "file_dt";
 	
 
 
@@ -107,7 +109,7 @@ public class CNFTCommandLine extends CommandLine{
 				+ACCERROR+"=0.1;"			+ALPHA+"=10,0,20,0.1;"
 				+STABIT+"=10;" 				+IA+"=1.25,-10,10,0.01;"
 				+IA2+"=1;"
-				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70-10,10,0.01;"
+				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70,-10,10,0.01;"
 				+SHAPE_FACTOR+"=1.5;" 		+WA+"=0.10,0,10,0.01;"
 				+NB_DISTRACTERS+"=0,0,40,1;"		+WB+"=1.00,0,10,0.01;"
 				+NB_TRACKS+"=2,0,40,1;"
@@ -126,7 +128,8 @@ public class CNFTCommandLine extends CommandLine{
 				+INH_CST+"=-1;"				+TAU_DT+"=6.3999999999999995;"
 				+INPUT_FILES+"=src/tests/files/input;"
 				+PROBA_FRAC+"=7,1,30,1;"			+FRAC+"=8,1,30,1;"
-				+DT_DNF+"=0.01,0,100,0.01;"			+LEARNING_RATE+"=0.1,0,1,0.001;"	
+				+DT_DNF+"=0.01,0,100,0.0001;"			+LEARNING_RATE+"=0.1,0,1,0.001;"
+				+STAT_DT+"=0.1,0,100,0.0001;"	+FILE_DT+"=0.1,0,100,0.0001;"
 				;
 	}
 
@@ -330,6 +333,7 @@ public class CNFTCommandLine extends CommandLine{
 							}
 							else//String by default
 							{
+								System.out.println(obj);
 								((VarString) var).setString(obj);
 							}
 						}

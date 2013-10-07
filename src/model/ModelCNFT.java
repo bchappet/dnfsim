@@ -26,8 +26,10 @@ import statistics.CharacMeanError;
 import statistics.CharacMaxSum;
 import statistics.CharacNoFocus;
 import statistics.CharacObstinacy;
+import statistics.CharacTestConvergence;
 import statistics.Characteristics;
 import statistics.Stat;
+import statistics.StatMap;
 import statistics.Statistics;
 import unitModel.CosTraj;
 import unitModel.GaussianND;
@@ -85,6 +87,7 @@ public class ModelCNFT extends Model{
 	protected Space space2d;//2 dim refSpace
 	protected Space noDimSpace;//"no dim" refSpace : only one value
 	protected Space extendedSpace; //For the lateral weight (if no wrap res*=2)
+	protected Space extendedFramedSpace; //For no wrap => no computation outside the frame
 
 
 
@@ -102,15 +105,19 @@ public class ModelCNFT extends Model{
 
 		space2d = refSpace.clone();//Standard 2D space for the 2D map 
 		space2d.setDimension(new int[]{1,1});
+		
 
 		double extension = 1; //extension for the weight map if we don't wrap
 		if(!refSpace.isWrap())
 			extension = 2;
 		//Extended space is a -1,1 (instead of -0.5,0.5) space
 		// used for lateral weights map in case of non wrapped convolution
-		extendedSpace = space2d.extend(extension);
+		extendedSpace = space2d.extend(extension,false);
+		//System.out.println(extendedSpace.getResolution());
 		
-
+		
+		extendedFramedSpace = space2d.extend(extension,true);
+		
 
 		//Displayed parameter
 		addParameters(command.get(CNFTCommandLine.NB_TRACKS));
@@ -243,9 +250,9 @@ public class ModelCNFT extends Model{
 
 		initLateralWeights();
 
-		cnft = new ConvolutionMatrix2D(CNFT,vdt,space2d);
+		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedSpace);
 
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,space2d);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedSpace);
 
 
 		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),
@@ -279,12 +286,12 @@ public class ModelCNFT extends Model{
 	{
 
 		//Construct noise map
-		UnitModel noise = new RandTrajUnitModel(command.get(CNFTCommandLine.NOISE_DT),space2d,
+		UnitModel noise = new RandTrajUnitModel(command.get(CNFTCommandLine.NOISE_DT),extendedFramedSpace,
 				new Var(0),command.get(CNFTCommandLine.NOISE_AMP));
 		Map mNoise = new Map("Noise",noise);
 		mNoise.constructMemory(); //otherwise the noise is changed at each computation step
 		//Construct the input as a sum of theses params
-		UnitModel sum = new Sum(command.get(CNFTCommandLine.INPUT_DT),space2d, mNoise);
+		UnitModel sum = new Sum(command.get(CNFTCommandLine.INPUT_DT),extendedFramedSpace, mNoise);
 		this.input = new Map(INPUT,sum);
 		modifyModel();
 
@@ -306,7 +313,7 @@ public class ModelCNFT extends Model{
 		cx2.constructMemory();
 		cy2.constructMemory();
 
-		UnitModel distr = new GaussianND(command.get(CNFTCommandLine.DISTR_DT),space2d,
+		UnitModel distr = new GaussianND(command.get(CNFTCommandLine.DISTR_DT),extendedFramedSpace,
 				command.get(CNFTCommandLine.DISTR_INTENSITY), 
 				command.get(CNFTCommandLine.DISTR_WIDTH), 
 				cx2,cy2
@@ -346,7 +353,7 @@ public class ModelCNFT extends Model{
 				new Var("center",0),new Var("radius",0.3),new Var("period",36),new Var("phase",num/(double)nbTrack + 0.25)));
 
 
-		UnitModel track = new GaussianND(command.get(CNFTCommandLine.TRACK_DT),space2d,
+		UnitModel track = new GaussianND(command.get(CNFTCommandLine.TRACK_DT),extendedFramedSpace,
 				command.get(CNFTCommandLine.TRACK_INTENSITY), 
 				command.get(CNFTCommandLine.TRACK_WIDTH), 
 				cx,cy);
@@ -372,9 +379,15 @@ public class ModelCNFT extends Model{
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.DT),noDimSpace,this);
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.DT), 
-				noDimSpace,stat.getDefaultStatistics(new Leaf(potential), trackable));
+		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),space2d,this);
+		
+		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
+		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
+		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
+		statMaps.add(stat.getMax(new Leaf(potential)));
+		StatMap[] array = statMaps.toArray(new StatMap[]{});
+		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
+				noDimSpace,array);
 
 	}
 
@@ -384,12 +397,14 @@ public class ModelCNFT extends Model{
 		Charac meanError = new CharacMeanError(Characteristics.MEAN_ERROR,stats, noDimSpace, this,conv);
 		Charac obstinacy = new CharacObstinacy(Characteristics.OBSTINACY,stats, noDimSpace, this, conv);
 		Charac noFocus = new CharacNoFocus(Characteristics.NO_FOCUS, stats, noDimSpace, this, conv);
-		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this, conv);
+		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this);
 		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
 		Charac accError = new CharacAccError(Characteristics.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STABIT));
-		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this,conv);
+		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this);
+		Charac testConv = new CharacTestConvergence(Characteristics.TEST_CONV, stats, noDimSpace, this,
+				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STABIT));
 
-		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax);
+		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv);
 
 	}
 

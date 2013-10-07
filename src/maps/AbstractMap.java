@@ -1,5 +1,7 @@
 package maps;
 
+import gui.Updated;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -47,6 +49,9 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 
 	/**Set of parent map**/
 	protected Set<AbstractMap> parents;
+	
+	/**Set of vue object to signal***/
+	protected Set<Updated> vue;
 
 
 
@@ -63,10 +68,10 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		this.isMemory = false;
 		this.isStatic = false;
 		this.parents = new HashSet<AbstractMap>();
+		this.vue = new HashSet<Updated>();
 		updateParents();
 	}
-
-
+	
 	/**
 	 * The parameter will be shared with the {@link ParameterUser}
 	 * @param name
@@ -78,8 +83,22 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		this.isMemory = false;
 		this.isStatic = false;
 		this.parents = new HashSet<AbstractMap>();
+		this.vue = new HashSet<Updated>();
 		updateParents();
 	}
+	
+	public void addVue(Updated u){
+		vue.add(u);
+	}
+	
+	protected void updateVue(){
+		for(Updated u : vue){
+			u.update();
+		}
+	}
+
+
+
 
 	@Override
 	protected  void onInitilization(){
@@ -126,6 +145,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			if(!isStatic){
 			//	System.err.println(params);
 				this.compute();
+				this.updateVue();
 			}
 			time.val = time.val + dt.get();
 		}
@@ -192,6 +212,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		}
 
 		this.compute();
+		this.updateVue();
 
 	}
 	@Override
@@ -202,9 +223,28 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 				m.reset();
 			}
 		}
+		resetVue();
+
+	}
+	
+	@Override
+	public void resetState() {
+		if(!isStatic){
+			for(Parameter m : params){
+				m.resetState();
+			}
+		}
+		resetVue();
 
 	}
 
+
+	private void resetVue() {
+		for(Updated u : vue){
+			u.reset();
+		}
+		
+	}
 
 	@Override
 	public void addParameters(Parameter ... params)
@@ -232,6 +272,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		try {
 			if(isStatic)
 				this.compute();
+				this.updateVue();
 		} catch (NullCoordinateException e) {
 			e.printStackTrace();
 			System.exit(-1);

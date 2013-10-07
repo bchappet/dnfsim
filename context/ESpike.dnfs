@@ -5,4 +5,5 @@ wb=0.17;
 tau=0.64;
 threshold=0.75;
 alpha=10.01;
+wrap=F;
 

@@ -59,13 +59,20 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 	/**Offset computed from margin ratio to place the image in the middle**/
 	protected int offsetX ; 
 	protected int offsetY ;
+	
+	/**Display space**/
+	protected Space space;
+	
+	
+	/**offset to see the simulation frame only**/
+	protected int simuOffset;
 
 
 
 	public DisplayMap(GUI gui,Parameter linked)
 	{
 		super(gui,linked);
-
+		this.space = linked.getSpace();
 		//System.out.println("Construct swingmap : " + displayed.getName());
 		//((AbstractMap) this.displayed).initMemory();
 		Color color[] = {Color.BLUE,Color.WHITE,Color.RED};
@@ -79,9 +86,16 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 
 		createBuffer();
 
-		resolution = linked.getSpace().getSimulationSpace().getResolution();
-
+		resolution = space.getSimulationSpace().getResolution();
+		if(resolution != space.getResolution()){
+			//We have to shift the frame
+			simuOffset = (int) ((space.getResolution() - resolution)/2);
+		//	System.out.println("Offset for map : " + displayed.getName() + " == " + simuOffset);
+		}else{
+			simuOffset = 0;
+		}
 		this.validate();
+		
 
 
 	}
@@ -109,6 +123,10 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 		this.validate();
 
 	}
+	
+	public void reset() {
+		//colorMap.reset();
+	}
 
 	/**
 	 * TODO swap charge instead of creating it
@@ -134,8 +152,10 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 		{
 			for(int j = 0 ; j < sy ; j++)
 			{
+				
 				//Double[] coord = displayed.getSpace().continuousProj(new Double[]{(double)i,(double)j});
-				this.buffer[i][j] = ((Parameter) displayed).getFast(i,j);
+				
+				this.buffer[i][j] = ((Parameter) displayed).getFast(i+simuOffset,j+simuOffset);
 			}
 		}
 
@@ -292,7 +312,7 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 
 
 				mouse = new Double[]{xx,yy}; 
-				map.setToolTipText(format.format(new Object[]{displayed.getFast((int) xx,(int) yy)}));
+				map.setToolTipText(format.format(new Object[]{displayed.getFast((int) xx+simuOffset,(int) yy+simuOffset)}));
 
 			}
 

@@ -24,6 +24,7 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 	 * 
 	 */
 	private static final long serialVersionUID = -8836535197104696167L;
+	//@Deprecated ??
 	protected GUI gui;
 	protected Parameter displayed;
 	protected boolean isDisplayed; //Is displayed in the center panel
@@ -35,12 +36,9 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 		this.gui = gui;
 		this.displayed = displayed;
 		this.isDisplayed = false;
-		gui.addUpdated(this);
-
-
+		displayed.addVue(this);
 		MouseAdapter adapter = new MouseInteract(this);
 		addMouseListener(adapter);
-
 	}
 
 	public JPanel getBorderPane(){
@@ -59,7 +57,6 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 	public QuickViewPanel(QuickViewPanel pane) {
 		this.gui = pane.gui; //shared
 		this.displayed = pane.displayed;//shared
-		gui.addUpdated(this);
 		MouseAdapter adapter = new MouseInteract(this);
 		addMouseListener(adapter);
 	}
@@ -174,6 +171,12 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 
 	@Override
 	public void interactRelease(EventObject event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reset() {
 		// TODO Auto-generated method stub
 		
 	}

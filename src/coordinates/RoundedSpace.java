@@ -116,7 +116,7 @@ public class RoundedSpace extends Space {
 	}
 
 	@Override
-	public Space extend(double factor){
+	public Space extend(double factor,boolean framed){
 		Double[] newOrig = new Double[origin.length];
 		Double[] newSize = new Double[size.length];
 
@@ -127,10 +127,18 @@ public class RoundedSpace extends Space {
 
 		//TODO : the new res should be a TrajectoryMap with the "main" resolution as parameter
 		//=> when the "main" resolution changes, the new res will change automatically
-
+		double newRes = (int)this.res*factor;
+		if(newRes%2==0)
+			newRes++;
 		Space ret=  new RoundedSpace(newOrig, newSize, 
-				new Var("res",this.res*factor), this.wrap);
+				new Var("res",newRes), this.wrap);
 		ret.setSimulationSpace(this); //keep the simulation refSpace for future usage
+		
+		if(framed){
+			ret.frameSpace = this; 
+		}else{
+			ret.frameSpace = ret;
+		}
 		return ret;
 	}
 	

@@ -38,7 +38,7 @@ public class V4Neighborhood2D extends Neighborhood {
 		Double[] s = new Double[]{coord[X],coord[Y]+unit[Y]};
 		Double[] e = new Double[]{coord[X]+unit[X],coord[Y]};
 		Double[] w = new Double[]{coord[X]-unit[X],coord[Y]};
-		//Wrap if needed
+		//Wrap if needed taking account of the frame
 		n = space.wrap(n);
 		s = space.wrap(s);
 		e = space.wrap(e);

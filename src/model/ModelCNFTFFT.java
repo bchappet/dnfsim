@@ -35,9 +35,9 @@ public class ModelCNFTFFT extends ModelCNFT {
 
 		initLateralWeights();
 
-		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,space2d);
+		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,extendedSpace);
 
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,space2d);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedSpace);
 
 
 		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),

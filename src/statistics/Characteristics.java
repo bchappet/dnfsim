@@ -33,7 +33,7 @@ public class Characteristics {
 	public final static String NAME = "Charac";
 	/**Fields name**/
 	
-	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError")
+	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError","MaxPotential","Test_Conv")
 	public static final String CONVERGENCE = "Convergence";
 	public static final String MEAN_ERROR = "MeanError";
 	public static final String OBSTINACY = "Obstinacy";
@@ -42,6 +42,7 @@ public class Characteristics {
 	public static final String MEAN_COMP_TIME = "MeanCompTime" ;
 	public static final String ACC_ERROR = "AcceptableError"; 
 	public static final String MAX_MAX = "MaxPotential";
+	public static final String TEST_CONV = "Test_Conv";
 	
 	
 	protected String name;

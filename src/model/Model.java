@@ -188,15 +188,16 @@ public abstract class Model implements Node {
 
 	/**
 	 * Update the root which will update the rest of the tree
+	 * @param stepTime : time of update in seconds
 	 * 
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 */
-	public void update() throws NullCoordinateException,
+	public void update(double stepTime) throws NullCoordinateException,
 			CommandLineFormatException {
 		this.modifyModel();
 //		System.out.println("time : " + time + " dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get() );
-		this.time += command.get(CNFTCommandLine.DISPLAY_DT).get();
+		this.time += stepTime;
 //		System.out.println("this.time : " + this.time);
 		
 		

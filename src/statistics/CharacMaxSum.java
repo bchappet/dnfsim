@@ -9,8 +9,8 @@ public class CharacMaxSum extends Charac {
 
 
 	public CharacMaxSum(String name, Statistics stats, Space space,
-			Model model, Charac conv) {
-		super(name, stats, space, model, conv);
+			Model model) {
+		super(name, stats, space, model);
 	}
 
 	@Override

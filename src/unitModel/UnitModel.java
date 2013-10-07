@@ -232,6 +232,11 @@ public abstract class UnitModel extends ParameterUser implements Cloneable  {
 		setInitActivity() ;
 	}
 
+	
+	public void resetState() {
+		setInitActivity() ;
+	}
+
 	public Double[] getCoord() {
 		return coord;
 	}
@@ -283,6 +288,8 @@ public abstract class UnitModel extends ParameterUser implements Cloneable  {
 		
 	}
 
+
+	
 
 
 

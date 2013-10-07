@@ -1,6 +1,7 @@
 package maps;
 
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
@@ -96,6 +97,8 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	@Override
 	public double getFast(int ... coord)
 	{
+//		System.out.println("Name : " + getName());
+//		System.out.println("Coord : " + Arrays.toString(coord));
 		int index = this.space.coordToIndex(coord);
 		double ret = units.get(index).get();
 		return ret;
@@ -172,6 +175,9 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	{
 		//TODO maybe we should handle here parrallel vs online
 		/*if(parallel delay = 1) else delay = 0, getDelay(delay,coord)*/
+//		System.err.println("Name : " + name);
+//		System.err.println(Arrays.toString(coord));
+//		System.err.println(space);
 		return getDelay(0,coord);
 	}
 
@@ -265,6 +271,14 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 				u.reset();
 		}
 
+	}
+	
+	public void resetState(){
+		super.resetState();
+		if(isMemory && !isStatic){
+			for(Unit u : units)
+				u.resetState();
+		}
 	}
 
 	public AbstractUnitMap clone() 

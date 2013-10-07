@@ -187,6 +187,12 @@ public class Unit implements Cloneable {
 			u.reset();
 
 	}
+	
+	public void resetState() {
+		for(UnitModel u : memories)
+			u.resetState();
+		
+	}
 
 
 	public Double[] getCoord() {
@@ -288,5 +294,7 @@ public class Unit implements Cloneable {
 		}
 		
 	}
+
+	
 
 }

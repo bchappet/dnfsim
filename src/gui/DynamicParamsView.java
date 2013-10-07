@@ -40,7 +40,6 @@ public class DynamicParamsView extends JPanel {
 	{
 		super(new GridLayout(1,1));
 		trackHigh = new TrackHighlighting();
-		gui.addUpdated(trackHigh);
 		nbCol = 1;
 		nbRow = 1;
 		this.gui = gui;
@@ -183,7 +182,6 @@ public class DynamicParamsView extends JPanel {
 	{
 		maps.clear();
 		trackHigh.reset();
-		gui.addUpdated(trackHigh);
 		nbRow = 1;
 		nbCol = 1;
 		this.setLayout(new GridLayout(nbRow,nbCol));
@@ -202,6 +200,16 @@ public class DynamicParamsView extends JPanel {
 		}
 		
 		return ret;
+	}
+
+	/**
+	 * Update every view
+	 */
+	public void update() {
+		for(QuickViewPanel p : maps){
+			p.update();
+		}
+		
 	}
 
 	

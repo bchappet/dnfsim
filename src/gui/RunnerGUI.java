@@ -27,6 +27,7 @@ import javax.swing.JApplet;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 
@@ -39,7 +40,7 @@ import console.TextFieldIn;
 import coordinates.NullCoordinateException;
 
 
-public class RunnerGUI extends GUI {
+public class RunnerGUI extends GUI{
 
 
 
@@ -62,8 +63,6 @@ public class RunnerGUI extends GUI {
 	/**This lock is locked when the model is updating**/
 	protected Lock lock;
 
-	/**List of GUI element updated after the model**/
-	protected List<Updated> updated;
 
 	/**List of runner element updated when a parameter value change**/
 	protected List<ParamUpdated> paramUpdated;
@@ -82,6 +81,9 @@ public class RunnerGUI extends GUI {
 
 
 	protected boolean showGui = false;
+	
+//	/**Refreshing rate**/
+//	protected double refresh = 100; // ms
 
 	public RunnerGUI(Runner runner,Root root, URL contextPath,Dimension dim){
 		super(root,contextPath,dim);
@@ -99,14 +101,13 @@ public class RunnerGUI extends GUI {
 	public void init() {
 		try{
 
-			this.updated = new LinkedList<Updated>();
 			this.paramUpdated = new LinkedList<ParamUpdated>();
 
 			constructGUI();
 			//System.setIn(getIn());
 			//Redirect the flux
 			//System.setOut(getOut());
-//			System.setErr(getOut());
+			//			System.setErr(getOut());
 
 
 			Thread console = new Thread(new Console());
@@ -131,7 +132,7 @@ public class RunnerGUI extends GUI {
 		if(!(model==root.getActiveModel()))
 		{
 			lock.lock();
-			
+
 			try{
 				DisplayNode node = treeView.getNode(model);
 				try{
@@ -148,13 +149,14 @@ public class RunnerGUI extends GUI {
 				node.construct();
 				root.setActiveModel(model);
 				//execute the script in the model context file : //file format : contextPath/modelName.dnfs
-				updated.clear();
 				maps.clear();
 				for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
 				{
 					DisplayNode disp = treeView.getNode(p);
 					maps.addView(disp.getQuickViewPanel());
+					
 				}
+				maps.update();
 				stat.changeStatistics(model.getStatistics());
 				((ModelDisplayNode)node).signalTreeChanged();
 			} catch (MalformedURLException e) {
@@ -203,7 +205,7 @@ public class RunnerGUI extends GUI {
 		//leftPane.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16));
 
 
-		stat = new StatisticPanel(root.getActiveModel().getStatistics(),"ErrorDist");
+		stat = new StatisticPanel(root.getActiveModel().getStatistics(),"TestConv");
 		stat.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
 		leftPane.add(stat);
 
@@ -239,10 +241,11 @@ public class RunnerGUI extends GUI {
 
 		for(Node p : root.getActiveModel().getDefaultDisplayedParameter())
 		{
-			//System.out.println("search : " + p);
+			System.out.println("search : " + p);
 			DisplayNode disp = treeView.getNode(p);
 			maps.addView(disp.getQuickViewPanel());
 		}
+		maps.update();
 
 
 		// params.resize();
@@ -263,16 +266,6 @@ public class RunnerGUI extends GUI {
 	public Parameter searchParameter(String name) {
 		return  root.getActiveModel().getParameter(name);
 	}
-
-	@Override
-	public void repaint(){
-//			//Update the listeners
-//			for(int i =0 ; i < updated.size() ; i++)
-//				updated.get(i).update();
-			super.repaint();
-
-	}
-
 
 
 
@@ -300,22 +293,22 @@ public class RunnerGUI extends GUI {
 
 		lock.lock();
 		try{
-			updated.clear();
 			Model current = this.root.getActiveModel();
 			ModelDisplayNode node = (ModelDisplayNode) treeView.getNode(current);
 			Model newModel = Root.constructModel(current.getName());
 			newModel.initialize(current);
 			node.changeModel(newModel);
 			root.replaceModel(newModel);
-			
+
 			maps.clear();
-			
+
 			for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
 			{
-				System.out.println("Display : " + p.getName() + "@" +p.hashCode());
+				//System.out.println("Display : " + p.getName() + "@" +p.hashCode());
 				DisplayNode disp = treeView.getNode(p);
 				maps.addView(disp.getQuickViewPanel());
 			}
+			maps.update();
 			stat.changeStatistics(newModel.getStatistics());
 			stat.validate();
 			//((ModelDisplayNode)node).signalTreeChanged();
@@ -331,6 +324,17 @@ public class RunnerGUI extends GUI {
 
 		JButton startButton = new JButton("Play/Pause");
 		JButton nextButton = new JButton("Step");
+		
+		final JTextField stepValueTF = new JTextField("TimeStep (s)");
+		stepValueTF.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				double newVal = Double.parseDouble(stepValueTF.getText());
+				runner.setTimeStep(newVal);
+			}
+		});
+		
 
 		startButton.addActionListener(new ActionListener() {
 			@Override
@@ -352,6 +356,13 @@ public class RunnerGUI extends GUI {
 				runner.setSpeedRatio(value / 100d);
 			}
 		};
+		
+//		SliderCommand refreshRateCommand = new SliderCommand("RefreshRate (ms)", 0,
+//				1000, 1, ((int) refresh )) {
+//			protected void valueChanged(int value) {
+//				refresh = value ;
+//			}
+//		};
 
 		JButton saveButton = new JButton("SaveMap");
 		saveButton.addActionListener(new ActionListener() {
@@ -410,60 +421,62 @@ public class RunnerGUI extends GUI {
 			}
 		});
 
-				JButton testButton = new JButton("Test");
-				testButton.addActionListener(new ActionListener() {
-		
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						lock.lock();
-						runner.test();
-						Model model = root.getActiveModel();
-						
-						try{
-							DisplayNode node = treeView.getNode(model);
-							try{
-								model.initialize(Printer.readFile(new URL("file:"+contextPath.getPath()+model.getName()+".dnfs")));
-							}catch (FileNotFoundException e) {
-								System.out.println(e.getMessage());
-								System.out.println("Launching with defaults parameters");
-								model.initialize();
-							}
-							//	System.out.println("new tree");
-							//	System.out.println(model.getRootParam().toStringRecursive(0));
-							model.getCommandLine().setRunner(runner);
-							runner.setModel(model);
-							node.construct();
-							root.setActiveModel(model);
-							//execute the script in the model context file : //file format : contextPath/modelName.dnfs
-							updated.clear();
-							maps.clear();
-							for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
-							{
-								DisplayNode disp = treeView.getNode(p);
-								maps.addView(disp.getQuickViewPanel());
-							}
-							stat.changeStatistics(model.getStatistics());
-							((ModelDisplayNode)node).signalTreeChanged();
-						} catch (MalformedURLException e) {
-							e.printStackTrace();
-						} catch (CommandLineFormatException e) {
-							e.printStackTrace();
-						} catch (NullCoordinateException e) {
-							e.printStackTrace();
-						} catch (CloneNotSupportedException e) {
-							e.printStackTrace();
-						}
-						
-						lock.unlock();
-						
+		JButton testButton = new JButton("Test");
+		testButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				lock.lock();
+				runner.test();
+				Model model = root.getActiveModel();
+
+				try{
+					DisplayNode node = treeView.getNode(model);
+					try{
+						model.initialize(Printer.readFile(new URL("file:"+contextPath.getPath()+model.getName()+".dnfs")));
+					}catch (FileNotFoundException e) {
+						System.out.println(e.getMessage());
+						System.out.println("Launching with defaults parameters");
+						model.initialize();
+					}
+					//	System.out.println("new tree");
+					//	System.out.println(model.getRootParam().toStringRecursive(0));
+					model.getCommandLine().setRunner(runner);
+					runner.setModel(model);
+					node.construct();
+					root.setActiveModel(model);
+					//execute the script in the model context file : //file format : contextPath/modelName.dnfs
+					maps.clear();
+					for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
+					{
+						DisplayNode disp = treeView.getNode(p);
+						maps.addView(disp.getQuickViewPanel());
 						
 					}
-				});
+					maps.update();
+					stat.changeStatistics(model.getStatistics());
+					((ModelDisplayNode)node).signalTreeChanged();
+				} catch (MalformedURLException e) {
+					e.printStackTrace();
+				} catch (CommandLineFormatException e) {
+					e.printStackTrace();
+				} catch (NullCoordinateException e) {
+					e.printStackTrace();
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+
+				lock.unlock();
+
+
+			}
+		});
 
 		//header.setLayout(new GridLayout(1, 0));
 
 		header.add(startButton);
 		header.add(nextButton);
+		header.add(stepValueTF);
 		header.add(resetButton);
 		header.add(reinitButton);
 
@@ -500,9 +513,6 @@ public class RunnerGUI extends GUI {
 
 
 
-	public void addUpdated(Updated u) {
-		this.updated.add(u);
-	}
 
 	public void addParamUpdated(ParamUpdated p)
 	{
@@ -517,16 +527,7 @@ public class RunnerGUI extends GUI {
 		for(ParamUpdated p : paramUpdated)
 			p.update();
 	}
-	
-	/**
-	 * Update every updated view
-	 * 
-	 */
-	public void updateBufferViews(){
-		for(Updated u : updated){
-			u.update();
-		}
-	}
+
 
 	public Root getRoot() {
 		return root;
@@ -554,8 +555,25 @@ public class RunnerGUI extends GUI {
 	}
 
 
-
-
+//	//Update the gui only according to the refreshing rate
+//	@Override
+//	public void run() {
+//		long tb = 0;
+//		while(true){
+//			try{
+//				long ta = System.currentTimeMillis();
+//				long diff = ta-tb;
+//				Thread.sleep((long) Math.max(0, refresh-diff));
+//				repaint();
+//				tb = System.currentTimeMillis();
+//			}catch (InterruptedException e) {
+//				e.printStackTrace();
+//				System.exit(-1);
+//			}
+//		}
+//
+//
+//	}
 
 
 
@@ -596,6 +614,9 @@ public class RunnerGUI extends GUI {
 		System.exit(0);
 
 	}
+
+
+
 
 
 

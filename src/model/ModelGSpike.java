@@ -1,6 +1,7 @@
 package model;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import maps.AbstractMap;
@@ -10,13 +11,13 @@ import maps.Map;
 import maps.Parameter;
 import maps.Var;
 import statistics.Stat;
+import statistics.StatMap;
 import statistics.Statistics;
 import unitModel.SpikingPotentialUM;
 import unitModel.SpikingUM;
 import console.CNFTCommandLine;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
-import fft.FFTConvolutionMatrix2D;
 
 /**
  * Spiking neurons with a differential of gaussian as lateral weights
@@ -44,23 +45,24 @@ public class ModelGSpike extends ModelCNFT {
 
 		
 
-		cnft = new ConvolutionMatrix2D(CNFT,vdt,space2d);
+		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedSpace);
 
-		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,space2d);
+		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedSpace);
 
 		
 		AbstractMap resetedPotential = new Map("resetedPotential",new SpikingUM(),
 				vdt,space2d);
-		focus = new Map(FOCUS,new SpikingUM(),vdt,space2d);
+		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedSpace);
 		
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
 		Var ph = command.get(CNFTCommandLine.RESTING_POTENTIAL);
 		//Init cnftW
 		initLateralWeights();
 		
+		Var high = new Var("high",0);
 		cnft.addParameters(cnftW,focus);
-		potential.addParameters(resetedPotential, pTau,input,cnft,ph,pth,new Var("High",0));
-		resetedPotential.addParameters(new Leaf(potential),pth,new Leaf(potential),new Var("High",0));
+		potential.addParameters(resetedPotential, pTau,input,cnft,ph,pth, high);
+		resetedPotential.addParameters(new Leaf(potential),pth,new Leaf(potential), high);
 		focus.addParameters( new Leaf(potential), pth, new Var("Low",0),new Var("High",1));
 		potential.constructMemory();
 
@@ -86,9 +88,16 @@ public class ModelGSpike extends ModelCNFT {
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.DT),noDimSpace,this);
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.DT), 
-				noDimSpace,stat.getDefaultStatistics(new Leaf(focus), trackable));
+		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
+		
+		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
+		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
+		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
+		StatMap[] array = statMaps.toArray(new StatMap[]{});
+		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
+				noDimSpace,array);
+				
+				
 
 	}
 	@Override

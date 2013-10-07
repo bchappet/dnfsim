@@ -99,7 +99,7 @@ public class ModelNSpike extends ModelESpike{
 		};
 		pTau = command.get(CNFTCommandLine.TAU);
 
-		addParameters(ppa,ppb,pA,pB,pTau,pn,alphaP);
+		addParameters(ppa,ppb,pA,pB,pTau,pn,alphaP,command.get(CNFTCommandLine.THRESHOLD));
 	}
 
 	@Override
@@ -107,11 +107,11 @@ public class ModelNSpike extends ModelESpike{
 	{
 		Var vdt = command.get(CNFTCommandLine.DT);
 
-		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,space2d);
+		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedSpace);
 
 		AbstractMap resetedPotential = new Map("resetedPotential",new SpikingUM(),
-				vdt,space2d);
-		focus = new Map(FOCUS,new SpikingUM(),vdt,space2d);
+				vdt,extendedFramedSpace);
+		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedSpace);
 
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
 		Var ph = command.get(CNFTCommandLine.RESTING_POTENTIAL);
@@ -143,7 +143,7 @@ public class ModelNSpike extends ModelESpike{
 	protected void initLateralWeights() throws NullCoordinateException, CommandLineFormatException 
 	{
 		cnft = (AbstractMap) getLateralWeights(
-				CNFT,command.get(CNFTCommandLine.DT),space2d,
+				CNFT,command.get(CNFTCommandLine.DT),extendedSpace,
 				pn,hpA,hppa,pn,hpB,hppb,focus,new Var("focusThreshold",0));
 	}
 
@@ -151,7 +151,7 @@ public class ModelNSpike extends ModelESpike{
 	 * 
 	 * @param name
 	 * @param dt
-	 * @param space2D
+	 * @param space
 	 * @param na
 	 * @param ia
 	 * @param pa
@@ -162,25 +162,25 @@ public class ModelNSpike extends ModelESpike{
 	 * @return
 	 * @throws CommandLineFormatException 
 	 */
-	protected  Parameter getLateralWeights(String name,Var dt,Space space2D,
+	protected  Parameter getLateralWeights(String name,Var dt,Space space,
 			Parameter na,Parameter ia,Parameter pa,Parameter nb,Parameter ib,Parameter pb,
 			Parameter focus,Parameter threshold) throws CommandLineFormatException
 	{
 		 NeighborhoodMap cnfta = new NeighborhoodMap(name+"_A",
 				new NSpikeUM(new Assymetric2DRouting())
-		,dt,space2D,na,pa,ia,focus,threshold);
+		,dt,space,na,pa,ia,focus,threshold);
 
-		cnfta.addNeighboors(new V4Neighborhood2D(space2D, new UnitLeaf(cnfta)));
+		cnfta.addNeighboors(new V4Neighborhood2D(space, new UnitLeaf(cnfta)));
 		cnfta.constructMemory();
 
 		 NeighborhoodMap cnftb = new NeighborhoodMap(name+"_B",
 				new NSpikeUM(new Assymetric2DRouting())
-		,dt,space2D,nb,pb,ib,focus,threshold);
+		,dt,space,nb,pb,ib,focus,threshold);
 
-		cnftb.addNeighboors(new V4Neighborhood2D(space2D, new UnitLeaf(cnftb)));
+		cnftb.addNeighboors(new V4Neighborhood2D(space, new UnitLeaf(cnftb)));
 		cnftb.constructMemory();
 
-		Map sum = new Map(CNFT,new Sum(),dt,space2D, cnfta, cnftb);
+		Map sum = new Map(CNFT,new Sum(),dt,space, cnfta, cnftb);
 		sum.constructMemory();
 		return sum;
 	}
