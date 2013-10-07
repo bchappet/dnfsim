@@ -20,11 +20,11 @@ public class Sum extends UnitModel {
 		double ret = 0;
 		//System.out.println("params : " + params);
 		for(Parameter p : params)
-		{
-			//System.out.print( "; " + ret +" += " +p.get(coord));
+		{//System.out.print( "; " + ret +" += " +p.get(coord));
 			ret += p.get(coord);
 		}
-		return ret;
+               
+                return ret;
 	}
 
 }

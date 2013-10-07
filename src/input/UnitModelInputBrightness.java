@@ -15,11 +15,11 @@ import unitModel.UnitModel;
  * Transforme un code RGB en luminosité.
  * @author ncarrara
  */
-public class UnitModelInput extends UnitModel{
+public class UnitModelInputBrightness extends UnitModel{
     private ReaderInput riv;
     
     
-    public UnitModelInput(Var dt,Space space,ConfigurationInput dataVideo, Integer typeScaling, Integer typeReader){
+    public UnitModelInputBrightness(Var dt,Space space,ConfigurationInput dataVideo, Integer typeScaling, Integer typeReader){
         super(dt, space, new Parameter[]{});
         dataVideo.cps = (int)(1/dt.get());
         riv = new ReaderInput(dataVideo, typeScaling, typeReader, space);
