@@ -4,6 +4,8 @@ import gui.Printer;
 
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelNSpike;
 
@@ -14,7 +16,7 @@ import org.junit.Test;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 
-public class ModelNSpike2Test {
+public class ModelNSpike2Test   extends TestCase{
 
 	protected Model model;
 

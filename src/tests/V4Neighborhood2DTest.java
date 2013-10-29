@@ -2,6 +2,8 @@ package tests;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Var;
 import neigborhood.V4Neighborhood2D;
 
@@ -12,7 +14,7 @@ import org.junit.Test;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class V4Neighborhood2DTest {
+public class V4Neighborhood2DTest  extends TestCase {
 	
 	private V4Neighborhood2D neighWrap;
 	private V4Neighborhood2D neigh;

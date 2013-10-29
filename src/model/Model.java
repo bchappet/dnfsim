@@ -200,7 +200,7 @@ public abstract class Model implements Node {
 		this.time += stepTime;
 //		System.out.println("this.time : " + this.time);
 		
-		
+		//System.out.println("Update");
 		for(Parameter p : parameters){
 //			System.out.println("time "+time);
 			if(p instanceof Map){

@@ -55,8 +55,9 @@ public class Runner  implements Runnable{
 	
 	/**
 	 * Time of each step
+	 * TODO why is it also the diplay dt now? (from dnf_som...)
 	 */
-	protected double timeStep = 0.1; //in s
+	protected double timeStep = 0.01; //in s
 
 
 

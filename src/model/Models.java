@@ -30,7 +30,8 @@ public enum Models{
 	TEST_SOM("TestSOM",TestSOM.class,false),
 	DNF_SOM("DNFSom",ModelDNFSom.class,false),
 	DNF_SOM_Supervise("DNFSomSupervise",ModelDNFSomSupervise.class,false),
-	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false);
+	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
+	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false);
 	
 	private final boolean assynch;
 	private final String name;

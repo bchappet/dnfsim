@@ -67,7 +67,7 @@ public class ModelCNFT extends Model{
 
 
 
-	protected AbstractMap cnft;
+	protected Parameter cnft;
 	protected AbstractMap cnftW;
 	protected AbstractMap input;
 	protected AbstractMap potential;
@@ -436,7 +436,6 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException
 	 */
 	protected boolean changeNbDistr() throws CommandLineFormatException, NullCoordinateException{
-
 		int nbDistr = (int) command.get(CNFTCommandLine.NB_DISTRACTERS).get() ;
 		boolean changed = true;
 		nbDistr = nbDistr >= 0 ? nbDistr : 0;

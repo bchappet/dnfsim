@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 import hardSimulator.SourceHUM;
 import maps.Var;
 
@@ -12,7 +13,7 @@ import org.junit.Test;
 import precision.PrecisionVar;
 import coordinates.DefaultRoundedSpace;
 
-public class SourceHUMTest {
+public class SourceHUMTest extends TestCase {
 	
 	private SourceHUM source;
 

@@ -7,6 +7,8 @@ import gui.Printer;
 import java.math.BigDecimal;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelCNFTSlow;
 
@@ -16,7 +18,7 @@ import org.junit.Test;
 
 import statistics.Characteristics;
 
-public class GlobalTestCNFTSlow {
+public class GlobalTestCNFTSlow   extends TestCase{
 	
 	private Model cnft;
 	

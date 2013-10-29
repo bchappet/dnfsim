@@ -240,4 +240,6 @@ public interface Parameter extends Node, Cloneable {
 	 */
 	public void addVue(Updated u);
 
+	public void addParameters(Parameter...params);
+
 }

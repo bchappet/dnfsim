@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.Map;
 import maps.Parameter;
 import maps.Var;
@@ -15,7 +16,7 @@ import unitModel.UnitModel;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class MapTest {
+public class MapTest  extends TestCase{
 	
 	private Map map;
 	Space space;
@@ -54,10 +55,6 @@ public class MapTest {
 		map1.delete();
 		
 		System.out.println(map.toStringRecursive(0));
-		
-		System.out.println(map1.toStringRecursive(0));
-		
-		
 	}
 	
 	@Test

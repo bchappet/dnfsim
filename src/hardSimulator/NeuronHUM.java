@@ -68,6 +68,7 @@ public class NeuronHUM extends UnitModel {
 		
 		clk = new Var(0);
 		nbReceived = new Var(0);
+		randomIn = new double[4];
 
 	}
 	

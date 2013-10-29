@@ -85,8 +85,14 @@ public class PRNGWrapperUM extends UnitModel {
 		//We compute only if we need to
 		if(!computed)
 			this.artificialComputation();
-		
-		int integer = randomNumbers.get(index);
+		//System.out.println("Get rand  @"+hashCode());
+		int integer = 0;
+		try{
+			integer = randomNumbers.get(index);
+		}catch (IndexOutOfBoundsException e) {
+			System.err.println("@"+hashCode() + "coord : " + Arrays.toString(coord));
+			throw e;
+		}
 		index ++;
 //		System.out.println("get int : " + integer);
 		return Precision.to_real(integer,(int)params.get(FRAC).get());

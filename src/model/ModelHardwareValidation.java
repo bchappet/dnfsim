@@ -157,19 +157,19 @@ public class ModelHardwareValidation extends ModelHardware {
 		AbstractMap hard_input ;
 
 //		In this model we use an input already multiplied by dt/tau
-				hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
-					
-					@Override
-					public double compute() throws NullCoordinateException {
-						return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
-					}
-				});
+//				hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
+//					
+//					@Override
+//					public double compute() throws NullCoordinateException {
+//						return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
+//					}
+//				});
 
 		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
 
-//		input = getFilesInputs("files/input");
-//		hard_input = input;
-//		input.getDt().setIndex(0, vdt.get());
+		input = getFilesInputs("files/input");
+		hard_input = input;
+		input.getDt().setIndex(0, vdt.get());
 
 
 

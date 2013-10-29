@@ -86,6 +86,20 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String STAT_DT = "stat_dt";
 	public static final String FILE_DT = "file_dt";
 	
+	//Mvt detection
+	public static final String ANGLE = "angle";
+	public static final String TCK_SPEED = "tck_speed";
+	//Filter form mvt detection
+	public static final String FILTRE_IE = "filtre_ie";
+	public static final String FILTRE_WE = "filtre_we";
+	public static final String FILTRE_CXE = "filtre_cxe";
+	public static final String FILTRE_CYE = "filtre_cye";
+	
+	public static final String FILTRE_II = "filtre_ii";
+	public static final String FILTRE_WI = "filtre_wi";
+	public static final String FILTRE_CXI = "filtre_cxi";
+	public static final String FILTRE_CYI = "filtre_cyi";
+	
 
 
 
@@ -130,6 +144,15 @@ public class CNFTCommandLine extends CommandLine{
 				+PROBA_FRAC+"=7,1,30,1;"			+FRAC+"=8,1,30,1;"
 				+DT_DNF+"=0.01,0,100,0.0001;"			+LEARNING_RATE+"=0.1,0,1,0.001;"
 				+STAT_DT+"=0.1,0,100,0.0001;"	+FILE_DT+"=0.1,0,100,0.0001;"
+				+ANGLE+"=0,-180,180,0.1;"		+TCK_SPEED+"=0.5,0,1,0.01;"
+				+FILTRE_IE+"=1,0,10,0.01;"
+				+FILTRE_WE+"=0.1,0,10,0.01;"
+				+FILTRE_CXE+"=0,0,10,0.01;"
+				+FILTRE_CYE+"=0,0,10,0.01;"
+				+FILTRE_II+"=-1,0,10,0.01;"
+				+FILTRE_WI+"=0.1,0,10,0.01;"
+				+FILTRE_CXI+"=0,0,10,0.01;"
+				+FILTRE_CYI+"=0,0,10,0.01;"
 				;
 	}
 
@@ -366,7 +389,7 @@ public class CNFTCommandLine extends CommandLine{
 		if(ret.endsWith("\n"))
 			ret = ret.substring(0,ret.length()-1);
 
-		model.modifyModel();
+		//model.modifyModel();
 		return ret;
 	}
 
@@ -416,7 +439,7 @@ public class CNFTCommandLine extends CommandLine{
 				
 				runner.step();
 				try {
-					ret = runner.saveMaps("save_"+i);
+					ret = runner.saveMaps("save/save_"+i);
 				} catch (IOException e) {
 					throw new CommandLineFormatException("IO error",e);
 				}

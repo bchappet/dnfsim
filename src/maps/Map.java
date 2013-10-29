@@ -1,6 +1,7 @@
 package maps;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 
 import unitModel.UnitModel;
@@ -77,6 +78,7 @@ public class Map extends AbstractUnitMap {
 	@Override
 	public  void compute() throws NullCoordinateException
 	{
+		//System.out.println("Compute map :  " + this.name + " time " + this.time.val);
 		if(isMemory)
 		{
 
@@ -96,6 +98,7 @@ public class Map extends AbstractUnitMap {
 			}
 			if(units.get(0).isParallel())
 			{
+				//System.out.println("Swap : "   + this.name + " time " + this.time.val);
 				//Swap memories for every unit
 				for(Unit u : units)
 				{
@@ -109,17 +112,7 @@ public class Map extends AbstractUnitMap {
 		}
 	}
 
-	/**
-	 * 
-	 * @return the order for computation.
-	 * 
-	 */
-	public Iterator<Unit> getComputationIterator()
-	{
-//		return units.iterator();
-		
-		return new FramedSpaceIterator(space,units);
-	}
+	
 
 
 	@Override
@@ -135,6 +128,8 @@ public class Map extends AbstractUnitMap {
 			}
 
 		}
+		
+		
 
 
 		return clone;

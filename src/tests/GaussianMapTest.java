@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import maps.AbstractMap;
 import maps.Map;
 import maps.Parameter;
@@ -20,7 +22,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class GaussianMapTest {
+public class GaussianMapTest   extends TestCase{
 	private Map map;
 	@Before
 	public void setUp() throws Exception {

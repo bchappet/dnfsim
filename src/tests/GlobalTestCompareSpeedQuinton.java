@@ -5,6 +5,8 @@ import gui.Printer;
 
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelCNFTFFT;
 
@@ -22,7 +24,7 @@ import dnf.Map;
 import dnf.Statistics;
 import dnf.UniformNoise;
 
-public class GlobalTestCompareSpeedQuinton {
+public class GlobalTestCompareSpeedQuinton   extends TestCase{
 
 	private Model cnft;
 	private CNFT jcqcnft;

@@ -3,6 +3,8 @@ package tests;
 import java.io.IOException;
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Map;
 import maps.Matrix2D;
 import maps.Parameter;
@@ -24,7 +26,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class VHDLGeneratorCNFTTest {
+public class VHDLGeneratorCNFTTest  extends TestCase {
 
 	VHDLGeneratorCNFT gen;
 	int res;

@@ -56,7 +56,7 @@ public class PRNGUnitModel extends UnitModel {
 		clone.index = 0;
 		Parameter mapCloned = map.clone();
 		clone.map = mapCloned;
-		((NeighborhoodMap) mapCloned).getNeighborhood().get(0).setMap(new UnitLeaf((UnitParameter) mapCloned));
+		((NeighborhoodMap) mapCloned).getNeighborhoods().get(0).setMap(new UnitLeaf((UnitParameter) mapCloned));
 		
 		return clone;
 	}

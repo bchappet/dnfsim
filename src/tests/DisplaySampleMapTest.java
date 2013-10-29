@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import gui.DisplaySampleMap;
 import maps.Var;
 
@@ -15,7 +17,7 @@ import org.junit.Test;
 import coordinates.RoundedSpace;
 import coordinates.Space;
 
-public class DisplaySampleMapTest {
+public class DisplaySampleMapTest  extends TestCase{
 	
 	/**2 dimension only**/
 	public static final int X = 0;

@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 import maps.Leaf;
 import maps.Map;
 import maps.NeighborhoodMap;
@@ -23,7 +24,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 import fft.FFTConvolutionMatrix2D;
 
-public class SomUMTest {
+public class SomUMTest extends TestCase {
 	
 	
 	Map cortical;

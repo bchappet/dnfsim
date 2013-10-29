@@ -38,8 +38,9 @@ public class SpikingUM extends UnitModel {
 	 */
 	protected double computation2(double potential, double th, double low, double high) {
 		double ret;
-		if(potential > th)
+		if(potential > th){
 			ret = high;
+		}
 		else 
 			ret = low;
 		

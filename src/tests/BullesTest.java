@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.Map;
 import maps.Var;
@@ -20,7 +21,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class BullesTest {
+public class BullesTest  extends TestCase {
 
 	Map input;
 	Var dt;

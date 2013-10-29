@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.AbstractUnitMap;
 import maps.NeighborhoodMap;
@@ -11,6 +12,7 @@ import neigborhood.WrappedGlobalNeigborhood;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import unitModel.Convolution;
@@ -19,7 +21,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class ConvolutionTest2 {
+public class ConvolutionTest2  extends TestCase {
 	Space space;
 
 	@Before
@@ -79,7 +81,7 @@ public class ConvolutionTest2 {
 		assertTrue(egual(test,res));
 	}
 
-	@Test
+	@Ignore
 	public void testCompute2() throws NullCoordinateException {
 
 		double[] values = 

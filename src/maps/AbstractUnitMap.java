@@ -3,6 +3,7 @@ package maps;
 import java.util.AbstractList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -102,6 +103,18 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		int index = this.space.coordToIndex(coord);
 		double ret = units.get(index).get();
 		return ret;
+	}
+	
+	/**
+	 * 
+	 * @return the order for computation.
+	 * 
+	 */
+	public Iterator<Unit> getComputationIterator()
+	{
+//		return units.iterator();
+		
+		return new FramedSpaceIterator(space,units);
 	}
 
 	/**

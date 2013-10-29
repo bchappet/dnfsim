@@ -153,6 +153,7 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		excN.setActivate(activate);
 		inhN.setActivate(activate);
 		
+		//System.out.println("Compute random gen @"+hashCode());
 		randGen.computeActivity();
 		double[] rands = randGen.getOutputs();
 		

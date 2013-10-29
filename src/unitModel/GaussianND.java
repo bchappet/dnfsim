@@ -33,7 +33,7 @@ public class GaussianND extends UnitModel implements Track{
 		//Translate the coor in the center centered refSpace
 		Double[] translation = new Double[params.size()-COORDS];//Translated coordinates
 		for(int i = 0 ; i < translation.length; i++){
-			//System.out.println("coor : " + i + " = " + coord[i]);
+//			System.out.println("coor : " + i + " = " + coord[i]);
 			translation[i] = abs(coord[i]-params.get(COORDS+i).get(coord));
 		}
 		

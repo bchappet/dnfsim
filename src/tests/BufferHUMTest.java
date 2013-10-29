@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import hardSimulator.TransmitterHUM;
 import maps.Var;
 
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 import coordinates.DefaultRoundedSpace;
 
-public class BufferHUMTest {
+public class BufferHUMTest  extends TestCase{
 	
 	private TransmitterHUM buff;
 

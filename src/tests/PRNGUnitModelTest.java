@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.AbstractUnitMap;
 import maps.Leaf;
 import maps.Map;
@@ -20,7 +21,7 @@ import cellularAutomata.PRNGUnitModel;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class PRNGUnitModelTest {
+public class PRNGUnitModelTest extends TestCase {
 
 	private PRNGUnitModel um;
 	private Map map;
@@ -47,7 +48,7 @@ public class PRNGUnitModelTest {
 		camap.addNeighboors(new V4Neighborhood2D(spaceCA, new UnitLeaf(camap)));
 		camap.toParallel();
 		System.out.println("camap : " + camap.hashCode());
-		System.out.println("Camap neigh : " +camap.getNeighborhood().get(0).getMap());
+		System.out.println("Camap neigh : " +camap.getNeighborhoods().get(0).getMap());
 
 		Space space = new DefaultRoundedSpace(new Var("res",3), 2, true);
 		um = new PRNGUnitModel(camap,dt, space, new Var("Farc",8));
@@ -110,15 +111,15 @@ public class PRNGUnitModelTest {
 		System.out.println(" map camap1 " +camap1.hashCode());
 		System.out.println(" map camap2 " +camap2.hashCode());
 		
-		System.out.println("linked map camap  " +((Leaf)camap.getNeighborhood().get(0).getMap()).getMap().hashCode());
-		System.out.println("linked map camap0 " +((Leaf)camap0.getNeighborhood().get(0).getMap()).getMap().hashCode());
-		System.out.println("linked map camap1 " +((Leaf)camap1.getNeighborhood().get(0).getMap()).getMap().hashCode());
-		System.out.println("linked map camap2 " +((Leaf)camap2.getNeighborhood().get(0).getMap()).getMap().hashCode());
+		System.out.println("linked map camap  " +((Leaf)camap.getNeighborhoods().get(0).getMap()).getMap().hashCode());
+		System.out.println("linked map camap0 " +((Leaf)camap0.getNeighborhoods().get(0).getMap()).getMap().hashCode());
+		System.out.println("linked map camap1 " +((Leaf)camap1.getNeighborhoods().get(0).getMap()).getMap().hashCode());
+		System.out.println("linked map camap2 " +((Leaf)camap2.getNeighborhoods().get(0).getMap()).getMap().hashCode());
 		
-		System.out.println("linked neigh camap  " +camap.getNeighborhood().get(0).hashCode());
-		System.out.println("linked neigh camap0 " +camap0.getNeighborhood().get(0).hashCode());
-		System.out.println("linked neigh camap1 " +camap1.getNeighborhood().get(0).hashCode());
-		System.out.println("linked neigh camap2 " +camap2.getNeighborhood().get(0).hashCode());
+		System.out.println("linked neigh camap  " +camap.getNeighborhoods().get(0).hashCode());
+		System.out.println("linked neigh camap0 " +camap0.getNeighborhoods().get(0).hashCode());
+		System.out.println("linked neigh camap1 " +camap1.getNeighborhoods().get(0).hashCode());
+		System.out.println("linked neigh camap2 " +camap2.getNeighborhoods().get(0).hashCode());
 		
 		
 		
@@ -170,11 +171,11 @@ public class PRNGUnitModelTest {
 		
 		
 		System.out.println("Comparing neigh maps");
-		System.out.println(((Leaf)caMap.getNeighborhood().get(0).getMap()).getMap().hashCode() + " == " + caMap.hashCode());
-		assertTrue(((Leaf)caMap.getNeighborhood().get(0).getMap()).getMap().hashCode() == caMap.hashCode());
+		System.out.println(((Leaf)caMap.getNeighborhoods().get(0).getMap()).getMap().hashCode() + " == " + caMap.hashCode());
+		assertTrue(((Leaf)caMap.getNeighborhoods().get(0).getMap()).getMap().hashCode() == caMap.hashCode());
 		
-		System.out.println(((Leaf)caMapClone.getNeighborhood().get(0).getMap()).getMap().hashCode() + " == " + caMapClone.hashCode());
-		assertTrue(((Leaf)caMapClone.getNeighborhood().get(0).getMap()).getMap().hashCode() == caMapClone.hashCode());
+		System.out.println(((Leaf)caMapClone.getNeighborhoods().get(0).getMap()).getMap().hashCode() + " == " + caMapClone.hashCode());
+		assertTrue(((Leaf)caMapClone.getNeighborhoods().get(0).getMap()).getMap().hashCode() == caMapClone.hashCode());
 		
 	}
 

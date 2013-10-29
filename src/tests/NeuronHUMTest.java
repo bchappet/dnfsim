@@ -5,6 +5,8 @@ import hardSimulator.NeuronHUM;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Var;
 
 import org.junit.After;
@@ -14,7 +16,7 @@ import org.junit.Test;
 import precision.PrecisionVar;
 import coordinates.DefaultRoundedSpace;
 
-public class NeuronHUMTest {
+public class NeuronHUMTest  extends TestCase{
 
 
 	private NeuronHUM neuron;

@@ -7,6 +7,8 @@ import hardSimulator.SpikingUnitHUM;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.AbstractUnitMap;
 import maps.Matrix;
 import maps.NeighborhoodMap;
@@ -24,7 +26,7 @@ import precision.PrecisionVar;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class SpikingNeuronHUMTest {
+public class SpikingNeuronHUMTest  extends TestCase {
 
 	
 	private SpikingNeuronHUM neuron;

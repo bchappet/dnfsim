@@ -1,11 +1,12 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import gui.ParameterModifier;
 
 import org.junit.Test;
 
-public class ParameterModifierTest {
+public class ParameterModifierTest  extends TestCase{
 
 
 	@Test

@@ -42,7 +42,7 @@ public class DisplaySOMMap extends DisplaySampleMap {
 
 	public DisplaySOMMap(GUI gui, Parameter displayed,Space inputSpace) {
 		super(gui, displayed);
-		this.neigh = ((NeighborhoodMap)displayed).getNeighborhood().get(0);
+		this.neigh = ((NeighborhoodMap)displayed).getNeighborhoods().get(0);
 		this.mapSpace = displayed.getSpace();
 		this.space = ((SomUM)((AbstractUnitMap)displayed).getUnitModel()).getInputSpace();
 		Double[] dim = space.getSize();

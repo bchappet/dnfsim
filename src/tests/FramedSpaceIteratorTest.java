@@ -5,6 +5,8 @@ import static org.junit.Assert.fail;
 import java.util.ArrayList;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import maps.FramedSpaceIterator;
 import maps.Unit;
 import maps.Var;
@@ -16,7 +18,7 @@ import unitModel.ConstantUnit;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class FramedSpaceIteratorTest {
+public class FramedSpaceIteratorTest   extends TestCase{
 	
 	private FramedSpaceIterator it;
 

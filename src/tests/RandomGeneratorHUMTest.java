@@ -1,5 +1,6 @@
 package tests;
 
+import junit.framework.TestCase;
 import hardSimulator.NeuronRandomGeneratorHUM;
 import maps.Var;
 
@@ -11,7 +12,7 @@ import precision.PrecisionVar;
 
 import coordinates.DefaultRoundedSpace;
 
-public class RandomGeneratorHUMTest {
+public class RandomGeneratorHUMTest  extends TestCase {
 	
 	NeuronRandomGeneratorHUM rg;
 

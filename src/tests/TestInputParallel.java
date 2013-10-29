@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.AbstractUnitMap;
 import maps.Map;
@@ -21,7 +22,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class TestInputParallel {
+public class TestInputParallel  extends TestCase {
 	
 	AbstractMap input;
 	Space space2d;

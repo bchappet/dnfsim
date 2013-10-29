@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 import maps.Map;
 import maps.Matrix;
 import maps.NeighborhoodMap;
@@ -20,7 +21,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.RoundedSpace;
 import coordinates.Space;
 
-public class PRNGWrapperUMTest2 {
+public class PRNGWrapperUMTest2  extends TestCase {
 	
 	private PRNGUnitModel um;
 	private Map map;

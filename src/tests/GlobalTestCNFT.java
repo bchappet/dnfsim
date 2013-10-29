@@ -8,6 +8,8 @@ import java.math.BigDecimal;
 import java.net.URL;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import maps.Map;
 import maps.Parameter;
 import model.Model;
@@ -23,7 +25,7 @@ import coordinates.NullCoordinateException;
 import plot.Trace;
 import statistics.Characteristics;
 
-public class GlobalTestCNFT {
+public class GlobalTestCNFT  extends TestCase {
 
 	private Model cnft;
 

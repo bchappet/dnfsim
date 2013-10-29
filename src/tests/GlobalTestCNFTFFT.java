@@ -6,6 +6,8 @@ import gui.Printer;
 import java.math.BigDecimal;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelCNFT;
 import model.ModelCNFTFFT;
@@ -18,7 +20,7 @@ import plot.Trace;
 
 import statistics.Characteristics;
 
-public class GlobalTestCNFTFFT {
+public class GlobalTestCNFTFFT  extends TestCase{
 	
 	private Model cnft;
 	

@@ -2,6 +2,8 @@ package tests;
 
 import java.io.IOException;
 
+import junit.framework.TestCase;
+
 import maps.AbstractMap;
 import maps.Matrix2D;
 import maps.Parameter;
@@ -15,7 +17,7 @@ import vhdl.VHDLNeuronGeneratorCNFT;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class VHDLNeuronGeneratorCNFTTest {
+public class VHDLNeuronGeneratorCNFTTest  extends TestCase {
 	
 	VHDLNeuronGeneratorCNFT vhg;
 	Parameter weights;
@@ -57,7 +59,7 @@ public class VHDLNeuronGeneratorCNFTTest {
 	
 	@Test
 	public void testGenerateFile() throws IOException{
-		vhg.generateNeuron("vhdlSource", "CNFTMixt");
+		vhg.generateNeuron("vhdlSource", "neuron_mixt");
 	}
 	
 	

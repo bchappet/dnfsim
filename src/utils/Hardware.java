@@ -64,6 +64,8 @@ public class Hardware {
 		return rounded/fact;
 
 	}
+	
+	
 
 	/**
 	 * Simulate a shifting
@@ -77,6 +79,52 @@ public class Hardware {
 		double res = toFPDouble(tmp,frac,CAST);
 		return res;
 
+	}
+	/**
+	 * 
+	 * Simulate a shifting. More slow version with a lot of checking
+	 * @param val : the fp val to shift (divide)
+	 * @param divisor : should be 2^x
+	 * @param frac : fractional part of fp encoding
+	 * @return
+	 */
+	public static double shiftRightComplex(double val, double div,int frac) {
+		double fact =  Math.pow(2,frac);
+		double  tmpa =  (val * fact);
+		int entier = (int) tmpa;
+		assert tmpa == entier : ""+ val + " was not  a fixed point value";
+		
+		int nbShift = findPow2((int)div);
+		
+		entier = entier >> nbShift;
+		
+		double res =  entier/fact;
+		//System.out.println("res : " + res + " >= " + 1/fact + " compare : " + Double.compare(res, 1/fact));
+		if( Double.compare(res, 1/fact) < 0){
+			throw new AssertionError( "res is to small (" + res +")");
+		}
+		return res;
+		
+	}
+	
+	/**
+	 * Return the corresponding power of 2 value
+	 * @param div x²
+	 * @return x
+	 */
+	private static int findPow2(int div) {
+		int i = 0;
+		int tmp = div;
+		while(tmp >1)
+		{
+			tmp = tmp /2;
+			i++;
+		}
+		if( div != Math.pow(2, i)){
+			throw new AssertionError("Wrong result : 2^" +i + " != " + div); 
+		}
+		
+		return i;
 	}
 
 }

@@ -2,6 +2,7 @@ package tests;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.Var;
 
 import org.junit.After;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 import precision.PrecisionVar;
 
-public class PrecisionVarTest {
+public class PrecisionVarTest  extends TestCase{
 	
 	protected Var precision = new Var(10);
 
@@ -85,8 +86,8 @@ public class PrecisionVarTest {
 		 b = new PrecisionVar(-255,precision);
 		
 		 c = a.mult(b);
-		 System.out.println(c);
-		assertTrue(c.get() == 513);
+		 System.out.println(" c : " + c);
+		assertTrue(c.get() == 1537);
 	}
 	
 	@Test

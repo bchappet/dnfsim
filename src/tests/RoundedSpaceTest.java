@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Var;
 
 import org.junit.After;
@@ -15,7 +17,7 @@ import coordinates.NullCoordinateException;
 import coordinates.RoundedSpace;
 import coordinates.Space;
 
-public class RoundedSpaceTest {
+public class RoundedSpaceTest extends TestCase {
 
 	private Space space;
 

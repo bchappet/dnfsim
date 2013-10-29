@@ -5,11 +5,13 @@ import gui.ColorMap;
 
 import java.awt.Color;
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ColorMapTest {
+public class ColorMapTest  extends TestCase{
 	private ColorMap cmap;
 
 	@Before

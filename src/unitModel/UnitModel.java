@@ -134,10 +134,14 @@ public abstract class UnitModel extends ParameterUser implements Cloneable  {
 		try {
 			o = (UnitModel) super.clone();
 			o.activity = this.activity.clone();//Copy : we need the coord to be different within the map
-			o.coord = this.coord.clone();//Copy : we need the coord to be different within the map
+			
+			
 			o.subUnits = ArrayUtils.deepCopy(this.subUnits);//Copy
 			o.unit = this.unit;//shared
 			o.onInitilization();
+			
+			o.coord = this.coord.clone();//Copy : we need the coord to be different within the map
+			
 			
 		} catch (CloneNotSupportedException e){
 			//Clone is supported

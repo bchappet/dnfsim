@@ -816,7 +816,7 @@ public class Stat {
 			public double computeStatistic() {
 				NeighborhoodMap map =   (NeighborhoodMap) this.getParam(0);
 				Space spaceMap = map.getSpace();
-				Neighborhood neigh = map.getNeighborhood().get(0);
+				Neighborhood neigh = map.getNeighborhoods().get(0);
 				
 				double add = 0;
 				double nb = 0;

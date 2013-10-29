@@ -6,6 +6,8 @@ import gui.Printer;
 import java.io.File;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelBilayerSpike;
 import model.ModelCNFT;
@@ -23,7 +25,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-public class ModelTimeTest {
+public class ModelTimeTest   extends TestCase{
 	
 	int nb_it = 10;
 	double time_limit = 1;

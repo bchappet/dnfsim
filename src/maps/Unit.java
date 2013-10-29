@@ -62,8 +62,12 @@ public class Unit implements Cloneable {
 		
 		clone.memories = new ArrayList<UnitModel>()	;
 		for(UnitModel um : memories){
-			clone.memories.add(um.clone());
+			UnitModel mem = um.clone();
+			//mem.setCoord(getCoord());
+			clone.memories.add(mem);
+			
 		}
+		
 		
 		//Update Unit references
 		for(UnitModel um : clone.memories){

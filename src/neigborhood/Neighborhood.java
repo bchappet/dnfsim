@@ -57,7 +57,7 @@ public abstract class Neighborhood implements Cloneable {
 	/**
 	 * Return the neighborhood at specific coordinates
 	 * @param coord
-	 * @return
+	 * @return The neighboorhood unit or a NullUnit if the neighbour is out of bound
 	 * @throws NullCoordinateException
 	 */
 	public Unit[] getNeighborhoodUnits(Double ... coord ) throws NullCoordinateException

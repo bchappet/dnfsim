@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.Unit;
 import maps.Var;
 
@@ -13,7 +14,7 @@ import unitModel.UnitModel;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class UnitModelTest {
+public class UnitModelTest  extends TestCase {
 
 	private UnitModel um;
 

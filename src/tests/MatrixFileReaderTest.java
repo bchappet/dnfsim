@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 import maps.MatrixFileReader;
 import maps.Var;
 
@@ -11,7 +12,7 @@ import org.junit.Test;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class MatrixFileReaderTest {
+public class MatrixFileReaderTest  extends TestCase{
 
 	
 	private MatrixFileReader mat;

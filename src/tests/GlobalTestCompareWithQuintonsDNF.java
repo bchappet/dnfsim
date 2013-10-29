@@ -10,6 +10,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import maps.Parameter;
 import model.Model;
 import model.ModelCNFT;
@@ -32,7 +34,7 @@ import dnf.UniformNoise;
  * @author bchappet
  *
  */
-public class GlobalTestCompareWithQuintonsDNF {
+public class GlobalTestCompareWithQuintonsDNF  extends TestCase{
 	private Model cnft;
 	private CNFT jcqcnft;
 	private double dt = 0.1;

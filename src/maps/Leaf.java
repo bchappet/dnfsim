@@ -204,6 +204,10 @@ public class Leaf  implements Parameter{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void addParameters(Parameter...params){
+		//TODO 
+	}
 
 	
 

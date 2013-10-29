@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.Map;
 import maps.NeighborhoodMap;
@@ -23,7 +24,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class ConvolutionTest {
+public class ConvolutionTest  extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {

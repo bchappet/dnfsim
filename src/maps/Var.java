@@ -335,6 +335,12 @@ public class Var implements Parameter,Cloneable {
 		
 	}
 
+	@Override
+	public void addParameters(Parameter... params) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

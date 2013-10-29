@@ -1,5 +1,6 @@
 package tests;
 
+import junit.framework.TestCase;
 import maps.Map;
 import maps.NeighborhoodMap;
 import maps.NullBufferedNeuronUM;
@@ -19,7 +20,7 @@ import unitModel.PotentialNeuronUM;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class PotentialNeuronUMTest {
+public class PotentialNeuronUMTest   extends TestCase{
 	
 	NeighborhoodMap exc;
 	NeighborhoodMap inh;
