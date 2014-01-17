@@ -12,6 +12,7 @@ public enum Models{
 	GSPIKE("GSpike",ModelGSpike.class,false),
 	GSPIKEFFT("GSpikeFFT",ModelGSpikeFFT.class,false),
 	ESPIKE("ESpike",ModelESpike.class,false),
+	ESPIKEFFT("ESpikeFFT",ModelESpike.class,false),
 	ESPIKE2("ESpike2",ModelESpike2.class,false),
 	ESPIKEFileReader("ESpikeFileReader",ModelESpikeFileReader.class,false),
 	ESPIKEDNFSUM("DNFSomESpike",ModelDNFSomESpike.class,false),

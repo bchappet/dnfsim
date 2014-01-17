@@ -34,6 +34,10 @@ public abstract class NeighborhoodUnitModel extends UnitModel {
 		neighborhoods = new ArrayList<Unit[]>();
 	}
 	
+	public void onNeighborhoodAddition(){
+		//nothing by default
+	}
+	
 	@Override
 	public NeighborhoodUnitModel clone() 
 	{
@@ -51,6 +55,7 @@ public abstract class NeighborhoodUnitModel extends UnitModel {
 		NeighborhoodUnitModel clone = (NeighborhoodUnitModel) super.clone2();
 		//we are in the same unit: the neighbourhood is the same
 		clone.neighborhoods = this.neighborhoods;
+		clone.onNeighborhoodAddition();
 		return clone;
 	}
 
@@ -62,6 +67,7 @@ public abstract class NeighborhoodUnitModel extends UnitModel {
 	 */
 	public void addNeighborhoods(Unit[] units) {
 		neighborhoods.add(units);
+		onNeighborhoodAddition();
 	}
 	
 	public Unit[] getNeighborhood(int index) {
@@ -78,6 +84,7 @@ public abstract class NeighborhoodUnitModel extends UnitModel {
 	 */
 	public void setNeighborhood(List<Unit[]> neig){
 		this.neighborhoods = neig;
+		onNeighborhoodAddition();
 	}
 
 

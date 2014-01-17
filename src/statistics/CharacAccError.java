@@ -25,20 +25,24 @@ public class CharacAccError extends Charac {
 	public double computeTrajectory(double... param) {
 		double ret = Statistics.ERROR;
 		double convtime = get(Characteristics.CONVERGENCE);
+		int convIt = (int) Math.round( (convtime/stats.dt.get()));
+		int stabIt =  (int) Math.round( (params.get(STAB_IT).get()/stats.dt.get()));
 		if(convtime != Statistics.ERROR)
 		{
 			
 			Trace accError = stats.getTrace(Statistics.ACC_ERROR);
 			
 			ret = 0;
-			for(int i = (int) convtime; i < accError.size() ; i++){
+			for(int i = convIt; i < accError.size() ; i++){
+			
 				if(accError.get(i) != 1.0){
 					ret ++;
 				}
 			}
-			int stabIt = (int) params.get(STAB_IT).get();
-			ret = ret - stabIt + 2;
+			
+			ret = ret - stabIt ;
 		}
+		//load=tracking.dnfs;print=all;
 		
 		return ret;
 	}

@@ -22,18 +22,18 @@ public class CharacObstinacy extends Charac {
 	public double computeTrajectory(double... param) {
 
 		double ret = Statistics.ERROR;
-		int convtime = (int) get(Characteristics.CONVERGENCE);
-		
+		double convtime =  get(Characteristics.CONVERGENCE);
+		int convIt = (int) Math.round( (convtime/stats.dt.get()));
 		
 		
 		if(convtime != Statistics.ERROR){
 			Trace closestTrack = stats.getTrace(Statistics.CLOSEST_TRACK);
 		
 			//the tracked stimulus is the tracked one at conv time
-			int previousStimulusHash = (int) closestTrack.get( convtime);
+			int previousStimulusHash = (int) closestTrack.get( convIt);
 			
 			ret = 0;
-			for(int i = convtime; i < closestTrack.size() ; i++)
+			for(int i = convIt; i < closestTrack.size() ; i++)
 			{
 				int  currentStimulusHash = (int) closestTrack.get(i);
 				if(currentStimulusHash != Statistics.ERROR )

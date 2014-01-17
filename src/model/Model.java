@@ -5,7 +5,11 @@ import gui.Suscriber;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.MalformedURLException;
+import java.util.Formatter.BigDecimalLayoutForm;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -24,6 +28,13 @@ import draft.RandomTestAbstractMap;
 
 public abstract class Model implements Node {
 
+	/**
+	 * Scale limit for dt (used in big decimal)
+	 */
+	public static final int SCALE_LIMIT = 10;
+
+	public static final int ROUDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+	
 	/** The set of parameter which are tuned during optimization **/
 	protected List<Parameter> parameters;
 	protected List<AbstractMap> trackable;
@@ -32,7 +43,7 @@ public abstract class Model implements Node {
 
 	protected Statistics stats;
 	protected Characteristics charac;
-	protected double time;
+	protected BigDecimal time = BigDecimal.ZERO;
 	protected Space refSpace;
 	protected CNFTCommandLine command;
 	protected String name;
@@ -45,6 +56,11 @@ public abstract class Model implements Node {
 
 	/** True when we are performing assynchronous computation **/
 	protected boolean assynchronousComputation = false;
+
+	/**This will be the computation time step for model update. It is the smallest
+	 * dt in the parameter tree and the stats
+	 */
+	protected BigDecimal clockStep;
 
 	/**
 	 * Dafault constructor
@@ -66,7 +82,7 @@ public abstract class Model implements Node {
 	 * @throws CloneNotSupportedException
 	 */
 	public void initialize() throws CommandLineFormatException,
-			NullCoordinateException, CloneNotSupportedException {
+	NullCoordinateException, CloneNotSupportedException {
 		if (!isInitilized) {
 			command = new CNFTCommandLine(this);
 			this.refSpace = new DefaultRoundedSpace(
@@ -82,6 +98,8 @@ public abstract class Model implements Node {
 			this.isInitilized = true;
 		}
 	}
+
+
 
 	/**
 	 * Initialize the model with the given script
@@ -101,22 +119,23 @@ public abstract class Model implements Node {
 
 			command = new CNFTCommandLine(contextScript, this);
 			this.refSpace = new DefaultRoundedSpace(
-					
+
 					command.get(CNFTCommandLine.RESOLUTION), 2,
 					command.getBool(CNFTCommandLine.WRAP));
 			//System.out.println("space res : " +command.get(CNFTCommandLine.RESOLUTION).get() );
-//			System.err.println("dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get());
+			//			System.err.println("dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get());
 			this.trackable = new LinkedList<AbstractMap>();
 			parameters = new LinkedList<Parameter>();
 			initializeParameters();
 			initializeStatistics();
 			initializeCharacteristics();
 
-			addParameters(root);
+		//addParameters(root); TODO why? I thinkj its a mistake
+
 			this.isInitilized = true;
 		}
 	}
-	
+
 	/**
 	 * Initialize a new model from the parameter of the other
 	 * @param other
@@ -124,7 +143,7 @@ public abstract class Model implements Node {
 	public void initialize(Model other)throws CommandLineFormatException, FileNotFoundException,
 	MalformedURLException, NullCoordinateException {
 		command = other.command;
-		
+
 		this.refSpace = new DefaultRoundedSpace(
 				command.get(CNFTCommandLine.RESOLUTION), 2,
 				command.getBool(CNFTCommandLine.WRAP));
@@ -135,9 +154,11 @@ public abstract class Model implements Node {
 		initializeCharacteristics();
 
 		addParameters(root);
+
+
 		this.isInitilized = true;
-		
-		
+
+
 	}
 
 	/**
@@ -186,44 +207,80 @@ public abstract class Model implements Node {
 	 */
 	public abstract List<Parameter> getDefaultDisplayedParameter();
 
+	//	/**
+	//	 * Update the root which will update the rest of the tree
+	//	 * @param stepTime : time of update in seconds
+	//	 * 
+	//	 * @throws NullCoordinateException
+	//	 * @throws CommandLineFormatException
+	//	 */
+	//	public void update(double stepTime) throws NullCoordinateException,
+	//			CommandLineFormatException {
+	//		this.modifyModel();
+	////		System.out.println("time : " + time + " dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get() );
+	//		this.time += stepTime;
+	////		System.out.println("this.time : " + this.time);
+	//		
+	//		//System.out.println("Update");
+	//		for(Parameter p : parameters){
+	////			System.out.println("time "+time);
+	//			if(p instanceof Map){
+	//				((Map)p).update(time);
+	//			}
+	//		}
+	//		
+	//		
+	//		if (!assynchronousComputation) {
+	//			
+	//			root.update(time);
+	//		} else {
+	//			int size = refSpace.getDiscreteVolume();
+	//			for (int i = 0; i < size; i++) {
+	//				root.compute((int) (Math.random() * size));
+	//			}
+	//		}
+	//		stats.update(time);
+	////		System.out.println(stats.getWtrace());
+	//	}
+
+
 	/**
 	 * Update the root which will update the rest of the tree
-	 * @param stepTime : time of update in seconds
+	 * @param guiStep : time of update in seconds
 	 * 
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 */
-	public void update(double stepTime) throws NullCoordinateException,
-			CommandLineFormatException {
+	public void update(BigDecimal timeToReach) throws NullCoordinateException,
+	CommandLineFormatException {
 		this.modifyModel();
-//		System.out.println("time : " + time + " dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get() );
-		this.time += stepTime;
-//		System.out.println("this.time : " + this.time);
+		clockStep = findSmallestDt();
 		
-		//System.out.println("Update");
-		for(Parameter p : parameters){
-//			System.out.println("time "+time);
-			if(p instanceof Map){
-				((Map)p).update(time);
-			}
-		}
-		
-		
-		if (!assynchronousComputation) {
+		while(this.time.compareTo(timeToReach) <= 0){
+
 			
-			root.update(time);
-		} else {
-			int size = refSpace.getDiscreteVolume();
-			for (int i = 0; i < size; i++) {
-				root.compute((int) (Math.random() * size));
+			for(Parameter p : parameters){
+				if(p instanceof Map){
+					((Map)p).update(time);
+				}
 			}
+			if (!assynchronousComputation) {
+				root.update(time);
+			} else {
+				int size = refSpace.getDiscreteVolume();
+				for (int i = 0; i < size; i++) {
+					root.compute((int) (Math.random() * size));
+				}
+			}
+			System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
+			stats.update(time);
+			
+			this.time = this.time.add(clockStep);
 		}
-		stats.update(time);
-//		System.out.println(stats.getWtrace());
 	}
 
 	public abstract void modifyModel() throws CommandLineFormatException,
-			NullCoordinateException;
+	NullCoordinateException;
 
 	/**
 	 * Duplicate a map within the tree
@@ -258,7 +315,7 @@ public abstract class Model implements Node {
 	}
 
 	public void reset() {
-		this.time = 0;
+		this.time = BigDecimal.ZERO;
 		stats.reset();
 		charac.reset();
 		root.reset();
@@ -279,11 +336,13 @@ public abstract class Model implements Node {
 	 * @param params
 	 */
 	public void addParameters(Parameter... params) {
+	//	System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		for (Parameter p : params) {
 			parameters.add(p);
+		//	System.out.println("add param: " + p);
 		}
 	}
-	
+
 	public void removeParameters(Parameter... params) {
 		for (Parameter p : params) {
 			parameters.remove(p);
@@ -307,7 +366,7 @@ public abstract class Model implements Node {
 		return refSpace;
 	}
 
-	public double getTime() {
+	public BigDecimal getTime() {
 		return time;
 	}
 
@@ -359,7 +418,7 @@ public abstract class Model implements Node {
 		return parameters;
 	}
 
-	
+
 
 	/**
 	 * Recursively look for a parameter
@@ -401,12 +460,23 @@ public abstract class Model implements Node {
 	}
 
 	public void test() throws Exception {
-		
-		
+
+
 	}
 
-	
+	protected BigDecimal findSmallestDt() {
+		double min = root.findSmallestDt();
+		double sDt = stats.getDt().get();
+		if(sDt < min)
+			min = sDt;
+		BigDecimal ret = new BigDecimal(min);
+		ret = ret.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
+		
+		return ret;
+	}
 
-	
+
+
+
 
 }

@@ -170,6 +170,7 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 			double[] out,int ox,int oy,
 			double[] in,int ix,int iy,
 			boolean wrap) {
+		
 		// Check if the output has the right size
 		if (out==null || ox!=ix || oy!=iy)
 			return false;
@@ -230,7 +231,8 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 		int in_ys = in.getSpace().getDiscreteSize()[Y];
 
 		// Update the SVD (because the convolution matrix has changed) ?
-		if (this.updateSVD(kernel) || svd_u_columns==null) {
+
+		if (this.updateSVD(kernel) || svd_u_columns==null   ) {
 			// Extract the rows of V' and scale them by S
 			// as well as the columns of U
 			svd_svt_rows = new double[svd_rank][1*kernel_ys];
@@ -268,8 +270,9 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 	 * (this is a slow test but should be computed once and for all
 	 * if the convolution kernel does not change = compare all the elements)
 	 * @return      false if the SVD did not need to be evaluated/updated */
+	
 	public  boolean updateSVD(Parameter map) {
-		if (svd==null || !svd.isSVDof(map)) {
+		if (svd==null || !svd.isSVDof(map)) { //TODO signal change
 			// Generate a new SVD object
 			// with the singular value decomposition of this matrix
 			svd = new SVD(map);
@@ -292,9 +295,9 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 	 *  (WARNING: parameters are swapped compared to the direct convolution method) */
 	protected  boolean convolveDenseSVDMat(Parameter kernel2,Parameter input2, FFTConvolutionMatrix2D out,boolean wrap) {
 		// Update the SVD (because the convolution matrix has changed) ?
+		
 		if (updateSVD(kernel2) || svd_u_cs==null) {
 
-			
 			
 			
 			int kernel_xs = kernel2.getSpace().getDiscreteSize()[X];
@@ -326,7 +329,6 @@ public class FFTConvolutionMatrix2D extends Matrix2D {
 		
 		int input_xs = input2.getSpace().getDiscreteSize()[X];
 		int input_ys = input2.getSpace().getDiscreteSize()[Y];
-
 		// For each singular value
 		for (int k=0; k<svd_rank; k++) {
 			// Compute the convolution (2-passes of 1D-convolutions)

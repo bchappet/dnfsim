@@ -97,7 +97,7 @@ public class Printer{
 			String model = System.getProperty(MODEL);
 			if(model == null){
 				System.err.println("The model should be precised. For instance " +
-						"add the parameter : model=CNFT show=true");
+						"add the parameters : model=CNFT show=true");
 				System.exit(-1);
 			}
 			String showGUI = System.getProperty(SHOW_GUI);
@@ -162,7 +162,8 @@ public class Printer{
 					root.getActiveModel().getCommandLine().setRunner(runners[i]);
 
 					if(showGui){
-						RunnerGUI applet =  new RunnerGUI(runners[i],root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
+						RunnerGUI applet =  new RunnerGUI(runners[i],root,contextPath,
+								new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
 						// Configure the frame to display the Applet
 						applet.setStub(new AppletStub(applet, "CNFT simulation"));
 //						Thread guiTh = new Thread(applet);

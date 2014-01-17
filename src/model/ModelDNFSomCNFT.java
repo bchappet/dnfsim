@@ -16,7 +16,6 @@ import maps.Var;
 import neigborhood.Neighborhood;
 import neigborhood.V4Neighborhood2D;
 import statistics.Charac;
-import statistics.CharacConvergence2;
 import statistics.CharacMaxMax;
 import statistics.CharacMaxSum;
 import statistics.CharacMeanCompTime;
@@ -200,7 +199,7 @@ public class ModelDNFSomCNFT extends ModelCNFT {
 		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
 		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this);
 		Charac testConv = new CharacTestConvergence(Characteristics.TEST_CONV, stats, noDimSpace, this,
-				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STABIT));
+				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STAB_TIME));
 
 		charac = new Characteristics(noDimSpace, stats, conv,noFocus,maxSum,meanCompTime,maxMax,testConv);
 

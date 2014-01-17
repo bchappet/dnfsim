@@ -1,7 +1,6 @@
 package model;
 
 import maps.AbstractMap;
-import maps.ConvolutionMatrix2D;
 import maps.Leaf;
 import maps.Map;
 import maps.Var;
@@ -12,9 +11,9 @@ import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 import fft.FFTConvolutionMatrix2D;
 
-public class ModelGSpikeFFT extends ModelGSpike {
+public class ModelESpikeFFT extends ModelESpike {
 
-	public ModelGSpikeFFT(String name) {
+	public ModelESpikeFFT(String name) {
 		super(name);
 	}
 	

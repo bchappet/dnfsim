@@ -35,9 +35,9 @@ public class ModelCNFTFFT extends ModelCNFT {
 
 		initLateralWeights();
 
-		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,extendedSpace);
+		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
 
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedSpace);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedComputationSpace);
 
 
 		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),
@@ -45,9 +45,15 @@ public class ModelCNFTFFT extends ModelCNFT {
 
 		cnft.addParameters(cnftW,new Leaf(potential));
 		cnft.constructMemory();
+		potential.constructMemory();
 
 		this.root = potential;
-
+		
+		//affiche les var et map qui n'ont pas de mémoire
+		
+		//System.out.println(root.toStringRecursive(0));
+		
+		root.constructAllMemories();
 
 
 	}

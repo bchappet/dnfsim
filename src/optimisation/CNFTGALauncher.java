@@ -163,7 +163,7 @@ public class CNFTGALauncher extends GALauncher {
 
 
 	protected String[] getOptimizedParameters() {
-		return new String[]{"ia","ib","wa","wb","tau","alpha"};
+		return new String[]{"ia","ib","wa","wb","tau"};
 	}
 
 
@@ -173,9 +173,9 @@ public class CNFTGALauncher extends GALauncher {
 	 */
 	public static void main(String[] args) {
 		try {
-			int popSize = 50;
-			int genMax = 50;
-			CNFTGALauncher ga = new CNFTGALauncher("CNFTFFT",null ,8);
+			int popSize = 5;
+			int genMax = 5;
+			CNFTGALauncher ga = new CNFTGALauncher("CNFTFFT",null ,1);
 
 			GAOptimizer gao = new GAOptimizer( ga,new GACNFTPrinter(), "pop_size="+popSize+";"+"gen_max="+genMax+";");
 			gao.lauchGA();

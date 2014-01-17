@@ -242,4 +242,10 @@ public interface Parameter extends Node, Cloneable {
 
 	public void addParameters(Parameter...params);
 
+	/**
+	 * Return true if memory
+	 * @return
+	 */
+	public boolean isMemory();
+
 }

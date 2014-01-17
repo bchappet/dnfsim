@@ -20,7 +20,6 @@ public class CharacMeanCompTime extends Charac {
 	@Override
 	public double computeTrajectory(double... param) {
 		double ret = Statistics.ERROR;
-		double convtime = get(Characteristics.CONVERGENCE);
 		
 		Trace time = stats.getTrace(Statistics.COMPTIME );
 

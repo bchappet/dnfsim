@@ -6,8 +6,8 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.URL;
-import java.util.Arrays;
 import java.util.Map;
 
 import maps.BadPathException;
@@ -18,7 +18,6 @@ import maps.VarString;
 import model.Model;
 import plot.Trace;
 import precision.PrecisionVar;
-import statistics.CharacConvergence;
 import coordinates.NullCoordinateException;
 
 /**
@@ -28,9 +27,14 @@ import coordinates.NullCoordinateException;
  */
 public class CNFTCommandLine extends CommandLine{
 
-	public static final String ACCERROR = CharacConvergence.ACCERROR;
-	public static final String STABIT = CharacConvergence.STABIT;
-	public static final String SHAPE_FACTOR = CharacConvergence.SHAPE_FACTOR;
+	
+	/**Acceptable error : error threshold to ensure tracking**/
+	public final static String ACCERROR = "accError";
+	/**Number of iteration to ensure convergence**/
+	public final static String STAB_TIME = "stabIt";
+	/**factor applied to the stimulu shape to infer minimum aera**/
+	public final static String SHAPE_FACTOR = "shapeFactor";
+	
 	public static final String ACT_THRESHOLD = "activation_threshold";
 
 	public static final String NB_DISTRACTERS = "distr_nb";
@@ -38,6 +42,10 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String NOISE_AMP = "noise_amp";
 	public static final String TRACK_INTENSITY = "tck_i";
 	public static final String TRACK_WIDTH = "tck_w";
+	public static final String TRACK_CENTER = "tck_center";
+	public static final String TRACK_RADIUS = "tck_radius";
+	public static final String TRACK_PERIOD = "tck_period";
+
 	public static final String TRACK_DT = "tck_dt";
 	public static final String DISTR_DT = "distr_dt";
 	public static final String DISTR_INTENSITY = "distr_i";
@@ -67,25 +75,25 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String PRECISION = "precision";
 	public static final String COMPUTE_CLK = "compute_clk";//frequecy of computation for har model
 
-	
+
 	//Espike 2 inhibitory weight constant
 	public static final String INH_CST = "inh_cst";
-	
+
 	//NSpike real param tau/dt
 	public static final String TAU_DT = "tau_dt";
-	
+
 	//Input files for generated input
 	public static final String INPUT_FILES = "input_files";
 	//Probability generation fractional part size in bit
 	public static final String PROBA_FRAC = "proba_frac";
 	public static final String FRAC = "frac";
-	
+
 	//Model som
 	public static final String DT_DNF = "dt_dnf";
 	public static final String LEARNING_RATE = "learn_rate";
 	public static final String STAT_DT = "stat_dt";
 	public static final String FILE_DT = "file_dt";
-	
+
 	//Mvt detection
 	public static final String ANGLE = "angle";
 	public static final String TCK_SPEED = "tck_speed";
@@ -94,14 +102,20 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String FILTRE_WE = "filtre_we";
 	public static final String FILTRE_CXE = "filtre_cxe";
 	public static final String FILTRE_CYE = "filtre_cye";
-	
+
 	public static final String FILTRE_II = "filtre_ii";
 	public static final String FILTRE_WI = "filtre_wi";
 	public static final String FILTRE_CXI = "filtre_cxi";
 	public static final String FILTRE_CYI = "filtre_cyi";
-	
 
 
+
+
+	public static final String SIMULATION_STEP = "simu_dt";
+
+
+	//http://stackoverflow.com/questions/2206378/how-to-split-a-string-but-also-keep-the-delimiters
+	static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
 
 
 
@@ -121,7 +135,7 @@ public class CNFTCommandLine extends CommandLine{
 	{
 		return ""
 				+ACCERROR+"=0.1;"			+ALPHA+"=10,0,20,0.1;"
-				+STABIT+"=10;" 				+IA+"=1.25,-10,10,0.01;"
+				+STAB_TIME+"=1;" 			+IA+"=1.25,-10,10,0.01;"
 				+IA2+"=1;"
 				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70,-10,10,0.01;"
 				+SHAPE_FACTOR+"=1.5;" 		+WA+"=0.10,0,10,0.01;"
@@ -145,10 +159,10 @@ public class CNFTCommandLine extends CommandLine{
 				+DT_DNF+"=0.01,0,100,0.0001;"			+LEARNING_RATE+"=0.1,0,1,0.001;"
 				+STAT_DT+"=0.1,0,100,0.0001;"	+FILE_DT+"=0.1,0,100,0.0001;"
 				+ANGLE+"=0,-180,180,0.1;"		+TCK_SPEED+"=0.5,0,1,0.01;"
-				+FILTRE_IE+"=1,0,10,0.01;"
-				+FILTRE_WE+"=0.1,0,10,0.01;"
-				+FILTRE_CXE+"=0,0,10,0.01;"
-				+FILTRE_CYE+"=0,0,10,0.01;"
+				+FILTRE_IE+"=1,0,10,0.01;"		+SIMULATION_STEP+"=0.1,0,100,0.0001;"
+				+FILTRE_WE+"=0.1,0,10,0.01;"	+TRACK_CENTER+"=0.0,-10,10,0.001;"
+				+FILTRE_CXE+"=0,0,10,0.01;"		+TRACK_RADIUS+"=0.3,0,20,0.01;"
+				+FILTRE_CYE+"=0,0,10,0.01;"		+TRACK_PERIOD+"=36,0,10000,1;"
 				+FILTRE_II+"=-1,0,10,0.01;"
 				+FILTRE_WI+"=0.1,0,10,0.01;"
 				+FILTRE_CXI+"=0,0,10,0.01;"
@@ -289,23 +303,7 @@ public class CNFTCommandLine extends CommandLine{
 						else
 						{
 							//We try to get the parameter in the model tree
-							try{
-								Parameter res = model.getRootParam().getPath(key,0,null,this);
-								if(res != null)
-								{
-									//Print the value of the given parameter or map
-									if(res instanceof Var)
-										ret += res.get();
-								}
-								else
-								{
-									throw new CommandLineFormatException("La variable " + key + " n'existe pas");
-								}
-							}catch (BadPathException e2) {
-								throw new CommandLineFormatException(e2);
-							}
-							
-
+							ret += findParameterValue(key);
 						}
 					}
 				}
@@ -348,15 +346,31 @@ public class CNFTCommandLine extends CommandLine{
 								String[] numbers = obj.split(",");
 								var.set(Double.parseDouble(numbers[0]));
 								var.setDefinitionSet(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
-								
+
 							}
 							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 							{
 								var.set(Double.parseDouble(obj));
 							}
+							else if(obj.contains("+") || obj.contains("-") || obj.contains("*") ){ //TODO || obj.contains("/")){
+								//http://stackoverflow.com/questions/5085524/regular-expression-for-simple-arithmetic-string
+								//TODO make a real script tool and expression parser in this case
+								//TODO make Trajectory like that
+
+								//No parenthesis
+
+								String[] expr = obj.split(String.format(WITH_DELIMITER, "[+|-|*|/]"));
+								//System.out.println(Arrays.toString(expr));
+								double tmp = this.get(expr[0]).get();
+								for(int i = 2 ; i < expr.length ; i+=2){
+									tmp = computeOperator(tmp,expr[i-1],this.get(expr[i]).get());
+								}
+
+								var.set(tmp);
+							}
 							else//String by default
 							{
-								System.out.println(obj);
+								//System.out.println(obj);
 								((VarString) var).setString(obj);
 							}
 						}
@@ -377,7 +391,12 @@ public class CNFTCommandLine extends CommandLine{
 								}
 								//TODO
 							}catch (BadPathException e) {
-								throw new CommandLineFormatException(e);
+
+								if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") ){//Integer or double
+									map.put(key, new Var(key,Double.parseDouble(obj)));
+								}else{
+									throw new CommandLineFormatException(e);
+								}
 							}
 						}
 					}
@@ -394,6 +413,27 @@ public class CNFTCommandLine extends CommandLine{
 	}
 
 	/**
+	 * TODO dirty
+	 * @param old
+	 * @param string
+	 * @param string2
+	 * @return
+	 */
+	private double computeOperator(double old, String operator, double var) {
+		if(operator.equals("+")){
+			return old + var;
+		}else if(operator.equals("-")){
+			return old - var;
+		}else if(operator.equals("*")){
+			return old * var;
+		}else if(operator.equals("/")){
+			return old / var;
+		}else{
+			return old;
+		}
+	}
+
+	/**
 	 * Return null if nothing was executed (the command did not exist here)
 	 * @param command
 	 * @param value
@@ -401,22 +441,23 @@ public class CNFTCommandLine extends CommandLine{
 	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
+	 * @throws BadPathException 
 	 */
-	private String execAffectation(String command, String value) throws  CommandLineFormatException, NumberFormatException, NullCoordinateException {
+	private String execAffectation(String command, String value) throws  CommandLineFormatException, NumberFormatException, NullCoordinateException{
 		String ret = "";
 		if(command.equals("resolution"))
 		{
-//			System.out.println("resolution =" + value);
-//			Var var = map.get(command);
-//			double newVal = Double.parseDouble(value);
-//			if(var.get() != newVal){
-//				var.set(newVal);
-//				try{
-//					runner.hardReset();
-//				}catch (Exception e) {
-//					throw new CommandLineFormatException("HardResetError",e);
-//				}
-//			}
+			//			System.out.println("resolution =" + value);
+			//			Var var = map.get(command);
+			//			double newVal = Double.parseDouble(value);
+			//			if(var.get() != newVal){
+			//				var.set(newVal);
+			//				try{
+			//					runner.hardReset();
+			//				}catch (Exception e) {
+			//					throw new CommandLineFormatException("HardResetError",e);
+			//				}
+			//			}
 			//TODO
 			//throw new CommandLineFormatException("Resolution can only be set at the model initialization");
 
@@ -425,18 +466,17 @@ public class CNFTCommandLine extends CommandLine{
 		{
 			ret =  execScript(value);
 		}
+		
 		else if(command.equals("wait"))
 		{
-			for(int i = 0 ; i < Integer.parseInt(value) ; i++)
-			{
-				runner.step();
-			}
+			BigDecimal time =  new BigDecimal(value) ; //second 
+			runner.simulate(time);
 		}
 		else if(command.equals("waitNsave"))
 		{
 			for(int i = 0 ; i < Integer.parseInt(value) ; i++)
 			{
-				
+
 				runner.step();
 				try {
 					ret = runner.saveMaps("save/save_"+i);
@@ -448,35 +488,30 @@ public class CNFTCommandLine extends CommandLine{
 		else if(command.equals("print")){
 			String split[] = value.split(",");
 			model.getCharac().compute();
-			if(split[0].equals("all")){
-				//print all characteristics
-				split = model.getCharac().getTrajectoryUnitMapsName();
-			}
 
 			for(String s : split){
-				Parameter p = model.getParameter(s);
-				if(p == null)
-					throw new CommandLineFormatException("The parameter "+s+" does not exist");
+				if(s.equals("all")){
+					String[] all = model.getCharac().getTrajectoryUnitMapsName();
+					for(String s2 : all){
+						ret += findParameterValue(s2) + ",";
+					}
 
-				String res = ""+p.get();
-				if(ret.isEmpty()){
-					ret += res;
 				}else{
-					ret += ","+res;
+					ret += findParameterValue(s) + ",";
 				}
 			}
 		}
-		
+
 		else if(command.equals("trace")){//return a statistic trace
 			String name = value;
-			
-				Trace res = model.getStatistics().getTrace(name);
-				if(res == null){
-					throw new CommandLineFormatException("The trace " + name + " does not exist.");
-				}else{
-					ret = ""+res.toString(true);
-				}
-			
+
+			Trace res = model.getStatistics().getTrace(name);
+			if(res == null){
+				throw new CommandLineFormatException("The trace " + name + " does not exist.");
+			}else{
+				ret = ""+res.toString(true);
+			}
+
 		}
 		else if(command.equals("SaveStats")){
 			try {
@@ -496,7 +531,51 @@ public class CNFTCommandLine extends CommandLine{
 		else
 			ret = null;
 
+		if(ret != null && ret.endsWith(",")){
+
+			ret = ret.substring(0, ret.length()-1);
+		}
+
 		return ret;
+	}
+
+	/**
+	 * Find the parameter (path compliant) and add its value to the result string "ret"
+	 * @param key 
+	 * @return  resulting string with the addition of the key value
+	 * @throws CommandLineFormatException
+	 */
+	protected String findParameterValue(String key) throws CommandLineFormatException{
+		String ret = "";
+		//System.out.println("Find param : " + key);
+		try{
+			Parameter param =model.getParameter(key);
+			if(param == null){
+				param = model.getRootParam().getPath(key,0,null,this);
+			}
+
+			if(param != null)
+			{
+
+				//Print the value of the given parameter or map
+				if(param.getSpace().isNoDim()){
+					ret += param.get();
+				}else{
+					ret += param.hashCode();
+				}
+
+			}
+			else
+			{
+				throw new CommandLineFormatException("La variable " + key + " n'existe pas");
+			}
+		}catch (BadPathException e2) {
+			throw new CommandLineFormatException(e2);
+		}
+
+
+		return ret;
+
 	}
 
 	/**
@@ -540,6 +619,8 @@ public class CNFTCommandLine extends CommandLine{
 		String ret = "";
 		if(command.equals("play"))
 			runner.play();
+		else if(command.equals("init")) //t = 0 computation
+			runner.firstComputation();
 		else if(command.equals("pause"))
 			runner.pause();
 		else if(command.equals("step"))
@@ -593,7 +674,7 @@ public class CNFTCommandLine extends CommandLine{
 						val = 1;
 					else 
 						val = 0;
-					
+
 					map.put(key, new VarBool(key,val));
 				}
 				else if(obj.matches("0b[01]+")){
@@ -610,10 +691,10 @@ public class CNFTCommandLine extends CommandLine{
 				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
 				{
 					String[] numbers = obj.split(",");
-				//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+					//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
 					Var var = new Var(key,Double.parseDouble(numbers[0]),Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
 					map.put(key,var);
-					
+
 				}
 				else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
 				{
@@ -621,7 +702,7 @@ public class CNFTCommandLine extends CommandLine{
 					Var var = new Var(key,Double.parseDouble(obj));
 					map.put(key,var);
 				}
-				
+
 				else//String by default
 				{
 					map.put(key, new VarString(key,obj));
@@ -650,9 +731,10 @@ public class CNFTCommandLine extends CommandLine{
 
 
 
-	public void setRunner(Runner runner) {
+	public void setRunner(Runner runner) throws CommandLineFormatException {
 		this.runner = runner;
-	
+		runner.setSimulationStep(get(CNFTCommandLine.SIMULATION_STEP));
+
 
 	}
 

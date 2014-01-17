@@ -45,14 +45,14 @@ public class ModelGSpike extends ModelCNFT {
 
 		
 
-		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedSpace);
+		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
 
-		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedSpace);
+		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedComputationSpace);
 
 		
 		AbstractMap resetedPotential = new Map("resetedPotential",new SpikingUM(),
-				vdt,space2d);
-		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedSpace);
+				vdt,extendedComputationSpace);
+		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedComputationSpace);
 		
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
 		Var ph = command.get(CNFTCommandLine.RESTING_POTENTIAL);
@@ -91,6 +91,7 @@ public class ModelGSpike extends ModelCNFT {
 		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
 		
 		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
+		statMaps.add(stat.getMax(new Leaf(potential)));
 		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
 		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
 		StatMap[] array = statMaps.toArray(new StatMap[]{});

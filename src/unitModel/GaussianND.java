@@ -21,15 +21,37 @@ public class GaussianND extends UnitModel implements Track{
 	public static final int INTENSITY = 0;
 	public static final int WIDTH = 1;
 	public static final int COORDS = 2;
+	
+	protected Double[] saveCenter;
+	protected Double[] saveDim;
 
 	public GaussianND(Var dt, Space space,Parameter intensity,Parameter width,
 			Parameter ... center) {
 		super(dt, space,ArrayUtils.concat(new Parameter[]{intensity,width},center));
+		saveCenter = new Double[space.getDim()];
+		saveDim = new Double[space.getDim()];
 	}
 
 
 	@Override
 	public double compute() throws NullCoordinateException {
+		//Save center and dim
+		
+		
+		
+		for(int i = 0 ; i < saveCenter.length ; i++)
+			saveCenter[i] = params.get(COORDS+i).get();
+		
+		double width = params.get(WIDTH).get();
+		for(int i = 0 ; i < saveDim.length ; i++)
+			saveDim[i]	=  width;
+		
+//		if(saveCenter[1] >0.0001 ){
+//			System.out.println("Inside::Compute " +  Arrays.toString(saveCenter) + " time : " + time.get());
+//		}
+		
+		
+		
 		//Translate the coor in the center centered refSpace
 		Double[] translation = new Double[params.size()-COORDS];//Translated coordinates
 		for(int i = 0 ; i < translation.length; i++){
@@ -58,20 +80,12 @@ public class GaussianND extends UnitModel implements Track{
 
 	@Override
 	public Double[] getCenter() throws NullCoordinateException {
-		Double[] ret = new Double[space.getDim()];
-		for(int i = 0 ; i < ret.length ; i++)
-			ret[i] = params.get(COORDS+i).get();
-		return ret;
+		return saveCenter;
 	}
 
 	@Override
 	public Double[] getDimension() throws NullCoordinateException {
-		double width = params.get(WIDTH).get();
-		Double[] ret = new Double[space.getDim()];
-		for(int i = 0 ; i < ret.length ; i++)
-			ret[i]	=  width;
-		
-		return ret;
+		return saveDim;
 	}
 
 	

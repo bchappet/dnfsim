@@ -772,7 +772,7 @@ public abstract class Space implements Cloneable,Node{
 	 * @post dim = dim * factor
 	 * @post orig = orig - factor/2d
 	 * @param factor
-	 * @param framed 
+	 * @param framed : if true, no computation in this frame
 	 * @return the new extended Space
 	 */
 	public abstract Space extend(double factor, boolean framed);
@@ -968,6 +968,19 @@ public abstract class Space implements Cloneable,Node{
 
 	public Space getFramedSpace() {
 		return frameSpace;
+	}
+
+
+
+
+	public boolean isNoDim() {
+		boolean ret = true;
+		
+		for(int i = 0 ; i < dimension.length ; i++){
+			ret &= dimension[i] == 0;
+		}
+		
+		return ret;
 	}
 
 

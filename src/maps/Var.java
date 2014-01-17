@@ -15,8 +15,8 @@ import coordinates.Space;
  * Basic class to handle a double
  * 
  * There are two kind of Var :
- * <li> Named one : they can be modified from the outside, consequently a modification will be signaled to the parents of this Var</li>
- * <li> Unamed one : they cannot be modified from the outside, nothing will be signaled during modification</li>
+ * <li> Named one : they can be modified from the GUI, consequently a modification will be signaled to the parents of this Var</li>
+ * <li> Unamed one : they cannot be modified from the GUI, nothing will be signaled during modification</li>
  * 
  * TODO : separate in two distinct classes to speed up the acces : are the unamed one usefull (could be replaced by double variable)
  * TODO : not delay compatible but it would not be useful,
@@ -339,6 +339,11 @@ public class Var implements Parameter,Cloneable {
 	public void addParameters(Parameter... params) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	@Override
+	public boolean isMemory(){
+		return true;
 	}
 
 	

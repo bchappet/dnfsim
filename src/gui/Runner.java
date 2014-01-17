@@ -2,11 +2,12 @@ package gui;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import maps.Var;
 import model.Model;
-import console.CNFTCommandLine;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 
@@ -18,9 +19,7 @@ import coordinates.NullCoordinateException;
  * time as "iteration" attribute value.
  * Otherwise, if a gui is present, the thread wait for play to be true.
  * 
- * As several thread can be lauched with the same model, the core used is given by the "core" attribute.
- * 
- * 
+ * As several thread can be launched with the same model, the core used is given by the "core" attribute.
  * 
  * 
  * 
@@ -53,25 +52,31 @@ public class Runner  implements Runnable{
 	/**Core used #**/
 	protected int core;
 	
+	
+
+	
 	/**
 	 * Time of each step
-	 * TODO why is it also the diplay dt now? (from dnf_som...)
+	 * TODO why is it also the display dt now? (from dnf_som...)
 	 */
-	protected double timeStep = 0.01; //in s
+	protected Var guiStep = null; //in s
+	
+	/**Current time of simulation**/
+	protected BigDecimal time;
+	
+	
 
 
-
-
-
-	public Runner(Model model,String scenario,Printer printer){
+	public Runner(Model model,String scenario,Printer printer) throws CommandLineFormatException{
 		this.model = model;
 		this.scenario = scenario;
 		this.gui = null;
 		this.printer = printer;
 		this.lock = new ReentrantLock(true);
+		this.time = BigDecimal.ZERO;
 	}
-	
-	
+
+
 	public void setLock(Lock lock){
 		this.lock = lock;
 	}
@@ -80,33 +85,55 @@ public class Runner  implements Runnable{
 	/**
 	 * One update of the model**
 	 * of time in seconds
-	 
+
 	 */
 	public void step()
 	{
 		try {
-			update(timeStep);
-			
+			BigDecimal gStep = new BigDecimal(guiStep.get());
+			gStep = gStep.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
+			time = time.add(gStep);
+			update(time);
+
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		}
-		
-
 		if(play)
 			play = false;
 
 	}
-	
+
+	/**
+	 * Simulate to time  timeToReach (s)
+	 * @param time
+	 * @throws CommandLineFormatException 
+	 */
+	public void simulate(BigDecimal timeToReach) throws CommandLineFormatException {
+		System.out.println("Simulate :  Current time = " + time + " time end = " +  timeToReach);
+		
+		BigDecimal gStep = new BigDecimal(guiStep.get());
+		gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
+		
+		time = time.add(gStep);
+		while( time.compareTo( timeToReach) <= 0){
+			System.out.println(" ==> update " + time);
+			update(time);
+			time = time.add(gStep);
+		}
+
+	}
+
 	/**
 	 * Update the model
 	 * time in seconds
 	 * @throws CommandLineFormatException
 	 */
-	protected void update(double time) throws CommandLineFormatException
+	protected void update(BigDecimal timeToReach) throws CommandLineFormatException
 	{
 		lock.lock(); //this lock ensure that we do not change the displayed model or change parameters during computation
 		try{
-			model.update(time);
+			System.out.println("Update ==> " + timeToReach);
+			model.update(timeToReach);
 			if(gui != null)
 				gui.repaint();
 		}finally{
@@ -117,21 +144,22 @@ public class Runner  implements Runnable{
 
 	@Override
 	public void run(){
-
-
-
-
+		
 		//Lauch scenario if there is one
 		try{
+			
+			
+			
+			
 			if(scenario != null){ //as many time as iteration
 				for(int i = 0 ; i< iteration ; i ++){
 					//System.out.println("scenar : " + scenario);
 					String ret = model.getCommandLine().parseCommand(scenario);
-					
-					printer.print(ret);//as sevaral thread want to print their results, we ordonance the display with a printer
 
-					reinitialize();
-					reset();
+					printer.print(ret);//as several threads want to print their results, we ordonance the display with a printer
+
+//					reinitialize();
+//					reset();
 				}
 			}
 		}catch (Exception e) {
@@ -146,13 +174,19 @@ public class Runner  implements Runnable{
 					while(!play && !exit)
 						Thread.sleep(100);
 					long time_start = System.currentTimeMillis();
-					update(timeStep);
+					
+					BigDecimal gStep = new BigDecimal(guiStep.get());
+					gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
+					
+					time = time.add(gStep);
+					
+					update(time);
+					long computationTime = System.currentTimeMillis()-time_start;
 					// Remaining delay to wait after the computations
-					long d = (long)(speedRatio * model.getDt() * 1000)-(System.currentTimeMillis()-time_start);
+					long sleep = (long)(guiStep.get()*1000-computationTime);
 					// Wait for the necessary amount of time
-
-					if (d>0)
-						Thread.sleep(d);
+					if (sleep>0)
+						Thread.sleep(sleep);
 
 				}catch (Exception e) {
 					e.printStackTrace();
@@ -167,6 +201,14 @@ public class Runner  implements Runnable{
 	public void setPrinter(Printer printer2) {
 		this.printer = printer2;
 	}
+	
+	/**
+	 * Compute time = 0 state
+	 * @throws CommandLineFormatException 
+	 */
+	public void firstComputation() throws CommandLineFormatException{
+		update(BigDecimal.ZERO);
+	}
 
 
 
@@ -176,9 +218,11 @@ public class Runner  implements Runnable{
 	 * Reinitialize parameters with the  default script and the context command
 	 */
 	public void reinitialize()
+	
 	{
 		try{
 			model.getCommandLine().reinitialize();
+			this.time = BigDecimal.ZERO;
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (CommandLineFormatException e) {
@@ -193,6 +237,7 @@ public class Runner  implements Runnable{
 	 */
 	public void reset() {
 		model.reset();
+		this.time = BigDecimal.ZERO;
 	}
 
 	public void setSpeedRatio(double v)
@@ -222,21 +267,15 @@ public class Runner  implements Runnable{
 		return speedRatio;
 	}
 
-
-
 	public void setGui(RunnerGUI gui) {
 		this.gui = gui;
 	}
 
 	public void exit() {
-		
+
 		exit = true;
-		if(gui != null)
-			gui.exit();
 
 	}
-
-
 
 	public boolean isPlay() {
 		return play;
@@ -247,16 +286,16 @@ public class Runner  implements Runnable{
 		this.iteration = iteration2;
 
 	}
-	
-	
+
+
 
 	public double getTimeStep() {
-		return timeStep;
+		return guiStep.get();
 	}
 
 
 	public void setTimeStep(double timeStep) {
-		this.timeStep = timeStep;
+		this.guiStep.set(timeStep);
 	}
 
 
@@ -278,7 +317,6 @@ public class Runner  implements Runnable{
 	 */
 	public String saveMaps(String filename) throws NullCoordinateException, IOException {
 		return model.save(filename,model.getDefaultDisplayedParameter());
-		
 	}
 
 	/**
@@ -290,13 +328,13 @@ public class Runner  implements Runnable{
 		if(gui != null){
 			//System.out.println("Hard reset");
 			gui.resetHard();
+			this.time = BigDecimal.ZERO;
 		}
-		
 	}
 
 	public void setModel(Model model2) {
 		this.model = model2;
-		
+
 	}
 
 	/**
@@ -307,7 +345,7 @@ public class Runner  implements Runnable{
 	public void setSavemap(boolean savemap, int core) {
 		this.savemap = savemap;
 		this.core = core;
-		
+
 	}
 
 
@@ -317,14 +355,25 @@ public class Runner  implements Runnable{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 
 
+	public void setSimulationStep(double d) {
+		guiStep.set(d);
 
-	
-	
-	
+	}
+
+
+	public double getSimulationStep() {
+		return guiStep.get();
+	}
+
+
+	public void setSimulationStep(Var var) {
+		guiStep = var;
+	}
+
+
 }
 
 

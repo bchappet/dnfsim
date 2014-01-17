@@ -10,6 +10,11 @@ import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
+/**
+ * A leaf is an accesible copy of a map which is not accessible with a recursion in the tree
+ * @author bchappet
+ *
+ */
 public class Leaf  implements Parameter{
 	
 	protected Parameter map;
@@ -207,6 +212,10 @@ public class Leaf  implements Parameter{
 	
 	public void addParameters(Parameter...params){
 		//TODO 
+	}
+	
+	public boolean isMemory(){
+		return map.isMemory();
 	}
 
 	

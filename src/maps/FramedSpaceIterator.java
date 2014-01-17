@@ -57,7 +57,9 @@ public class FramedSpaceIterator implements Iterator<Unit> {
 
 		if(resFrameSpace != resSpace){
 
-			double ratio = resSpace/(double)resFrameSpace;
+			//double ratio = resSpace/(double)resFrameSpace;
+			//System.out.println("resSpace : " + resSpace + " resFrame space : " + resFrameSpace);
+			//System.out.println("Ratio : " + ratio);
 			int offSet =(resSpace - resFrameSpace)/2;
 
 

@@ -121,6 +121,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 			if(((Model) linked).isInitilized()){
 				List<Object> l = new LinkedList<Object>();
 				l.add(((Model) linked).getRefSpace());
+				l.add(((Model) linked).getRootParam());
 				l.addAll(((Model)linked).getParameters());
 				return l;
 			}else{

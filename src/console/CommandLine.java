@@ -4,6 +4,7 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Map;
 
+import maps.BadPathException;
 import maps.Var;
 import maps.VarBool;
 import maps.VarString;
@@ -116,8 +117,9 @@ public class CommandLine  {
 	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
+	 * @throws BadPathException 
 	 */
-	public String parseCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException
+	public String parseCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException, BadPathException
 	{
 
 		command = command.replaceAll("\\s+", "");
@@ -267,8 +269,9 @@ public class CommandLine  {
 	 * @throws FileNotFoundException 
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
+	 * @throws BadPathException 
 	 */
-	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, NumberFormatException, NullCoordinateException {
+	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, NumberFormatException, NullCoordinateException, BadPathException {
 		parseCommand(defaultScript());
 		parseCommand(command);
 	}

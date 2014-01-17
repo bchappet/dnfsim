@@ -35,7 +35,6 @@ public class ModelNSpike extends ModelESpike{
 
 
 	/** Amount of spike emitted when a neuron is firing **/
-	protected int n; 
 	protected Parameter pn;
 	
 
@@ -63,6 +62,7 @@ public class ModelNSpike extends ModelESpike{
 						1/this.space.getSimulationSpace().getResolution());
 			}
 		};
+		hppa.toStatic();
 
 		Parameter ppb = command.get(CNFTCommandLine.WB);
 		hppb = new TrajectoryUnitMap("pb_hidden",command.get(CNFTCommandLine.DT),noDimSpace, ppb) {
@@ -72,6 +72,7 @@ public class ModelNSpike extends ModelESpike{
 						1/this.space.getSimulationSpace().getResolution());
 			}
 		};
+		hppb.toStatic();
 
 		Parameter pA =  command.get(CNFTCommandLine.IA);
 		hpA = new TrajectoryUnitMap("A_hidden",command.get(CNFTCommandLine.DT),noDimSpace,pA,alphaP,pn) {
@@ -85,6 +86,7 @@ public class ModelNSpike extends ModelESpike{
 						(40*40)/param[1];
 			}
 		};
+		hpA.toStatic();
 		Parameter pB =  command.get(CNFTCommandLine.IB);
 		hpB  = new TrajectoryUnitMap("B_hidden",command.get(CNFTCommandLine.DT),noDimSpace, pB,alphaP,pn) {
 			//B = B /(res*res*n)*(40*40)/alpha
@@ -97,8 +99,9 @@ public class ModelNSpike extends ModelESpike{
 						(40*40)/param[1];
 			}
 		};
+		hpB.toStatic();
 		pTau = command.get(CNFTCommandLine.TAU);
-
+		
 		addParameters(ppa,ppb,pA,pB,pTau,pn,alphaP,command.get(CNFTCommandLine.THRESHOLD));
 	}
 
@@ -107,11 +110,11 @@ public class ModelNSpike extends ModelESpike{
 	{
 		Var vdt = command.get(CNFTCommandLine.DT);
 
-		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedSpace);
+		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedComputationSpace);
 
 		AbstractMap resetedPotential = new Map("resetedPotential",new SpikingUM(),
 				vdt,extendedFramedSpace);
-		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedSpace);
+		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedComputationSpace);
 
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
 		Var ph = command.get(CNFTCommandLine.RESTING_POTENTIAL);
@@ -143,7 +146,7 @@ public class ModelNSpike extends ModelESpike{
 	protected void initLateralWeights() throws NullCoordinateException, CommandLineFormatException 
 	{
 		cnft = (AbstractMap) getLateralWeights(
-				CNFT,command.get(CNFTCommandLine.DT),extendedSpace,
+				CNFT,command.get(CNFTCommandLine.DT),extendedComputationSpace,
 				pn,hpA,hppa,pn,hpB,hppb,focus,new Var("focusThreshold",0));
 	}
 

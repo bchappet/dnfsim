@@ -7,6 +7,7 @@ import gui.Suscriber;
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class ModelCNFT extends Model{
 	public static final String CNFTW = "CNFT_Weights";
 	public static final String CNFT = "CNFT";
 	public static final String POTENTIAL = "Potential";
-	/**Distractors name  DISTR_i **/
+	/**Distracters name  DISTR_i **/
 	protected static final String DISTR = "distr";
 	/**Tracks name  TRACK_i **/
 	public static final String TRACK = "track";
@@ -86,7 +87,8 @@ public class ModelCNFT extends Model{
 	/**The two type of refSpace used in the unitModel**/
 	protected Space space2d;//2 dim refSpace
 	protected Space noDimSpace;//"no dim" refSpace : only one value
-	protected Space extendedSpace; //For the lateral weight (if no wrap res*=2)
+	protected Space extendedConvSpace; //For the lateral weight (if no wrap : res*=2) (convolution kernel)
+	protected Space extendedComputationSpace;//Frame of computation if no wrap
 	protected Space extendedFramedSpace; //For no wrap => no computation outside the frame
 
 
@@ -105,21 +107,34 @@ public class ModelCNFT extends Model{
 
 		space2d = refSpace.clone();//Standard 2D space for the 2D map 
 		space2d.setDimension(new int[]{1,1});
-		
 
-		double extension = 1; //extension for the weight map if we don't wrap
-		if(!refSpace.isWrap())
-			extension = 2;
-		//Extended space is a -1,1 (instead of -0.5,0.5) space
+
+		double extensionConvolution = 1; //extension for the weight map if we don't wrap
+		double extensionComputation = 1; //More computation space if we wrap
+		if(!refSpace.isWrap()){
+			extensionConvolution = 2; //we need a kernel of 2 time the map
+			extensionComputation = 1.2; //enough to diminish border effects
+
+		}
+
+
+		//If no wrap we may want to compute outside the borders
+		//-0.6,0.6 (instead of -0.5,0.5) space
+		extendedComputationSpace = space2d.extend(extensionComputation,false);
+		//System.out.println(extendedComputationSpace.getResolution());
+		//Extended space is a -1.2,1.2 (instead of -0.5,0.5) space
 		// used for lateral weights map in case of non wrapped convolution
-		extendedSpace = space2d.extend(extension,false);
-		//System.out.println(extendedSpace.getResolution());
-		
-		
-		extendedFramedSpace = space2d.extend(extension,true);
-		
+		extendedConvSpace = extendedComputationSpace.extend(extensionConvolution,false);
+		//System.out.println(extendedConvSpace.getResolution());
+
+		//If no wrap, we are using this space to have value outside the frame
+		//but we do not compute outside the frame
+		//the frame state that we don't want to compute outside the frame, for the input for instance
+		extendedFramedSpace = space2d.extend(extensionComputation,true);
+
 
 		//Displayed parameter
+		addParameters(command.get(CNFTCommandLine.DT));
 		addParameters(command.get(CNFTCommandLine.NB_TRACKS));
 		addParameters(command.get(CNFTCommandLine.TRACK_DT));
 		addParameters(command.get(CNFTCommandLine.NB_DISTRACTERS));
@@ -130,7 +145,7 @@ public class ModelCNFT extends Model{
 
 
 		initDefaultInput();
-		initLateralWeightParams(extendedSpace);
+		initLateralWeightParams(extendedConvSpace);
 		initModel();
 	}
 
@@ -189,7 +204,7 @@ public class ModelCNFT extends Model{
 			@Override
 			public double computeTrajectory(double... param) {
 				//System.out.println("Res : " + extendedSpace.getSimulationSpace().getResolution());
-				
+
 				double ret = param[0] / 
 						(extendedSpace.getSimulationSpace().getResolution()*
 								extendedSpace.getSimulationSpace().getResolution()) *
@@ -247,30 +262,20 @@ public class ModelCNFT extends Model{
 	protected void initModel() throws CommandLineFormatException, NullCoordinateException
 	{
 		Var vdt = command.get(CNFTCommandLine.DT); //default dt
-
 		initLateralWeights();
-
-		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedSpace);
-
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedSpace);
-
+		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedComputationSpace);
 
 		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),
 				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL));
-
 		cnft.addParameters(cnftW,new Leaf(potential));
 		cnft.constructMemory();
-
+		potential.constructMemory();
 		this.root = potential;
-		
-		
-
-
-
 	}
 
 	protected void initLateralWeights() throws NullCoordinateException, CommandLineFormatException {
-		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedSpace, hpA, pa, hpB, pb);
+		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedConvSpace, hpA, pa, hpB, pb);
 	}
 	/**
 	 * init the default input 
@@ -293,6 +298,7 @@ public class ModelCNFT extends Model{
 		//Construct the input as a sum of theses params
 		UnitModel sum = new Sum(command.get(CNFTCommandLine.INPUT_DT),extendedFramedSpace, mNoise);
 		this.input = new Map(INPUT,sum);
+		this.input.constructMemory();
 		modifyModel();
 
 	}
@@ -335,22 +341,25 @@ public class ModelCNFT extends Model{
 	 */
 	protected AbstractMap constructTrack(String name, int num, int nbTrack) throws NullCoordinateException, CommandLineFormatException{
 		Map cx = new Map("CenterX_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
-				new Var("center",0),new Var("radius",0.3),new Var("period",36),new Var("phase",num/(double)nbTrack+0)){
-//			@Override
-//			public double compute() throws NullCoordinateException {
-//				double ret =  params.get(CENTER).get()+params.get(RADIUS).get()*
-//						cos(2*PI*(time.get()/params.get(PERIOD).get()-params.get(PHASE).get()));
-//				System.out.println(time.get() + "==>" + ret+ "@"+time.hashCode());
-//				return ret;
-//			}
-		}){
-//			public void update(double timeLimit) throws NullCoordinateException{
-//				super.update(timeLimit);
-//				System.out.println(name + ": time : " + time.get() + "@"+time.hashCode());
-//			}
-		};
+				command.get(CNFTCommandLine.TRACK_CENTER),
+				command.get(CNFTCommandLine.TRACK_RADIUS),
+				command.get(CNFTCommandLine.TRACK_PERIOD),
+				new Var("tck_phase",num/(double)nbTrack+0)));
+		//new Var("center",0),new Var("radius",0.3),new Var("period",36),new Var("tck_phase",num/(double)nbTrack+0)){
+		//			@Override
+		//			public double compute() throws NullCoordinateException {
+		//				double ret =  params.get(CENTER).get()+params.get(RADIUS).get()*
+		//						cos(2*PI*(time.get()/params.get(PERIOD).get()-params.get(PHASE).get()));
+		//				System.out.println(time.get() + "==>" + ret+ "@"+time.hashCode());
+		//				return ret;
+		//			}
+				
 		Map cy = new Map("CenterY_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
-				new Var("center",0),new Var("radius",0.3),new Var("period",36),new Var("phase",num/(double)nbTrack + 0.25)));
+				command.get(CNFTCommandLine.TRACK_CENTER),
+				command.get(CNFTCommandLine.TRACK_RADIUS),
+				command.get(CNFTCommandLine.TRACK_PERIOD),
+				new Var("tck_phase",num/(double)nbTrack + 0.25)));
+		//new Var("center",0),new Var("radius",0.3),new Var("period",36),new Var("tck_phase",num/(double)nbTrack + 0.25)));
 
 
 		UnitModel track = new GaussianND(command.get(CNFTCommandLine.TRACK_DT),extendedFramedSpace,
@@ -358,6 +367,14 @@ public class ModelCNFT extends Model{
 				command.get(CNFTCommandLine.TRACK_WIDTH), 
 				cx,cy);
 		AbstractMap ret =  new Map(name,track);
+		//{
+//			public void update(BigDecimal timeLimit) throws NullCoordinateException{
+//				System.out.println("Update Input === : " +  name + ": time : " + time.get() + "@"+time.hashCode() + Arrays.toString(Thread.currentThread().getStackTrace()));
+//				//System.out.println(this.display2D());
+//				super.update(timeLimit);
+//				
+//			}
+//		};
 		ret.constructMemory();//otherwise the position is changed at each computation step
 		trackable.add((Map) ret);
 		return ret;
@@ -379,15 +396,16 @@ public class ModelCNFT extends Model{
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),space2d,this);
+		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
 		
+		Stat stat = new Stat(stat_dt,space2d,this);
+
 		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
 		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
 		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
 		statMaps.add(stat.getMax(new Leaf(potential)));
 		StatMap[] array = statMaps.toArray(new StatMap[]{});
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
-				noDimSpace,array);
+		stats = new Statistics("Stats",stat_dt,noDimSpace,array);
 
 	}
 
@@ -399,10 +417,10 @@ public class ModelCNFT extends Model{
 		Charac noFocus = new CharacNoFocus(Characteristics.NO_FOCUS, stats, noDimSpace, this, conv);
 		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this);
 		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
-		Charac accError = new CharacAccError(Characteristics.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STABIT));
+		Charac accError = new CharacAccError(Characteristics.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STAB_TIME));
 		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this);
 		Charac testConv = new CharacTestConvergence(Characteristics.TEST_CONV, stats, noDimSpace, this,
-				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STABIT));
+				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STAB_TIME));
 
 		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv);
 
@@ -520,7 +538,7 @@ public class ModelCNFT extends Model{
 		}
 		return ret.subSequence(0, ret.length()-1)+"]";
 	}
-	
+
 	public void test() throws Exception{
 		// change the input
 		Map map = new RandomTestAbstractMap(INPUT,
@@ -530,18 +548,18 @@ public class ModelCNFT extends Model{
 		for(AbstractMap p : input.getParents()){
 			p.replaceParameter(map);
 		}
-		
+
 		removeParameters(command.get(CNFTCommandLine.NB_TRACKS),
 				command.get(CNFTCommandLine.TRACK_DT),
 				command.get(CNFTCommandLine.NB_DISTRACTERS),
 				command.get(CNFTCommandLine.DISTR_DT),
 				command.get(CNFTCommandLine.NOISE_AMP),
 				command.get(CNFTCommandLine.NOISE_DT));
-		
-		
+
+
 		addParameters(command.get(CNFTCommandLine.NOISE_AMP));
 		addParameters(command.get(CNFTCommandLine.NOISE_DT));
-		
+
 		this.input = map;
 	}
 

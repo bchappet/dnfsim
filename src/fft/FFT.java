@@ -38,7 +38,7 @@ package fft;
     along with DNF.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-import java.util.*;
+import java.util.Arrays;
 
 public class FFT {
   // Size of the data and log_2 of this size

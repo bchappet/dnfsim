@@ -127,7 +127,7 @@ public class RoundedSpace extends Space {
 
 		//TODO : the new res should be a TrajectoryMap with the "main" resolution as parameter
 		//=> when the "main" resolution changes, the new res will change automatically
-		double newRes = (int)this.res*factor;
+		double newRes = (int)(this.res*factor);
 		if(newRes%2==0)
 			newRes++;
 		Space ret=  new RoundedSpace(newOrig, newSize, 

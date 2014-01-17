@@ -27,10 +27,13 @@ public class NSpikeUM extends NeighborhoodUnitModel implements Precomputation{
 
 
 	/**Only neighborhood used here**/
-	public static final int NEIGHBOORS = 0;
+	public static final int NEIGHBORS = 0;
 
 	/**Routing politic for spikes**/
 	protected Routing routing;
+	
+	/**Optimisation: fast acces to the neighboors**/
+	protected Unit[] neighbors;
 
 
 	public NSpikeUM(Routing routing){
@@ -40,6 +43,11 @@ public class NSpikeUM extends NeighborhoodUnitModel implements Precomputation{
 	@Override
 	public void precompute() {
 		activity.set(0);
+		
+	}
+	
+	public void onNeighborhoodAddition(){
+		neighbors = neighborhoods.get(NEIGHBORS);
 	}
 
 	@Override
@@ -56,11 +64,13 @@ public class NSpikeUM extends NeighborhoodUnitModel implements Precomputation{
 	}
 
 	protected void emmit(int nbSpike){
+	
+		
 		int[][] targets = this.routing.getFirstTargets();
 		//Send the remaining spikes to the target neighboors
 		for(int i = 0 ; i< targets.length ; i++){
 			//	System.out.println("target : " + targets[i][Routing.TARGET] + " from : "+targets[i][Routing.DIRECTION]);
-			Unit targetUnit = neighborhoods.get(NEIGHBOORS)[targets[i][Routing.TARGET]];
+			Unit targetUnit = neighbors[targets[i][Routing.TARGET]];
 			if(targetUnit != null && targetUnit.getUnitModel() instanceof NSpikeUM){
 				((NSpikeUM) targetUnit.getUnitModel()).receive(nbSpike,targets[i][Routing.DIRECTION]);
 			}
@@ -75,39 +85,40 @@ public class NSpikeUM extends NeighborhoodUnitModel implements Precomputation{
 	protected void receive(int nbSpike,int from){
 		//System.out.println(Arrays.toString(space.discreteProj(coord))+" received " + nbSpike + " from "+ from);
 		//Apply probability on incoming spikes
-		int nbSpikeReceived = this.applyProbability(nbSpike,params.get(PROBA).get(coord));
+		double proba = params.get(PROBA).get(coord);
+		int nbSpikeReceived = this.applyProbability(nbSpike,proba);
 		if( nbSpikeReceived > 0){
 			//Increase activity according to the nbSpikeReceived
 			//System.out.println(activity.get() + "+" +nbSpikeReceived +"*" +params.get(INTENSITY).get(coord));
 			//System.out.println("nb spike received: " + nbSpikeReceived);
-			this.activity.set(this.activity.get() + nbSpikeReceived*params.get(INTENSITY).get(coord));
+			this.activity.val = (this.activity.val + nbSpikeReceived*params.get(INTENSITY).get(coord));
 			//System.out.println("activity : " + activity.get());
 			//Get the target of spikes knowing type of routing and incoming direction
 			int[][] targets = this.routing.getTargets(from);
 			//Send the remaining spikes to the target neighboors
 			for(int i = 0 ; i< targets.length ; i++){
-				Unit targetUnit = neighborhoods.get(NEIGHBOORS)[targets[i][Routing.TARGET]];
+				Unit targetUnit = neighbors[targets[i][Routing.TARGET]];
+				
 				try{
 					int direction = targets[i][Routing.DIRECTION];//Direction frome here to target
 					//System.out.println("target : " + target + " direction " + direction + " wrap " + space.isWrap());
 					//System.out.println("target : " + this.neighborhoods.get(NEIGHBOORS)[target]);
 					NSpikeUM target = ((NSpikeUM)targetUnit.getUnitModel());
 					
-					if(params.get(PROBA).get(coord) == 1 && detectWrapping(target)){
+					if(proba == 1 && detectWrapping(target)){
 						//nothing if proba == 1 no transmission on tore limit
 						//System.out.println("noTransmission");
 					}else{
-						
 //						if(params.get(PROBA).get(coord) == 1){
 //							//System.out.println("Transmission");
 //						}
-
 						target.receive(nbSpikeReceived,direction);
 					}
+				}catch(ClassCastException e){
+					
 				}
-				catch(ClassCastException e){
-					//System.out.println("Null " + Arrays.toString(coord));
-				}
+				
+				
 			}
 		}
 

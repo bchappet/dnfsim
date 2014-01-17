@@ -90,7 +90,6 @@ public class Stat {
 		list.add(sizeBubbleW);
 		list.add(sizeBubbleH);
 		list.add(convergence);
-		list.add(getGoodFocus(leaf, convergence, sizeBubbleW, sizeBubbleH,error));
 		list.add(trueError);
 		list.add(getAccError(leaf, convergence, trueError));
 
@@ -160,8 +159,11 @@ public class Stat {
 					for(int j = 0 ; j < dy ; j++)
 					{
 						sum += map.get(i + j * dx) ;
+						//if (map.get(i + j * dx) > 0.001)
+						//System.out.println(map.get(i + j * dx));
 					}
 				}
+				//System.out.println("Test conv : " + sum + "(time: " + this.time.val + ")" );//+ Arrays.toString(Thread.currentThread().getStackTrace()));
 				return sum;
 
 			}
@@ -177,7 +179,6 @@ public class Stat {
 			@Override
 			public double computeStatistic() {
 				Map param = (Map) ((Leaf)getParam(0)).getMap();
-
 				double max = Double.MIN_VALUE;
 				for(int i = 0 ; i < param.getSpace().getDiscreteVolume() ;i ++){
 					double current = param.get(i);
@@ -280,54 +281,50 @@ public class Stat {
 			return accError;
 	}
 
-	protected StatMap getGoodFocus(Leaf leaf,StatMap conv,StatMap width,StatMap height,StatMap error){
-		StatMap goodFocus = new StatMap(Statistics.FOCUS,dt,noDimSpace,tracks,leaf,conv,width,height,error){
-			@Override
-			public double computeStatistic() {
-				double conv = getParam(1).get();
-				double bubbleWidth =  getParam(2).get();
-				double bubbleHeight =  getParam(3).get();
-
-				double ret = Statistics.ERROR;
-
-				if(conv != Statistics.ERROR){
-					if(bubbleHeight == 0 && bubbleWidth == 0){
-						ret = 0.0;
-					}
-					else{
-						ret = 1.0;
-					}
-				}
-				return ret;
-
-			}};
-			return goodFocus;
-	}
+//	protected StatMap getGoodFocus(Leaf leaf,StatMap conv,StatMap width,StatMap height,StatMap error){
+//		StatMap goodFocus = new StatMap(Statistics.FOCUS,dt,noDimSpace,tracks,leaf,conv,width,height,error){
+//			@Override
+//			public double computeStatistic() {
+//				double conv = getParam(1).get();
+//				double bubbleWidth =  getParam(2).get();
+//				double bubbleHeight =  getParam(3).get();
+//
+//				double ret = Statistics.ERROR;
+//
+//				if(conv != Statistics.ERROR){
+//					if(bubbleHeight == 0 && bubbleWidth == 0){
+//						ret = 0.0;
+//					}
+//					else{
+//						ret = 1.0;
+//					}
+//				}
+//				return ret;
+//
+//			}};
+//			return goodFocus;
+//	}
 
 	protected StatMap getGoodTracking(Leaf leaf,StatMap closestTrack,StatMap width,StatMap height,StatMap error){
 		StatMap goodTracking = new StatMap(Statistics.CONVERGENCE,dt,noDimSpace,tracks,leaf,closestTrack,width,height,error){
 
 			int trackedStimulis = Statistics.ERROR;
 			boolean goodTracking = false; //True if tracked and curent are the same or there is no trackedStimulis
-			int stab = 0; //Nb iteration with stab
-			int i = 1; //iteration
-			int convergence = Statistics.ERROR;
+			double stab = 0; //Time with stab
+			double convergence = Statistics.ERROR;
 
 			@Override
 			public void reset(){
 				super.reset();
 				trackedStimulis = Statistics.ERROR;
 				goodTracking = false; //True if tracked and curent are the same or there is no trackedStimulis
-				stab = 0; //Nb iteration with stab
-				i = 1; //iteration
+				stab = 0; //Time with stab
 				convergence = Statistics.ERROR;
 			}
 
 			@Override
 			public double computeStatistic() {
-
-				//				System.out.println("Compute stats" + Arrays.toString(Thread.currentThread().getStackTrace()));
-
+				//System.out.println("Compute stats" + Arrays.toString(Thread.currentThread().getStackTrace()));
 				if(convergence == Statistics.ERROR){
 
 					int currentStimulis = (int)( ((Parameter) getParam(1)).get());
@@ -337,7 +334,7 @@ public class Stat {
 
 					double shapeFactor = getCommand(CNFTCommandLine.SHAPE_FACTOR).get();
 					double acceptableError = getCommand(CNFTCommandLine.ACCERROR).get();
-					double stabIt = getCommand(CNFTCommandLine.STABIT).get();
+					double stabTime = getCommand(CNFTCommandLine.STAB_TIME).get();//in second
 
 
 
@@ -363,20 +360,16 @@ public class Stat {
 						Double[] center = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getCenter();
 
 
-						//					System.out.println(stats.get(widthId,i) +"<=" +shapeFactor*tracked.getWidth(center) 
-						//					+"&&" +stats.get(heightId,i)+ "<="+ shapeFactor*tracked.getHeight(center));
 						double width = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.X];
 						double height = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.Y];
 						if(bubbleWidth != Statistics.ERROR && bubbleWidth <= shapeFactor*width 
 								&& bubbleHeight <= shapeFactor*height && bubbleWidth > 0 &&  bubbleHeight > 0)
 						{
-
-							//System.out.println("test : " +stats.get(errorId,i) +"<="+ get(ACCERROR));
+							//System.out.println("i:" + i +" :: " +errorDist +"<=?"+ acceptableError);
 							if(errorDist != Statistics.ERROR && errorDist <= acceptableError)
 							{
-
-								//System.out.println("i:" + i +" :: " +errorDist +"<="+ acceptableError);
-								stab ++;
+							//	System.out.println("stab:" + stab +" :: " +errorDist +"<="+ acceptableError);
+								stab = stab + dt.get();
 							}
 							else
 							{
@@ -401,18 +394,13 @@ public class Stat {
 
 
 
-					if(stab == stabIt)
-						convergence = (int) (i - (stabIt-1));
+					if(stab >= stabTime)
+						convergence = time.get() - stabTime;
 					else
 						convergence = Statistics.ERROR;
-
-					i++;
-
-
-
 				}
 
-				//				System.out.println(convergence + Arrays.toString(Thread.currentThread().getStackTrace()));
+			//	System.out.println(convergence);// + Arrays.toString(Thread.currentThread().getStackTrace()));
 				return convergence;
 			}
 		};
@@ -699,6 +687,8 @@ public class Stat {
 	/**
 	 * Return the coordinates StatMap for the target. It correspond to the barycenter of
 	 * coordinates normalized with wsum and scaled with the refSpace
+	 * 
+	 * @since version 0.6, framed space compliant for no wrap computations
 	 * 	
 	 * @param leaf
 	 * @param wsum
@@ -706,7 +696,7 @@ public class Stat {
 	 */
 	private List<StatMap> getCoorBubble(Leaf leaf,StatMap wsum) {
 		List<StatMap> ret = new ArrayList<StatMap>(2);
-		//Warning : if the focus bubble is wrapped it does not work! //TODO
+		//TODO Warning : if the focus bubble is wrapped it does not work! 
 		StatMap centerX = new StatMap(Statistics.CENTER_X,dt,noDimSpace,tracks,leaf,wsum) {
 
 			@Override
@@ -725,9 +715,10 @@ public class Stat {
 							sumX += pot.get(i + j * dx) * i;
 						}
 					}
-					// Normalize the center coordinates
+					// Normalize the center coordinates (div by wsum)
 					sumX = sumX/((StatMap) this.getParam(1)).get();
-					sumX = space.continusousProj(sumX, Space.X);
+					//project to have the good continuous coordinates
+					sumX = pot.getSpace().continusousProj(sumX, Space.X);
 					return sumX;
 				}else{
 					return Statistics.ERROR;
@@ -756,7 +747,7 @@ public class Stat {
 					}
 					// Normalize the center coordinates
 					sumY = sumY/((StatMap) this.getParam(1)).get();
-					sumY = space.continusousProj(sumY, Space.Y);
+					sumY = pot.getSpace().continusousProj(sumY, Space.Y);
 					return sumY;
 				}else{
 					return Statistics.ERROR;
@@ -807,9 +798,9 @@ public class Stat {
 	 * @return
 	 */
 	public StatMap getMeanSquareSOM(Leaf leaf) {
-		
+
 		Map map = (Map) leaf.getMap();
-		
+
 		StatMap wsum = new StatMap(Statistics.MSE_SOM,dt,noDimSpace,tracks,map){
 
 			@Override
@@ -817,29 +808,29 @@ public class Stat {
 				NeighborhoodMap map =   (NeighborhoodMap) this.getParam(0);
 				Space spaceMap = map.getSpace();
 				Neighborhood neigh = map.getNeighborhoods().get(0);
-				
+
 				double add = 0;
 				double nb = 0;
-				
+
 				double scale = 1.0;
-				
+
 				for(int i = 0 ; i  < spaceMap.getFramedSpace().getDiscreteVolume() ; i++){
 					int fullIndex = FramedSpaceIterator.framedToFullIndex(i, spaceMap);
-				
-					
+
+
 					double[] currentC = ((SomUM) map.getUnit(fullIndex).getUnitModel()).getWeights();
 					int[] neighboors = neigh.getNeighborhood(fullIndex);
-					
-					
+
+
 					for(int n : neighboors){
-					
+
 						double[] neighC = ((SomUM) map.getUnit(n).getUnitModel()).getWeights();
 						double distance = Math.sqrt(Math.pow(currentC[Space.X] - neighC[Space.X], 2) + Math.pow(currentC[Space.Y] - neighC[Space.Y], 2))/scale;
 						add += distance;
 						nb ++;
 					}
 				}
-				
+
 				//System.out.println("add " + add + " nb " + nb);
 				return add / nb;
 
@@ -847,7 +838,7 @@ public class Stat {
 		};
 
 		return wsum;
-		
+
 	}
 
 

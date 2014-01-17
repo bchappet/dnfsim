@@ -116,7 +116,7 @@ public class ModelESpike extends ModelGSpike {
 	@Override
 	protected void initLateralWeights() throws NullCoordinateException,  CommandLineFormatException 
 	{
-		cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedSpace, hpA, hppa, hpB, hppb);
+		cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedConvSpace, hpA, hppa, hpB, hppb);
 	}
 	
 	@Override

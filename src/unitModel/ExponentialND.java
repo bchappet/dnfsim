@@ -13,15 +13,29 @@ public class ExponentialND extends UnitModel implements Track  {
 	public static final int INTENSITY = 0;
 	public static final int PROBA = 1;
 	public static final int COORDS = 2;
+	
+	protected Double[] saveCenter;
+	protected Double[] saveDim;
 
 
 	public ExponentialND(Var dt, Space space,Parameter intensity,Parameter proba,
 			Parameter ... center) {
 		super(dt, space,ArrayUtils.concat(new Parameter[]{intensity,proba},center));
+		saveCenter = new Double[space.getDim()];
+		saveDim = new Double[space.getDim()];
 	}
 
 	@Override
 	public double compute() throws NullCoordinateException {
+		//Save center and dim
+		for(int i = 0 ; i < saveCenter.length ; i++)
+			saveCenter[i] = params.get(COORDS+i).get();
+		
+		double width = params.get(PROBA).get();
+		for(int i = 0 ; i < saveDim.length ; i++)
+			saveDim[i]	=  width;
+		
+		
 		Double[] intCoor = space.discreteProj(coord); //Discrete value of this coordinates
 		Double[] center = new Double[params.size()-COORDS];
 		for(int i = 0 ; i < center.length; i++){
@@ -40,22 +54,13 @@ public class ExponentialND extends UnitModel implements Track  {
 
 	@Override
 	public Double[] getCenter() throws NullCoordinateException {
-		Double[] ret = new Double[space.getDim()];
-		for(int i = 0 ; i < ret.length ; i++)
-			ret[i] = params.get(COORDS+i).get();
-		return ret;
+		return saveCenter;
 	}
 
 	@Override
 	public Double[] getDimension() throws NullCoordinateException {
-		double width = params.get(PROBA).get();
-		Double[] ret = new Double[space.getDim()];
-		for(int i = 0 ; i < ret.length ; i++)
-			ret[i]	=  width;
-		
-		return ret;
+		return saveDim;
 	}
-
 	
 
 	

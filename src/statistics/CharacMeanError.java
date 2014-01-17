@@ -16,12 +16,13 @@ public class CharacMeanError extends Charac {
 		
 		double ret = Statistics.ERROR;
 		double convtime = get(Characteristics.CONVERGENCE);
+		int convIt = (int) Math.round( (convtime/stats.dt.get()));
 		if(convtime != Statistics.ERROR)
 		{
 			Trace error = stats.getTrace(Statistics.TRUE_ERROR);
 			double mean = 0;
 			double nb = 0;
-			for(int i = (int) convtime ; i <  error.size() ; i++)
+			for(int i = convIt ; i <  error.size() ; i++)
 			{
 				double err = error.get(i);
 				if(err != Statistics.ERROR)

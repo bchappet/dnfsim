@@ -22,13 +22,7 @@ import coordinates.Space;
 public class CharacConvergence extends Charac{
 
 	//Parameters
-	/**Acceptable error : error threshold to ensure tracking**/
-	public final static String ACCERROR = "accError";
-	/**Number of iteration to ensure convergence**/
-	public final static String STABIT = "stabIt";
 	
-	/**factor applied to the stimulu shape to infer minimum aera**/
-	public final static String SHAPE_FACTOR = "shapeFactor";
 
 
 

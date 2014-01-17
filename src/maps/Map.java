@@ -45,24 +45,42 @@ public class Map extends AbstractUnitMap {
 	/**
 	 * Generate the collection with as much unit as necessary
 	 * @throws NullCoordinateException 
+
+	/**@bug 14/01/14 : when the model did initial computation and 
+	//memory is constructed after, the initial computation result disapear if
+	//no more computation are done
+	@fixed 14/01/14 : make a copy of the values, and then affect them.
 	 */
-	public  void constructMemory() 
+	synchronized public void constructMemory() 
 	{
 
 		if(!isMemory)
 		{
-			//	System.out.println("Construct memory of " + name + Arrays.toString(Thread.currentThread().getStackTrace()));
+			boolean noRecursivity = assertNoRecursivity(); //true if there is no recursivity: no leaf of this map in the parameters
+			
+			
+		//	System.out.println("Construct memory of " + name + Arrays.toString(Thread.currentThread().getStackTrace()));
+		//	System.out.println("nRecursivity : " + noRecursivity);
 			//Init the coordinate array of this unit
 
 			//Create the generic collection
 			this.units =  new ArrayList<Unit>();
 			//Construct as much unitModel as necessary
-			//with the correct coordinate
+			//with the correct coordinate and the right value...
 			//System.out.println(this.name + " construct memory vol = " + space.getDiscreteVolume());
 			for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
 			{
 				UnitModel u = (UnitModel)unitModel.clone();
 				u.setCoord(space.indexToCoord(i));
+				
+				if(noRecursivity){
+//					double val = this.get(i);
+//					if(val > 0.01 && name.equals("Inputs"))
+//						System.out.println("Name : " + name + " Val : " + val + " i : " + i  + " @ " + Arrays.toString(Thread.currentThread().getStackTrace()));
+//					u.set(val);
+				}else{
+					//We did not starded 
+				}
 				this.units.add(new Unit(u));
 			}
 			this.isMemory = true;
@@ -70,6 +88,25 @@ public class Map extends AbstractUnitMap {
 	}
 
 
+
+	/**
+	 * Explore the dependence of this map to find a leaf with itself
+	 * @return true if no recursivity was found
+	 * 
+	 */
+	protected boolean assertNoRecursivity() {
+		boolean ret = true;
+		for(Parameter p : params){
+			if(p instanceof Leaf){
+				if(((Leaf)p).map == this ){
+					ret = false;
+				}
+			}else if(p instanceof Map){
+				ret &= ((Map)p).assertNoRecursivity();
+			}
+		}
+		return ret;
+	}
 
 	/**
 	 * One iteration of computation
@@ -112,7 +149,7 @@ public class Map extends AbstractUnitMap {
 		}
 	}
 
-	
+
 
 
 	@Override
@@ -128,8 +165,8 @@ public class Map extends AbstractUnitMap {
 			}
 
 		}
-		
-		
+
+
 
 
 		return clone;

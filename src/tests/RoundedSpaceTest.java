@@ -596,7 +596,7 @@ public class RoundedSpaceTest extends TestCase {
 	@Test
 	public void extendsSpace() throws NullCoordinateException{
 		space = new DefaultRoundedSpace(new Var(50), 2,true); 
-		Space extended = space.extend(2d);
+		Space extended = space.extend(2d,false);
 		System.out.println(extended);
 		System.out.println(extended.getDiscreteSize()[0] +"=="+ (space.getDiscreteSize()[0]*2));
 		assertTrue(extended.getDiscreteSize()[0] == space.getDiscreteSize()[0]*2);

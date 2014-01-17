@@ -241,7 +241,7 @@ public class RunnerGUI extends GUI{
 
 		for(Node p : root.getActiveModel().getDefaultDisplayedParameter())
 		{
-			System.out.println("search : " + p);
+			//System.out.println("search : " + p);
 			DisplayNode disp = treeView.getNode(p);
 			maps.addView(disp.getQuickViewPanel());
 		}
@@ -350,10 +350,10 @@ public class RunnerGUI extends GUI{
 			}
 		});
 
-		SliderCommand timeStepCommand = new SliderCommand("TimeStep (ms)", 1,
-				100, 100, ((int) runner.getSpeedRatio() * 100)) {
+		SliderCommand timeStepCommand = new SliderCommand("SimulationStep (ms)", 1,
+				400, 10, (int) (runner.getSimulationStep() * 1000)) {
 			protected void valueChanged(int value) {
-				runner.setSpeedRatio(value / 100d);
+				runner.setSimulationStep(value / 1000d);
 			}
 		};
 		
@@ -610,10 +610,7 @@ public class RunnerGUI extends GUI{
 
 
 
-	public void exit() {
-		System.exit(0);
-
-	}
+	
 
 
 
