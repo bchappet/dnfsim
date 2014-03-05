@@ -251,7 +251,7 @@ public class Statistics{
 				BigDecimal bTime = new BigDecimal(time.val );
 				bTime = bTime.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
 				if(timeLimit.compareTo(bTime) >= 0){
-					System.out.println("Update stats : " + this.time.val);
+					//System.out.println("Update stats : " + this.time.val);
 					this.compute();
 					this.time.val = bTime.doubleValue() + dt.get();
 				}

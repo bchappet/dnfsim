@@ -134,11 +134,11 @@ public class CNFTCommandLine extends CommandLine{
 	protected  String defaultScript()
 	{
 		return ""
-				+ACCERROR+"=0.1;"			+ALPHA+"=10,0,20,0.1;"
+				+ACCERROR+"=0.12;"			+ALPHA+"=10,0,20,0.1;"
 				+STAB_TIME+"=1;" 			+IA+"=1.25,-10,10,0.01;"
 				+IA2+"=1;"
 				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70,-10,10,0.01;"
-				+SHAPE_FACTOR+"=1.5;" 		+WA+"=0.10,0,10,0.01;"
+				+SHAPE_FACTOR+"=2.0;" 		+WA+"=0.10,0,10,0.01;"
 				+NB_DISTRACTERS+"=0,0,40,1;"		+WB+"=1.00,0,10,0.01;"
 				+NB_TRACKS+"=2,0,40,1;"
 				+NOISE_AMP+"=0.00,0,10,0.01;"			+TAU+"=0.75,0,10,0.01;"

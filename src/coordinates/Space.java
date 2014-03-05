@@ -487,10 +487,10 @@ public abstract class Space implements Cloneable,Node{
 	 * @throws NullCoordinateException if the coordinate x is null and the dimension x is defined
 	 */
 	public int coordToIndex(Double... coord) throws NullCoordinateException {
-		//System.out.println("Début : " + Arrays.toString(coord));
+//		System.out.println("Début : " + Arrays.toString(coord));
 		int i = 0;
 		Double[] newCoord = this.discreteProj(coord);
-		//System.out.println("NewCoord : " + Arrays.toString(newCoord));
+//		System.out.println("NewCoord : " + Arrays.toString(newCoord));
 		try{
 			int index = 0; //returned index
 			for(i = 0 ; i < dim ; i++)

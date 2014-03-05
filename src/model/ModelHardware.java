@@ -1,6 +1,7 @@
 package model;
 
 import hardSimulator.NullSpikingNeuronHUM;
+import hardSimulator.SpikingNeuronCAPRNGUHM;
 import hardSimulator.SpikingNeuronHUM;
 
 import java.util.Arrays;
@@ -103,20 +104,22 @@ public class ModelHardware extends ModelNSpike {
 		fp_hpA.toStatic();
 		fp_hpB.toStatic();
 		fp_threshold.toStatic();
-		System.out.println("pa : " +fp_hppa.get());
-		System.out.println("pb : " +fp_hppb.get());
-		System.out.println("ia : "+fp_hpA.get());
-		System.out.println("ib : " +fp_hpB.get());
+		this.addParameters(command.get(CNFTCommandLine.BUFF_WIDTH));
+		this.addParameters(command.get(CNFTCommandLine.COMPUTE_CLK));
+		System.out.println("pa : " + fp_hppa.get());
+		System.out.println("pb : " + fp_hppb.get());
+		System.out.println("ia : " + fp_hpA.get());
+		System.out.println("ib : " + fp_hpB.get());
 		System.out.println("th : " + fp_threshold.get());
 		
 	}
-
 	
-
 	protected void initModel() throws CommandLineFormatException, NullCoordinateException
 	{
 		Var vdt = command.get(CNFTCommandLine.DT); //integration dt*
-		
+
+		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
+
 		//In this model we use an input already multiplied by dt/tau
 		Map hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
 			
@@ -125,29 +128,29 @@ public class ModelHardware extends ModelNSpike {
 				return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
 			}
 		});
-		
-		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
-		displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
+
+
+
+		Parameter displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return dt.get()/param[0];
 			}
 		};
 		displayDt.toStatic();
-		
+
 		potential = new NeighborhoodMap(POTENTIAL,new SpikingNeuronHUM(),displayDt,space2d,
 				compute_clk,
 				fp_hpA,fp_hpB,fp_hppa,fp_hppb,fp_threshold,
-				command.get(CNFTCommandLine.FRAC),
-				pn,hard_input,pTau,vdt);
+				command.get(CNFTCommandLine.BUFF_WIDTH),
+				pn,hard_input,pTau,vdt,new Var(8));
 		Neighborhood nei = new V4Neighborhood2D(space2d,
 				new UnitLeaf((UnitParameter) potential));
 		nei.setNullUnit(new NullSpikingNeuronHUM());
 		((NeighborhoodMap)potential).addNeighboors(nei);
 		potential.toParallel();
-		
-		
-		
+
+
 		this.root = potential;
 
 		focus = new SubUnitMap(FOCUS, (AbstractUnitMap) potential, SpikingNeuronHUM.SPIKING_UNIT);
@@ -159,12 +162,19 @@ public class ModelHardware extends ModelNSpike {
 			public double compute() throws NullCoordinateException {
 				return getParam(0).get(coord)*getParam(2).get(coord) - getParam(1).get(coord)*getParam(3).get(coord);
 			}
-			
+
 		});
-		this.addParameters(sum);
+		this.addParameters(sum);//to reach it
+		//this.addParameters(caMaps.toArray(new Map[]{}));
+
+
 
 		root.constructMemory();
 	}
+
+	
+
+
 
 	@Override
 	public List<Parameter> getDefaultDisplayedParameter() {

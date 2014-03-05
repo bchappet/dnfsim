@@ -351,7 +351,7 @@ public class RunnerGUI extends GUI{
 		});
 
 		SliderCommand timeStepCommand = new SliderCommand("SimulationStep (ms)", 1,
-				400, 10, (int) (runner.getSimulationStep() * 1000)) {
+				10000, 10, (int) (runner.getSimulationStep() * 1000)) {
 			protected void valueChanged(int value) {
 				runner.setSimulationStep(value / 1000d);
 			}

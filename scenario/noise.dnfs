@@ -1,5 +1,6 @@
 tck_nb=1;
 noise_amp=0;
+init;
 wait=1;
 noise_amp=3;
 noise_dt=1;

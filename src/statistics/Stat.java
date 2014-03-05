@@ -273,6 +273,7 @@ public class Stat {
 					}
 					else{
 						ret = 0.0;
+						//System.out.println("ret = 0");
 					}
 				}
 				return ret;
@@ -281,30 +282,39 @@ public class Stat {
 			return accError;
 	}
 
-//	protected StatMap getGoodFocus(Leaf leaf,StatMap conv,StatMap width,StatMap height,StatMap error){
-//		StatMap goodFocus = new StatMap(Statistics.FOCUS,dt,noDimSpace,tracks,leaf,conv,width,height,error){
-//			@Override
-//			public double computeStatistic() {
-//				double conv = getParam(1).get();
-//				double bubbleWidth =  getParam(2).get();
-//				double bubbleHeight =  getParam(3).get();
-//
-//				double ret = Statistics.ERROR;
-//
-//				if(conv != Statistics.ERROR){
-//					if(bubbleHeight == 0 && bubbleWidth == 0){
-//						ret = 0.0;
-//					}
-//					else{
-//						ret = 1.0;
-//					}
-//				}
-//				return ret;
-//
-//			}};
-//			return goodFocus;
-//	}
+	//	protected StatMap getGoodFocus(Leaf leaf,StatMap conv,StatMap width,StatMap height,StatMap error){
+	//		StatMap goodFocus = new StatMap(Statistics.FOCUS,dt,noDimSpace,tracks,leaf,conv,width,height,error){
+	//			@Override
+	//			public double computeStatistic() {
+	//				double conv = getParam(1).get();
+	//				double bubbleWidth =  getParam(2).get();
+	//				double bubbleHeight =  getParam(3).get();
+	//
+	//				double ret = Statistics.ERROR;
+	//
+	//				if(conv != Statistics.ERROR){
+	//					if(bubbleHeight == 0 && bubbleWidth == 0){
+	//						ret = 0.0;
+	//					}
+	//					else{
+	//						ret = 1.0;
+	//					}
+	//				}
+	//				return ret;
+	//
+	//			}};
+	//			return goodFocus;
+	//	}
 
+	/**
+	 * @Update 23/01/2014 : remove the focus parameter, as we can track a target without focus
+	 * @param leaf
+	 * @param closestTrack
+	 * @param width
+	 * @param height
+	 * @param error
+	 * @return
+	 */
 	protected StatMap getGoodTracking(Leaf leaf,StatMap closestTrack,StatMap width,StatMap height,StatMap error){
 		StatMap goodTracking = new StatMap(Statistics.CONVERGENCE,dt,noDimSpace,tracks,leaf,closestTrack,width,height,error){
 
@@ -312,6 +322,7 @@ public class Stat {
 			boolean goodTracking = false; //True if tracked and curent are the same or there is no trackedStimulis
 			double stab = 0; //Time with stab
 			double convergence = Statistics.ERROR;
+			double preconvergence = Statistics.ERROR;
 
 			@Override
 			public void reset(){
@@ -320,6 +331,7 @@ public class Stat {
 				goodTracking = false; //True if tracked and curent are the same or there is no trackedStimulis
 				stab = 0; //Time with stab
 				convergence = Statistics.ERROR;
+				preconvergence = Statistics.ERROR;
 			}
 
 			@Override
@@ -335,47 +347,70 @@ public class Stat {
 					double shapeFactor = getCommand(CNFTCommandLine.SHAPE_FACTOR).get();
 					double acceptableError = getCommand(CNFTCommandLine.ACCERROR).get();
 					double stabTime = getCommand(CNFTCommandLine.STAB_TIME).get();//in second
+					
 
 
 
 
 					if(currentStimulis == Statistics.ERROR) //We cannot compute the closest track
 					{
-						goodTracking = false;
-					}
-					else if(trackedStimulis == Statistics.ERROR) 
-						//We initiate the closest track at the beginin or after a failed convergence
-					{
-						trackedStimulis = currentStimulis;
-						goodTracking = true;
-					}
-					else
-					{
-						goodTracking = (trackedStimulis == currentStimulis);
-					}
+						//we dont change the good tracking
+						
+						if(goodTracking){
+							stab = stab + dt.get();
+							//System.out.println("stab : " + stab);
+							if(stab > stabTime && preconvergence == Statistics.ERROR){
+								preconvergence = time.get() - stabTime;
+								//System.out.println("Preconvergence = " + preconvergence);
+							}
+						}
+						
+					}else{
 
-					if(goodTracking)
-					{
-						AbstractMap tracked = model.getTracked(trackedStimulis);
-						Double[] center = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getCenter();
-
-
-						double width = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.X];
-						double height = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.Y];
-						if(bubbleWidth != Statistics.ERROR && bubbleWidth <= shapeFactor*width 
-								&& bubbleHeight <= shapeFactor*height && bubbleWidth > 0 &&  bubbleHeight > 0)
+						if(trackedStimulis == Statistics.ERROR) 
+							//We initiate the closest track at the beginin or after a failed convergence
 						{
-							//System.out.println("i:" + i +" :: " +errorDist +"<=?"+ acceptableError);
-							if(errorDist != Statistics.ERROR && errorDist <= acceptableError)
+							trackedStimulis = currentStimulis;
+							//System.out.println("Tracked Stimulis : " + trackedStimulis);
+							goodTracking = true;
+						}
+						else
+						{
+							goodTracking = (trackedStimulis == currentStimulis);
+						}
+
+						if(goodTracking)
+						{
+
+							AbstractMap tracked = model.getTracked(trackedStimulis);
+							Double[] center = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getCenter();
+
+
+							double width = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.X];
+							double height = ((Track) ((AbstractUnitMap) tracked).getUnitModel()).getDimension()[Space.Y];
+							if(bubbleWidth != Statistics.ERROR && bubbleWidth <= shapeFactor*width 
+									&& bubbleHeight <= shapeFactor*height && bubbleWidth > 0 && bubbleHeight > 0)
 							{
-							//	System.out.println("stab:" + stab +" :: " +errorDist +"<="+ acceptableError);
-								stab = stab + dt.get();
+								//							System.out.println("i:" + i +" :: " +errorDist +"<=?"+ acceptableError);
+								if(errorDist != Statistics.ERROR && errorDist <= acceptableError)
+								{
+									//System.out.println(" t = " + time.get() + " stab:" + stab +" :: " +errorDist +"<="+ acceptableError);
+									stab = stab + dt.get();
+								}
+								else
+								{
+									//Reinitiate convergence
+									stab = 0;
+									trackedStimulis = Statistics.ERROR;
+									//System.out.println("Reset " + " error dist " + errorDist);
+								}
 							}
 							else
 							{
 								//Reinitiate convergence
 								stab = 0;
 								trackedStimulis = Statistics.ERROR;
+								//System.out.println("Reset" + " bubbleWidth : " + bubbleWidth + " bubble height " + bubbleHeight);
 							}
 						}
 						else
@@ -384,23 +419,24 @@ public class Stat {
 							stab = 0;
 							trackedStimulis = Statistics.ERROR;
 						}
+
+
+
+						if(stab > stabTime){
+							if(preconvergence == Statistics.ERROR){
+								convergence = time.get() - stabTime;
+								//System.out.println("convergence = " + convergence);
+							}else{
+								convergence = preconvergence;
+							}
+						}
+						else
+							convergence = Statistics.ERROR;
 					}
-					else
-					{
-						//Reinitiate convergence
-						stab = 0;
-						trackedStimulis = Statistics.ERROR;
-					}
-
-
-
-					if(stab >= stabTime)
-						convergence = time.get() - stabTime;
-					else
-						convergence = Statistics.ERROR;
 				}
 
-			//	System.out.println(convergence);// + Arrays.toString(Thread.currentThread().getStackTrace()));
+				//System.out.println("Convergence : " +convergence);// + Arrays.toString(Thread.currentThread().getStackTrace()));
+				//System.out.println("Good tracking : " + goodTracking);
 				return convergence;
 			}
 		};
@@ -448,8 +484,8 @@ public class Stat {
 
 					if(nb > 0)
 					{
-						int height = maxY - minY;
-						//System.out.println("height = " + height);
+						int height = maxY - minY + 1;
+						//	System.out.println("height = " + height);
 						//Normalize the size :
 						res = space.distContinuousProj(height, Space.Y);
 					}
@@ -501,10 +537,10 @@ public class Stat {
 
 					if(nb > 0)
 					{
-						int height = maxX - minX;
-						//System.out.println("height = " + height);
+						int width = maxX - minX + 1;
+						//System.out.println("width = " + width);
 						//Normalize the size :
-						res = space.distContinuousProj(height, Space.X);
+						res = space.distContinuousProj(width, Space.X);
 					}
 
 
@@ -596,6 +632,7 @@ public class Stat {
 
 					ret =	((Track) ((AbstractUnitMap)closest).getUnitModel()).getCenter()[Space.X];
 				}
+				//System.out.println("TrackX = " + ret);
 				return ret;
 			}
 		};
@@ -656,32 +693,47 @@ public class Stat {
 				double minD = Double.MAX_VALUE;
 				AbstractMap centerX = (AbstractMap) this.getParam(0);
 				AbstractMap centerY = (AbstractMap) this.getParam(1);
+				//System.out.println("CenterX: " + centerX.get());
+				//System.out.println("CenterY: " + centerY.get());
 				Double[] center = new Double[]{centerX.get(),centerY.get()};
-				if(!(center[Space.X].isNaN() || center[Space.X].isInfinite() ))
-				{
-					for(int i = 0 ; i < tracks.size() ; i++)
+
+				if(!isError(center)){
+
+					if(!(center[Space.X].isNaN() || center[Space.X].isInfinite() ))
 					{
-						AbstractMap p = (AbstractMap) tracks.get(i);
-						//System.out.println("Track : " + p.getName() + " @"+ p.hashCode());
-						double d = Space.distance(
-								((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter(),
-								center);
-						//System.out.println("focus : " + Arrays.toString(center));
-						//System.out.println("Distance : " +Arrays.toString(((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter()) + " and " + Arrays.toString(center) );
-						//	System.out.println("d:"+d + ", minD : " + minD);
-						if(d < minD)
+						for(int i = 0 ; i < tracks.size() ; i++)
 						{
-							minD = d;
-							closest = p;
+							AbstractMap p = (AbstractMap) tracks.get(i);
+							//System.out.println("Track : " + p.getName() + " @"+ p.hashCode());
+							double d = Space.distance(
+									((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter(),
+									center);
+							//System.out.println("focus : " + Arrays.toString(center));
+							//System.out.println("Distance : " +Arrays.toString(((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter()) + " and " + Arrays.toString(center) );
+							//System.out.println("d:"+d + ", minD : " + minD);
+							if(d < minD)
+							{
+								minD = d;
+								closest = p;
+							}
 						}
+						ret = closest.hashCode();
 					}
-					ret = closest.hashCode();
+
 				}
 				//System.out.println("error : " + ret);
 				return ret;
 			}
 		};
 		return closestTrack;
+	}
+
+	public static  boolean isError(Double... vect) {
+		boolean ret = true;
+		for(Double v : vect){
+			ret &= v.equals(new Double(Statistics.ERROR));
+		}
+		return ret;
 	}
 
 	/**

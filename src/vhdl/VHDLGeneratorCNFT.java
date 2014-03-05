@@ -40,7 +40,7 @@ public class VHDLGeneratorCNFT extends VHDLGenerator {
 			bw.println("entity cnft_map is");
 			bw.println("PORT(");
 			bw.println(getMapPorts());
-			bw.println("clk,compute_clk,reset : in std_logic");
+			bw.println("clk,compute,nextComp,reset : in std_logic");
 			bw.println(");");
 			bw.println("end cnft_map;");
 			bw.println("architecture Behavioral of cnft_map is");
@@ -128,12 +128,13 @@ public class VHDLGeneratorCNFT extends VHDLGenerator {
 		ret += "COMPONENT neuron_mixt"+i+"_"+j+"\n" +
 				"PORT(\n" +
 				VHDLNeuronGeneratorCNFT.generatePotentialPorts(res) +
-				"     input : IN  std_logic_vector(INT+FRAC downto 0);\n" +
-				"     potentialOut : OUT  std_logic_vector(INT+FRAC-1 downto 0);\n" +
-				"     clk : IN  std_logic;\n" +
-				"	  compute_clk : In std_logic;\n" +
-				"     reset : IN  std_logic\n" +
-				"     );\n" +
+				"input : IN  std_logic_vector(INT+FRAC downto 0);\n" +
+				"potentialOut : OUT  std_logic_vector(INT+FRAC-1 downto 0);\n" +
+				"clk : IN  std_logic;\n" +
+				"compute : IN std_logic;\n" +
+				"nextComp : IN std_logic;\n" +
+				"reset : IN  std_logic\n" +
+				");\n" +
 				"END COMPONENT;";
 
 		return ret;
@@ -159,7 +160,8 @@ public class VHDLGeneratorCNFT extends VHDLGenerator {
 		
 			ret +=		"potentialOut => potentialS"+x+"_"+y+",\n"+
 						"clk => clk,\n"+
-						"compute_clk => compute_clk,\n"+
+						"compute => compute,\n"+
+						"nextComp => nextComp,\n"+
 						" reset => reset\n"+
 						");";
 

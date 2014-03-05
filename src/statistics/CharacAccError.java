@@ -35,12 +35,12 @@ public class CharacAccError extends Charac {
 			ret = 0;
 			for(int i = convIt; i < accError.size() ; i++){
 			
-				if(accError.get(i) != 1.0){
+				if(accError.get(i) == 0){
 					ret ++;
 				}
 			}
 			
-			ret = ret - stabIt ;
+			
 		}
 		//load=tracking.dnfs;print=all;
 		

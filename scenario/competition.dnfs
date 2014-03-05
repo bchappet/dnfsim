@@ -1,3 +1,4 @@
 noise_amp=0.01;
 tck_nb=2;
+init;
 wait=100;

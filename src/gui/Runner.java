@@ -109,14 +109,14 @@ public class Runner  implements Runnable{
 	 * @throws CommandLineFormatException 
 	 */
 	public void simulate(BigDecimal timeToReach) throws CommandLineFormatException {
-		System.out.println("Simulate :  Current time = " + time + " time end = " +  timeToReach);
+		//System.out.println("Simulate :  Current time = " + time + " time end = " +  timeToReach);
 		
 		BigDecimal gStep = new BigDecimal(guiStep.get());
 		gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
 		
 		time = time.add(gStep);
 		while( time.compareTo( timeToReach) <= 0){
-			System.out.println(" ==> update " + time);
+			//System.out.println(" ==> update " + time);
 			update(time);
 			time = time.add(gStep);
 		}
@@ -132,7 +132,7 @@ public class Runner  implements Runnable{
 	{
 		lock.lock(); //this lock ensure that we do not change the displayed model or change parameters during computation
 		try{
-			System.out.println("Update ==> " + timeToReach);
+			//System.out.println("Update ==> " + timeToReach);
 			model.update(timeToReach);
 			if(gui != null)
 				gui.repaint();
@@ -147,10 +147,6 @@ public class Runner  implements Runnable{
 		
 		//Lauch scenario if there is one
 		try{
-			
-			
-			
-			
 			if(scenario != null){ //as many time as iteration
 				for(int i = 0 ; i< iteration ; i ++){
 					//System.out.println("scenar : " + scenario);
@@ -158,9 +154,13 @@ public class Runner  implements Runnable{
 
 					printer.print(ret);//as several threads want to print their results, we ordonance the display with a printer
 
-//					reinitialize();
-//					reset();
+					reinitialize();
+					reset();
 				}
+			}else{//there is no scenario, we init manually
+				
+				this.firstComputation();
+				
 			}
 		}catch (Exception e) {
 			e.printStackTrace();

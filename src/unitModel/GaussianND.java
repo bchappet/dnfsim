@@ -41,7 +41,6 @@ public class GaussianND extends UnitModel implements Track{
 		
 		for(int i = 0 ; i < saveCenter.length ; i++)
 			saveCenter[i] = params.get(COORDS+i).get();
-		
 		double width = params.get(WIDTH).get();
 		for(int i = 0 ; i < saveDim.length ; i++)
 			saveDim[i]	=  width;

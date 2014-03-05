@@ -8,6 +8,7 @@ track_1.CenterY_1.tck_dt.share=tmp1;
 track_0.CenterX_0.tck_dt.share=tmp1;
 track_0.CenterY_0.tck_dt.share=tmp1;
 tmp1=10000;
+init;
 wait=50;
 tck1_i=0;
 wait=50;

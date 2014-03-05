@@ -49,12 +49,6 @@ public class ModelCNFTFFT extends ModelCNFT {
 
 		this.root = potential;
 		
-		//affiche les var et map qui n'ont pas de mémoire
-		
-		//System.out.println(root.toStringRecursive(0));
-		
-		root.constructAllMemories();
-
 
 	}
 

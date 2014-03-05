@@ -1,3 +1,4 @@
+init;
 wait=10;
 distr_dt=1;
 distr_nb=5;

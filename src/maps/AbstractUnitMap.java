@@ -215,6 +215,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 
 		if(isMemory)
 		{
+			//System.err.println("Coor : " + Arrays.toString(coord));
 			//System.err.println("Nom : " + this.name + ". space : " + this.space);
 			int index = this.space.coordToIndex(coord);
 			double ret = units.get(index).get(delay);

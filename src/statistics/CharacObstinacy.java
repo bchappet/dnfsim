@@ -30,7 +30,16 @@ public class CharacObstinacy extends Charac {
 			Trace closestTrack = stats.getTrace(Statistics.CLOSEST_TRACK);
 		
 			//the tracked stimulus is the tracked one at conv time
-			int previousStimulusHash = (int) closestTrack.get( convIt);
+			int previousStimulusHash;
+		
+			//Since it can be Error, we have to find the next valid one
+			do{
+				previousStimulusHash = (int) closestTrack.get( convIt);
+				convIt++;
+			}while(previousStimulusHash == Statistics.ERROR);
+			//System.out.println("init hash : " + previousStimulusHash);
+			
+			
 			
 			ret = 0;
 			for(int i = convIt; i < closestTrack.size() ; i++)
@@ -38,13 +47,20 @@ public class CharacObstinacy extends Charac {
 				int  currentStimulusHash = (int) closestTrack.get(i);
 				if(currentStimulusHash != Statistics.ERROR )
 				{
-					if(currentStimulusHash != previousStimulusHash)
+					//System.out.println("current hash : " + currentStimulusHash);
+					if(currentStimulusHash != previousStimulusHash){
+						//System.out.println(currentStimulusHash+ "!="+ previousStimulusHash);
 						ret ++; //the closest stimulus is different from the previous one
+						
+						//update previous stimulus hash
+						previousStimulusHash = currentStimulusHash;
+					}
+					
 				}
-				//update previous stimulus hash
-				previousStimulusHash = currentStimulusHash;
+				
 			}
 		}
+		//System.out.println("Obstinacy : " + ret);
 		return ret;
 	}
 

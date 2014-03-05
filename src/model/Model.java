@@ -34,7 +34,7 @@ public abstract class Model implements Node {
 	public static final int SCALE_LIMIT = 10;
 
 	public static final int ROUDING_MODE = BigDecimal.ROUND_HALF_EVEN;
-	
+
 	/** The set of parameter which are tuned during optimization **/
 	protected List<Parameter> parameters;
 	protected List<AbstractMap> trackable;
@@ -94,7 +94,8 @@ public abstract class Model implements Node {
 			initializeStatistics();
 			initializeCharacteristics();
 
-			addParameters(root);
+			//addParameters(root);
+			root.constructAllMemories();
 			this.isInitilized = true;
 		}
 	}
@@ -130,8 +131,8 @@ public abstract class Model implements Node {
 			initializeStatistics();
 			initializeCharacteristics();
 
-		//addParameters(root); TODO why? I thinkj its a mistake
-
+			//addParameters(root); TODO why? I thinkj its a mistake
+			root.constructAllMemories();
 			this.isInitilized = true;
 		}
 	}
@@ -153,9 +154,8 @@ public abstract class Model implements Node {
 		initializeStatistics();
 		initializeCharacteristics();
 
-		addParameters(root);
-
-
+		//addParameters(root);
+		root.constructAllMemories();
 		this.isInitilized = true;
 
 
@@ -207,41 +207,7 @@ public abstract class Model implements Node {
 	 */
 	public abstract List<Parameter> getDefaultDisplayedParameter();
 
-	//	/**
-	//	 * Update the root which will update the rest of the tree
-	//	 * @param stepTime : time of update in seconds
-	//	 * 
-	//	 * @throws NullCoordinateException
-	//	 * @throws CommandLineFormatException
-	//	 */
-	//	public void update(double stepTime) throws NullCoordinateException,
-	//			CommandLineFormatException {
-	//		this.modifyModel();
-	////		System.out.println("time : " + time + " dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get() );
-	//		this.time += stepTime;
-	////		System.out.println("this.time : " + this.time);
-	//		
-	//		//System.out.println("Update");
-	//		for(Parameter p : parameters){
-	////			System.out.println("time "+time);
-	//			if(p instanceof Map){
-	//				((Map)p).update(time);
-	//			}
-	//		}
-	//		
-	//		
-	//		if (!assynchronousComputation) {
-	//			
-	//			root.update(time);
-	//		} else {
-	//			int size = refSpace.getDiscreteVolume();
-	//			for (int i = 0; i < size; i++) {
-	//				root.compute((int) (Math.random() * size));
-	//			}
-	//		}
-	//		stats.update(time);
-	////		System.out.println(stats.getWtrace());
-	//	}
+	
 
 
 	/**
@@ -255,10 +221,11 @@ public abstract class Model implements Node {
 	CommandLineFormatException {
 		this.modifyModel();
 		clockStep = findSmallestDt();
-		
+		//System.out.println("clock step : " + clockStep);
+
 		while(this.time.compareTo(timeToReach) <= 0){
 
-			
+
 			for(Parameter p : parameters){
 				if(p instanceof Map){
 					((Map)p).update(time);
@@ -272,9 +239,9 @@ public abstract class Model implements Node {
 					root.compute((int) (Math.random() * size));
 				}
 			}
-			System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
+			//System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
 			stats.update(time);
-			
+
 			this.time = this.time.add(clockStep);
 		}
 	}
@@ -336,10 +303,10 @@ public abstract class Model implements Node {
 	 * @param params
 	 */
 	public void addParameters(Parameter... params) {
-	//	System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
+		//	System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		for (Parameter p : params) {
 			parameters.add(p);
-		//	System.out.println("add param: " + p);
+			//	System.out.println("add param: " + p);
 		}
 	}
 
@@ -430,18 +397,22 @@ public abstract class Model implements Node {
 		Parameter ret = null;
 		int i = 0;
 		// Explore map tree
-		while (ret == null && i < parameters.size()) {
-			Parameter p = parameters.get(i);
-			if (p instanceof AbstractMap)
-				ret = ((AbstractMap) p).getParameter(keyName);
-			i++;
-		}
-		if (ret == null) {
-			// explore stat params
-			ret = stats.getParam(keyName);
+
+		ret = root.getParameter(keyName);
+		if(ret == null){
+			while (ret == null && i < parameters.size()) {
+				Parameter p = parameters.get(i);
+				if (p instanceof AbstractMap)
+					ret = ((AbstractMap) p).getParameter(keyName);
+				i++;
+			}
 			if (ret == null) {
-				// Explore charac params
-				ret = charac.getParam(keyName);
+				// explore stat params
+				ret = stats.getParam(keyName);
+				if (ret == null) {
+					// Explore charac params
+					ret = charac.getParam(keyName);
+				}
 			}
 		}
 		return ret;
@@ -471,7 +442,7 @@ public abstract class Model implements Node {
 			min = sDt;
 		BigDecimal ret = new BigDecimal(min);
 		ret = ret.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
-		
+
 		return ret;
 	}
 

@@ -54,10 +54,14 @@ public class VHDLGeneratorCNFTTest  extends TestCase {
 
 			@Override
 			public double computeTrajectory(double... param) {
-				return param[0] / 
+				//System.out.println("Res : " + extendedSpace.getSimulationSpace().getResolution());
+
+				double ret = param[0] / 
 						(extendedSpace.getSimulationSpace().getResolution()*
 								extendedSpace.getSimulationSpace().getResolution()) *
 								(40*40)/(param[1]);
+				//System.out.println("Param : " + ret);
+				return ret;
 			}
 		}; 
 		hpA.toStatic();
@@ -79,6 +83,7 @@ public class VHDLGeneratorCNFTTest  extends TestCase {
 
 		pa = command.get(CNFTCommandLine.WA);
 		pb = command.get(CNFTCommandLine.WB);
+		
 
 			}
 
@@ -89,7 +94,7 @@ public class VHDLGeneratorCNFTTest  extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {
-		res = 19;
+		res = 3;
 		command = new CommandLine(
 				"ia=1.25;"
 						+"ib=-0.70;"
@@ -100,7 +105,10 @@ public class VHDLGeneratorCNFTTest  extends TestCase {
 						+"dt=0.1");
 
 		Space space = new DefaultRoundedSpace(new Var(res), 2, true);
-		initLateralWeightParams(space);
+		Space noDimSpace = space.clone();
+		noDimSpace.setDimension(new int[]{0,0});
+
+		initLateralWeightParams(noDimSpace);
 
 		UnitModel a = new GaussianND(new Var(0.1), space, pa, hpA, new Var(0),new Var(0));
 		Map cnfta = new Map("cnftW" + "_A",a);
@@ -108,7 +116,7 @@ public class VHDLGeneratorCNFTTest  extends TestCase {
 		UnitModel b = new GaussianND(new Var(0.1), space, pb, hpB, new Var(0),new Var(0));
 		Map cnftb = new Map("cnftW" + "_B",b);
 		cnftb.toStatic();
-		//System.out.println(cnfta.display2D());
+		System.out.println(cnfta.display2D());
 		gen   = new VHDLGeneratorCNFT(res,cnfta,cnftb);
 	}
 
