@@ -47,7 +47,7 @@ import coordinates.Space;
 public abstract class UnitModel extends ParameterUser implements Cloneable  {
 
 
-	/**Coordinate : position of the unit (discrete or contiuous)**/
+	/**Coordinate : position of the unit (discrete or continuous)**/
 	protected Double[] coord; 
 
 	/**Activity of the unit**/

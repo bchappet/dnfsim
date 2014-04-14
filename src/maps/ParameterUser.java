@@ -179,7 +179,7 @@ public abstract class ParameterUser implements Cloneable {
 	 * @return the parameter at index index
 	 */
 	public Parameter getParam(int index){
-		return params.get(index);
+		return this.params.get(index);
 	}
 
 

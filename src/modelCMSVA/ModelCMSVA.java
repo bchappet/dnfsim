@@ -22,9 +22,11 @@ import coordinates.NullCoordinateException;
 import coordinates.Space;
 import fft.FFTConvolutionMatrix2D;
 import gui.Suscriber;
+
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.Arrays;
+
 import lucasKanade.UnitModelLucasKanade;
 import model.Model;
 import statistics.Charac;
@@ -34,10 +36,10 @@ import statistics.CharacMeanCompTime;
 import statistics.CharacMeanError;
 import statistics.CharacNoFocus;
 import statistics.CharacObstinacy;
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.CosTraj;
 import input.ConfigurationInput;
 import input.ReaderInput;
@@ -410,7 +412,7 @@ public class ModelCMSVA extends Model {
 
 //        AbstractMap[] tracks = trackable.toArray(new AbstractMap[]{trackable.get(0)});
         Stat stat = new Stat(command.get(CNFTCommandLine.DT), noDimSpace, this);
-        stats = new Statistics("Stats", command.get(CNFTCommandLine.DT),
+        stats = new StatisticsCNFT("Stats", command.get(CNFTCommandLine.DT),
                 noDimSpace, stat.getDefaultStatistics(new Leaf(focus), trackable/*tracks*/));
 
         /*(String theName, Var dt, Space space,Statistics stats,
@@ -419,22 +421,22 @@ public class ModelCMSVA extends Model {
 
 
 
-        StatMap fefstatmap = new FEFStatMap("test", command.get(CNFTCommandLine.DT), noDimSpace, stats, trackable, new Leaf(fef));
+        StatMapCNFT fefstatmap = new FEFStatMap("test", command.get(CNFTCommandLine.DT), noDimSpace, stats, trackable, new Leaf(fef));
         stats.addStatisticMap(fefstatmap);
 
     }
 
     @Override
     protected void initializeCharacteristics() throws CommandLineFormatException {
-        Charac conv = new CharacConvergence(Characteristics.CONVERGENCE, stats, noDimSpace, this);
-        Charac meanError = new CharacMeanError(Characteristics.MEAN_ERROR, stats, noDimSpace, this, conv);
-        Charac obstinacy = new CharacObstinacy(Characteristics.OBSTINACY, stats, noDimSpace, this, conv);
-        Charac noFocus = new CharacNoFocus(Characteristics.NO_FOCUS, stats, noDimSpace, this, conv);
-        Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this, conv);
-        Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
-        Charac accError = new CharacAccError(Characteristics.ACC_ERROR, stats, noDimSpace, this, conv);
+        Charac conv = new CharacConvergence(CharacteristicsCNFT.CONVERGENCE, stats, noDimSpace, this);
+        Charac meanError = new CharacMeanError(CharacteristicsCNFT.MEAN_ERROR, stats, noDimSpace, this, conv);
+        Charac obstinacy = new CharacObstinacy(CharacteristicsCNFT.OBSTINACY, stats, noDimSpace, this, conv);
+        Charac noFocus = new CharacNoFocus(CharacteristicsCNFT.NO_FOCUS, stats, noDimSpace, this, conv);
+        Charac maxSum = new CharacMaxSum(CharacteristicsCNFT.MAX_SUM, stats, noDimSpace, this, conv);
+        Charac meanCompTime = new CharacMeanCompTime(CharacteristicsCNFT.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
+        Charac accError = new CharacAccError(CharacteristicsCNFT.ACC_ERROR, stats, noDimSpace, this, conv);
 
-        charac = new Characteristics(noDimSpace, stats, conv, meanError, obstinacy, noFocus, maxSum, meanCompTime, accError);
+        charac = new CharacteristicsCNFT(noDimSpace, stats, conv, meanError, obstinacy, noFocus, maxSum, meanCompTime, accError);
 
     }
 
@@ -611,4 +613,17 @@ public class ModelCMSVA extends Model {
         trackable.add((Map) ret);
         return ret;
     }
+
+	@Override
+	protected void initializeCommandLine(String contextScript)
+			throws CommandLineFormatException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getDefaultDisplayedStatistic() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

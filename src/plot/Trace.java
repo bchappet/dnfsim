@@ -30,7 +30,7 @@ package plot;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
-import statistics.Statistics;
+import statistics.StatisticsCNFT;
 
 public class Trace {
     /** Values array */
@@ -172,7 +172,7 @@ public class Trace {
     }
     
     private double getValueWithNAs(double value){
-    	if(value == Statistics.ERROR)
+    	if(value == StatisticsCNFT.ERROR)
     		return Double.NaN;
     	else 
     		return value;
@@ -187,4 +187,36 @@ public class Trace {
         }
         return s;
     }
+
+    
+	public double getSum() {
+		double sum = 0;
+		for(double d : values)
+    		sum += d;
+		return sum;
+		
+	}
+
+	/**
+	 * Return the mean of the trace
+	 * @return
+	 */
+	public double getMean() {
+		return getSum()/values.size();
+	}
+
+	/**
+	 * Return the variance of the trace
+	 * @return
+	 */
+	public double getVar() {
+		double sum = 0;
+		double mean = this.getMean();
+		for(double d : values){
+			sum += (d - mean)*(d-mean);
+		}
+		return sum/values.size();
+	}
+	
+	
 }

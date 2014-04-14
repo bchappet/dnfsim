@@ -18,7 +18,7 @@ import org.junit.Test;
 
 import plot.Trace;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 
 public class GlobalTestCNFTFFT  extends TestCase{
 	
@@ -68,10 +68,10 @@ public class GlobalTestCNFTFFT  extends TestCase{
 		//For 100 iterations
 		System.out.println(cnft.getCharac());
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE),
 				convergence_result));
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR),
 				mean_error_result));
 		//The result is a bit different... precision of 4 is good
 		
@@ -104,10 +104,10 @@ public class GlobalTestCNFTFFT  extends TestCase{
 		//For 100 iterations
 		System.out.println(cnft.getCharac());
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE),
 				convergence_result));
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR),
 				mean_error_result));
 		
 		//compTime = 27.07
@@ -133,7 +133,7 @@ public class GlobalTestCNFTFFT  extends TestCase{
 
 	}
 	
-	private boolean equals(Characteristics a, Characteristics b) {
+	private boolean equals(CharacteristicsCNFT a, CharacteristicsCNFT b) {
 		Trace[] wa = a.getWtrace().getCoords();
 		Trace[] wb = b.getWtrace().getCoords();
 		boolean ret = true;

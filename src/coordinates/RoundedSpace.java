@@ -116,6 +116,7 @@ public class RoundedSpace extends Space {
 	}
 
 	@Override
+	//TODO a generic version
 	public Space extend(double factor,boolean framed){
 		Double[] newOrig = new Double[origin.length];
 		Double[] newSize = new Double[size.length];
@@ -142,9 +143,9 @@ public class RoundedSpace extends Space {
 		return ret;
 	}
 	
-	
 	@Override
 	public RoundedSpace transpose() {
+		//TODO generic
 		Double[] transOrigin = new Double[origin.length];
 		for(int i = 0 ; i < origin.length ; i++)
 			transOrigin[transOrigin.length-i-1] = origin[i];

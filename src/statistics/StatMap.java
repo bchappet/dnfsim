@@ -12,14 +12,11 @@ import coordinates.Space;
 
 public abstract class StatMap extends Map {
 	
-	/**List of the trackable objects**/
-	protected List<AbstractMap> tracks;
 	
-	public StatMap(String theName,Parameter dt, Space space,List<AbstractMap> tracks, Parameter... maps)
+	public StatMap(String theName,Parameter dt, Space space, Parameter... maps)
 	{
 		super(theName,null,dt,space,maps);
-		this.tracks = tracks;
-		this.unitModel = new UnitModel(this) {
+		this.unitModel = new UnitModel(this){
 			@Override
 			public double compute(){
 				return computeStatistic();

@@ -1,14 +1,11 @@
 package tests;
 
-import static org.junit.Assert.*;
+import hardSimulator.RandomGeneratorCAPRNGHUM;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-
-import hardSimulator.RandomGeneratorCAPRNGHUM;
-import hardSimulator.RandomGeneratorHUM;
-
 import maps.Map;
 import maps.Matrix;
 import maps.NeighborhoodMap;
@@ -21,12 +18,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import console.CNFTCommandLine;
-import console.CommandLineFormatException;
-
 import cellularAutomata.CACellUnitModel;
 import cellularAutomata.PRNGUnitModel;
 import cellularAutomata.PRNGWrapperUM;
+import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.RoundedSpace;
 import coordinates.Space;
@@ -66,13 +61,13 @@ public class test_random_generator_wrap_caprng  extends TestCase {
 	@Test
 	public void test() {
 
-		wrapMap.update(clk.get() * 1);
+		wrapMap.update(new BigDecimal(""+clk.get() * 1));
 		um.computeActivity();
 
 		System.out.println(Arrays.toString(um.getOutputs()));
 		assertTrue(Arrays.equals(um.getOutputs(), new double[]{0.85546875, 0.8642578125, 0.505859375, 0.9638671875, 0.3017578125, 0.3837890625, 0.3642578125, 0.5703125, 0.544921875, 0.3330078125}));
 
-		wrapMap.update(clk.get()*2);
+		wrapMap.update(new BigDecimal(""+clk.get()*2));
 		um.computeActivity();
 
 		System.out.println(Arrays.toString(um.getOutputs()));

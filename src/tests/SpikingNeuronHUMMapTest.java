@@ -3,15 +3,13 @@ package tests;
 import hardSimulator.NullSpikingNeuronHUM;
 import hardSimulator.SpikingNeuronHUM;
 
-import java.util.AbstractList;
+import java.math.BigDecimal;
 
 import junit.framework.TestCase;
-
 import maps.AbstractUnitMap;
 import maps.Matrix;
 import maps.NeighborhoodMap;
 import maps.SubUnitMap;
-import maps.Unit;
 import maps.UnitLeaf;
 import maps.UnitParameter;
 import maps.Var;
@@ -22,7 +20,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import precision.PrecisionVar;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
@@ -92,7 +89,7 @@ public class SpikingNeuronHUMMapTest  extends TestCase {
 
 		for(double i = 0 ; i < 10 ; i += 0.1)
 		{
-			potential.update(i);
+			potential.update(new BigDecimal(""+i));
 			System.out.println(i + "===========================================");
 			System.out.println(potential.display2D());
 			System.out.println(focus.display2D());

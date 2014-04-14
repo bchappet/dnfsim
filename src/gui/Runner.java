@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+import maps.BadPathException;
 import maps.Var;
 import model.Model;
 import console.CommandLineFormatException;
@@ -228,6 +229,10 @@ public class Runner  implements Runnable{
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		} catch (NumberFormatException e) {
+			e.printStackTrace();
+		} catch (NullCoordinateException e) {
+			e.printStackTrace();
+		} catch (BadPathException e) {
 			e.printStackTrace();
 		}
 	}

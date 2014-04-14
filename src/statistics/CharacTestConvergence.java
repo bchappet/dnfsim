@@ -35,8 +35,8 @@ public class CharacTestConvergence extends Charac{
 	public double computeTrajectory(double... param) {
 		double ret = Statistics.ERROR;
 
-		Trace width = stats.getTrace(Statistics.WIDTH);
-		Trace height = stats.getTrace(Statistics.HEIGHT);
+		Trace width = stats.getTrace(StatisticsCNFT.WIDTH);
+		Trace height = stats.getTrace(StatisticsCNFT.HEIGHT);
 		
 		int stabIt = (int)param[STABIT];
 		double shape_max = param[SHAPE_FACTOR] * param[WA];

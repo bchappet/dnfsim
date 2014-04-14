@@ -12,8 +12,8 @@ import maps.Parameter;
 import maps.TrajectoryUnitMap;
 import maps.Var;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.AggregationUM;
 import unitModel.GaussianND;
 import unitModel.LineTraj;
@@ -181,7 +181,7 @@ public class ModelMvtDetection extends ModelGSpikeFFT {
 	{
 
 		
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT), 
 				noDimSpace);
 				
 				

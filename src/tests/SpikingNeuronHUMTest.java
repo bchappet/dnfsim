@@ -114,7 +114,7 @@ public class SpikingNeuronHUMTest  extends TestCase {
 		neuron.computeActivity();
 		assertTrue(neuron.getActivity().get() == 0.28125);
 		neuron.computeActivity();
-		assertTrue(neuron.getActivity().get() == 0.390625);
+		assertEquals("Le neurone devrait avoir une activité de 0.390625.",0.390625,neuron.getActivity().get()); //TODO investigate
 		neuron.computeActivity();
 		neuron.computeActivity();
 		neuron.computeActivity();

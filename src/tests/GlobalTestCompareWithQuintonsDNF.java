@@ -20,7 +20,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import dnf.CNFT;
 import dnf.DenseCNFT;
 import dnf.DiscreteCNFT;
@@ -38,7 +38,7 @@ public class GlobalTestCompareWithQuintonsDNF  extends TestCase{
 	private Model cnft;
 	private CNFT jcqcnft;
 	private double dt = 0.1;
-	private Statistics stats;
+	private StatisticsCNFT stats;
 
 	@Before
 	public void setUp() throws Exception {
@@ -65,7 +65,7 @@ public class GlobalTestCompareWithQuintonsDNF  extends TestCase{
 		jcqcnft.put(input);
 		jcqcnft.put(jcqcnft.getCNFTWeights(a1,s1,a2,s2));
 		((DenseCNFT)jcqcnft).setResolution(resolution);
-		stats = new Statistics(jcqcnft);
+		stats = new StatisticsCNFT(jcqcnft);
 
 	}
 
@@ -104,7 +104,7 @@ public class GlobalTestCompareWithQuintonsDNF  extends TestCase{
 
 		}
 		
-		Characteristics c =  cnft.getCharac();
+		CharacteristicsCNFT c =  cnft.getCharac();
 		c.compute();
 		System.out.println(c);
 		cnft.getStatistics().save(cnftFile+"testStats.csv");

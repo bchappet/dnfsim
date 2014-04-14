@@ -12,5 +12,7 @@ public class DefaultRoundedSpace extends RoundedSpace {
 	{
 		return (DefaultRoundedSpace) super.clone();
 	}
+	
+	
 
 }

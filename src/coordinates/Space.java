@@ -148,10 +148,10 @@ public abstract class Space implements Cloneable,Node{
 	}
 
 	/**
-	 * Initialize discrete sopace values : discreteSize and discreteVolume
+	 * Initialize discrete space values : discreteSize and discreteVolume
 	 * @param resolution
 	 */
-	public void initDiscreteSpace(double resolution)
+	protected void initDiscreteSpace(double resolution)
 	{
 		discreteSize = new Integer[dim];
 		for(int i = 0 ; i < dim ; i++)
@@ -161,6 +161,8 @@ public abstract class Space implements Cloneable,Node{
 
 
 	}
+	
+	
 
 
 
@@ -217,13 +219,13 @@ public abstract class Space implements Cloneable,Node{
 	//	}
 
 	/**
-	 * Axis projection : res = val/resolution
-	 * @param val
-	 * @param axis
+	 * Axis projection : res = d/resolution
+	 * @param dist : a distance
+	 * @param axis : index of the axis
 	 * @return
 	 */
-	public double distContinuousProj(int val, int axis) {
-		return val/resolution.get();
+	public double distContinuousProj(int dist, int axis) {
+		return dist/resolution.get();
 	}
 
 	//	@Override
@@ -538,7 +540,7 @@ public abstract class Space implements Cloneable,Node{
 
 	/**
 	 * Transform an index value in continous coordinate vector
-	 * @return
+	 * @return TODO validate
 	 * @throws NullCoordinateException  if a coordinate was excpected and Null was found
 	 */
 	public Double[] indexToCoord(int index) {
@@ -655,18 +657,7 @@ public abstract class Space implements Cloneable,Node{
 
 
 
-	/**
-	 * Return a vector of identic double of simension dim
-	 * @param dim
-	 * @param value
-	 * @return
-	 */
-	public static Double[] getUniformDouble(int dim,double value) {
-		Double[] ret = new Double[dim];
-		for(int i = 0 ; i < dim ; i++)
-			ret[i] = value;
-		return ret;
-	}
+	
 
 	public int getDiscreteVolume() {
 		int vol = 1;
@@ -718,6 +709,7 @@ public abstract class Space implements Cloneable,Node{
 
 
 	/**
+	 * TODO remove
 	 * Project a discrete value : val on the constinuous axis axis
 	 * @param val
 	 * @param axis
@@ -988,7 +980,18 @@ public abstract class Space implements Cloneable,Node{
 
 	
 
-	
+	/**
+	 * Return a vector of identical double of dimension dim
+	 * @param dim
+	 * @param value
+	 * @return
+	 */
+	protected static Double[] getUniformDouble(int dim,double value) {
+		Double[] ret = new Double[dim];
+		for(int i = 0 ; i < dim ; i++)
+			ret[i] = value;
+		return ret;
+	}
 
 
 

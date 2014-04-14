@@ -38,7 +38,7 @@ public class DisplaySampleMap extends DisplayMap {
 	protected Color cOld = Color.GREEN;
 	/** **/
 
-	public DisplaySampleMap(GUI gui, Parameter displayed) {
+	public DisplaySampleMap(RunnerGUI gui, Parameter displayed) {
 		super(gui, displayed);
 		history = new LinkedList<double[]>();
 		resolution = space.getSimulationSpace().getResolution();

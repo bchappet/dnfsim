@@ -3,7 +3,7 @@ package optimisation;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 
 import console.CommandLineFormatException;
 
@@ -45,7 +45,7 @@ public class GATestLauncher extends GALauncher {
 
 		@Override
 		public double getScenarioFitness(int individu, int iteration,
-				int scenarioId, Characteristics charac) {
+				int scenarioId, CharacteristicsCNFT charac) {
 			// TODO Auto-generated method stub
 			return 0;
 		}

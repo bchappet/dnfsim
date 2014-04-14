@@ -12,10 +12,10 @@ import maps.Track;
 import maps.Var;
 import coordinates.Space;
 import java.util.ArrayList;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 
-public class FEFStatMap extends StatMap {
+public class FEFStatMap extends StatMapCNFT {
 
     int test = 0;
     protected double distanceMaximum;
@@ -31,9 +31,9 @@ public class FEFStatMap extends StatMap {
     private int bubbleIds;
     private static int X = 0;
     private static int Y = 1;
-    protected Statistics stats;
+    protected StatisticsCNFT stats;
 
-    public FEFStatMap(String theName, Var dt, Space space, Statistics stats,
+    public FEFStatMap(String theName, Var dt, Space space, StatisticsCNFT stats,
             List<AbstractMap> tracks, Parameter... maps) {
         super(theName, dt, space, tracks, maps);
         this.distanceMaximum = 1;
@@ -53,8 +53,8 @@ public class FEFStatMap extends StatMap {
 //        System.out.println("id to remove : "+idToRemove);
         for (Integer id : idToAdd) {
 
-            StatMap x = new BubbleMap(id, "X", "X_StatMap", dt, space, tracks, params.get(MAP));
-            StatMap y = new BubbleMap(id, "Y", "Y_StatMap", dt, space, tracks, params.get(MAP));
+            StatMapCNFT x = new BubbleMap(id, "X", "X_StatMap", dt, space, tracks, params.get(MAP));
+            StatMapCNFT y = new BubbleMap(id, "Y", "Y_StatMap", dt, space, tracks, params.get(MAP));
 
             ErrorDistance error = new ErrorDistance("error_(" + id + ")", dt, space, tracks, x, y);
             stats.addStatisticMap(error);
@@ -221,7 +221,7 @@ public class FEFStatMap extends StatMap {
         }
     }
 
-    class BubbleMap extends StatMap {
+    class BubbleMap extends StatMapCNFT {
 
         private String axe;
         private int bubbleId;
@@ -280,7 +280,7 @@ public class FEFStatMap extends StatMap {
      * @author bchappet
      *
      */
-    protected class ErrorDistance extends StatMap {
+    protected class ErrorDistance extends StatMapCNFT {
 
         public ErrorDistance(String theName, Parameter dt, Space space, List<AbstractMap> tracks,
                 Parameter centerX, Parameter centerY) {
@@ -291,9 +291,9 @@ public class FEFStatMap extends StatMap {
         public double computeStatistic() {
             double centerX = this.getParam(0).get();
             double centerY = this.getParam(1).get();
-            double ret = Statistics.ERROR;
+            double ret = StatisticsCNFT.ERROR;
 
-            if (centerX != Statistics.ERROR && centerY != Statistics.ERROR) {
+            if (centerX != StatisticsCNFT.ERROR && centerY != StatisticsCNFT.ERROR) {
 
                 Double[] center = {centerX, centerY};
                 ret = getClosestTrack(tracks, center);

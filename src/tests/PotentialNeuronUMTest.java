@@ -1,5 +1,7 @@
 package tests;
 
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 import maps.Map;
 import maps.NeighborhoodMap;
@@ -71,21 +73,21 @@ public class PotentialNeuronUMTest   extends TestCase{
 	public void test() {
 		potential.constructMemory();
 		
-		potential.update(0.3);
+		potential.update(new BigDecimal("0.3"));
 		System.out.println(potential.display2D());
-		potential.update(0.4);
+		potential.update(new BigDecimal("0.4"));
 		System.out.println(potential.display2D());
 		System.out.println(exc.display2D());
 		displayBuffers(exc);
-		potential.update(0.5);
+		potential.update(new BigDecimal("0.5"));
 		displayBuffers(exc);
-		potential.update(0.6);
+		potential.update(new BigDecimal("0.6"));
 		displayBuffers(exc);
 		System.out.println(potential.display2D());
 		
 		for(int i = 0 ; i < 10 ; i++){
 			System.out.println("i " + i);
-			potential.update(0.1*i);
+			potential.update(new BigDecimal(""+0.1*i));
 			System.out.println(exc.display2D());
 			displayBuffers(exc);
 			System.out.println(potential.display2D());
@@ -93,7 +95,7 @@ public class PotentialNeuronUMTest   extends TestCase{
 		
 //		for(int i = 0 ; i < 10 ; i++){
 //			System.out.println("i " + i);
-//			potential.update(0.1*i);
+//			potential.update(new BigDecimal("0.1*i"));
 //			System.out.println(exc.display2D());
 //			System.out.println(potential.display2D());
 //		}

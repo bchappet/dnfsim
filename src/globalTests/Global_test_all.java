@@ -25,7 +25,7 @@ public class Global_test_all {
 		suite.addTestSuite(FramedSpaceIteratorTest.class);
 		suite.addTestSuite(GaussianMapTest.class);
 		suite.addTestSuite(GaussianNDTest.class);
-		//suite.addTestSuite(GlobalTestCNFT.class);
+//		suite.addTestSuite(GlobalTestCNFT.class);
 		//suite.addTestSuite(GlobalTestCNFTFFT.class);
 		//suite.addTestSuite(GlobalTestCNFTSlow.class);
 		//suite.addTestSuite(GlobalTestCompareSpeedQuinton.class);
@@ -33,13 +33,12 @@ public class Global_test_all {
 		suite.addTestSuite(HardwareTest.class);
 		suite.addTestSuite(MapTest.class);
 		suite.addTestSuite(MatrixFileReaderTest.class);
-		//suite.addTestSuite(ModelNSpike2Test.class);
-		//suite.addTestSuite(ModelTimeTest.class);
+		suite.addTestSuite(ModelNSpike2Test.class);
+//		suite.addTestSuite(ModelTimeTest.class);
 		suite.addTestSuite(NeuronHUMTest.class);
-		//suite.addTestSuite(ParameterModifierTest.class);
 		suite.addTestSuite(PotentialNeuronUMTest.class);
 		suite.addTestSuite(PrecisionVarTest.class);
-		//suite.addTestSuite(PRNGUnitModelTest.class);
+//		suite.addTestSuite(PRNGUnitModelTest.class);
 		//suite.addTestSuite(PRNGWrapperUMTest.class);
 		//suite.addTestSuite(PRNGWrapperUMTest2.class);
 		//suite.addTestSuite(RandomGeneratorHUMTest.class);

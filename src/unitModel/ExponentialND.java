@@ -49,6 +49,9 @@ public class ExponentialND extends UnitModel implements Track  {
 			sumDist += Math.abs(intCoor[i] - intCenter[i]);
 		}
 		
+		
+		
+		
 		return  params.get(INTENSITY).get(coord) * Math.pow(params.get(PROBA).get(coord), sumDist);
 	}
 

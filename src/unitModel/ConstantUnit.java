@@ -2,6 +2,7 @@ package unitModel;
 
 import maps.Parameter;
 import maps.Var;
+import coordinates.NoDimSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
@@ -15,8 +16,7 @@ public class ConstantUnit extends UnitModel {
 	}
 
 	public ConstantUnit(Var var) {
-		super();
-		this.addParameters(var);
+		super(new Var(0.),new NoDimSpace(),var);
 		this.activity = (Var) params.get(VAR);
 	}
 

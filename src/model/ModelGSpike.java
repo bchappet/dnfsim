@@ -1,7 +1,6 @@
 package model;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import maps.AbstractMap;
@@ -11,8 +10,8 @@ import maps.Map;
 import maps.Parameter;
 import maps.Var;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.SpikingPotentialUM;
 import unitModel.SpikingUM;
 import console.CNFTCommandLine;
@@ -88,14 +87,14 @@ public class ModelGSpike extends ModelCNFT {
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
+		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),this);
 		
-		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
+		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
 		statMaps.add(stat.getMax(new Leaf(potential)));
 		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
 		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
-		StatMap[] array = statMaps.toArray(new StatMap[]{});
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
+		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT), 
 				noDimSpace,array);
 				
 				

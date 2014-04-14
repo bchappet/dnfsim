@@ -18,8 +18,8 @@ import maps.VectorMap;
 import neigborhood.Neighborhood;
 import neigborhood.V4Neighborhood2D;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.ConstantUnit;
 import unitModel.GaussianND;
 import unitModel.SomUM;
@@ -90,7 +90,7 @@ public class ModelDNFSomSupervise extends ModelDNFSom {
 	}
 	
 	protected AbstractMap getPotential(Var vdt){
-		VectorMap winner = new CoorWinnerMap("Winner",vdt,extendedSpace,new Leaf(cortical));
+		VectorMap winner = new CoorWinnerMap("Winner",vdt,extendedComputationSpace,new Leaf(cortical));
 		Parameter wx = new Map("winnerX",new UnitModel(vdt,noDimSpace,winner) {
 			
 			@Override
@@ -150,12 +150,12 @@ public class ModelDNFSomSupervise extends ModelDNFSom {
 	}
 	
 	protected void initializeStatistics() throws CommandLineFormatException {
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
-		StatMap wsum = stat.getWsum(new Leaf(potential));
-		StatMap sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
-		StatMap sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
-		StatMap meanSquareError = stat.getMeanSquareSOM(new Leaf(cortical));
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT),noDimSpace,
+		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),this);
+		StatMapCNFT wsum = stat.getWsum(new Leaf(potential));
+		StatMapCNFT sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
+		StatMapCNFT sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
+		StatMapCNFT meanSquareError = stat.getMeanSquareSOM(new Leaf(cortical));
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT),noDimSpace,
 				wsum,
 				stat.getTestConvergence(new Leaf(potential)),
 				stat.getMax(new Leaf(potential)),

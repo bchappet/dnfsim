@@ -5,6 +5,11 @@ import java.util.Arrays;
 import utils.ArrayUtils;
 import coordinates.Space;
 
+/**
+ * TODO use library JAMA
+ * @author bchappet
+ *
+ */
 public class Matrix2D extends Matrix implements Cloneable {
 
 	public static final int X = 0;

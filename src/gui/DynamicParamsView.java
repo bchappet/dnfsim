@@ -26,7 +26,7 @@ public class DynamicParamsView extends JPanel {
 
 	protected List<QuickViewPanel> maps;
 	protected Model model;
-	protected GUI gui;
+	protected RunnerGUI gui;
 	
 	//Setting of the GridLayout
 	protected int nbRow;
@@ -36,7 +36,7 @@ public class DynamicParamsView extends JPanel {
 	protected TrackHighlighting trackHigh;
 
 
-	public DynamicParamsView(GUI gui)
+	public DynamicParamsView(RunnerGUI gui)
 	{
 		super(new GridLayout(1,1));
 		trackHigh = new TrackHighlighting();
@@ -81,6 +81,7 @@ public class DynamicParamsView extends JPanel {
 	 */
 	public synchronized void addView(QuickViewPanel panel)
 	{
+//		System.out.println("panel : " + panel);
 		((DisplayMap)panel).setTrackHigh(trackHigh);
 		panel.setDisplayed(true);
 		panel.setPreferredSize(new Dimension(300,300));

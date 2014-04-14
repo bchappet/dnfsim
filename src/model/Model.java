@@ -3,28 +3,28 @@ package model;
 import gui.Node;
 import gui.Suscriber;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.MalformedURLException;
-import java.util.Formatter.BigDecimalLayoutForm;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
 import maps.AbstractMap;
 import maps.Map;
 import maps.Parameter;
-import maps.Var;
 import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import statistics.Statistics;
+import statistics.StatisticsCNFT;
 import console.CNFTCommandLine;
+import console.CommandLine;
 import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
-import draft.RandomTestAbstractMap;
 
 public abstract class Model implements Node {
 
@@ -37,15 +37,15 @@ public abstract class Model implements Node {
 
 	/** The set of parameter which are tuned during optimization **/
 	protected List<Parameter> parameters;
-	protected List<AbstractMap> trackable;
+	
 	/** List of every suscribers to all events **/
 	protected List<Suscriber> suscribers;
 
 	protected Statistics stats;
 	protected Characteristics charac;
 	protected BigDecimal time = BigDecimal.ZERO;
-	protected Space refSpace;
-	protected CNFTCommandLine command;
+	
+	protected CommandLine command;
 	protected String name;
 
 	/** The root map of the computation tree **/
@@ -74,31 +74,7 @@ public abstract class Model implements Node {
 		parameters = new LinkedList<Parameter>();
 	}
 
-	/**
-	 * Initialize a model with default parameters
-	 * 
-	 * @throws CommandLineFormatException
-	 * @throws NullCoordinateException
-	 * @throws CloneNotSupportedException
-	 */
-	public void initialize() throws CommandLineFormatException,
-	NullCoordinateException, CloneNotSupportedException {
-		if (!isInitilized) {
-			command = new CNFTCommandLine(this);
-			this.refSpace = new DefaultRoundedSpace(
-					command.get(CNFTCommandLine.RESOLUTION), 2,
-					command.getBool(CNFTCommandLine.WRAP));
-			this.trackable = new LinkedList<AbstractMap>();
-			parameters = new LinkedList<Parameter>();
-			initializeParameters();
-			initializeStatistics();
-			initializeCharacteristics();
-
-			//addParameters(root);
-			root.constructAllMemories();
-			this.isInitilized = true;
-		}
-	}
+	
 
 
 
@@ -117,15 +93,10 @@ public abstract class Model implements Node {
 			throws CommandLineFormatException, FileNotFoundException,
 			MalformedURLException, NullCoordinateException {
 		if (!isInitilized) {
-
-			command = new CNFTCommandLine(contextScript, this);
-			this.refSpace = new DefaultRoundedSpace(
-
-					command.get(CNFTCommandLine.RESOLUTION), 2,
-					command.getBool(CNFTCommandLine.WRAP));
+			initializeCommandLine(contextScript);
 			//System.out.println("space res : " +command.get(CNFTCommandLine.RESOLUTION).get() );
 			//			System.err.println("dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get());
-			this.trackable = new LinkedList<AbstractMap>();
+			
 			parameters = new LinkedList<Parameter>();
 			initializeParameters();
 			initializeStatistics();
@@ -136,30 +107,14 @@ public abstract class Model implements Node {
 			this.isInitilized = true;
 		}
 	}
+	protected abstract void initializeCommandLine(String contextScript) throws CommandLineFormatException;
+		//command = new CommandLineWHAT(contextScript, this);
+	//this.refSpace = new DefaultRoundedSpace(
+		//	command.get(CNFTCommandLine.RESOLUTION), 2,
+		//	command.getBool(CNFTCommandLine.WRAP));
+	
 
-	/**
-	 * Initialize a new model from the parameter of the other
-	 * @param other
-	 */
-	public void initialize(Model other)throws CommandLineFormatException, FileNotFoundException,
-	MalformedURLException, NullCoordinateException {
-		command = other.command;
-
-		this.refSpace = new DefaultRoundedSpace(
-				command.get(CNFTCommandLine.RESOLUTION), 2,
-				command.getBool(CNFTCommandLine.WRAP));
-		this.trackable = new LinkedList<AbstractMap>();
-		parameters = new LinkedList<Parameter>();
-		initializeParameters();
-		initializeStatistics();
-		initializeCharacteristics();
-
-		//addParameters(root);
-		root.constructAllMemories();
-		this.isInitilized = true;
-
-
-	}
+	
 
 	/**
 	 * Construct model tree
@@ -187,18 +142,8 @@ public abstract class Model implements Node {
 	protected abstract void initializeCharacteristics()
 			throws CommandLineFormatException;
 
-	/**
-	 * Save the params
-	 * 
-	 * @param file
-	 * @param parameters
-	 *            : parameters to save
-	 * @return the prameter name as a string
-	 * @throws IOException
-	 * @throws NullCoordinateException
-	 */
-	public abstract String save(String file, List<Parameter> parameters)
-			throws IOException, NullCoordinateException;
+	
+	
 
 	/**
 	 * First displayed parameters when the model is selected
@@ -231,13 +176,16 @@ public abstract class Model implements Node {
 					((Map)p).update(time);
 				}
 			}
-			if (!assynchronousComputation) {
+			if (!assynchronousComputation) {//asynchrone non uniform
+				//TODO 
+				
 				root.update(time);
 			} else {
-				int size = refSpace.getDiscreteVolume();
-				for (int i = 0; i < size; i++) {
-					root.compute((int) (Math.random() * size));
-				}
+				throw new Error("TODO assynchronous not handled here");
+//				int size = refSpace.getDiscreteVolume();
+//				for (int i = 0; i < size; i++) {
+//					root.compute((int) (Math.random() * size));
+//				}
 			}
 			//System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
 			stats.update(time);
@@ -329,47 +277,25 @@ public abstract class Model implements Node {
 		return stats;
 	}
 
-	public Space getRefSpace() {
-		return refSpace;
-	}
+	
 
 	public BigDecimal getTime() {
 		return time;
 	}
 
 	public double getDt() throws CommandLineFormatException {
-		return command.get(CNFTCommandLine.DISPLAY_DT).get();
+		return command.get(CommandLine.DISPLAY_DT).get();
 	}
 
-	/**
-	 * Return the list of trackable object
-	 * 
-	 * @return
-	 */
-	public List<AbstractMap> getTracks() {
-		return trackable;
-	}
+	
 
-	/**
-	 * Return the trackable object with the given hashcode
-	 * 
-	 * @param trackedStimulis
-	 * @return null if no trackable have the corresponding hashh code
-	 */
-	public AbstractMap getTracked(double hashcode) {
-		AbstractMap ret = null;
-		for (AbstractMap t : trackable) {
-			if (t.hashCode() == hashcode)
-				ret = t;
-		}
-		return ret;
-	}
+	
 
 	public Characteristics getCharac() {
 		return charac;
 	}
 
-	public CNFTCommandLine getCommandLine() {
+	public CommandLine getCommandLine() {
 		return command;
 	}
 
@@ -445,6 +371,46 @@ public abstract class Model implements Node {
 
 		return ret;
 	}
+	
+	/**
+	 * Save the params
+	 * 
+	 * @param file
+	 * @param parameters
+	 *            : parameters to save
+	 * @return the prameter name as a string
+	 * @throws IOException
+	 * @throws NullCoordinateException
+	 */
+	public  String save(String file,List<Parameter> toSave) throws IOException, NullCoordinateException
+	{
+
+		FileWriter fw = null;
+		String ret = "[";
+
+		for(Parameter p : toSave)
+		{
+			String fileName = file+"_"+p.getName()+".csv";
+			ret += fileName + ",";
+			fw= new FileWriter(file+"_"+p.getName()+".csv",false);
+			BufferedWriter out = new BufferedWriter(fw);
+			out.write(((AbstractMap)p).displayMemory());
+			out.close();
+		}
+		return ret.subSequence(0, ret.length()-1)+"]";
+	}
+
+
+
+
+
+	/**
+	 * 
+	 * @return the defult displayed stat
+	 */
+	public  abstract String getDefaultDisplayedStatistic() ;
+		
+	
 
 
 

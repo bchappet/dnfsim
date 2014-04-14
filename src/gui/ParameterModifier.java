@@ -34,7 +34,7 @@ public class  ParameterModifier extends JPanel implements ParamUpdated{
 	private static final long serialVersionUID = -9045601804164887216L;
 
 	protected DisplayNode node;
-	protected GUI gui;
+	protected RunnerGUI gui;
 	JTextField txt;
 	NumberFormat formater;
 	protected Var param;
@@ -42,7 +42,7 @@ public class  ParameterModifier extends JPanel implements ParamUpdated{
 	protected double amount;
 
 
-	public ParameterModifier(GUI gui,Var p) {
+	public ParameterModifier(RunnerGUI gui,Var p) {
 		this.gui = gui;
 		gui.addParamUpdated(this);
 		formater = new DecimalFormat("####.####");
@@ -50,7 +50,7 @@ public class  ParameterModifier extends JPanel implements ParamUpdated{
 
 		amount = computeAmount(p);
 
-		initGUI();
+		initRunnerGUI();
 	}
 	
 	public void update()
@@ -60,7 +60,7 @@ public class  ParameterModifier extends JPanel implements ParamUpdated{
 
 
 
-	protected void initGUI()
+	protected void initRunnerGUI()
 	{
 
 		int delay = 200;

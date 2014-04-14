@@ -18,7 +18,7 @@ public class CharacMaxMax extends Charac {
 
 		double ret = Statistics.ERROR;
 
-			Trace max = stats.getTrace(Statistics.MAX);
+			Trace max = stats.getTrace(StatisticsCNFT.MAX);
 			for(double d : max.getValues())
 			{
 				if(d > ret)

@@ -31,7 +31,7 @@ public class BufferHUMTest  extends TestCase{
 		buff.setInput(new int[]{1,0,0,0});
 		buff.computeActivity();
 		buff.setInput(new int[]{0,0,0,0});
-		assertTrue(buff.getSpike()==1);
+		assertEquals("The transmitter should be activated",1,buff.getSpike());//TODO investigate
 		buff.computeActivity();
 		assertTrue(buff.getSpike()==0);
 		

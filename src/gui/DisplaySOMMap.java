@@ -40,7 +40,7 @@ public class DisplaySOMMap extends DisplaySampleMap {
 	protected Color cLinks = Color.GRAY;
 	/** **/
 
-	public DisplaySOMMap(GUI gui, Parameter displayed,Space inputSpace) {
+	public DisplaySOMMap(RunnerGUI gui, Parameter displayed,Space inputSpace) {
 		super(gui, displayed);
 		this.neigh = ((NeighborhoodMap)displayed).getNeighborhoods().get(0);
 		this.mapSpace = displayed.getSpace();

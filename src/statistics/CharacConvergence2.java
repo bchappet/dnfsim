@@ -4,7 +4,7 @@ import maps.Parameter;
 import model.Model;
 import coordinates.Space;
 import statistics.Charac;
-import statistics.Statistics;
+import statistics.StatisticsCNFT;
 
 public class CharacConvergence2 extends Charac {
 

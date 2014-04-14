@@ -70,7 +70,7 @@ public class CNFTCommandLine extends CommandLine{
 
 	public static final String HARD_DT = "hard_dt";//hard ware map refreshing rate
 	public static final String DT = "dt";
-	public static final String DISPLAY_DT = "disp_dt"; //time refresh rate for running simu
+	
 	public static final String BUFF_WIDTH = "buff_width";
 	public static final String PRECISION = "precision";
 	public static final String COMPUTE_CLK = "compute_clk";//frequecy of computation for har model
@@ -111,7 +111,7 @@ public class CNFTCommandLine extends CommandLine{
 
 
 
-	public static final String SIMULATION_STEP = "simu_dt";
+	
 
 
 	//http://stackoverflow.com/questions/2206378/how-to-split-a-string-but-also-keep-the-delimiters
@@ -120,7 +120,7 @@ public class CNFTCommandLine extends CommandLine{
 
 
 	protected Model model;
-	protected Runner runner;
+	
 	/**URL of config file (optional)**/
 	protected URL contextPath;
 
@@ -731,12 +731,7 @@ public class CNFTCommandLine extends CommandLine{
 
 
 
-	public void setRunner(Runner runner) throws CommandLineFormatException {
-		this.runner = runner;
-		runner.setSimulationStep(get(CNFTCommandLine.SIMULATION_STEP));
-
-
-	}
+	
 
 	public CNFTCommandLine clone()
 	{

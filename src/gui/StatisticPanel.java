@@ -27,8 +27,9 @@ public class StatisticPanel extends JPanel {
 		this.initGUI();
 	}
 	
-	public  void changeStatistics(Statistics statistics) {
+	public  void changeStatistics(Statistics statistics,String startY) {
 		this.stats = statistics;
+		this.startY = startY;
 		Curve2D curve = new Curve2D(stats.getWtrace(),stats.getIndex(Statistics.TIME),stats.getIndex(startY));
 		removeAll();
 		add(curve.getControls(),BorderLayout.NORTH);

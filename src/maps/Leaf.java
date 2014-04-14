@@ -42,6 +42,7 @@ public class Leaf  implements Parameter{
 	
 	@Override
 	public  double get(Double... coord) throws NullCoordinateException {
+	
 		return map.get(coord);
 	}
 

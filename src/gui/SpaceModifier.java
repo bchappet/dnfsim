@@ -15,6 +15,11 @@ import javax.swing.event.ChangeListener;
 
 import coordinates.Space;
 
+/**
+ * TODO
+ * @author bchappet
+ *
+ */
 public class SpaceModifier extends JPanel {
 	
 	/**

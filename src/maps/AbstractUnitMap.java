@@ -28,6 +28,8 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 
 	protected List<SubUnitMap> subUnitMaps;
 
+	protected boolean isTrajectory; //true if nodim TODO develop concept
+
 
 
 
@@ -41,6 +43,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		super(name,unitModel);
 		this.unitModel = unitModel;
 		subUnitMaps = new LinkedList<SubUnitMap>();
+		isTrajectory = (space.getDiscreteVolume() <= 1);
 	}
 
 
@@ -98,13 +101,14 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	@Override
 	public double getFast(int ... coord)
 	{
-//		System.out.println("Name : " + getName());
-//		System.out.println("Coord : " + Arrays.toString(coord));
+		//		System.out.println("Name : " + getName() + " isMem : " + isMemory);
+		//		System.out.println("Coord : " + Arrays.toString(coord));
 		int index = this.space.coordToIndex(coord);
+		//		System.out.println("index : " + index);
 		double ret = units.get(index).get();
 		return ret;
 	}
-	
+
 	/**
 	 * 
 	 * @return the order for computation.
@@ -112,8 +116,8 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	 */
 	public Iterator<Unit> getComputationIterator()
 	{
-//		return units.iterator();
-		
+		//		return units.iterator();
+
 		return new FramedSpaceIterator(space,units);
 	}
 
@@ -188,9 +192,9 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	{
 		//TODO maybe we should handle here parrallel vs online
 		/*if(parallel delay = 1) else delay = 0, getDelay(delay,coord)*/
-//		System.err.println("Name : " + name);
-//		System.err.println(Arrays.toString(coord));
-//		System.err.println(space);
+		//		System.err.println("Name : " + name);
+		//		System.err.println(Arrays.toString(coord));
+		//		System.err.println(space);
 		return getDelay(0,coord);
 	}
 
@@ -213,18 +217,24 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	@Override
 	public double getDelay(int delay, Double... coord) throws NullCoordinateException{
 
+
 		if(isMemory)
 		{
-			//System.err.println("Coor : " + Arrays.toString(coord));
-			//System.err.println("Nom : " + this.name + ". space : " + this.space);
-			int index = this.space.coordToIndex(coord);
-			double ret = units.get(index).get(delay);
-			return ret;
+			if(isTrajectory){
+				return units.get(0).get(delay);
+			}else{
+				//			System.err.println("Coor : " + Arrays.toString(coord));
+				//			System.err.println("Nom : " + this.name + ". space : " + this.space);
+				int index = this.space.coordToIndex(coord);//TODO check it to avoid the previous test
+				double ret = units.get(index).get(delay);
+				return ret;
+			}
 		}
 		else
 		{
 			//NoMemory
 			unitModel.setCoord(coord);
+
 			return unitModel.computeActivity();
 		}
 
@@ -286,7 +296,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		}
 
 	}
-	
+
 	public void resetState(){
 		super.resetState();
 		if(isMemory && !isStatic){

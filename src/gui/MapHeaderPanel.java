@@ -18,14 +18,14 @@ public class MapHeaderPanel extends HeaderPanel {
 	private static final long serialVersionUID = 1868547136013986539L;
 	protected Parameter map;//AbstractMap or Leaf
 	
-	public MapHeaderPanel(GUI gui,Parameter map) {
+	public MapHeaderPanel(RunnerGUI gui,Parameter map) {
 		super(gui);
 		this.map = map;
 		this.setBorder(BorderFactory.createTitledBorder("Map:"));
-		initGUI();
+		initRunnerGUI();
 		
 	}
-	protected void initGUI()
+	protected void initRunnerGUI()
 	{
 		JTextArea text = new JTextArea();
 		text.setText(map.getName());

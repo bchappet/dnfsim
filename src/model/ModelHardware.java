@@ -21,8 +21,8 @@ import maps.Var;
 import neigborhood.Neighborhood;
 import neigborhood.V4Neighborhood2D;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.RandTrajUnitModel;
 import unitModel.Sum;
 import unitModel.UnitModel;
@@ -201,10 +201,10 @@ public class ModelHardware extends ModelNSpike {
 			}
 		};
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.INPUT_DT),noDimSpace,this);
-		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
-		StatMap[] array = statMaps.toArray(new StatMap[]{});
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT), 
+		Stat stat = new Stat(command.get(CNFTCommandLine.INPUT_DT),this);
+		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
+		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT), 
 				noDimSpace,array);
 
 	}

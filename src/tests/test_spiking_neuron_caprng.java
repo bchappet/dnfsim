@@ -1,15 +1,12 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
 import hardSimulator.NullSpikingNeuronHUM;
-import hardSimulator.RandomGeneratorCAPRNGHUM;
 import hardSimulator.SpikingNeuronCAPRNGUHM;
-import hardSimulator.SpikingNeuronHUM;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-
 import maps.AbstractUnitMap;
 import maps.Map;
 import maps.Matrix;
@@ -25,12 +22,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import console.CommandLineFormatException;
-
 import cellularAutomata.CACellUnitModel;
 import cellularAutomata.PRNGUnitModel;
 import cellularAutomata.PRNGWrapperUM;
-
+import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.RoundedSpace;
 import coordinates.Space;
@@ -162,7 +157,7 @@ public class test_spiking_neuron_caprng   extends TestCase{
 	private void compute(int nb){
 		
 		for(int i =0 ; i < nb ; i++){
-			wrapMap.update(wrapMap.getTime() + wrapMap.getDt().get());
+			wrapMap.update(new BigDecimal("" + (wrapMap.getTime() + wrapMap.getDt().get())));
 			neuron.computeActivity();
 		}
 	}

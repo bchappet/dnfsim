@@ -28,7 +28,7 @@ public class GlobalTestCompareSpeedQuinton   extends TestCase{
 
 	private Model cnft;
 	private CNFT jcqcnft;
-	private Statistics stats;
+	private StatisticsCNFT stats;
 	private double dt = 0.1;
 	@Before
 	public void setUp() throws Exception {
@@ -54,7 +54,7 @@ public class GlobalTestCompareSpeedQuinton   extends TestCase{
 		jcqcnft.put(input);
 		jcqcnft.put(jcqcnft.getCNFTWeights(a1,s1,a2,s2));
 		((DenseCNFT)jcqcnft).setResolution(resolution);
-		stats = new Statistics(jcqcnft);
+		stats = new StatisticsCNFT(jcqcnft);
 	}
 
 	@After

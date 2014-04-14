@@ -19,7 +19,7 @@ import maps.Parameter;
 import maps.Var;
 import model.Model;
 import model.Root;
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import unitModel.SomUM;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -30,13 +30,13 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 	protected List<DisplayNode> childrens;
 	protected DisplayNode parent;
 	protected Node linked;
-	protected GUI gui;
+	protected RunnerGUI gui;
 	protected boolean visible;
 
 
 
 
-	public DisplayNode(DisplayNode parent,Node linked,GUI gui)
+	public DisplayNode(DisplayNode parent,Node linked,RunnerGUI gui)
 	{
 		this.gui = gui;
 		this.childrens = new ArrayList<DisplayNode>();
@@ -56,7 +56,6 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 		for(Object obj : getAllChildren() )
 		{
 			Node node = (Node) obj;
-
 			DisplayNode son = null;
 			if((node instanceof Var))
 			{
@@ -64,7 +63,6 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 			}
 			else if(node instanceof AbstractMap)
 			{
-			
 				son = new MapDisplayNode(this,(AbstractMap) node,gui);
 
 			}
@@ -90,6 +88,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 			{
 				//System.out.println("linked : " + son.linked + " list : " +son.linked.getParamNodes());
 				this.childrens.add(son);
+			}else{
 			}
 		}
 	}
@@ -120,7 +119,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 		{
 			if(((Model) linked).isInitilized()){
 				List<Object> l = new LinkedList<Object>();
-				l.add(((Model) linked).getRefSpace());
+				//l.add(((Model) linked).getRefSpace()); TODO
 				l.add(((Model) linked).getRootParam());
 				l.addAll(((Model)linked).getParameters());
 				return l;
@@ -146,7 +145,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 	public DisplayNode getDisplayNodeOfObject(Node node)
 	{
 		DisplayNode ret = null;
-
+		
 		if(node.equals(linked))
 		{
 			ret = this;
@@ -191,7 +190,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 	 * @throws NullCoordinateException
 	 */
 	public void valueChanged(ParameterView parameterView) throws NullCoordinateException {
-		if(!(linked instanceof Root || linked instanceof Characteristics))
+		if(!(linked instanceof Root || linked instanceof CharacteristicsCNFT))
 		{
 			parameterView.setDisplayedParam("Param selected" ,
 					new ParamHeaderPanel(gui,(Parameter) linked),

@@ -13,6 +13,7 @@ import java.util.List;
 
 import javax.swing.UIManager;
 
+import maps.BadPathException;
 import model.Model;
 import model.ModelGSpikeFFT;
 import model.Root;
@@ -23,12 +24,17 @@ import org.junit.Test;
 
 import plot.Trace;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 
 import applet.AppletStub;
 
+/**
+ * TODO check
+ * @author bchappet
+ *
+ */
 public class Global_runner_test {
 
 	private ModelGSpikeFFT model;
@@ -64,7 +70,7 @@ public class Global_runner_test {
 
 
 	@Test
-	public void testCNFTReset() throws NumberFormatException, NullCoordinateException, CommandLineFormatException
+	public void testCNFTReset() throws NumberFormatException, NullCoordinateException, CommandLineFormatException, BadPathException
 	{
 		//Set specific parameters
 		String script = 
@@ -77,9 +83,9 @@ public class Global_runner_test {
 
 		System.out.println(model.getCharac());
 		assertTrue(
-				model.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE)== conv);//Statistics.ERROR));
+				model.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE)== conv);//Statistics.ERROR));
 		assertTrue(
-				model.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR)== error);//Statistics.ERROR));
+				model.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR)== error);//Statistics.ERROR));
 
 		reinitialize();
 		reset();
@@ -91,14 +97,14 @@ public class Global_runner_test {
 
 		System.out.println(model.getCharac());
 		assertTrue(
-				model.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE)==conv);//Statistics.ERROR));
+				model.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE)==conv);//Statistics.ERROR));
 		assertTrue(
-				model.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR)==error);//Statistics.ERROR));
+				model.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR)==error);//Statistics.ERROR));
 
 
 	}
 
-	public boolean equals(Characteristics a, Characteristics b) {
+	public boolean equals(CharacteristicsCNFT a, CharacteristicsCNFT b) {
 		List<Trace> wa = a.getWtrace().getCoords();
 		List<Trace> wb = b.getWtrace().getCoords();
 		boolean ret = true;
@@ -117,7 +123,7 @@ public class Global_runner_test {
 		return ret;
 	}
 
-	public void reinitialize()
+	public void reinitialize() throws NullCoordinateException, BadPathException
 	{
 		try{
 			model.getCommandLine().reinitialize();

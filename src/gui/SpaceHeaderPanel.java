@@ -13,14 +13,14 @@ public class SpaceHeaderPanel extends HeaderPanel {
 	private static final long serialVersionUID = -4242951080080062177L;
 	protected Space space;
 
-	public SpaceHeaderPanel(GUI gui,Space space) {
+	public SpaceHeaderPanel(RunnerGUI gui,Space space) {
 		super(gui);
 		this.space = space;
 		this.setBorder(BorderFactory.createTitledBorder("Space"));
-		initGUI();
+		initRunnerGUI();
 	}
 	
-	protected void initGUI()
+	protected void initRunnerGUI()
 	{
 		String str = space.toString();
 	

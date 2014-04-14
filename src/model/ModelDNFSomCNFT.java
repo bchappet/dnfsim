@@ -16,15 +16,16 @@ import maps.Var;
 import neigborhood.Neighborhood;
 import neigborhood.V4Neighborhood2D;
 import statistics.Charac;
+import statistics.CharacConvergence2;
 import statistics.CharacMaxMax;
 import statistics.CharacMaxSum;
 import statistics.CharacMeanCompTime;
 import statistics.CharacNoFocus;
 import statistics.CharacTestConvergence;
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.ConstantUnit;
 import unitModel.RandTrajUnitModel;
 import unitModel.RateCodedUnitModel;
@@ -75,8 +76,8 @@ public class ModelDNFSomCNFT extends ModelCNFT {
 		addParameters(command.get(CNFTCommandLine.LEARNING_RATE));
 		
 		
-		cnft = new FFTConvolutionMatrix2D(CNFT,dt_dnf,extendedSpace);
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),dt_dnf,extendedSpace);
+		cnft = new FFTConvolutionMatrix2D(CNFT,dt_dnf,extendedComputationSpace);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),dt_dnf,extendedComputationSpace);
 
 
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
@@ -178,11 +179,11 @@ public class ModelDNFSomCNFT extends ModelCNFT {
 	}
 	
 	protected void initializeStatistics() throws CommandLineFormatException {
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
-		StatMap wsum = stat.getWsum(new Leaf(potential));
-		StatMap sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
-		StatMap sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.STAT_DT),noDimSpace,
+		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),this);
+		StatMapCNFT wsum = stat.getWsum(new Leaf(potential));
+		StatMapCNFT sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
+		StatMapCNFT sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT),noDimSpace,
 				wsum,
 				stat.getTestConvergence(new Leaf(potential)),
 				stat.getMax(new Leaf(potential)),
@@ -193,15 +194,15 @@ public class ModelDNFSomCNFT extends ModelCNFT {
 	
 	protected  void initializeCharacteristics() throws CommandLineFormatException
 	{
-		Charac conv = new CharacConvergence2(Characteristics.CONVERGENCE,stats, noDimSpace, this);
-		Charac noFocus = new CharacNoFocus(Characteristics.NO_FOCUS, stats, noDimSpace, this, conv);
-		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this);
-		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
-		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this);
-		Charac testConv = new CharacTestConvergence(Characteristics.TEST_CONV, stats, noDimSpace, this,
+		Charac conv = new CharacConvergence2(CharacteristicsCNFT.CONVERGENCE,stats, noDimSpace, this);
+		Charac noFocus = new CharacNoFocus(CharacteristicsCNFT.NO_FOCUS, stats, noDimSpace, this, conv);
+		Charac maxSum = new CharacMaxSum(CharacteristicsCNFT.MAX_SUM, stats, noDimSpace, this);
+		Charac meanCompTime = new CharacMeanCompTime(CharacteristicsCNFT.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
+		Charac maxMax = new CharacMaxMax(CharacteristicsCNFT.MAX_MAX,stats,noDimSpace,this);
+		Charac testConv = new CharacTestConvergence(CharacteristicsCNFT.TEST_CONV, stats, noDimSpace, this,
 				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STAB_TIME));
 
-		charac = new Characteristics(noDimSpace, stats, conv,noFocus,maxSum,meanCompTime,maxMax,testConv);
+		charac = new CharacteristicsCNFT(noDimSpace, stats, conv,noFocus,maxSum,meanCompTime,maxMax,testConv);
 
 	}
 

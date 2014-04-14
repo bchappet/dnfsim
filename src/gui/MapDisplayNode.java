@@ -11,7 +11,7 @@ import coordinates.NullCoordinateException;
 public class MapDisplayNode extends DisplayNode {
 
 
-	public MapDisplayNode(DisplayNode parent, AbstractMap linked, GUI gui) {
+	public MapDisplayNode(DisplayNode parent, AbstractMap linked, RunnerGUI gui) {
 		super(parent, linked, gui);
 	}
 
@@ -40,9 +40,13 @@ public class MapDisplayNode extends DisplayNode {
 				return new DisplayMap(gui,  (AbstractMap) linked);
 			}
 		}
-		else
+		else if(((AbstractMap)linked).getSpace().getDim() == 1)
 		{
-			return null;
+			((AbstractMap)linked).constructMemory();
+			return new Display1DMap(gui,  (AbstractMap) linked);
+		}
+		else{
+			throw new Error("Not implemented");
 		}
 	}
 

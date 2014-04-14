@@ -1,25 +1,15 @@
 package tests;
 
-import static org.junit.Assert.*;
 import gui.Printer;
 
 import java.io.File;
+import java.math.BigDecimal;
 import java.net.URL;
 
 import junit.framework.TestCase;
-
 import model.Model;
 import model.ModelBilayerSpike;
-import model.ModelCNFT;
-import model.ModelCNFTFFT;
-import model.ModelCNFTSlow;
-import model.ModelESpike;
-import model.ModelGSpike;
-import model.ModelHardware;
-import model.ModelNSpike;
-import model.ModelNSpike2;
 import model.ModelRSDNF;
-import model.ModelRSDNFMixte;
 
 import org.junit.After;
 import org.junit.Before;
@@ -161,8 +151,8 @@ public class ModelTimeTest   extends TestCase{
 		
 		long t2 = System.currentTimeMillis();
 		
-		while(cnft.getTime() < time_limit){
-			cnft.update();
+		while(cnft.getTime().compareTo(new BigDecimal(""+ time_limit)) < 0){
+			cnft.update(new BigDecimal("0.1"));
 		}
 		
 		long t3 = System.currentTimeMillis();
@@ -185,9 +175,8 @@ public class ModelTimeTest   extends TestCase{
 		long t2 = System.currentTimeMillis();
 		
 		int i= 0;
-		while(cnft.getTime() < time_limit){
-//			System.out.print(i);
-			cnft.update();
+		while(cnft.getTime().compareTo(new BigDecimal(""+ time_limit)) < 0){
+			cnft.update(new BigDecimal("0.1"));
 			i++;
 		}
 		

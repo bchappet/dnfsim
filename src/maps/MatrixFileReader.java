@@ -26,7 +26,7 @@ public class MatrixFileReader extends Matrix {
 	@Override
 	public void compute()  {
 		try {
-			//System.out.println("iteration : " + iteration);
+//			System.out.println("iteration : " + iteration);
 			FileReader fr = new FileReader(fileName+"_"+iteration +".fig");
 			BufferedReader br = new BufferedReader(fr);
 			

@@ -38,7 +38,7 @@ public class CharacConvergence extends Charac{
 
 	@Override
 	public double computeTrajectory(double... param) {
-		return stats.get(Statistics.CONVERGENCE);
+		return stats.get(StatisticsCNFT.CONVERGENCE);
 		
 	}
 

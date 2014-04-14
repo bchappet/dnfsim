@@ -1,6 +1,7 @@
 package tests;
 
-import static org.junit.Assert.*;
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.AbstractUnitMap;
@@ -44,9 +45,9 @@ public class TestInputParallel  extends TestCase {
 	@Test
 	public void test() {
 		input.toParallel();
-		input.update(0.1);
+		input.update(new BigDecimal("0.1"));
 		System.out.println(input.display2D());
-		input.update(0.2);
+		input.update(new BigDecimal("0.2"));
 		System.out.println(input.display2D());
 		
 		System.out.println(input.get(0));

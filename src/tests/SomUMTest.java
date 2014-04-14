@@ -1,6 +1,7 @@
 package tests;
 
-import static org.junit.Assert.fail;
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 import maps.Leaf;
 import maps.Map;
@@ -17,12 +18,8 @@ import org.junit.Test;
 
 import unitModel.RateCodedUnitModel;
 import unitModel.SomUM;
-import unitModel.Sum;
-import console.CNFTCommandLine;
-
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
-import fft.FFTConvolutionMatrix2D;
 
 public class SomUMTest extends TestCase {
 	
@@ -58,11 +55,11 @@ public class SomUMTest extends TestCase {
 	@Test
 	public void test() {
 		System.out.println("cortical" + cortical.display2D());
-		potential.update(dt.get()*1);
+		potential.update(new BigDecimal(""+dt.get()*1));
 		System.out.println("cortical" + cortical.display2D());
-		potential.update(dt.get()*1);
+		potential.update(new BigDecimal(""+dt.get()*1));
 		System.out.println("cortical" + cortical.display2D());
-		potential.update(dt.get()*1);
+		potential.update(new BigDecimal(""+dt.get()*1));
 		
 	}
 

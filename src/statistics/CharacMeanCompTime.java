@@ -21,14 +21,14 @@ public class CharacMeanCompTime extends Charac {
 	public double computeTrajectory(double... param) {
 		double ret = Statistics.ERROR;
 		
-		Trace time = stats.getTrace(Statistics.COMPTIME );
+		Trace time = stats.getTrace(StatisticsCNFT.COMPTIME );
 
 		double sum = 0;
 		double nb = 0;
 		for(int i = 0 ; i < time.size() ; i++)
 		{
 			double val = time.get(i);
-			if(val != Statistics.ERROR)
+			if(val != StatisticsCNFT.ERROR)
 			{
 				sum += val;
 				nb++;

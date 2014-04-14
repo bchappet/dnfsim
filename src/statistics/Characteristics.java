@@ -31,18 +31,7 @@ public class Characteristics {
 	
 	/**This name**/
 	public final static String NAME = "Charac";
-	/**Fields name**/
 	
-	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError","MaxPotential","Test_Conv")
-	public static final String CONVERGENCE = "Convergence";
-	public static final String MEAN_ERROR = "MeanError";
-	public static final String OBSTINACY = "Obstinacy";
-	public static final String NO_FOCUS = "NoFocus";
-	public static final String MAX_SUM = "MaxSum";
-	public static final String MEAN_COMP_TIME = "MeanCompTime" ;
-	public static final String ACC_ERROR = "AcceptableError"; 
-	public static final String MAX_MAX = "MaxPotential";
-	public static final String TEST_CONV = "Test_Conv";
 	
 	
 	protected String name;

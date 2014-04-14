@@ -57,10 +57,10 @@ public class Map extends AbstractUnitMap {
 		if(!isMemory)
 		{
 			boolean noRecursivity = assertNoRecursivity(); //true if there is no recursivity: no leaf of this map in the parameters
-			
-			
-		//	System.out.println("Construct memory of " + name + Arrays.toString(Thread.currentThread().getStackTrace()));
-		//	System.out.println("nRecursivity : " + noRecursivity);
+
+
+			//	System.out.println("Construct memory of " + name + Arrays.toString(Thread.currentThread().getStackTrace()));
+			//	System.out.println("nRecursivity : " + noRecursivity);
 			//Init the coordinate array of this unit
 
 			//Create the generic collection
@@ -68,20 +68,24 @@ public class Map extends AbstractUnitMap {
 			//Construct as much unitModel as necessary
 			//with the correct coordinate and the right value...
 			//System.out.println(this.name + " construct memory vol = " + space.getDiscreteVolume());
-			for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
-			{
-				UnitModel u = (UnitModel)unitModel.clone();
-				u.setCoord(space.indexToCoord(i));
-				
-				if(noRecursivity){
-//					double val = this.get(i);
-//					if(val > 0.01 && name.equals("Inputs"))
-//						System.out.println("Name : " + name + " Val : " + val + " i : " + i  + " @ " + Arrays.toString(Thread.currentThread().getStackTrace()));
-//					u.set(val);
-				}else{
-					//We did not starded 
+			if(isTrajectory){
+				units.add(new Unit(unitModel));
+			}else{
+				for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
+				{
+					UnitModel u = (UnitModel)unitModel.clone();
+					u.setCoord(space.indexToCoord(i));
+
+					if(noRecursivity){
+						//					double val = this.get(i);
+						//					if(val > 0.01 && name.equals("Inputs"))
+						//						System.out.println("Name : " + name + " Val : " + val + " i : " + i  + " @ " + Arrays.toString(Thread.currentThread().getStackTrace()));
+						//					u.set(val);
+					}else{
+						//We did not starded 
+					}
+					this.units.add(new Unit(u));
 				}
-				this.units.add(new Unit(u));
 			}
 			this.isMemory = true;
 		}
@@ -115,7 +119,7 @@ public class Map extends AbstractUnitMap {
 	@Override
 	public  void compute() throws NullCoordinateException
 	{
-		//System.out.println("Compute map :  " + this.name + " time " + this.time.val);
+	//	System.err.println("Compute map :  " + this.name + " time " + this.time.val);
 		if(isMemory)
 		{
 

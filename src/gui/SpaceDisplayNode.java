@@ -18,7 +18,7 @@ import coordinates.Space;
 public class SpaceDisplayNode extends DisplayNode {
 	protected Space space;
 
-	public SpaceDisplayNode(DisplayNode parent, Space space, GUI gui) {
+	public SpaceDisplayNode(DisplayNode parent, Space space, RunnerGUI gui) {
 		super(parent, space, gui);
 		this.space = space;
 	}

@@ -1,6 +1,7 @@
 package tests;
 
-import static org.junit.Assert.assertTrue;
+import java.math.BigDecimal;
+
 import junit.framework.TestCase;
 import maps.AbstractMap;
 import maps.Map;
@@ -15,11 +16,10 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import console.CommandLineFormatException;
-
 import unitModel.ConstantUnit;
 import unitModel.Convolution;
 import unitModel.UnitModel;
+import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -46,7 +46,7 @@ public class ConvolutionTest  extends TestCase {
 		System.out.println(kernel.get(0.49d,0.49d));
 		assertTrue(kernel.get(0d,0d) == 0.54);
 		kernel.constructMemory();
-		kernel.update(0.1);
+		kernel.update(new BigDecimal("0.1"));
 		System.out.println(kernel.display2D());
 		System.out.println(kernel.get(0d,0d));
 		System.out.println(kernel.get(0.49d,0.49d));
@@ -55,7 +55,7 @@ public class ConvolutionTest  extends TestCase {
 		AbstractMap input =  new Map("input",new ConstantUnit(new Var(0.1),space,new Var(1d)));
 		assertTrue(input.get(0d,0d) == 1d);
 		input.constructMemory();
-		input.update(0.1);
+		input.update(new BigDecimal("0.1"));
 		assertTrue(input.get(0d,0d) == 1d);
 		
 		System.out.println(input.display2D());
@@ -65,7 +65,7 @@ public class ConvolutionTest  extends TestCase {
 						new ConstantNeighborhood((int)(space.getResolution()-1)/2,space,(UnitParameter) kernel),
 						new WrappedGlobalNeigborhood((int)(space.getResolution()-1)/2, space,(UnitParameter)input));
 		conv.constructMemory();
-		conv.update(0.1);
+		conv.update(new BigDecimal("0.1"));
 		System.out.println(conv.get(0d,0d));
 		System.out.println(conv.display2D());
 		System.out.println(conv.get(0d,-0.5d));

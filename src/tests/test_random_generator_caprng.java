@@ -1,14 +1,11 @@
 package tests;
 
-import static org.junit.Assert.*;
+import hardSimulator.RandomGeneratorCAPRNGHUM;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import junit.framework.TestCase;
-
-import hardSimulator.RandomGeneratorCAPRNGHUM;
-import hardSimulator.RandomGeneratorHUM;
-
 import maps.Map;
 import maps.Matrix;
 import maps.NeighborhoodMap;
@@ -111,13 +108,13 @@ public class test_random_generator_caprng extends TestCase {
 	@Test
 	public void test() {
 
-		wrapMap.update(clk.get() * 1);
+		wrapMap.update(new BigDecimal(""+clk.get() * 1));
 		um.computeActivity();
 
 		System.out.println(Arrays.toString(um.getOutputs()));
 		assertTrue(Arrays.equals(um.getOutputs(), new double[]{0.85546875, 0.86328125, 0.50390625, 0.9609375, 0.30078125, 0.3828125, 0.36328125, 0.5703125}));
 
-		wrapMap.update(clk.get()*2);
+		wrapMap.update(new BigDecimal(""+clk.get()*2));
 		um.computeActivity();
 
 		System.out.println(Arrays.toString(um.getOutputs()));

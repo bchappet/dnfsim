@@ -28,11 +28,11 @@ public abstract class TrajectoryUnitMap extends Map {
 	public TrajectoryUnitMap(String theName,Var dt, Space space, Parameter... maps)
 	{
 		super(theName,null,dt,space,maps);
+		this.isTrajectory = true;
 //		System.out.println("Nom : " + name + " space : " + space);
 		this.unitModel = new UnitModel(this) {
 			@Override
 			public double compute(){
-				
 				return computeTrajectory(ArrayUtils.getValues(params,this.coord));
 			}
 		};

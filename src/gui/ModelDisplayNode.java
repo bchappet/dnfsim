@@ -7,7 +7,7 @@ import model.Model;
 
 public class ModelDisplayNode extends DisplayNode implements Suscriber {
 
-	public ModelDisplayNode(DisplayNode parent, Model linked, GUI gui) {
+	public ModelDisplayNode(DisplayNode parent, Model linked, RunnerGUI gui) {
 		super(parent, linked, gui);
 		linked.addSuscriber(this);
 	}

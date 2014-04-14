@@ -69,7 +69,7 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 
 
 
-	public DisplayMap(GUI gui,Parameter linked)
+	public DisplayMap(RunnerGUI gui,Parameter linked)
 	{
 		super(gui,linked);
 		this.space = linked.getSpace();
@@ -354,7 +354,7 @@ public class DisplayMap extends QuickViewPanel implements Cloneable {
 					//System.out.println("trans : " + Arrays.toString(click));
 
 					//Get the trackable object from the model
-					List<AbstractMap> tracks = gui.getRoot().getActiveModel().getTracks();
+					List<AbstractMap> tracks = gui.getRoot().getActiveModel().getTracks(); //TODO
 					//System.out.println("Tracks : " + tracks);
 
 					//We find the closest

@@ -182,13 +182,15 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			}
 		}
 		//update this if necessary
-		BigDecimal bTime = new BigDecimal(time.val );
-		bTime = bTime.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
-		if(timeLimit.compareTo(bTime) >= 0){
-		//	System.out.println("Compute " + name + " time : " + time.get() + " dt : " + dt.get());
-			this.compute();
-			this.updateVue();//TODO case à cocher si on veut updater vue à chaque update
-			this.time.val = bTime.doubleValue() + dt.get();
+		if(!isStatic){
+			BigDecimal bTime = new BigDecimal(time.val );
+			bTime = bTime.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
+			if(timeLimit.compareTo(bTime) >= 0){
+				//System.err.println("Compute " + name + " time : " + time.get() + " dt : " + dt.get());
+				this.compute();
+				this.updateVue();//TODO case à cocher si on veut updater vue à chaque update
+				this.time.val = bTime.doubleValue() + dt.get();
+			}
 		}
 
 	}
@@ -375,13 +377,14 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	public String display2D() throws NullCoordinateException {
 		String string = "Name : " + name + "\n";
 		string += "Memory : " + isMemory +"\n";
+		string +="x:"+space.getDiscreteSize()[Space.X] + " y:"+space.getDiscreteSize()[Space.Y];
 		if(isMemory)
 		{
 			int index = 0;
-			for(int i = 0 ; i < space.getResolution() ; i++){
-				for(int j = 0 ; j < space.getResolution() ; j++){
+			for(int i = 0 ; i < space.getDiscreteSize()[Space.X] ; i++){
+				for(int j = 0 ; j < space.getDiscreteSize()[Space.Y] ; j++){
 					string += (((int)(this.get(index)*10000))/10000.0) +",";
-//					string += (this.get(index))+",";
+					//					string += (this.get(index))+",";
 					index ++;
 				}
 				string +="\n";
@@ -601,8 +604,8 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		}
 		return min;
 	}
-	
-	
+
+
 
 
 

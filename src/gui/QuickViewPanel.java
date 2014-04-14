@@ -25,12 +25,12 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 	 */
 	private static final long serialVersionUID = -8836535197104696167L;
 	//@Deprecated ??
-	protected GUI gui;
+	protected RunnerGUI gui;
 	protected Parameter displayed;
 	protected boolean isDisplayed; //Is displayed in the center panel
 	protected JPanel borderPanel;
 
-	public QuickViewPanel(GUI gui,Parameter displayed)
+	public QuickViewPanel(RunnerGUI gui,Parameter displayed)
 	{
 		super();
 		this.gui = gui;

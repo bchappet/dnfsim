@@ -24,13 +24,13 @@ public class CharacAccError extends Charac {
 	@Override
 	public double computeTrajectory(double... param) {
 		double ret = Statistics.ERROR;
-		double convtime = get(Characteristics.CONVERGENCE);
+		double convtime = get(CharacteristicsCNFT.CONVERGENCE);
 		int convIt = (int) Math.round( (convtime/stats.dt.get()));
 		int stabIt =  (int) Math.round( (params.get(STAB_IT).get()/stats.dt.get()));
 		if(convtime != Statistics.ERROR)
 		{
 			
-			Trace accError = stats.getTrace(Statistics.ACC_ERROR);
+			Trace accError = stats.getTrace(StatisticsCNFT.ACC_ERROR);
 			
 			ret = 0;
 			for(int i = convIt; i < accError.size() ; i++){

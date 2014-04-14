@@ -2,6 +2,8 @@ package model;
 
 import java.lang.reflect.InvocationTargetException;
 
+import reservoirComputing.ModelESN;
+
 import modelCMSVA.ModelCMSVA;
 
 
@@ -11,6 +13,7 @@ public enum Models{
 	CNFTDNFSOM("DNFSomCNFT",ModelDNFSomCNFT.class,false),
 	GSPIKE("GSpike",ModelGSpike.class,false),
 	GSPIKEFFT("GSpikeFFT",ModelGSpikeFFT.class,false),
+	GSPIKEFFT2("GSpikeFFTAsynch",ModelGSpikeFFT.class,true),
 	ESPIKE("ESpike",ModelESpike.class,false),
 	ESPIKEFFT("ESpikeFFT",ModelESpike.class,false),
 	ESPIKE2("ESpike2",ModelESpike2.class,false),
@@ -32,7 +35,9 @@ public enum Models{
 	DNF_SOM("DNFSom",ModelDNFSom.class,false),
 	DNF_SOM_Supervise("DNFSomSupervise",ModelDNFSomSupervise.class,false),
 	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
-	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false);
+	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
+	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
+	ESN("ESN",ModelESN.class,false);
 	
 	private final boolean assynch;
 	private final String name;

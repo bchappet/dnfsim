@@ -14,7 +14,6 @@ import java.io.PrintStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Scanner;
@@ -31,6 +30,7 @@ import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.UIManager;
 
+import maps.BadPathException;
 import maps.Parameter;
 import model.Model;
 import model.Root;
@@ -40,7 +40,7 @@ import console.TextFieldIn;
 import coordinates.NullCoordinateException;
 
 
-public class RunnerGUI extends GUI{
+public class RunnerGUI extends JApplet{
 
 
 
@@ -81,12 +81,11 @@ public class RunnerGUI extends GUI{
 
 
 	protected boolean showGui = false;
-	
-//	/**Refreshing rate**/
-//	protected double refresh = 100; // ms
+
+	//	/**Refreshing rate**/
+	//	protected double refresh = 100; // ms
 
 	public RunnerGUI(Runner runner,Root root, URL contextPath,Dimension dim){
-		super(root,contextPath,dim);
 		this.runner = runner;
 		this.runner.setGui(this);
 		this.root = root;
@@ -140,7 +139,9 @@ public class RunnerGUI extends GUI{
 				}catch (FileNotFoundException e) {
 					System.out.println(e.getMessage());
 					System.out.println("Launching with defaults parameters");
-					model.initialize();
+
+					model.initialize(null);
+
 				}
 				//	System.out.println("new tree");
 				//	System.out.println(model.getRootParam().toStringRecursive(0));
@@ -154,10 +155,10 @@ public class RunnerGUI extends GUI{
 				{
 					DisplayNode disp = treeView.getNode(p);
 					maps.addView(disp.getQuickViewPanel());
-					
+
 				}
 				maps.update();
-				stat.changeStatistics(model.getStatistics());
+				stat.changeStatistics(model.getStatistics(),model.getDefaultDisplayedStatistic());
 				((ModelDisplayNode)node).signalTreeChanged();
 			} catch (MalformedURLException e) {
 				e.printStackTrace();
@@ -165,8 +166,8 @@ public class RunnerGUI extends GUI{
 				e.printStackTrace();
 			} catch (NullCoordinateException e) {
 				e.printStackTrace();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
+			} catch (FileNotFoundException e1) {
+				e1.printStackTrace();
 			}
 			finally{
 				lock.unlock();
@@ -205,7 +206,7 @@ public class RunnerGUI extends GUI{
 		//leftPane.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16));
 
 
-		stat = new StatisticPanel(root.getActiveModel().getStatistics(),"TestConv");
+		stat = new StatisticPanel(root.getActiveModel().getStatistics(),root.getActiveModel().getDefaultDisplayedStatistic());
 		stat.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
 		leftPane.add(stat);
 
@@ -286,37 +287,39 @@ public class RunnerGUI extends GUI{
 	}
 
 	/**
+	 * TODO
 	 * Reconstruct the model in order to change the resolution for instance
 	 * @throws Exception 
 	 */
 	public void resetHard() throws Exception{
 
 		lock.lock();
-		try{
-			Model current = this.root.getActiveModel();
-			ModelDisplayNode node = (ModelDisplayNode) treeView.getNode(current);
-			Model newModel = Root.constructModel(current.getName());
-			newModel.initialize(current);
-			node.changeModel(newModel);
-			root.replaceModel(newModel);
-
-			maps.clear();
-
-			for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
-			{
-				//System.out.println("Display : " + p.getName() + "@" +p.hashCode());
-				DisplayNode disp = treeView.getNode(p);
-				maps.addView(disp.getQuickViewPanel());
-			}
-			maps.update();
-			stat.changeStatistics(newModel.getStatistics());
-			stat.validate();
-			//((ModelDisplayNode)node).signalTreeChanged();
-		}catch(Exception e ){
-			e.printStackTrace();
-		}finally{
-			lock.unlock();
-		}
+		throw new Error("TODO reset hard");
+//		try{
+//			Model current = this.root.getActiveModel();
+//			ModelDisplayNode node = (ModelDisplayNode) treeView.getNode(current);
+//			Model newModel = Root.constructModel(current.getName());
+//			newModel.initialize(current);
+//			node.changeModel(newModel);
+//			root.replaceModel(newModel);
+//
+//			maps.clear();
+//
+//			for(Parameter p : root.getActiveModel().getDefaultDisplayedParameter())
+//			{
+//				//System.out.println("Display : " + p.getName() + "@" +p.hashCode());
+//				DisplayNode disp = treeView.getNode(p);
+//				maps.addView(disp.getQuickViewPanel());
+//			}
+//			maps.update();
+//			stat.changeStatistics(newModel.getStatistics());
+//			stat.validate();
+//			//((ModelDisplayNode)node).signalTreeChanged();
+//		}catch(Exception e ){
+//			e.printStackTrace();
+//		}finally{
+//			lock.unlock();
+//		}
 
 	}
 
@@ -324,17 +327,17 @@ public class RunnerGUI extends GUI{
 
 		JButton startButton = new JButton("Play/Pause");
 		JButton nextButton = new JButton("Step");
-		
+
 		final JTextField stepValueTF = new JTextField("TimeStep (s)");
 		stepValueTF.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				double newVal = Double.parseDouble(stepValueTF.getText());
 				runner.setTimeStep(newVal);
 			}
 		});
-		
+
 
 		startButton.addActionListener(new ActionListener() {
 			@Override
@@ -356,13 +359,13 @@ public class RunnerGUI extends GUI{
 				runner.setSimulationStep(value / 1000d);
 			}
 		};
-		
-//		SliderCommand refreshRateCommand = new SliderCommand("RefreshRate (ms)", 0,
-//				1000, 1, ((int) refresh )) {
-//			protected void valueChanged(int value) {
-//				refresh = value ;
-//			}
-//		};
+
+		//		SliderCommand refreshRateCommand = new SliderCommand("RefreshRate (ms)", 0,
+		//				1000, 1, ((int) refresh )) {
+		//			protected void valueChanged(int value) {
+		//				refresh = value ;
+		//			}
+		//		};
 
 		JButton saveButton = new JButton("SaveMap");
 		saveButton.addActionListener(new ActionListener() {
@@ -437,7 +440,7 @@ public class RunnerGUI extends GUI{
 					}catch (FileNotFoundException e) {
 						System.out.println(e.getMessage());
 						System.out.println("Launching with defaults parameters");
-						model.initialize();
+						model.initialize(null);
 					}
 					//	System.out.println("new tree");
 					//	System.out.println(model.getRootParam().toStringRecursive(0));
@@ -451,10 +454,10 @@ public class RunnerGUI extends GUI{
 					{
 						DisplayNode disp = treeView.getNode(p);
 						maps.addView(disp.getQuickViewPanel());
-						
+
 					}
 					maps.update();
-					stat.changeStatistics(model.getStatistics());
+					stat.changeStatistics(model.getStatistics(),model.getDefaultDisplayedStatistic());
 					((ModelDisplayNode)node).signalTreeChanged();
 				} catch (MalformedURLException e) {
 					e.printStackTrace();
@@ -462,7 +465,7 @@ public class RunnerGUI extends GUI{
 					e.printStackTrace();
 				} catch (NullCoordinateException e) {
 					e.printStackTrace();
-				} catch (CloneNotSupportedException e) {
+				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
 
@@ -555,25 +558,25 @@ public class RunnerGUI extends GUI{
 	}
 
 
-//	//Update the gui only according to the refreshing rate
-//	@Override
-//	public void run() {
-//		long tb = 0;
-//		while(true){
-//			try{
-//				long ta = System.currentTimeMillis();
-//				long diff = ta-tb;
-//				Thread.sleep((long) Math.max(0, refresh-diff));
-//				repaint();
-//				tb = System.currentTimeMillis();
-//			}catch (InterruptedException e) {
-//				e.printStackTrace();
-//				System.exit(-1);
-//			}
-//		}
-//
-//
-//	}
+	//	//Update the gui only according to the refreshing rate
+	//	@Override
+	//	public void run() {
+	//		long tb = 0;
+	//		while(true){
+	//			try{
+	//				long ta = System.currentTimeMillis();
+	//				long diff = ta-tb;
+	//				Thread.sleep((long) Math.max(0, refresh-diff));
+	//				repaint();
+	//				tb = System.currentTimeMillis();
+	//			}catch (InterruptedException e) {
+	//				e.printStackTrace();
+	//				System.exit(-1);
+	//			}
+	//		}
+	//
+	//
+	//	}
 
 
 
@@ -597,6 +600,8 @@ public class RunnerGUI extends GUI{
 					e.printStackTrace();
 				} catch (NullCoordinateException e) {
 					e.printStackTrace();
+				} catch (BadPathException e) {
+					e.printStackTrace();
 				}
 			}
 
@@ -610,7 +615,7 @@ public class RunnerGUI extends GUI{
 
 
 
-	
+
 
 
 

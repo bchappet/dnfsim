@@ -1,5 +1,6 @@
 package utils;
 
+
 public class Hardware {
 
 	/**
@@ -20,7 +21,24 @@ public class Hardware {
 		}
 		return res;
 	}
-
+	
+	
+	public static String toVectorString(int val,int vec_size) throws  BitOverflowException{
+		int[] vec = toVector(val,vec_size);
+		String ret = "\"";
+		try{
+			for(int i = vec_size -1;i  >=0 ; i --){
+				ret += "" + vec[i] ;
+			}
+		}catch (ArrayIndexOutOfBoundsException e) {
+			throw  new BitOverflowException("The vector width is to small " + vec_size + " to encode the integer " + val,e);
+		}
+		
+		ret += "\"";
+		
+		return ret;
+		
+	}
 	/**
 	 * Transform a integer into a 6 bit logic_vector LBV...HBV
 	 *  
@@ -107,12 +125,23 @@ public class Hardware {
 		
 	}
 	
+	
+	/**
+	 * Return the nb bit necessar to encode this int
+	 * @param val /TODO can be optimized
+	 * @return
+	 */
+	public static int necessaryNbBit(int val){
+		String bin = Integer.toBinaryString(val);
+		return bin.length();
+	}
+	
 	/**
 	 * Return the corresponding power of 2 value
 	 * @param div x²
 	 * @return x
 	 */
-	private static int findPow2(int div) {
+	public static int findPow2(int div) {
 		int i = 0;
 		int tmp = div;
 		while(tmp >1)
@@ -126,5 +155,90 @@ public class Hardware {
 		
 		return i;
 	}
+	
+	/**
+	 * Return "0000010" with n=2 and width = 7
+	 * @param n position of activated bit started from the end
+	 * @param width
+	 * @return
+	 */
+	public static String nThBit(int n, int width) {
+		String logic_vector = "\"";
+		for(int i = 1 ; i <= width ; i++){
+			if(i == width - n + 1)
+				logic_vector += "1";
+			else
+				logic_vector += "0";
+		}
+		logic_vector += "\"";
+		return logic_vector;
+	}
+	
+	/**
+	 * Return a FP string logic_vector(INT-1,-FRAC) or (INT,-FRAC) if signed 
+	 * @param val value to transform
+	 * @param INT integer part size
+	 * @param FRAC fractional part size
+	 * @param signed true if we want a signed number (TODO not ready!!)
+	 * @return a FP string logic_vector(INT-1,-FRAC) or (INT,-FRAC) if signed
+	 *TODO not signed compatible
+	 */
+	public static String toFPVectorString(double val,int INT,int FRAC,boolean signed){
+		double unsigned_val;
+		boolean negative;
+		String ret;
+		
+		if(signed){
+			unsigned_val = Math.abs(val);
+			negative = (val  < 0);
+		}else{
+			unsigned_val = val;
+		}
+		
+		int int_part = (int) unsigned_val;
+		double frac_part = unsigned_val - int_part;
+		
+		
+		int frac_part_to_int = (int)Math.round(frac_part * Math.pow(2, FRAC));
+		String bit_frac_part = Integer.toBinaryString(frac_part_to_int);
+		bit_frac_part = fill(bit_frac_part,FRAC,false);
+		String bit_int_part = Integer.toBinaryString(int_part);
+		bit_int_part = fill(bit_int_part,INT,false);
+		
+		if(signed){
+			ret = bit_int_part + bit_frac_part;
+		}else{
+			ret = bit_int_part + bit_frac_part;
+		} 
+		
+		//finaly cut if to large
+		if(ret.length() > INT + FRAC){
+			ret = ret.substring((ret.length() - ( INT + FRAC)), ret.length());
+		}
+		
+		
+		return "\"" + ret + "\"";
+
+		
+	}
+	
+	public static String fill(String vector,int width,boolean signed){
+		String ret = vector;
+		char fillWith = '0';
+		if(signed){
+			fillWith = vector.charAt(0); //TODO
+		}else{
+			fillWith = '0';
+		}
+		
+		while(ret.length() < width){
+			ret = fillWith + ret; 
+		}
+		
+		return ret;
+		
+	}
+	
+	
 
 }

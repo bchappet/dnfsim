@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
 
 import maps.AbstractMap;
@@ -28,10 +29,10 @@ import statistics.CharacMaxSum;
 import statistics.CharacNoFocus;
 import statistics.CharacObstinacy;
 import statistics.CharacTestConvergence;
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import statistics.Stat;
-import statistics.StatMap;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.CosTraj;
 import unitModel.GaussianND;
 import unitModel.RandTrajUnitModel;
@@ -82,9 +83,10 @@ public class ModelCNFT extends Model{
 	protected Parameter hpA;
 	protected Parameter hpB;
 
-
+	protected List<AbstractMap> trackable;
 
 	/**The two type of refSpace used in the unitModel**/
+	protected Space refSpace;
 	protected Space space2d;//2 dim refSpace
 	protected Space noDimSpace;//"no dim" refSpace : only one value
 	protected Space extendedConvSpace; //For the lateral weight (if no wrap : res*=2) (convolution kernel)
@@ -96,6 +98,15 @@ public class ModelCNFT extends Model{
 
 	public ModelCNFT(String name) {
 		super(name);
+		this.trackable = new LinkedList<AbstractMap>();
+	}
+	
+	protected void initializeCommandLine(String contextScript) throws CommandLineFormatException {
+		command = new CNFTCommandLine(contextScript, this);
+		this.refSpace = new DefaultRoundedSpace(
+				command.get(CNFTCommandLine.RESOLUTION), 2,
+				command.getBool(CNFTCommandLine.WRAP));
+		
 	}
 
 	@Override
@@ -398,31 +409,31 @@ public class ModelCNFT extends Model{
 
 		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
 		
-		Stat stat = new Stat(stat_dt,space2d,this);
+		Stat stat = new Stat(stat_dt,this);
 
-		List<StatMap> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
+		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
 		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
 		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
 		statMaps.add(stat.getMax(new Leaf(potential)));
-		StatMap[] array = statMaps.toArray(new StatMap[]{});
-		stats = new Statistics("Stats",stat_dt,noDimSpace,array);
+		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
+		stats = new StatisticsCNFT("Stats",stat_dt,noDimSpace,array);
 
 	}
 
 	protected  void initializeCharacteristics() throws CommandLineFormatException
 	{
-		Charac conv = new CharacConvergence(Characteristics.CONVERGENCE,stats, noDimSpace, this);
-		Charac meanError = new CharacMeanError(Characteristics.MEAN_ERROR,stats, noDimSpace, this,conv);
-		Charac obstinacy = new CharacObstinacy(Characteristics.OBSTINACY,stats, noDimSpace, this, conv);
-		Charac noFocus = new CharacNoFocus(Characteristics.NO_FOCUS, stats, noDimSpace, this, conv);
-		Charac maxSum = new CharacMaxSum(Characteristics.MAX_SUM, stats, noDimSpace, this);
-		Charac meanCompTime = new CharacMeanCompTime(Characteristics.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
-		Charac accError = new CharacAccError(Characteristics.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STAB_TIME));
-		Charac maxMax = new CharacMaxMax(Characteristics.MAX_MAX,stats,noDimSpace,this);
-		Charac testConv = new CharacTestConvergence(Characteristics.TEST_CONV, stats, noDimSpace, this,
+		Charac conv = new CharacConvergence(CharacteristicsCNFT.CONVERGENCE,stats, noDimSpace, this);
+		Charac meanError = new CharacMeanError(CharacteristicsCNFT.MEAN_ERROR,stats, noDimSpace, this,conv);
+		Charac obstinacy = new CharacObstinacy(CharacteristicsCNFT.OBSTINACY,stats, noDimSpace, this, conv);
+		Charac noFocus = new CharacNoFocus(CharacteristicsCNFT.NO_FOCUS, stats, noDimSpace, this, conv);
+		Charac maxSum = new CharacMaxSum(CharacteristicsCNFT.MAX_SUM, stats, noDimSpace, this);
+		Charac meanCompTime = new CharacMeanCompTime(CharacteristicsCNFT.MEAN_COMP_TIME, stats, noDimSpace, this, conv);
+		Charac accError = new CharacAccError(CharacteristicsCNFT.ACC_ERROR,stats,noDimSpace,this,conv,command.get(CNFTCommandLine.STAB_TIME));
+		Charac maxMax = new CharacMaxMax(CharacteristicsCNFT.MAX_MAX,stats,noDimSpace,this);
+		Charac testConv = new CharacTestConvergence(CharacteristicsCNFT.TEST_CONV, stats, noDimSpace, this,
 				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STAB_TIME));
 
-		charac = new Characteristics(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv);
+		charac = new CharacteristicsCNFT(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv);
 
 	}
 
@@ -520,24 +531,7 @@ public class ModelCNFT extends Model{
 		return "Basic CNFT model : potential =  potential + dt/tau*(-potential + input +cnft + h  )";
 	}
 
-	@Override
-	public  String save(String file,List<Parameter> toSave) throws IOException, NullCoordinateException
-	{
-
-		FileWriter fw = null;
-		String ret = "[";
-
-		for(Parameter p : toSave)
-		{
-			String fileName = file+"_"+p.getName()+".csv";
-			ret += fileName + ",";
-			fw= new FileWriter(file+"_"+p.getName()+".csv",false);
-			BufferedWriter out = new BufferedWriter(fw);
-			out.write(((AbstractMap)p).displayMemory());
-			out.close();
-		}
-		return ret.subSequence(0, ret.length()-1)+"]";
-	}
+	
 
 	public void test() throws Exception{
 		// change the input
@@ -562,7 +556,40 @@ public class ModelCNFT extends Model{
 
 		this.input = map;
 	}
+	
+	public Space getRefSpace() {
+		return refSpace;
+	}
 
+	
+	/**
+	 * Return the list of trackable object
+	 * 
+	 * @return
+	 */
+	public List<AbstractMap> getTracks() {
+		return trackable;
+	}
+	
+	/**
+	 * Return the trackable object with the given hashcode
+	 * 
+	 * @param trackedStimulis
+	 * @return null if no trackable have the corresponding hashh code
+	 */
+	public AbstractMap getTracked(double hashcode) {
+		AbstractMap ret = null;
+		for (AbstractMap t : trackable) {
+			if (t.hashCode() == hashcode)
+				ret = t;
+		}
+		return ret;
+	}
+
+	@Override
+	public String getDefaultDisplayedStatistic() {
+		return StatisticsCNFT.ERROR_DIST;
+	}
 
 
 
