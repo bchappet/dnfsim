@@ -21,6 +21,7 @@ import maps.TrajectoryUnitMap;
 import maps.Var;
 import statistics.Charac;
 import statistics.CharacAccError;
+import statistics.CharacClosestTrack;
 import statistics.CharacMaxMax;
 import statistics.CharacMeanCompTime;
 import statistics.CharacConvergence;
@@ -30,7 +31,7 @@ import statistics.CharacNoFocus;
 import statistics.CharacObstinacy;
 import statistics.CharacTestConvergence;
 import statistics.CharacteristicsCNFT;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.CosTraj;
@@ -409,7 +410,7 @@ public class ModelCNFT extends Model{
 
 		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
 		
-		Stat stat = new Stat(stat_dt,this);
+		StatCNFT stat = new StatCNFT(stat_dt,this);
 
 		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
 		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
@@ -432,8 +433,9 @@ public class ModelCNFT extends Model{
 		Charac maxMax = new CharacMaxMax(CharacteristicsCNFT.MAX_MAX,stats,noDimSpace,this);
 		Charac testConv = new CharacTestConvergence(CharacteristicsCNFT.TEST_CONV, stats, noDimSpace, this,
 				command.get(CNFTCommandLine.WA),command.get(CNFTCommandLine.SHAPE_FACTOR),command.get(CNFTCommandLine.STAB_TIME));
+		Charac closestTrack = new CharacClosestTrack(CharacteristicsCNFT.CLOSEST_TRACK, stats, noDimSpace, this,conv);
 
-		charac = new CharacteristicsCNFT(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv);
+		charac = new CharacteristicsCNFT(noDimSpace, stats, conv,meanError,obstinacy,noFocus,maxSum,meanCompTime,accError,maxMax,testConv,closestTrack);
 
 	}
 

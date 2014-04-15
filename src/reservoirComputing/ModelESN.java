@@ -14,7 +14,7 @@ import maps.Var;
 import model.Model;
 import plot.Trace;
 import statistics.Charac;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMap;
 import unitModel.RandTrajUnitModel;
 import unitModel.UniformRandomUM;
@@ -198,7 +198,7 @@ public class ModelESN extends Model {
 	protected void initializeStatistics() throws CommandLineFormatException {
 		// main statistic here is error
 		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
-		Stat stat = new Stat(stat_dt,this);
+		StatCNFT stat = new StatCNFT(stat_dt,this);
 		Space noDimSpace = new NoDimSpace();
 		//The error is (estimator - target)^2
 		StatMap error = new StatMap(StatisticsESN.ERROR_DIST,stat_dt,noDimSpace,new Leaf(output),new Leaf(targetOutput)) {

@@ -62,6 +62,7 @@ public class Global_test_all {
 		suite.addTestSuite(VHDLGeneratorCNFTTest.class);
 		suite.addTestSuite(VHDLNeuronGeneratorCNFTTest.class);
 		suite.addTestSuite(WrappedConvolutionNeigborhoodTest.class);
+		suite.addTestSuite(CharacClosestTrackTest.class);
 		return suite;
 	}
 	public static void main(String args[]) {

@@ -20,6 +20,7 @@ import neigborhood.V4Neighborhood2D;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import precision.PrecisionVar;
@@ -104,6 +105,7 @@ public class SpikingNeuronHUMTest  extends TestCase {
 		
 	}
 	
+	@Ignore("Not ready")
 	@Test
 	public void testActivation() {
 		double act = 0.1484375;

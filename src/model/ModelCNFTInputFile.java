@@ -16,7 +16,7 @@ import statistics.CharacMeanCompTime;
 import statistics.CharacNoFocus;
 import statistics.CharacTestConvergence;
 import statistics.CharacteristicsCNFT;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.RandTrajUnitModel;
@@ -73,7 +73,7 @@ public class ModelCNFTInputFile extends ModelCNFTFFT {
 	}
 	
 	protected void initializeStatistics() throws CommandLineFormatException {
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
+		StatCNFT stat = new StatCNFT(command.get(CNFTCommandLine.STAT_DT),noDimSpace,this);
 		StatMapCNFT wsum = stat.getWsum(new Leaf(potential));
 		StatMapCNFT sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
 		StatMapCNFT sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));

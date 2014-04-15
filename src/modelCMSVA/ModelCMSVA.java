@@ -37,7 +37,7 @@ import statistics.CharacMeanError;
 import statistics.CharacNoFocus;
 import statistics.CharacObstinacy;
 import statistics.CharacteristicsCNFT;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.CosTraj;
@@ -411,7 +411,7 @@ public class ModelCMSVA extends Model {
     protected void initializeStatistics() throws CommandLineFormatException {
 
 //        AbstractMap[] tracks = trackable.toArray(new AbstractMap[]{trackable.get(0)});
-        Stat stat = new Stat(command.get(CNFTCommandLine.DT), noDimSpace, this);
+        StatCNFT stat = new StatCNFT(command.get(CNFTCommandLine.DT), noDimSpace, this);
         stats = new StatisticsCNFT("Stats", command.get(CNFTCommandLine.DT),
                 noDimSpace, stat.getDefaultStatistics(new Leaf(focus), trackable/*tracks*/));
 

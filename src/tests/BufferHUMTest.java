@@ -7,6 +7,7 @@ import maps.Var;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import coordinates.DefaultRoundedSpace;
@@ -25,9 +26,11 @@ public class BufferHUMTest  extends TestCase{
 	@After
 	public void tearDown() throws Exception {
 	}
+	
+	
 
-	@Test
-	public void test() {
+	@Ignore("Not ready")
+	public void test2() {
 		buff.setInput(new int[]{1,0,0,0});
 		buff.computeActivity();
 		buff.setInput(new int[]{0,0,0,0});

@@ -1,5 +1,7 @@
 package statistics;
 
+import java.util.Arrays;
+
 import maps.Parameter;
 import maps.TrajectoryUnitMap;
 import maps.Var;
@@ -41,7 +43,7 @@ public abstract class Charac extends TrajectoryUnitMap {
 	 * @return
 	 */
 	protected Parameter getByName(String name)
-	{
+	{	
 		for(Parameter p : params)
 		{
 			if(p.getName().equals(name))

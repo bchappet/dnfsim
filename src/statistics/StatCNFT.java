@@ -22,7 +22,7 @@ import console.CommandLineFormatException;
 import coordinates.NoDimSpace;
 import coordinates.Space;
 
-public class Stat {
+public class StatCNFT {
 
 	public static final int X = 0;
 	public static final int Y = 1;
@@ -32,7 +32,7 @@ public class Stat {
 	protected Model model;
 	protected List<AbstractMap> tracks;
 
-	public Stat( Var dt,Model model, Parameter... maps) {
+	public StatCNFT( Var dt,Model model, Parameter... maps) {
 		//		System.out.println("MEM:"+"construct:"+this.getClass());
 		//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.model = model;
@@ -393,7 +393,7 @@ public class Stat {
 								//							System.out.println("i:" + i +" :: " +errorDist +"<=?"+ acceptableError);
 								if(errorDist != StatisticsCNFT.ERROR && errorDist <= acceptableError)
 								{
-									//System.out.println(" t = " + time.get() + " stab:" + stab +" :: " +errorDist +"<="+ acceptableError);
+//									System.out.println(" t = " + time.get() + " stab:" + stab +" :: " +errorDist +"<="+ acceptableError);
 									stab = stab + dt.get();
 								}
 								else
@@ -401,7 +401,7 @@ public class Stat {
 									//Reinitiate convergence
 									stab = 0;
 									trackedStimulis = StatisticsCNFT.ERROR;
-									//System.out.println("Reset " + " error dist " + errorDist);
+//									System.out.println("Reset " + " error dist " + errorDist);
 								}
 							}
 							else
@@ -409,7 +409,7 @@ public class Stat {
 								//Reinitiate convergence
 								stab = 0;
 								trackedStimulis = StatisticsCNFT.ERROR;
-								//System.out.println("Reset" + " bubbleWidth : " + bubbleWidth + " bubble height " + bubbleHeight);
+//								System.out.println("Reset" + " bubbleWidth : " + bubbleWidth + " bubble height " + bubbleHeight);
 							}
 						}
 						else
@@ -484,9 +484,8 @@ public class Stat {
 					if(nb > 0)
 					{
 						int height = maxY - minY + 1;
-						//	System.out.println("height = " + height);
 						//Normalize the size :
-						res = space.distContinuousProj(height, Space.Y);
+						res = target.getSpace().distContinuousProj(height, Space.Y);
 					}
 
 
@@ -539,7 +538,7 @@ public class Stat {
 						int width = maxX - minX + 1;
 						//System.out.println("width = " + width);
 						//Normalize the size :
-						res = space.distContinuousProj(width, Space.X);
+						res = target.getSpace().distContinuousProj(width, Space.X);
 					}
 
 

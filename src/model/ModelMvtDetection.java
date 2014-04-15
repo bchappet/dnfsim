@@ -11,7 +11,7 @@ import maps.Map;
 import maps.Parameter;
 import maps.TrajectoryUnitMap;
 import maps.Var;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.AggregationUM;

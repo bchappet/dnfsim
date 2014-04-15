@@ -31,7 +31,7 @@ public class CharacteristicsCNFT extends Characteristics{
 	
 	
 	
-	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError","MaxPotential","Test_Conv")
+	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError","MaxPotential","Test_Conv","Closest_track")
 	public static final String CONVERGENCE = "Convergence";
 	public static final String MEAN_ERROR = "MeanError";
 	public static final String OBSTINACY = "Obstinacy";
@@ -41,6 +41,7 @@ public class CharacteristicsCNFT extends Characteristics{
 	public static final String ACC_ERROR = "AcceptableError"; 
 	public static final String MAX_MAX = "MaxPotential";
 	public static final String TEST_CONV = "Test_Conv";
+	public static final String CLOSEST_TRACK = "Closest_track"; //closest track on average
 	
 	
 	

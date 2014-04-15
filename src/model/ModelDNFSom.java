@@ -23,7 +23,7 @@ import statistics.CharacMeanCompTime;
 import statistics.CharacNoFocus;
 import statistics.CharacTestConvergence;
 import statistics.CharacteristicsCNFT;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.ConstantUnit;
@@ -169,7 +169,7 @@ public class ModelDNFSom extends ModelNSpike {
 	}
 	
 	protected void initializeStatistics() throws CommandLineFormatException {
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),this);
+		StatCNFT stat = new StatCNFT(command.get(CNFTCommandLine.STAT_DT),this);
 		StatMapCNFT wsum = stat.getWsum(new Leaf(potential));
 		StatMapCNFT sizeBubbleH = stat.getSizeBubbleHeight(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));
 		StatMapCNFT sizeBubbleW = stat.getSizeBubbleWidth(new Leaf(potential),wsum,command.get(CNFTCommandLine.ACT_THRESHOLD));

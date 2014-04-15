@@ -9,7 +9,7 @@ import maps.Leaf;
 import maps.Map;
 import maps.Parameter;
 import maps.Var;
-import statistics.Stat;
+import statistics.StatCNFT;
 import statistics.StatMapCNFT;
 import statistics.StatisticsCNFT;
 import unitModel.SpikingPotentialUM;
@@ -87,7 +87,7 @@ public class ModelGSpike extends ModelCNFT {
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.STAT_DT),this);
+		StatCNFT stat = new StatCNFT(command.get(CNFTCommandLine.STAT_DT),this);
 		
 		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
 		statMaps.add(stat.getMax(new Leaf(potential)));
