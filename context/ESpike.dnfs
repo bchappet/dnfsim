@@ -4,5 +4,6 @@ wa=0.0043;
 wb=0.17;
 tau=0.64;
 threshold=0.75;
-alpha=10.01;
+alpha=10.00;
+wrap=F;
 

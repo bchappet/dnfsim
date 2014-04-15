@@ -7,7 +7,7 @@ import maps.Parameter;
 
 public class LeafDisplayNode extends DisplayNode {
 
-	public LeafDisplayNode(DisplayNode parent, Leaf linked, GUI gui) {
+	public LeafDisplayNode(DisplayNode parent, Leaf linked, RunnerGUI gui) {
 		super(parent, linked, gui);
 	}
 	

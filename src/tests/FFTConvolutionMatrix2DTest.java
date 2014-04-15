@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.*;
+import junit.framework.TestCase;
 import maps.Matrix;
 import maps.Matrix2D;
 import maps.Var;
@@ -13,7 +14,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 import fft.FFTConvolutionMatrix2D;
 
-public class FFTConvolutionMatrix2DTest {
+public class FFTConvolutionMatrix2DTest  extends TestCase {
 
 	Matrix2D kernel;
 	Matrix2D input;

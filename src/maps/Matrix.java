@@ -21,6 +21,7 @@ public class Matrix extends AbstractMap implements Cloneable {
 
 
 
+
 	/**
 	 * Init a matrix with zeroes
 	 * @param name
@@ -30,13 +31,13 @@ public class Matrix extends AbstractMap implements Cloneable {
 	 */
 	public Matrix(String name, Parameter dt, Space space,
 			Parameter... params) {
-		this(name,dt,space,new double[space.getDiscreteVolume()],params);
+		this(name,dt,space,new double[space.getFramedSpace().getDiscreteVolume()],params);
 		for(int i = 0 ; i < values.length ; i++){
 			values[i] = 0;
 		}
 	}
-	
-	
+
+
 
 	/**
 	 * Init the matrix with the given values
@@ -52,7 +53,14 @@ public class Matrix extends AbstractMap implements Cloneable {
 		isMemory = true;
 		this.values = values;
 	}
-	
+
+	/**
+	 * @deprecated
+	 * @param name
+	 * @param dt
+	 * @param resolution
+	 * @param space
+	 */
 	public Matrix(String name, Var dt,double resolution, Space space) {
 		this(name,dt,space.withResolution(resolution));
 	}
@@ -80,7 +88,11 @@ public class Matrix extends AbstractMap implements Cloneable {
 	 */
 	public double get(int index) throws NullCoordinateException
 	{
-		return values[index];
+		if(FramedSpaceIterator.inside(index, space)){
+			return values[FramedSpaceIterator.fullToFramedIndex(index,space)];
+		}else{
+			return 0;
+		}
 	}
 
 	/**
@@ -90,7 +102,7 @@ public class Matrix extends AbstractMap implements Cloneable {
 	public double getFast(int ... coord)
 	{
 		int index = this.space.coordToIndex(coord);
-		return values[index];
+		return get(index);
 	}
 
 
@@ -105,7 +117,7 @@ public class Matrix extends AbstractMap implements Cloneable {
 	 */
 	public double get(Double... coord) throws NullCoordinateException
 	{
-	
+
 		int index = this.space.coordToIndex(coord);
 		return get(index);
 	}
@@ -133,10 +145,10 @@ public class Matrix extends AbstractMap implements Cloneable {
 		}
 
 	}
-	
-	
-	
-	
+
+
+
+
 
 	@Override
 	public Matrix clone() 
@@ -180,13 +192,29 @@ public class Matrix extends AbstractMap implements Cloneable {
 	@Override
 	public void setIndex(int index, double newVal) {
 		values[index] = newVal;
-		
-	}
-	
-	
 
-	
-	
+	}
+
+
+
+	@Override
+	public double getDelay(int delay, int index) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+	@Override
+	public void delete()
+	{
+		super.delete();
+		values = null;
+	}
+
+
+
+
 
 
 

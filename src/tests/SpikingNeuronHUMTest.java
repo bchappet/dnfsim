@@ -7,6 +7,8 @@ import hardSimulator.SpikingUnitHUM;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.AbstractUnitMap;
 import maps.Matrix;
 import maps.NeighborhoodMap;
@@ -24,7 +26,7 @@ import precision.PrecisionVar;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class SpikingNeuronHUMTest {
+public class SpikingNeuronHUMTest  extends TestCase {
 
 	
 	private SpikingNeuronHUM neuron;
@@ -112,7 +114,7 @@ public class SpikingNeuronHUMTest {
 		neuron.computeActivity();
 		assertTrue(neuron.getActivity().get() == 0.28125);
 		neuron.computeActivity();
-		assertTrue(neuron.getActivity().get() == 0.390625);
+		assertEquals("Le neurone devrait avoir une activité de 0.390625.",0.390625,neuron.getActivity().get()); //TODO investigate
 		neuron.computeActivity();
 		neuron.computeActivity();
 		neuron.computeActivity();

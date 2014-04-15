@@ -1,7 +1,9 @@
 package maps;
 
 import java.util.AbstractList;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,9 +25,11 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	protected UnitModel unitModel;
 	/**Collection of units**/
 	protected AbstractList<Unit> units;
-	
+
 	protected List<SubUnitMap> subUnitMaps;
-	
+
+	protected boolean isTrajectory; //true if nodim TODO develop concept
+
 
 
 
@@ -39,6 +43,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		super(name,unitModel);
 		this.unitModel = unitModel;
 		subUnitMaps = new LinkedList<SubUnitMap>();
+		isTrajectory = (space.getDiscreteVolume() <= 1);
 	}
 
 
@@ -57,10 +62,10 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		if(unitModel != null)
 			initUnitModel(unitModel);
 	}
-	
+
 	public void addSubUnitMap(SubUnitMap sum) {
 		subUnitMaps.add(sum);
-		
+
 	}
 
 	protected void initUnitModel(UnitModel um) {
@@ -96,9 +101,24 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	@Override
 	public double getFast(int ... coord)
 	{
+		//		System.out.println("Name : " + getName() + " isMem : " + isMemory);
+		//		System.out.println("Coord : " + Arrays.toString(coord));
 		int index = this.space.coordToIndex(coord);
+		//		System.out.println("index : " + index);
 		double ret = units.get(index).get();
 		return ret;
+	}
+
+	/**
+	 * 
+	 * @return the order for computation.
+	 * 
+	 */
+	public Iterator<Unit> getComputationIterator()
+	{
+		//		return units.iterator();
+
+		return new FramedSpaceIterator(space,units);
 	}
 
 	/**
@@ -172,9 +192,12 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	{
 		//TODO maybe we should handle here parrallel vs online
 		/*if(parallel delay = 1) else delay = 0, getDelay(delay,coord)*/
+		//		System.err.println("Name : " + name);
+		//		System.err.println(Arrays.toString(coord));
+		//		System.err.println(space);
 		return getDelay(0,coord);
 	}
-	
+
 	public Var getVar(Double ... coord){
 		if(isMemory)
 		{
@@ -194,20 +217,43 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	@Override
 	public double getDelay(int delay, Double... coord) throws NullCoordinateException{
 
+
+		if(isMemory)
+		{
+			if(isTrajectory){
+				return units.get(0).get(delay);
+			}else{
+				//			System.err.println("Coor : " + Arrays.toString(coord));
+				//			System.err.println("Nom : " + this.name + ". space : " + this.space);
+				int index = this.space.coordToIndex(coord);//TODO check it to avoid the previous test
+				double ret = units.get(index).get(delay);
+				return ret;
+			}
+		}
+		else
+		{
+			//NoMemory
+			unitModel.setCoord(coord);
+
+			return unitModel.computeActivity();
+		}
+
+	}
+
+	@Override
+	public double getDelay(int delay, int index) {
 		if(isMemory)
 		{
 			//System.err.println("Nom : " + this.name + ". space : " + this.space);
-			int index = this.space.coordToIndex(coord);
 			double ret = units.get(index).get(delay);
 			return ret;
 		}
 		else
 		{
 			//NoMemory
-			unitModel.setCoord(coord);
+			unitModel.setCoord(space.indexToCoord(index));
 			return unitModel.computeActivity();
 		}
-
 	}
 
 	@Override
@@ -251,12 +297,20 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 
 	}
 
+	public void resetState(){
+		super.resetState();
+		if(isMemory && !isStatic){
+			for(Unit u : units)
+				u.resetState();
+		}
+	}
+
 	public AbstractUnitMap clone() 
 	{
 		AbstractUnitMap clone =
 				(AbstractUnitMap) super.clone();
 		clone.unitModel = unitModel.clone();
-			
+
 		return clone;
 	}
 
@@ -305,14 +359,33 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	public List<SubUnitMap> getSubUnitMaps() {
 		return subUnitMaps;
 	}
-	
+
 	public void setIndex(int index, double val) {
 		units.get(index).getUnitModel().set(val);
-		
+
+	}
+
+	@Override
+	public void delete(){
+		super.delete();
+		if(isMemory){
+			for(Unit u : units){
+				u.delete();
+			}
+		}
+
+		for(SubUnitMap sm : subUnitMaps){
+			sm.delete();
+		}
+
+		unitModel = null;
+		units = null;
+		subUnitMaps = null;
+
 	}
 
 
-	
+
 
 
 

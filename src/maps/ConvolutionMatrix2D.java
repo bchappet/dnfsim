@@ -48,6 +48,7 @@ public class ConvolutionMatrix2D extends Matrix2D {
 		int kx = params.get(KERNEL).getSpace().getDiscreteSize()[X];
 		int ky = params.get(KERNEL).getSpace().getDiscreteSize()[Y];
 		/**Input size**/
+		
 		int vx = params.get(INPUT).getSpace().getDiscreteSize()[X];
 		int vy = params.get(INPUT).getSpace().getDiscreteSize()[Y];
 		/**This size**/

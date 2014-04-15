@@ -16,7 +16,7 @@ public class ModelHeaderPanel extends HeaderPanel {
 	private static final long serialVersionUID = 2057428565357218128L;
 	protected Model model;
 	
-	public ModelHeaderPanel(GUI gui,Model model) {
+	public ModelHeaderPanel(RunnerGUI gui,Model model) {
 		super(gui);
 		
 		this.model = model;

@@ -36,6 +36,8 @@ public class NeighborhoodMap extends Map {
 	public NeighborhoodMap clone(){
 		NeighborhoodMap clone = (NeighborhoodMap) super.clone();
 		
+		
+		
 		clone.neighborhood = new ArrayList<Neighborhood>();
 		for(Neighborhood nei : this.neighborhood){
 			Neighborhood newNei = nei.clone();
@@ -136,7 +138,7 @@ public class NeighborhoodMap extends Map {
 			addParameters(nei.getMap());
 	}
 
-	public List<Neighborhood> getNeighborhood() {
+	public List<Neighborhood> getNeighborhoods() {
 		return neighborhood;
 	}
 	

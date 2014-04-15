@@ -27,6 +27,7 @@ public class Printer{
 	public static final String NB_CORE = "core";
 	public static final String ITERATION = "it";
 	public static final String INFO = "info";
+	public static final String SAVE_MAP = "savemap"; //save map at every computation
 
 	/**Nb iteration printed**/
 	protected int nb = 0;
@@ -88,10 +89,15 @@ public class Printer{
 			argsToProperties(args);
 
 			String context = System.getProperty(CONTEXT);
+			String savemapStr = System.getProperty(SAVE_MAP);
+			boolean savemap = false;
+			if(savemapStr != null && savemapStr.equals("true")){
+				savemap = true;
+			}
 			String model = System.getProperty(MODEL);
 			if(model == null){
 				System.err.println("The model should be precised. For instance " +
-						"add the parameter : model=CNFT show=true");
+						"add the parameters : model=CNFT show=true");
 				System.exit(-1);
 			}
 			String showGUI = System.getProperty(SHOW_GUI);
@@ -150,14 +156,18 @@ public class Printer{
 
 					runners[i] = new Runner(modelM,scenario,printer);
 					runners[i].setIteration(iterations[i]);
+					runners[i].setSavemap(savemap,i);
 
 					root.getActiveModel().initialize(contextScript);
 					root.getActiveModel().getCommandLine().setRunner(runners[i]);
 
 					if(showGui){
-						GUI applet =  new GUI(runners[i],root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
+						RunnerGUI applet =  new RunnerGUI(runners[i],root,contextPath,
+								new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
 						// Configure the frame to display the Applet
-						applet.setStub(new AppletStub(applet, "CNFT simulation"));
+						applet.setStub(new AppletStub(applet, "Simulation"));
+//						Thread guiTh = new Thread(applet);
+//						guiTh.start();
 						runners[i].setLock(applet.getLock());
 					}
 

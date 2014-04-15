@@ -3,7 +3,6 @@ package hardSimulator;
 import maps.Parameter;
 import maps.Unit;
 import maps.Var;
-import precision.PrecisionVar;
 import unitModel.NeighborhoodUnitModel;
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
@@ -27,7 +26,7 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 	protected static final int EXC_PROBA = 3;
 	protected static final int INH_PROBA = 4;
 	protected static final int THRESHOLD = 5;
-	protected static final int PRECISION = 6;
+	protected static final int BUFFER_WIDTH = 6;
 	protected static final int NB_SPIKE = 7;
 	protected static final int INPUT = 8;
 	protected static final int TAU = 9;
@@ -52,18 +51,24 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 	protected int[] outPortsExc;
 	protected int[] outPortsInh;
 	
-	//var 
-	protected int activate;
+	//register
+	protected Var activateRegister;
+	
+	
+	public SpikingNeuronHUM(){
+		super();
+	}
 	
 	public SpikingNeuronHUM(Parameter dt, Space space, Parameter... parameters) {
 		super(dt,space,parameters);
+		
 	}
 	
 	protected void onInitilization(){
 		super.onInitilization();
 		//System.out.println("params : " + this.params + "  "+ Arrays.toString(Thread.currentThread().getStackTrace()));
-		activate = 0;
-		potential = new PrecisionVar(0,params.get(PRECISION));
+		potential = new Var(0);
+		activateRegister = new Var(0);
 		outPortsExc = new int[]{0,0,0,0};
 		outPortsInh = new int[]{0,0,0,0};
 		
@@ -71,7 +76,6 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		inPortsInh = new int[]{0,0,0,0};
 		
 		initSubUnits();
-		
 	}
 	
 	protected void initSubUnits(){
@@ -81,12 +85,12 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 				params.get(EXC_WEIGHT),
 				params.get(INH_WEIGHT),
 				params.get(THRESHOLD),
-				params.get(PRECISION),
+				params.get(BUFFER_WIDTH),
 				params.get(INPUT),
 				params.get(TAU),
 				params.get(INTEGRATION_DT));
-		UnitModel excN = new NeuronHUM(dt,space,params.get(EXC_PROBA),params.get(PRECISION),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
-		UnitModel inhN = new NeuronHUM(dt,space,params.get(INH_PROBA),params.get(PRECISION),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
+		UnitModel excN = new NeuronHUM(dt,space,params.get(EXC_PROBA),params.get(BUFFER_WIDTH),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
+		UnitModel inhN = new NeuronHUM(dt,space,params.get(INH_PROBA),params.get(BUFFER_WIDTH),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
 		RandomGeneratorHUM rg = new RandomGeneratorHUM(dt,space);
 		
 		addSubUnits(sp,excN,inhN,rg);
@@ -99,6 +103,7 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		clone.inPortsExc = new int[]{0,0,0,0};
 		clone.outPortsInh = new int[]{0,0,0,0};
 		clone.inPortsInh = new int[]{0,0,0,0};
+		clone.activateRegister = this.activateRegister.clone();
 		return clone;
 	}
 	
@@ -109,6 +114,7 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		clone.inPortsExc = new int[]{0,0,0,0};
 		clone.outPortsInh = new int[]{0,0,0,0};
 		clone.inPortsInh = new int[]{0,0,0,0};
+		clone.activateRegister = this.activateRegister;
 		
 		return clone;
 		
@@ -119,13 +125,12 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		return super.getSubUnit(subUnitIndex);
 	}
 
-	public SpikingNeuronHUM(){
-		super();
-	}
+	
 	
 
 	@Override
 	public double compute() throws NullCoordinateException {
+		
 		SpikingUnitHUM sp = (SpikingUnitHUM) subUnits.get(SPIKING_UNIT);
 		NeuronHUM excN = (NeuronHUM) subUnits.get(NEURON_EXC);
 		NeuronHUM inhN = (NeuronHUM) subUnits.get(NEURON_INH);
@@ -141,11 +146,14 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 		
 		sp.computeActivity();
 		
-		activate = sp.getActivate();
+		int activate = getActivate();//To introduce a delay like in hardware
+		activateRegister.set(sp.getActivate());
+		
 //		System.out.println("spikingNeuorn activate : " + activate);
 		excN.setActivate(activate);
 		inhN.setActivate(activate);
 		
+		//System.out.println("Compute random gen @"+hashCode());
 		randGen.computeActivity();
 		double[] rands = randGen.getOutputs();
 		
@@ -205,7 +213,7 @@ public class SpikingNeuronHUM extends NeighborhoodUnitModel {
 	}
 
 	public int getActivate() {
-		return activate;
+		return (int) activateRegister.get();
 	}
 
 }

@@ -1,5 +1,6 @@
 package optimisation;
 
+import console.CommandLineFormatException;
 import gui.Printer;
 import gui.Runner;
 import maps.Parameter;
@@ -20,7 +21,7 @@ public class GARunner extends Runner {
 
 
 
-	public GARunner(Model model,String params,String scenario,GAScenarioPrinter gaLauncher){
+	public GARunner(Model model,String params,String scenario,GAScenarioPrinter gaLauncher) throws CommandLineFormatException{
 		super(model,scenario,gaLauncher);
 		this.model= model;
 		model.getCommandLine().setRunner(this);
@@ -31,12 +32,12 @@ public class GARunner extends Runner {
 	public void run() {
 		try{
 			
-			System.out.println("start : " + Thread.currentThread());
+			//System.out.println("start : " + Thread.currentThread());
 			model.reset();
 			model.getCommandLine().reinitialize();
 			model.getCommandLine().parseCommand(params+scenario);
 			((GAScenarioPrinter)printer).computeScenarioFitness();
-			System.out.println("end : " + Thread.currentThread());
+		//	System.out.println("end : " + Thread.currentThread());
 		}catch (Exception e) {
 			e.printStackTrace();
 			System.exit(-1);

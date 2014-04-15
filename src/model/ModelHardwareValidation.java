@@ -4,6 +4,7 @@ import hardSimulator.NullSpikingNeuronHUM;
 import hardSimulator.SpikingNeuronCAPRNGUHM;
 import hardSimulator.SpikingNeuronHUM;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import maps.MatrixFileReader;
 import java.util.List;
@@ -62,15 +63,18 @@ import coordinates.Space;
  */
 public class ModelHardwareValidation extends ModelHardware {
 
+	protected List<AbstractMap> caMaps;
+
 	public ModelHardwareValidation(String name) {
 		super(name);
+		caMaps = new ArrayList<AbstractMap>();
 	}
-	
-	protected Parameter getFilesInputs(String filename) throws CommandLineFormatException{
-		Parameter mat = new MatrixFileReader(INPUT,command.get(CNFTCommandLine.INPUT_DT),this.space2d,filename);
+
+	protected AbstractMap getFilesInputs(String filename) throws CommandLineFormatException{
+		AbstractMap mat = new MatrixFileReader(INPUT,command.get(CNFTCommandLine.INPUT_DT),this.space2d,filename);
 		return mat;
 	}
-	
+
 	protected Map getCAPRNGWrapperMap(Parameter dtHard) throws CommandLineFormatException{
 		double[] rules = {
 				35,15,15,35,47,17,58,46,
@@ -83,7 +87,7 @@ public class ModelHardwareValidation extends ModelHardware {
 				30,20,19,38,6,22,41,31
 		};
 		Space spaceCA = new DefaultRoundedSpace(new Var("res",8), 2, true);
-		
+
 		Matrix rulesMat = new Matrix("RulesMat",dtHard , spaceCA, rules);
 		CACellUnitModel caum = new CACellUnitModel(new Var("dt",0.1), spaceCA,rulesMat );
 		NeighborhoodMap camap = new NeighborhoodMap("CAMap", caum);
@@ -96,66 +100,101 @@ public class ModelHardwareValidation extends ModelHardware {
 		//We need 8 val for each spiking neuron
 		Var nbVal = new Var("nb_val",8);
 		//We need a specific amount of 8x8 map:
-		double res = Math.max(Math.ceil((frac.get() * space2d.getResolution())/8), 
+		double resCAPRNG = Math.max(Math.ceil((frac.get() * space2d.getResolution())/8), 
 				Math.ceil((nbVal.get()* space2d.getResolution())/8));
-		System.out.println("Resolution : " + res);
-		Space prngSpace = new RoundedSpace(new Double[]{0d,0d}, new Double[]{res,res}, new Var(res), false);
+	//	System.out.println("Resolution : " + resCAPRNG);
+		Space prngSpace = new RoundedSpace(new Double[]{0d,0d}, new Double[]{resCAPRNG,resCAPRNG}, new Var(resCAPRNG), false);
 		
-		
-		
+
+
 		PRNGUnitModel um = new PRNGUnitModel(camap,dtHard, prngSpace,frac );
-		Map map = new Map("PRNGMap", um);
-		map.constructMemory();
-		
-		PRNGWrapperUM wrapUM = new PRNGWrapperUM(dtHard, space2d, map,frac,nbVal);
+		Map prng_map = new Map("PRNGMap", um);
+		prng_map.constructMemory();
+
+		PRNGWrapperUM wrapUM = new PRNGWrapperUM(dtHard, space2d, prng_map,frac,nbVal);
 		Map wrapMap = new Map("WrapPRNGMap",wrapUM);
 		wrapMap.constructMemory();
-		
+
 		//Different initialization state for the different ca map
-		for(int i = 0 ; i < space2d.getResolution() ; i++){
-			NeighborhoodMap camap_i = (NeighborhoodMap) map.getUnit(i).getUnitModel().getParam(PRNGUnitModel.MAP);
-			camap_i.setIndex(i,1d);
+		int nbOne=0; 
+		int posOne = 0;
+		for(int i = 0 ; i < prngSpace.getDiscreteVolume() ; i++){
+			NeighborhoodMap camap_i = (NeighborhoodMap) ((PRNGUnitModel) prng_map.getUnit(i).getUnitModel()).getMap();
+			
+			for(int j = 0 ; j < nbOne ; j++)
+				camap_i.setIndex(j,1);
+			
+			camap_i.setIndex(posOne, 1);
+			
+			posOne ++;
+			
+			if(posOne == spaceCA.getDiscreteVolume()){
+				nbOne ++;
+				posOne = nbOne;
+			}
+			
+			initRandomMap(camap_i);
+			//System.out.print(camap_i.display2D() +"");
+			caMaps.add(camap_i);
 		}
-		
+
 		return wrapMap;
 	}
-	
+
+	private void initRandomMap(NeighborhoodMap map) {
+		for(int i = 0 ; i < map.getSpace().getDiscreteVolume() ; i++){
+			int rand = 0;
+			if(Math.random() > 0.5)
+				rand = 1;
+			map.setIndex(i, rand);
+		}
+		
+	}
+
 	protected void initModel() throws CommandLineFormatException, NullCoordinateException
 	{
 		Var vdt = command.get(CNFTCommandLine.DT); //integration dt*
-		
-		//In this model we use an input already multiplied by dt/tau
-		Map hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
-			
-			@Override
-			public double compute() throws NullCoordinateException {
-				return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
-			}
-		});
-		
+		AbstractMap hard_input ;
+
+//		In this model we use an input already multiplied by dt/tau
+//				hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
+//					
+//					@Override
+//					public double compute() throws NullCoordinateException {
+//						return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
+//					}
+//				});
+
 		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
-		displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
+
+		input = getFilesInputs("files/input");
+		hard_input = input;
+		input.getDt().setIndex(0, vdt.get());
+
+
+
+		Parameter displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return dt.get()/param[0];
 			}
 		};
 		displayDt.toStatic();
-		
+
 		Map caprngMap = getCAPRNGWrapperMap(displayDt);
 		potential = new NeighborhoodMap(POTENTIAL,new SpikingNeuronCAPRNGUHM(),displayDt,space2d,
 				compute_clk,
 				fp_hpA,fp_hpB,fp_hppa,fp_hppb,fp_threshold,
-				command.get(CNFTCommandLine.FRAC),
-				pn,hard_input,pTau,vdt,caprngMap);
+				command.get(CNFTCommandLine.BUFF_WIDTH),
+				pn,hard_input,pTau,vdt,caprngMap,new Var(8));
 		Neighborhood nei = new V4Neighborhood2D(space2d,
 				new UnitLeaf((UnitParameter) potential));
 		nei.setNullUnit(new NullSpikingNeuronHUM());
 		((NeighborhoodMap)potential).addNeighboors(nei);
 		potential.toParallel();
-		
-		
-		
+
+
+
 		this.root = potential;
 
 		focus = new SubUnitMap(FOCUS, (AbstractUnitMap) potential, SpikingNeuronHUM.SPIKING_UNIT);
@@ -167,27 +206,35 @@ public class ModelHardwareValidation extends ModelHardware {
 			public double compute() throws NullCoordinateException {
 				return getParam(0).get(coord)*getParam(2).get(coord) - getParam(1).get(coord)*getParam(3).get(coord);
 			}
-			
+
 		});
-		this.addParameters(sum);
+		this.addParameters(sum);//to reach it
+		//this.addParameters(caMaps.toArray(new Map[]{}));
+
+
 
 		root.constructMemory();
 	}
-	
-//	@Override
-//	protected void initDefaultInput() throws CommandLineFormatException, NullCoordinateException{
-//		this.input =  getFilesInputs(command.getString(CNFTCommandLine.INPUT_FILES));
-//	}
-//	
-	
-
-
-
-
 
 	
+	@Override
+	public List<Parameter> getDefaultDisplayedParameter() {
+		Parameter[] ret ={input,potential,focus,exc,inh,sum};
+		List<Parameter> lret = new ArrayList<Parameter>();
+		lret.addAll( Arrays.asList(ret));
+		//lret.addAll(caMaps);
+		
+		return lret;
+	}
 
-	
+
+
+
+
+
+
+
+
 
 
 

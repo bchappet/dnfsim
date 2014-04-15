@@ -61,7 +61,7 @@ public class GAOptimizer {
 		this.gaLauncher = gaLauncher;
 		this.gaStats = gaPrinter;
 		this.optimizationInterval = gaLauncher.getOptimizationInterval();
-		parameterSize = optimizationInterval.length;
+		parameterSize = gaLauncher.getOptimizedParameters().length;
 
 		nbElite = (int) Math.round (popSize*cl.get(CommandLine.ELITE_RATIO).get());
 		eliteIndex = new int[nbElite];
@@ -89,6 +89,11 @@ public class GAOptimizer {
 	}
 
 
+	/**
+	 * Start the optimization
+	 * @throws CommandLineFormatException
+	 * @throws IOException
+	 */
 	public void lauchGA() throws CommandLineFormatException, IOException {
 
 

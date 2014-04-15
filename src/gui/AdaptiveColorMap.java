@@ -23,6 +23,8 @@ public class AdaptiveColorMap extends ColorMap {
 	}
 	
 	
+	
+	
 	public int[] closestPoints(double point)
 	{
 		int i = 0;

@@ -13,7 +13,9 @@ package routing;
 public abstract class Routing {
 	
 	/**Index of the couple of result in the resulting array**/
+	/**Neighbor targeted*/
 	public static final int TARGET = 0; //Neighboor targeted
+	/**Direction of outcoming spike**/
 	public static final int DIRECTION = 1; //Direction of outcoming spike
 
 	/**

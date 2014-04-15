@@ -2,7 +2,7 @@ package optimisation;
 
 import java.util.concurrent.BlockingQueue;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 
 import model.Model;
 
@@ -14,13 +14,13 @@ public class CMSVAIndivEvaluator extends CNFTIndivEvaluator {
 		super(modelPool, gaLauncher, scenarios, parameterNames, nbIteration);
 	}
 	
-	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId,Characteristics charac){
+	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId,CharacteristicsCNFT charac){
 		charac.compute();
-		double conv =  charac.getParam(Characteristics.CONVERGENCE).get();
-		double noFocus = charac.getParam(Characteristics.NO_FOCUS).get();
-		double obstinacy = charac.getParam(Characteristics.OBSTINACY).get();
-		double meanError  = charac.getParam(Characteristics.MEAN_ERROR).get();
-		double accError = charac.getParam(Characteristics.ACC_ERROR).get();
+		double conv =  charac.getParam(CharacteristicsCNFT.CONVERGENCE).get();
+		double noFocus = charac.getParam(CharacteristicsCNFT.NO_FOCUS).get();
+		double obstinacy = charac.getParam(CharacteristicsCNFT.OBSTINACY).get();
+		double meanError  = charac.getParam(CharacteristicsCNFT.MEAN_ERROR).get();
+		double accError = charac.getParam(CharacteristicsCNFT.ACC_ERROR).get();
 		double fitness = 0;
 		if(scenarioId != SWITCHING){
 

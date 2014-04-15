@@ -1,6 +1,8 @@
 package maps;
 
+import java.util.AbstractList;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import coordinates.Space;
@@ -22,6 +24,8 @@ public abstract class ParameterUser implements Cloneable {
 
 	public ParameterUser(Parameter dt2,Space space,Parameter ... params)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.dt = dt2;
 		this.space =space;
 		this.time = new Var(0);
@@ -30,13 +34,30 @@ public abstract class ParameterUser implements Cloneable {
 
 		onInitilization();
 	}
+	
+	
 	/**
 	 * Share attributes with param
 	 * @param param
 	 */
 	public ParameterUser(ParameterUser param)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.shareAttributesWith(param);
+	}
+	
+	public synchronized void delete(){
+//		while(!params.isEmpty()){
+//			params.get(0).delete();
+//		}
+		
+	
+		
+		space = null;
+		time = null;
+		dt = null;
+		params = null;
 	}
 
 	public ParameterUser clone(){
@@ -45,7 +66,7 @@ public abstract class ParameterUser implements Cloneable {
 			clone = (ParameterUser) super.clone();
 			clone.dt = this.dt; //shared
 			//copy but the parameter are shared!!
-			clone.params = (List<Parameter>) ((ArrayList)this.params).clone();
+		//	clone.params = (List<Parameter>) ((ArrayList)this.params).clone();
 			clone.space = this.space;//shared
 			clone.time = this.time.clone(); //copy
 		}catch(CloneNotSupportedException e){
@@ -54,6 +75,8 @@ public abstract class ParameterUser implements Cloneable {
 		}
 		return clone;
 	}
+	
+
 
 	/**
 	 * Return the {@link Parameter} having the specified name
@@ -113,7 +136,7 @@ public abstract class ParameterUser implements Cloneable {
 	 * Add parameter to the list
 	 * @param params
 	 */
-	public void addParameters(Parameter ... params)
+	public synchronized void addParameters(Parameter ... params)
 	{
 		for(Parameter p : params)
 		{
@@ -125,20 +148,27 @@ public abstract class ParameterUser implements Cloneable {
 	 * Remove a parameter from the list
 	 * @param p
 	 */
-	protected void removeParameter(Parameter p) {
+	protected synchronized void removeParameter(Parameter p) {
 		params.remove(p);
 	}
 	
 	/**
-	 * In some specific case,  we want a different parameter instance for each
-	 * unit model of the map.
-	 * As the parameters are shared by default, one should call cloneParameter
-	 * in the cloning methods redefinition.
-	 * @param p
+	 * remplace un paramÃ¨tre d'un nom par un paramÃ¨tre du mÃªme nom
+	 * @param p paramÃ¨tre remplaÃ§ant
 	 */
-	public void cloneParameter(int index){
-		params.set(index, params.get(index).clone());
+	public void replaceParameter(Parameter p) {
+		String nomParam = p.getName();
+		boolean stop = false;
+		int i = 0;
+		while (!stop) {
+			if (stop = nomParam.equals(this.params.get(i).getName()))
+				this.params.set(i, p);
+			i++;
+		}
 	}
+
+	
+	
 
 
 
@@ -149,7 +179,7 @@ public abstract class ParameterUser implements Cloneable {
 	 * @return the parameter at index index
 	 */
 	public Parameter getParam(int index){
-		return params.get(index);
+		return this.params.get(index);
 	}
 
 

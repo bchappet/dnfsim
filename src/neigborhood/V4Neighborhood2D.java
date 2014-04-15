@@ -1,5 +1,7 @@
 package neigborhood;
 
+import java.util.Arrays;
+
 import maps.UnitParameter;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -22,6 +24,9 @@ public class V4Neighborhood2D extends Neighborhood {
 	public V4Neighborhood2D(Space space,UnitParameter map) {
 		super(space,map);
 	}
+	
+	
+	
 
 	@Override
 	public Double[][] getNeighborhood(Double... coord) throws NullCoordinateException{
@@ -30,12 +35,12 @@ public class V4Neighborhood2D extends Neighborhood {
 		for(int i = 0 ; i < unit.length ; i++){
 			unit[i] = space.getSize()[i]/res;
 		}
-
+	
 		Double[] n = new Double[]{coord[X],coord[Y]-unit[Y]};
 		Double[] s = new Double[]{coord[X],coord[Y]+unit[Y]};
 		Double[] e = new Double[]{coord[X]+unit[X],coord[Y]};
 		Double[] w = new Double[]{coord[X]-unit[X],coord[Y]};
-		//Wrap if needed
+		//Wrap if needed taking account of the frame
 		n = space.wrap(n);
 		s = space.wrap(s);
 		e = space.wrap(e);

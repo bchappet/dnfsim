@@ -37,7 +37,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import statistics.Statistics;
+import statistics.StatisticsCNFT;
 
 public class WTrace {
 	/** Coordinates arrays */
@@ -72,7 +72,7 @@ public class WTrace {
 			Trace tr = coords.get(index);
 			return tr.get(tr.size()-1);
 		}else{
-			return Statistics.ERROR;
+			return StatisticsCNFT.ERROR;
 		}
 
 	}
@@ -81,7 +81,7 @@ public class WTrace {
 		Trace tr = new Trace(name);
 		if(!coords.isEmpty()){
 			for(int i = 0 ; i < coords.get(0).size() ; i++)
-				tr.add(Statistics.ERROR);
+				tr.add(StatisticsCNFT.ERROR);
 		}
 
 		coords.add(tr);

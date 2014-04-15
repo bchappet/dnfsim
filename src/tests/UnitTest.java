@@ -1,12 +1,11 @@
 package tests;
 
-import static org.junit.Assert.*;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Arrays;
 
+import junit.framework.TestCase;
 import maps.NeighborhoodMap;
 import maps.Unit;
+import maps.UnitLeaf;
 import maps.Var;
 import neigborhood.V4Neighborhood2D;
 
@@ -20,7 +19,7 @@ import unitModel.UnitModel;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
-public class UnitTest {
+public class UnitTest extends TestCase {
 	
 	private Unit unit;
 	private UnitModel um;
@@ -169,7 +168,7 @@ public class UnitTest {
 			}
 		};
 		NeighborhoodMap map = new NeighborhoodMap("map",num);
-		map.addNeighboors(new V4Neighborhood2D(space, map));
+		map.addNeighboors(new V4Neighborhood2D(space, new UnitLeaf(map)));
 		map.toParallel();
 	
 		NeighborhoodMap mapClone = map.clone();
@@ -182,12 +181,12 @@ public class UnitTest {
 		
 		
 		//Assert that the neighbourhood is good
-		assertTrue(map.getNeighborhood().hashCode() != mapClone.getNeighborhood().hashCode());
+		assertTrue(map.getNeighborhoods().hashCode() != mapClone.getNeighborhoods().hashCode());
 		
 		//Asert that the linked map of neighborhood are different
-		assertTrue(map.getNeighborhood().get(0).getMap().hashCode() != mapClone.getNeighborhood().get(0).getMap().hashCode());
-		assertTrue(map.getNeighborhood().get(0).getMap().hashCode() == map.hashCode());
-		assertTrue(mapClone.getNeighborhood().get(0).getMap().hashCode() == mapClone.hashCode());
+		assertTrue(((UnitLeaf)map.getNeighborhoods().get(0).getMap()).getMap().hashCode() != ((UnitLeaf)mapClone.getNeighborhoods().get(0).getMap()).getMap().hashCode());
+		assertTrue(((UnitLeaf)map.getNeighborhoods().get(0).getMap()).getMap().hashCode() == map.hashCode());
+		assertTrue(((UnitLeaf)mapClone.getNeighborhoods().get(0).getMap()).getMap().hashCode() == mapClone.hashCode());
 		
 		//For original
 		System.out.println(Arrays.toString(nnum.getNeighborhood(0)));

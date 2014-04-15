@@ -7,7 +7,7 @@ import model.Model;
 
 public class ModelDisplayNode extends DisplayNode implements Suscriber {
 
-	public ModelDisplayNode(DisplayNode parent, Model linked, GUI gui) {
+	public ModelDisplayNode(DisplayNode parent, Model linked, RunnerGUI gui) {
 		super(parent, linked, gui);
 		linked.addSuscriber(this);
 	}
@@ -28,10 +28,14 @@ public class ModelDisplayNode extends DisplayNode implements Suscriber {
 		this.construct();
 		
 		//Update the tree
+		try{
 		JTree tree = gui.getTreeView().getTree();
 		DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
 		javax.swing.tree.TreeNode root = (javax.swing.tree.TreeNode)model.getRoot();
 		model.reload(root);
+		}catch (NullPointerException e) {
+			// TODO: nothing
+		}
 		
 	}
 

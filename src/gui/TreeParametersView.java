@@ -24,7 +24,7 @@ public class TreeParametersView extends JScrollPane implements TreeSelectionList
 	private static final long serialVersionUID = 4334546971336119655L;
 
 	protected JTree tree;
-	protected GUI gui;
+	protected RunnerGUI gui;
 	protected DisplayNode node;
 	/**Margin of the panel**/
 	protected int margin = 10;
@@ -36,7 +36,7 @@ public class TreeParametersView extends JScrollPane implements TreeSelectionList
 
 	protected Model model;
 
-	public TreeParametersView(DisplayNode node,JTree tree,Root root, ParameterView parameterView,GUI gui) {
+	public TreeParametersView(DisplayNode node,JTree tree,Root root, ParameterView parameterView,RunnerGUI gui) {
 		super(tree);
 		this.model = root.getActiveModel();
 		this.parameterView = parameterView;
@@ -68,6 +68,7 @@ public class TreeParametersView extends JScrollPane implements TreeSelectionList
 	 * @param activeModel
 	 */
 	public DisplayNode getNode(Node treeNode) {
+		//System.out.println("treeNode : " + treeNode.getName() + " node : " + node);
 		return node.getDisplayNodeOfObject(treeNode);
 	}
 	

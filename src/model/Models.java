@@ -2,18 +2,26 @@ package model;
 
 import java.lang.reflect.InvocationTargetException;
 
+import reservoirComputing.ModelESN;
+
 import modelCMSVA.ModelCMSVA;
-import modelCMSVA.ModelTestFocusCMSVA;
 
 
 public enum Models{
 	CNFT("CNFT",ModelCNFT.class,false),
 	CNFTFFT("CNFTFFT",ModelCNFTFFT.class,false),
+	CNFTDNFSOM("DNFSomCNFT",ModelDNFSomCNFT.class,false),
 	GSPIKE("GSpike",ModelGSpike.class,false),
 	GSPIKEFFT("GSpikeFFT",ModelGSpikeFFT.class,false),
+	GSPIKEFFT2("GSpikeFFTAsynch",ModelGSpikeFFT.class,true),
 	ESPIKE("ESpike",ModelESpike.class,false),
+	ESPIKEFFT("ESpikeFFT",ModelESpike.class,false),
 	ESPIKE2("ESpike2",ModelESpike2.class,false),
+	ESPIKEFileReader("ESpikeFileReader",ModelESpikeFileReader.class,false),
+	ESPIKEDNFSUM("DNFSomESpike",ModelDNFSomESpike.class,false),
 	NSPIKE("NSpike",ModelNSpike.class,false),
+	NSPIKEFileReader("NSpikeFileReader", ModelNSpikeFileReader.class,false),
+	NSPIKE_PRECISION("NSpikePrecision",ModelNSpikePrecision.class,false),
 	NSPIKE2("NSpikeAssynch",ModelNSpike2.class,true),
 	BILAYER_SPIKE("BilayerSpike",ModelBilayerSpike.class,false),
 	RSDNF("RSDNF",ModelRSDNF.class,false),
@@ -22,7 +30,14 @@ public enum Models{
 	CNFT_SLOW("CNFTAssynch",ModelCNFTSlow.class,true),
 	CMSVA("CMSVA",ModelCMSVA.class,false),
 	NSPIKE_REAL_PARAM("NSPikeRealParam",ModelNSpikeWithTrueParameters.class,false),
-	MODEL_Hardware_VALIDATION("HardwareValidation",ModelHardwareValidation.class,false);
+	MODEL_Hardware_VALIDATION("HardwareValidation",ModelHardwareValidation.class,false),
+	TEST_SOM("TestSOM",TestSOM.class,false),
+	DNF_SOM("DNFSom",ModelDNFSom.class,false),
+	DNF_SOM_Supervise("DNFSomSupervise",ModelDNFSomSupervise.class,false),
+	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
+	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
+	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
+	ESN("ESN",ModelESN.class,false);
 	
 	private final boolean assynch;
 	private final String name;

@@ -5,6 +5,11 @@ import java.util.Arrays;
 import utils.ArrayUtils;
 import coordinates.Space;
 
+/**
+ * TODO use library JAMA
+ * @author bchappet
+ *
+ */
 public class Matrix2D extends Matrix implements Cloneable {
 
 	public static final int X = 0;
@@ -25,12 +30,12 @@ public class Matrix2D extends Matrix implements Cloneable {
 		return new Matrix2D(map.getName()+"_asMatrix2D" , map.getDt() ,map.getSpace());
 	}
 
-	public Matrix2D(String name, Var dt, Space space, Parameter... params) {
+	public Matrix2D(String name, Parameter dt, Space space, Parameter... params) {
 		super(name, dt, space, params);
 
 	}
 
-	public Matrix2D(String name, Var dt, Space space, double[] values,
+	public Matrix2D(String name, Parameter dt, Space space, double[] values,
 			Parameter... params) {
 		super(name, dt, space, values,params);
 	}
@@ -38,7 +43,7 @@ public class Matrix2D extends Matrix implements Cloneable {
 
 
 
-	public Matrix2D(String name, Var dt,double resolution, Space space) {
+	public Matrix2D(String name, Parameter dt,double resolution, Space space) {
 		this(name,dt,space.withResolution(resolution));
 	}
 

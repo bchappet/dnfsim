@@ -42,5 +42,11 @@ public class UnitMatrixMap extends AbstractUnitMap {
 	public void compute() throws NullCoordinateException {
 		//Nothing
 	}
+	
+	@Override
+	public void delete(){
+		super.delete();
+		values = null;
+	}
 
 }

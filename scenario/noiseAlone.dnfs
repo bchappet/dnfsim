@@ -1,0 +1,4 @@
+noise_amp=1;
+noise_dt=100;
+init;
+wait=50;

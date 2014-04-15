@@ -1,5 +1,6 @@
 package tests;
 
+import junit.framework.TestCase;
 import maps.Var;
 import neigborhood.WrappedGlobalNeigborhood;
 
@@ -11,7 +12,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
-public class WrappedConvolutionNeigborhoodTest {
+public class WrappedConvolutionNeigborhoodTest  extends TestCase {
 
 	@Before
 	public void setUp() throws Exception {

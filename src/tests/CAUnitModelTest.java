@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Leaf;
 import maps.Map;
 import maps.Matrix;
@@ -23,7 +25,7 @@ import cellularAutomata.CACellUnitModel;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class CAUnitModelTest {
+public class CAUnitModelTest  extends TestCase{
 
 	private CACellUnitModel caum;
 	private NeighborhoodMap map;

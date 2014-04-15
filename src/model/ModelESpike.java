@@ -44,7 +44,7 @@ public class ModelESpike extends ModelGSpike {
 
 
 		Parameter ppa = command.get(CNFTCommandLine.WA);
-		hppa = new TrajectoryUnitMap("pa_hidden",command.get(CNFTCommandLine.DT),extendedSpace,ppa) {
+		hppa = new TrajectoryUnitMap("pa_hidden",command.get(CNFTCommandLine.DT),noDimSpace,ppa) {
 			@Override
 			public double computeTrajectory(double... param)   {
 				return Math.pow(param[0],
@@ -53,7 +53,7 @@ public class ModelESpike extends ModelGSpike {
 		};
 		
 		Parameter ppb = command.get(CNFTCommandLine.WB);
-		hppb = new TrajectoryUnitMap("pb_hidden",command.get(CNFTCommandLine.DT),extendedSpace, ppb) {
+		hppb = new TrajectoryUnitMap("pb_hidden",command.get(CNFTCommandLine.DT),noDimSpace, ppb) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return Math.pow(param[0],
@@ -61,7 +61,7 @@ public class ModelESpike extends ModelGSpike {
 			}
 		};
 		Parameter pA =  command.get(CNFTCommandLine.IA);
-		hpA = new TrajectoryUnitMap("A_hidden",command.get(CNFTCommandLine.DT),extendedSpace,pA,alphaP) {
+		hpA = new TrajectoryUnitMap("A_hidden",command.get(CNFTCommandLine.DT),noDimSpace,pA,alphaP) {
 			//A = A /(res*res)*(40*40)/alpha
 			@Override
 			public double computeTrajectory(double... param) {
@@ -71,7 +71,7 @@ public class ModelESpike extends ModelGSpike {
 			}
 		};
 		Parameter pB =  command.get(CNFTCommandLine.IB);
-		hpB  = new TrajectoryUnitMap("B_hidden",command.get(CNFTCommandLine.DT),extendedSpace, pB,alphaP) {
+		hpB  = new TrajectoryUnitMap("B_hidden",command.get(CNFTCommandLine.DT),noDimSpace, pB,alphaP) {
 			//B = B /(res*res)*(40*40)/alpha
 			@Override
 			public double computeTrajectory(double... param) {
@@ -116,7 +116,7 @@ public class ModelESpike extends ModelGSpike {
 	@Override
 	protected void initLateralWeights() throws NullCoordinateException,  CommandLineFormatException 
 	{
-		cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedSpace, hpA, hppa, hpB, hppb);
+		cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedConvSpace, hpA, hppa, hpB, hppb);
 	}
 	
 	@Override

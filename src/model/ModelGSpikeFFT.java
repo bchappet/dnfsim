@@ -25,14 +25,14 @@ public class ModelGSpikeFFT extends ModelGSpike {
 
 		
 
-		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,space2d);
+		cnft = new FFTConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
 
-		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,space2d);
+		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedComputationSpace);
 
 		
 		AbstractMap resetedPotential = new Map("resetedPotential",new SpikingUM(),
-				vdt,space2d);
-		focus = new Map(FOCUS,new SpikingUM(),vdt,space2d);
+				vdt,extendedComputationSpace);
+		focus = new Map(FOCUS,new SpikingUM(),vdt,extendedComputationSpace);
 		
 		Var pth = command.get(CNFTCommandLine.THRESHOLD);
 		Var ph = command.get(CNFTCommandLine.RESTING_POTENTIAL);

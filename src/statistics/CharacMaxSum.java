@@ -9,8 +9,8 @@ public class CharacMaxSum extends Charac {
 
 
 	public CharacMaxSum(String name, Statistics stats, Space space,
-			Model model, Charac conv) {
-		super(name, stats, space, model, conv);
+			Model model) {
+		super(name, stats, space, model);
 	}
 
 	@Override
@@ -18,7 +18,7 @@ public class CharacMaxSum extends Charac {
 
 		double ret = Statistics.ERROR;
 
-			Trace nbExited = stats.getTrace(Statistics.ACT_SUM);
+			Trace nbExited = stats.getTrace(StatisticsCNFT.ACT_SUM);
 			for(double d : nbExited.getValues())
 			{
 				if(d > ret)

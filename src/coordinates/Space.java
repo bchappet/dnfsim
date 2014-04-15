@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 import maps.Unit;
@@ -29,6 +30,11 @@ public abstract class Space implements Cloneable,Node{
 	 * there should be only one refSpace of reference for the entire simulation
 	 * any other refSpace should reference it here**/
 	protected Space simulationSpace;
+	
+	/**
+	 * Space where unit are computed
+	 */
+	protected Space frameSpace;
 
 	/**
 	 * As we have a "main" refSpace (simulationSpace) it will receive the signal of modification
@@ -64,6 +70,8 @@ public abstract class Space implements Cloneable,Node{
 
 	/**List of sucribers to the event refSpace modified**/
 	protected List<SpaceReceiver> suscribers; 
+	
+	
 
 	public Space(Double[] origin,Double[] size,Var resolution,boolean wrap)
 	{
@@ -83,6 +91,8 @@ public abstract class Space implements Cloneable,Node{
 		this.dimension = new int[dim];
 		for(int i = 0 ; i < dim ; i++)
 			dimension[i] = 1;
+		
+		this.frameSpace = this;
 	}
 
 
@@ -103,6 +113,7 @@ public abstract class Space implements Cloneable,Node{
 			space.wrap = this.wrap;
 			space.suscribers = new LinkedList<SpaceReceiver>();
 			space.dimension = this.dimension.clone();
+			space.frameSpace = space;
 		}catch (CloneNotSupportedException e) {
 			//Cannot append as we are cloanable
 			e.printStackTrace();
@@ -137,10 +148,10 @@ public abstract class Space implements Cloneable,Node{
 	}
 
 	/**
-	 * Initialize discrete sopace values : discreteSize and discreteVolume
+	 * Initialize discrete space values : discreteSize and discreteVolume
 	 * @param resolution
 	 */
-	public void initDiscreteSpace(double resolution)
+	protected void initDiscreteSpace(double resolution)
 	{
 		discreteSize = new Integer[dim];
 		for(int i = 0 ; i < dim ; i++)
@@ -150,6 +161,8 @@ public abstract class Space implements Cloneable,Node{
 
 
 	}
+	
+	
 
 
 
@@ -206,13 +219,13 @@ public abstract class Space implements Cloneable,Node{
 	//	}
 
 	/**
-	 * Axis projection : res = val/resolution
-	 * @param val
-	 * @param axis
+	 * Axis projection : res = d/resolution
+	 * @param dist : a distance
+	 * @param axis : index of the axis
 	 * @return
 	 */
-	public double distContinuousProj(int val, int axis) {
-		return val/resolution.get();
+	public double distContinuousProj(int dist, int axis) {
+		return dist/resolution.get();
 	}
 
 	//	@Override
@@ -319,7 +332,7 @@ public abstract class Space implements Cloneable,Node{
 	/**
 	 * Continuous coordinates!!
 	 * Return a wrapped version of the coor if wrap = true
-	 * Otherwise the outside coord unit is set to null
+	 * Otherwise the outside coord unit is set to null (outsie the frame space)
 	 * 
 	 * ==> if wrap  == false alway verify that a Double is not null
 	 * @param coor (Continous)
@@ -332,15 +345,16 @@ public abstract class Space implements Cloneable,Node{
 		for(int i = 0 ; i < dim ; i++)
 		{
 			Double x = coord[i];
-			double oriX = origin[i];
-			double sizeX =  size[i];
-			double endX = oriX + size[i];
+			double oriX = frameSpace.origin[i];
+			double sizeX =  frameSpace.size[i];
+			double endX = oriX + sizeX;
 
 			//System.out.println(" avant " + Arrays.toString(coord));
 
 			if( x < oriX || x > endX )
 			{
-				//We are outside the bounds
+				
+				//We are outside the frame bounds
 				if(wrap)
 				{
 					x = x - oriX;
@@ -475,10 +489,10 @@ public abstract class Space implements Cloneable,Node{
 	 * @throws NullCoordinateException if the coordinate x is null and the dimension x is defined
 	 */
 	public int coordToIndex(Double... coord) throws NullCoordinateException {
-		//System.out.println("Début : " + Arrays.toString(coord));
+//		System.out.println("Début : " + Arrays.toString(coord));
 		int i = 0;
 		Double[] newCoord = this.discreteProj(coord);
-		//System.out.println("NewCoord : " + Arrays.toString(newCoord));
+//		System.out.println("NewCoord : " + Arrays.toString(newCoord));
 		try{
 			int index = 0; //returned index
 			for(i = 0 ; i < dim ; i++)
@@ -526,7 +540,7 @@ public abstract class Space implements Cloneable,Node{
 
 	/**
 	 * Transform an index value in continous coordinate vector
-	 * @return
+	 * @return TODO validate
 	 * @throws NullCoordinateException  if a coordinate was excpected and Null was found
 	 */
 	public Double[] indexToCoord(int index) {
@@ -643,18 +657,7 @@ public abstract class Space implements Cloneable,Node{
 
 
 
-	/**
-	 * Return a vector of identic double of simension dim
-	 * @param dim
-	 * @param value
-	 * @return
-	 */
-	public static Double[] getUniformDouble(int dim,double value) {
-		Double[] ret = new Double[dim];
-		for(int i = 0 ; i < dim ; i++)
-			ret[i] = value;
-		return ret;
-	}
+	
 
 	public int getDiscreteVolume() {
 		int vol = 1;
@@ -706,6 +709,7 @@ public abstract class Space implements Cloneable,Node{
 
 
 	/**
+	 * TODO remove
 	 * Project a discrete value : val on the constinuous axis axis
 	 * @param val
 	 * @param axis
@@ -760,9 +764,10 @@ public abstract class Space implements Cloneable,Node{
 	 * @post dim = dim * factor
 	 * @post orig = orig - factor/2d
 	 * @param factor
+	 * @param framed : if true, no computation in this frame
 	 * @return the new extended Space
 	 */
-	public abstract Space extend(double factor);
+	public abstract Space extend(double factor, boolean framed);
 
 
 	/**
@@ -910,6 +915,83 @@ public abstract class Space implements Cloneable,Node{
 	public abstract Space transpose();
 
 
+
+	/**
+	 * Get a uniform discrete sample on this axis
+	 * @param axis
+	 * @return
+	 */
+	public double getUniformSample(int axis) {
+		double min = origin[axis];
+		double siz =  size[axis];
+		double res = min + (Math.random() * ((siz) ));
+		return  res;
+	}
+	
+	/**
+	 * Get a gaussian discrete sample on this axis
+	 * @param axis
+	 * @return
+	 */
+	public double getGaussianSample(int axis,double width) {
+		double min = origin[axis];
+		double siz =  size[axis];
+		double middle = (min + siz)/2d;
+		
+		Random rand = new Random();
+		double res = (rand.nextGaussian()*width)/(siz);
+		return  res;
+	}
+
+
+
+
+	/**
+	 * Return the norme of the space
+	 * for size 1 * 1 => sqrt(2)
+	 * @return
+	 */
+	public double getNorme() {
+		return Math.sqrt(size[Space.X]*size[Space.X] + size[Space.Y]*size[Space.Y]);
+	}
+
+
+
+
+	public Space getFramedSpace() {
+		return frameSpace;
+	}
+
+
+
+
+	public boolean isNoDim() {
+		boolean ret = true;
+		
+		for(int i = 0 ; i < dimension.length ; i++){
+			ret &= dimension[i] == 0;
+		}
+		
+		return ret;
+	}
+
+
+
+
+	
+
+	/**
+	 * Return a vector of identical double of dimension dim
+	 * @param dim
+	 * @param value
+	 * @return
+	 */
+	protected static Double[] getUniformDouble(int dim,double value) {
+		Double[] ret = new Double[dim];
+		for(int i = 0 ; i < dim ; i++)
+			ret[i] = value;
+		return ret;
+	}
 
 
 

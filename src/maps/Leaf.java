@@ -1,5 +1,7 @@
 package maps;
 
+import gui.Updated;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -8,6 +10,11 @@ import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
 
+/**
+ * A leaf is an accesible copy of a map which is not accessible with a recursion in the tree
+ * @author bchappet
+ *
+ */
 public class Leaf  implements Parameter{
 	
 	protected Parameter map;
@@ -15,6 +22,8 @@ public class Leaf  implements Parameter{
 	protected List<AbstractMap> parents;
 
 	public Leaf(Parameter map) {
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.map = map;
 		this.name = map.getName() + "_leaf";
 		parents = new LinkedList<AbstractMap>();
@@ -33,6 +42,7 @@ public class Leaf  implements Parameter{
 	
 	@Override
 	public  double get(Double... coord) throws NullCoordinateException {
+	
 		return map.get(coord);
 	}
 
@@ -73,7 +83,7 @@ public class Leaf  implements Parameter{
 	}
 
 	@Override
-	public Var getDt() {
+	public Parameter getDt() {
 		return map.getDt();
 	}
 
@@ -90,11 +100,14 @@ public class Leaf  implements Parameter{
 	}
 
 	@Override
-	public void delete()
+	public void  delete()
 	{
-		for(AbstractMap  p : parents){
-			p.removeParameter(this);
-		}
+//		for(AbstractMap  p : parents){
+//			p.removeParameter(this);
+//		}
+		parents = null;
+		name = null;
+		map = null;
 	}
 
 	@Override
@@ -174,6 +187,36 @@ public class Leaf  implements Parameter{
 	public void setIndex(int index, double newVal) {
 		map.setIndex(index, newVal);
 		
+	}
+
+	@Override
+	public double getDelay(int delay, int index) {
+		return map.getDelay(delay, index);
+	}
+
+	@Override
+	public void resetState() {
+		// nothing
+	}
+
+	@Override
+	public void removeParent(AbstractMap updatable) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addVue(Updated u) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	public void addParameters(Parameter...params){
+		//TODO 
+	}
+	
+	public boolean isMemory(){
+		return map.isMemory();
 	}
 
 	

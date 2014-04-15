@@ -24,23 +24,21 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 	 * 
 	 */
 	private static final long serialVersionUID = -8836535197104696167L;
-	protected GUI gui;
+	//@Deprecated ??
+	protected RunnerGUI gui;
 	protected Parameter displayed;
 	protected boolean isDisplayed; //Is displayed in the center panel
 	protected JPanel borderPanel;
 
-	public QuickViewPanel(GUI gui,Parameter displayed)
+	public QuickViewPanel(RunnerGUI gui,Parameter displayed)
 	{
 		super();
 		this.gui = gui;
 		this.displayed = displayed;
 		this.isDisplayed = false;
-		gui.addUpdated(this);
-
-
+		displayed.addVue(this);
 		MouseAdapter adapter = new MouseInteract(this);
 		addMouseListener(adapter);
-
 	}
 
 	public JPanel getBorderPane(){
@@ -59,14 +57,20 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 	public QuickViewPanel(QuickViewPanel pane) {
 		this.gui = pane.gui; //shared
 		this.displayed = pane.displayed;//shared
-		gui.addUpdated(this);
 		MouseAdapter adapter = new MouseInteract(this);
 		addMouseListener(adapter);
 	}
 
+	@Override
 	public void update() throws NullCoordinateException
 	{
 		//Nothing
+	}
+	
+	@Override
+	public void render(Graphics2D g) {
+		// TODO Auto-generated method stub
+
 	}
 
 	public Parameter getDisplayed()
@@ -163,14 +167,16 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 		// TODO Auto-generated method stub
 
 	}
-	@Override
-	public void render(Graphics2D g) {
-		// TODO Auto-generated method stub
-
-	}
+	
 
 	@Override
 	public void interactRelease(EventObject event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void reset() {
 		// TODO Auto-generated method stub
 		
 	}

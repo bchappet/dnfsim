@@ -46,7 +46,7 @@ public class SourceHUM extends UnitModel {
 	public double compute() throws NullCoordinateException {
 		if(activate == 1){
 			buffer.set(params.get(NB_SPIKE).get());
-		//	System.out.println("Activate source");
+			//System.out.println("Activate source : " + params.get(NB_SPIKE).get());
 		}
 		//System.out.println("Source buffer : " + buffer + " @" + buffer.hashCode());
 		if(buffer.get() != 0d){

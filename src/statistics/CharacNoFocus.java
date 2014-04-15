@@ -20,13 +20,14 @@ public class CharacNoFocus extends Charac {
 
 	@Override
 	public double computeTrajectory(double... param) {
-		Trace sum = stats.getTrace(Statistics.ACT_SUM);
+		Trace sum = stats.getTrace(StatisticsCNFT.ACT_SUM);
 		int nb =  Statistics.ERROR;
-		double convtime = get(Characteristics.CONVERGENCE);
+		double convtime = get(CharacteristicsCNFT.CONVERGENCE);
+		int convIt = (int) Math.round( (convtime/stats.dt.get()));
 		if(convtime != Statistics.ERROR)
 		{
 			nb = 0;
-			for(int i = (int) convtime; i < sum.size() ; i++)
+			for(int i = convIt; i < sum.size() ; i++)
 			{
 				double val = sum.get(i);
 				if(val == 0)

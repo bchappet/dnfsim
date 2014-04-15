@@ -2,8 +2,10 @@ package tests;
 
 import gui.Printer;
 
+import java.math.BigDecimal;
 import java.net.URL;
 
+import junit.framework.TestCase;
 import model.Model;
 import model.ModelNSpike;
 
@@ -14,10 +16,15 @@ import org.junit.Test;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 
-public class ModelNSpike2Test {
+/**
+ * TODO Difficult to test the assynchronous results as they are random...
+ * @author bchappet
+ *
+ */
+public class ModelNSpike2Test   extends TestCase{
 
 	protected Model model;
-
+	
 	@Before
 	public void setUp() throws Exception {
 
@@ -41,12 +48,13 @@ public class ModelNSpike2Test {
 		for(int nb = 0; nb < 20 ; nb ++){
 			System.out.println(nb);
 			for(int i = 0 ; i < 50 ; i++){
-				model.update();
+				model.update(new BigDecimal("0.1"));
 			}
 			model.getCharac().compute();
 			System.out.println(model.getCharac());
 			model.reset();
 		}
+		//System.out.println(model.getCharac());
 
 	}
 

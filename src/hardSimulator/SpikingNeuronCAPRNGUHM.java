@@ -9,6 +9,7 @@ public class SpikingNeuronCAPRNGUHM extends SpikingNeuronHUM {
 	
 	//Parameter
 	protected static final int CA_PRNG_MAP = 11;
+	public static final int NB_VAL = 12;
 	
 
 	public SpikingNeuronCAPRNGUHM(Parameter dt, Space space, Parameter... parameters) {
@@ -29,13 +30,13 @@ public class SpikingNeuronCAPRNGUHM extends SpikingNeuronHUM {
 				params.get(EXC_WEIGHT),
 				params.get(INH_WEIGHT),
 				params.get(THRESHOLD),
-				params.get(PRECISION),
+				params.get(BUFFER_WIDTH),
 				params.get(INPUT),
 				params.get(TAU),
 				params.get(INTEGRATION_DT));
-		UnitModel excN = new NeuronHUM(dt,space,params.get(EXC_PROBA),params.get(PRECISION),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
-		UnitModel inhN = new NeuronHUM(dt,space,params.get(INH_PROBA),params.get(PRECISION),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
-		RandomGeneratorHUM rg = new RandomGeneratorCAPRNGHUM(dt,space,params.get(CA_PRNG_MAP));
+		UnitModel excN = new NeuronHUM(dt,space,params.get(EXC_PROBA),params.get(BUFFER_WIDTH),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
+		UnitModel inhN = new NeuronHUM(dt,space,params.get(INH_PROBA),params.get(BUFFER_WIDTH),params.get(NB_SPIKE),params.get(COMPUTE_CLK));
+		RandomGeneratorHUM rg = new RandomGeneratorCAPRNGHUM(dt,space,params.get(CA_PRNG_MAP),params.get(NB_VAL));
 		addSubUnits(sp,excN,inhN,rg);
 	}
 	

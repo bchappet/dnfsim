@@ -3,8 +3,11 @@ package model;
 import gui.Node;
 import gui.Suscriber;
 
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +16,11 @@ import maps.AbstractMap;
 import maps.Map;
 import maps.Parameter;
 import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 import statistics.Statistics;
+import statistics.StatisticsCNFT;
 import console.CNFTCommandLine;
+import console.CommandLine;
 import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
@@ -22,18 +28,24 @@ import coordinates.Space;
 
 public abstract class Model implements Node {
 
+	/**
+	 * Scale limit for dt (used in big decimal)
+	 */
+	public static final int SCALE_LIMIT = 10;
+
+	public static final int ROUDING_MODE = BigDecimal.ROUND_HALF_EVEN;
+
 	/** The set of parameter which are tuned during optimization **/
 	protected List<Parameter> parameters;
-	protected List<AbstractMap> trackable;
+	
 	/** List of every suscribers to all events **/
 	protected List<Suscriber> suscribers;
 
 	protected Statistics stats;
 	protected Characteristics charac;
-	protected Parameter displayDt;// dt for display
-	protected double time;
-	protected Space refSpace;
-	protected CNFTCommandLine command;
+	protected BigDecimal time = BigDecimal.ZERO;
+	
+	protected CommandLine command;
 	protected String name;
 
 	/** The root map of the computation tree **/
@@ -44,6 +56,11 @@ public abstract class Model implements Node {
 
 	/** True when we are performing assynchronous computation **/
 	protected boolean assynchronousComputation = false;
+
+	/**This will be the computation time step for model update. It is the smallest
+	 * dt in the parameter tree and the stats
+	 */
+	protected BigDecimal clockStep;
 
 	/**
 	 * Dafault constructor
@@ -57,31 +74,9 @@ public abstract class Model implements Node {
 		parameters = new LinkedList<Parameter>();
 	}
 
-	/**
-	 * Initialize a model with default parameters
-	 * 
-	 * @throws CommandLineFormatException
-	 * @throws NullCoordinateException
-	 * @throws CloneNotSupportedException
-	 */
-	public void initialize() throws CommandLineFormatException,
-			NullCoordinateException, CloneNotSupportedException {
-		if (!isInitilized) {
-			command = new CNFTCommandLine(this);
-			this.refSpace = new DefaultRoundedSpace(
-					command.get(CNFTCommandLine.RESOLUTION), 2,
-					command.getBool(CNFTCommandLine.WRAP));
-			this.trackable = new LinkedList<AbstractMap>();
-			parameters = new LinkedList<Parameter>();
-			this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
-			initializeParameters();
-			initializeStatistics();
-			initializeCharacteristics();
+	
 
-			addParameters(root);
-			this.isInitilized = true;
-		}
-	}
+
 
 	/**
 	 * Initialize the model with the given script
@@ -98,46 +93,28 @@ public abstract class Model implements Node {
 			throws CommandLineFormatException, FileNotFoundException,
 			MalformedURLException, NullCoordinateException {
 		if (!isInitilized) {
-
-			command = new CNFTCommandLine(contextScript, this);
-			this.refSpace = new DefaultRoundedSpace(
-					command.get(CNFTCommandLine.RESOLUTION), 2,
-					command.getBool(CNFTCommandLine.WRAP));
-			this.trackable = new LinkedList<AbstractMap>();
+			initializeCommandLine(contextScript);
+			//System.out.println("space res : " +command.get(CNFTCommandLine.RESOLUTION).get() );
+			//			System.err.println("dt : " + command.get(CNFTCommandLine.DISPLAY_DT).get());
+			
 			parameters = new LinkedList<Parameter>();
-			this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
 			initializeParameters();
 			initializeStatistics();
 			initializeCharacteristics();
 
-			addParameters(root);
+			//addParameters(root); TODO why? I thinkj its a mistake
+			root.constructAllMemories();
 			this.isInitilized = true;
 		}
 	}
+	protected abstract void initializeCommandLine(String contextScript) throws CommandLineFormatException;
+		//command = new CommandLineWHAT(contextScript, this);
+	//this.refSpace = new DefaultRoundedSpace(
+		//	command.get(CNFTCommandLine.RESOLUTION), 2,
+		//	command.getBool(CNFTCommandLine.WRAP));
 	
-	/**
-	 * Initialize a new model from the parameter of the other
-	 * @param other
-	 */
-	public void initialize(Model other)throws CommandLineFormatException, FileNotFoundException,
-	MalformedURLException, NullCoordinateException {
-		command = other.command;
-		
-		this.refSpace = new DefaultRoundedSpace(
-				command.get(CNFTCommandLine.RESOLUTION), 2,
-				command.getBool(CNFTCommandLine.WRAP));
-		this.trackable = new LinkedList<AbstractMap>();
-		parameters = new LinkedList<Parameter>();
-		this.displayDt = command.get(CNFTCommandLine.DISPLAY_DT);
-		initializeParameters();
-		initializeStatistics();
-		initializeCharacteristics();
 
-		addParameters(root);
-		this.isInitilized = true;
-		
-		
-	}
+	
 
 	/**
 	 * Construct model tree
@@ -165,18 +142,8 @@ public abstract class Model implements Node {
 	protected abstract void initializeCharacteristics()
 			throws CommandLineFormatException;
 
-	/**
-	 * Save the params
-	 * 
-	 * @param file
-	 * @param parameters
-	 *            : parameters to save
-	 * @return the prameter name as a string
-	 * @throws IOException
-	 * @throws NullCoordinateException
-	 */
-	public abstract String save(String file, List<Parameter> parameters)
-			throws IOException, NullCoordinateException;
+	
+	
 
 	/**
 	 * First displayed parameters when the model is selected
@@ -185,39 +152,50 @@ public abstract class Model implements Node {
 	 */
 	public abstract List<Parameter> getDefaultDisplayedParameter();
 
+	
+
+
 	/**
 	 * Update the root which will update the rest of the tree
+	 * @param guiStep : time of update in seconds
 	 * 
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 */
-	public void update() throws NullCoordinateException,
-			CommandLineFormatException {
+	public void update(BigDecimal timeToReach) throws NullCoordinateException,
+	CommandLineFormatException {
 		this.modifyModel();
-		
-		this.time += displayDt.get();
-		
-		for(Parameter p : parameters){
-			if(p instanceof Map){
-				((Map)p).update(time);
+		clockStep = findSmallestDt();
+		//System.out.println("clock step : " + clockStep);
+
+		while(this.time.compareTo(timeToReach) <= 0){
+
+
+			for(Parameter p : parameters){
+				if(p instanceof Map){
+					((Map)p).update(time);
+				}
 			}
-		}
-		
-		
-		if (!assynchronousComputation) {
-			root.update(time);
-		} else {
-			int size = refSpace.getDiscreteVolume();
-			for (int i = 0; i < size; i++) {
-				root.compute((int) (Math.random() * size));
+			if (!assynchronousComputation) {//asynchrone non uniform
+				//TODO 
+				
+				root.update(time);
+			} else {
+				throw new Error("TODO assynchronous not handled here");
+//				int size = refSpace.getDiscreteVolume();
+//				for (int i = 0; i < size; i++) {
+//					root.compute((int) (Math.random() * size));
+//				}
 			}
+			//System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
+			stats.update(time);
+
+			this.time = this.time.add(clockStep);
 		}
-		stats.update(time);
-		//System.out.println(stats.getWtrace());
 	}
 
 	public abstract void modifyModel() throws CommandLineFormatException,
-			NullCoordinateException;
+	NullCoordinateException;
 
 	/**
 	 * Duplicate a map within the tree
@@ -252,7 +230,7 @@ public abstract class Model implements Node {
 	}
 
 	public void reset() {
-		this.time = 0;
+		this.time = BigDecimal.ZERO;
 		stats.reset();
 		charac.reset();
 		root.reset();
@@ -273,8 +251,16 @@ public abstract class Model implements Node {
 	 * @param params
 	 */
 	public void addParameters(Parameter... params) {
+		//	System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		for (Parameter p : params) {
 			parameters.add(p);
+			//	System.out.println("add param: " + p);
+		}
+	}
+
+	public void removeParameters(Parameter... params) {
+		for (Parameter p : params) {
+			parameters.remove(p);
 		}
 	}
 
@@ -291,47 +277,25 @@ public abstract class Model implements Node {
 		return stats;
 	}
 
-	public Space getRefSpace() {
-		return refSpace;
-	}
+	
 
-	public double getTime() {
+	public BigDecimal getTime() {
 		return time;
 	}
 
-	public double getDt() {
-		return displayDt.get();
+	public double getDt() throws CommandLineFormatException {
+		return command.get(CommandLine.DISPLAY_DT).get();
 	}
 
-	/**
-	 * Return the list of trackable object
-	 * 
-	 * @return
-	 */
-	public List<AbstractMap> getTracks() {
-		return trackable;
-	}
+	
 
-	/**
-	 * Return the trackable object with the given hashcode
-	 * 
-	 * @param trackedStimulis
-	 * @return null if no trackable have the corresponding hashh code
-	 */
-	public AbstractMap getTracked(double hashcode) {
-		AbstractMap ret = null;
-		for (AbstractMap t : trackable) {
-			if (t.hashCode() == hashcode)
-				ret = t;
-		}
-		return ret;
-	}
+	
 
 	public Characteristics getCharac() {
 		return charac;
 	}
 
-	public CNFTCommandLine getCommandLine() {
+	public CommandLine getCommandLine() {
 		return command;
 	}
 
@@ -347,10 +311,10 @@ public abstract class Model implements Node {
 		return parameters;
 	}
 
-	
+
 
 	/**
-	 * Recurively look for a parameter
+	 * Recursively look for a parameter
 	 * 
 	 * @param keyName
 	 * @return
@@ -359,18 +323,22 @@ public abstract class Model implements Node {
 		Parameter ret = null;
 		int i = 0;
 		// Explore map tree
-		while (ret == null && i < parameters.size()) {
-			Parameter p = parameters.get(i);
-			if (p instanceof AbstractMap)
-				ret = ((AbstractMap) p).getParameter(keyName);
-			i++;
-		}
-		if (ret == null) {
-			// explore stat params
-			ret = stats.getParam(keyName);
+
+		ret = root.getParameter(keyName);
+		if(ret == null){
+			while (ret == null && i < parameters.size()) {
+				Parameter p = parameters.get(i);
+				if (p instanceof AbstractMap)
+					ret = ((AbstractMap) p).getParameter(keyName);
+				i++;
+			}
 			if (ret == null) {
-				// Explore charac params
-				ret = charac.getParam(keyName);
+				// explore stat params
+				ret = stats.getParam(keyName);
+				if (ret == null) {
+					// Explore charac params
+					ret = charac.getParam(keyName);
+				}
 			}
 		}
 		return ret;
@@ -388,8 +356,64 @@ public abstract class Model implements Node {
 		return isInitilized;
 	}
 
+	public void test() throws Exception {
+
+
+	}
+
+	protected BigDecimal findSmallestDt() {
+		double min = root.findSmallestDt();
+		double sDt = stats.getDt().get();
+		if(sDt < min)
+			min = sDt;
+		BigDecimal ret = new BigDecimal(min);
+		ret = ret.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
+
+		return ret;
+	}
+	
+	/**
+	 * Save the params
+	 * 
+	 * @param file
+	 * @param parameters
+	 *            : parameters to save
+	 * @return the prameter name as a string
+	 * @throws IOException
+	 * @throws NullCoordinateException
+	 */
+	public  String save(String file,List<Parameter> toSave) throws IOException, NullCoordinateException
+	{
+
+		FileWriter fw = null;
+		String ret = "[";
+
+		for(Parameter p : toSave)
+		{
+			String fileName = file+"_"+p.getName()+".csv";
+			ret += fileName + ",";
+			fw= new FileWriter(file+"_"+p.getName()+".csv",false);
+			BufferedWriter out = new BufferedWriter(fw);
+			out.write(((AbstractMap)p).displayMemory());
+			out.close();
+		}
+		return ret.subSequence(0, ret.length()-1)+"]";
+	}
+
+
+
+
+
+	/**
+	 * 
+	 * @return the defult displayed stat
+	 */
+	public  abstract String getDefaultDisplayedStatistic() ;
+		
 	
 
-	
+
+
+
 
 }

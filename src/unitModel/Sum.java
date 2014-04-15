@@ -18,13 +18,13 @@ public class Sum extends UnitModel {
 	@Override
 	public double compute() throws NullCoordinateException {
 		double ret = 0;
-		//System.out.print("Sum : ("+name+") "  );
+		//System.out.println("params : " + params);
 		for(Parameter p : params)
-		{
-			//System.out.print( "; " + ret +" += " +p.get(coord));
+		{//System.out.print( "; " + ret +" += " +p.get(coord));
 			ret += p.get(coord);
 		}
-		return ret;
+               
+                return ret;
 	}
 
 }

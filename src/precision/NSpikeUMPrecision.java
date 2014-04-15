@@ -92,7 +92,7 @@ public class NSpikeUMPrecision extends NSpikeUM implements Precomputation{
 		//Send the remaining spikes to the target neighboors
 		for(int i = 0 ; i< targets.length ; i++){
 		//	System.out.println("target : " + targets[i][Routing.TARGET] + " from : "+targets[i][Routing.DIRECTION]);
-			Unit targetUnit = neighborhoods.get(NEIGHBOORS)[targets[i][Routing.TARGET]];
+			Unit targetUnit = neighborhoods.get(NEIGHBORS)[targets[i][Routing.TARGET]];
 			if(targetUnit != null){
 				((NSpikeUMPrecision) targetUnit.getUnitModel()).receive(nbSpike,targets[i][Routing.DIRECTION]);
 			}
@@ -117,7 +117,7 @@ public class NSpikeUMPrecision extends NSpikeUM implements Precomputation{
 			int[][] targets = this.routing.getTargets(from);
 			//Send the remaining spikes to the target neighboors
 			for(int i = 0 ; i< targets.length ; i++){
-				Unit targetUnit = neighborhoods.get(NEIGHBOORS)[targets[i][Routing.TARGET]];
+				Unit targetUnit = neighborhoods.get(NEIGHBORS)[targets[i][Routing.TARGET]];
 				try{
 					int direction = targets[i][Routing.DIRECTION];//Direction frome here to target
 					//System.out.println("target : " + target + " direction " + direction + " wrap " + space.isWrap());

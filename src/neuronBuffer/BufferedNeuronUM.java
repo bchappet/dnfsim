@@ -64,7 +64,7 @@ public class BufferedNeuronUM extends NeighborhoodUnitModel{
 		try{
 			capacity =  params.get(CAPACITY);
 		}catch (IndexOutOfBoundsException e) {
-			capacity = new Var(CNFTCommandLine.BUFF_CAP,Integer.MAX_VALUE);
+			capacity = new Var(CNFTCommandLine.BUFF_WIDTH,Integer.MAX_VALUE);
 		}
 		
 		bufs = new LeakyBuffer[NB_BUFF];

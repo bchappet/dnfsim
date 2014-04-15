@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.Map;
 import maps.Var;
 
@@ -12,7 +13,7 @@ import unitModel.GaussianND;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 
-public class GaussianNDTest {
+public class GaussianNDTest  extends TestCase{
 	
 	private Map gauss;
 
@@ -47,6 +48,13 @@ public class GaussianNDTest {
 		assertTrue(ret > 0.124350 && ret < 0.12436 );
 		
 		
+	}
+	
+	@Test
+	public void testDisplay() throws NullCoordinateException {
+		
+		
+		System.out.println(gauss.displayMemory());
 	}
 
 }

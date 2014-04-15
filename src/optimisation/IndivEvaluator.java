@@ -1,6 +1,9 @@
 package optimisation;
 
+import statistics.CharacteristicsCNFT;
+import model.Model;
 import gui.Printer;
+import gui.Runner;
 
 public abstract class IndivEvaluator extends Printer implements Runnable {
 
@@ -21,5 +24,10 @@ public abstract class IndivEvaluator extends Printer implements Runnable {
 	}
 	
 	public abstract double getFitness();
+
+	protected abstract void addScenarioFitness(String scenario, double scenarioFitness);
+
+	protected abstract double getScenarioFitness(int individu, int iteration,
+			int scenarioId, CharacteristicsCNFT charac);
 
 }

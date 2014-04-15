@@ -1,5 +1,7 @@
 package maps;
 
+import gui.Updated;
+
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
@@ -13,8 +15,8 @@ import coordinates.Space;
  * Basic class to handle a double
  * 
  * There are two kind of Var :
- * <li> Named one : they can be modified from the outside, consequently a modification will be signaled to the parents of this Var</li>
- * <li> Unamed one : they cannot be modified from the outside, nothing will be signaled during modification</li>
+ * <li> Named one : they can be modified from the GUI, consequently a modification will be signaled to the parents of this Var</li>
+ * <li> Unamed one : they cannot be modified from the GUI, nothing will be signaled during modification</li>
  * 
  * TODO : separate in two distinct classes to speed up the acces : are the unamed one usefull (could be replaced by double variable)
  * TODO : not delay compatible but it would not be useful,
@@ -28,6 +30,11 @@ public class Var implements Parameter,Cloneable {
 	public double val; 
 	/**Name (optional)**/
 	protected String name;
+	
+	/**Definition set (optional)**/
+	protected double step;
+	protected double min;
+	protected double max;
 
 	protected List<AbstractMap> parents;
 
@@ -40,15 +47,27 @@ public class Var implements Parameter,Cloneable {
 	 */
 	public Var(String name,double val)
 	{
-	//	System.out.println("cretating var : " + name + Arrays.toString(Thread.currentThread().getStackTrace()));
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.val = val;
 		this.name = name;
 		this.parents = new LinkedList<AbstractMap>();
+	}
+	
+	public Var(String name,double val,double min,double max,double step){
+		this(name,val);
+		setDefinitionSet(min, max, step);
 	}
 
 	public Var(double val)
 	{
 		this(null,val);
+	}
+	
+	public void setDefinitionSet(double min,double max,double step){
+		this.min = min ;
+		this.max = max;
+		this.step = step;
 	}
 
 
@@ -142,6 +161,11 @@ public class Var implements Parameter,Cloneable {
 		this.parents.add(updatable);
 
 	}
+	
+	@Override
+	public void removeParent(AbstractMap updatable){
+		this.parents.remove(updatable);
+	}
 
 	@Override
 	public void delete()
@@ -149,6 +173,9 @@ public class Var implements Parameter,Cloneable {
 		for(AbstractMap  p : parents){
 			p.removeParameter(this);
 		}
+		parents = null;
+		name = null;
+		val = 0;
 	}
 
 	@Override
@@ -272,6 +299,51 @@ public class Var implements Parameter,Cloneable {
 	public void addThis(double d) {
 		val += d;
 		
+	}
+
+	@Override
+	public double getDelay(int delay, int index) {
+		return get();
+	}
+	
+	/**
+	 * Fonction qui permet de définir comment on peut augmenter/baisser cette Variable.
+	 * Elle a pour vocation à être override. 
+	 * @return le pas d'incrémentation de la variable en cas de changement. 1 par defaut.
+	 */
+	public double getStep(){
+		return step;
+	}
+	
+	public double getMaximunValue(){
+		return max;
+	}
+	
+	public double getMinimunValue(){
+		return min;
+	}
+
+	@Override
+	public void resetState() {
+		// nothng
+		
+	}
+
+	@Override
+	public void addVue(Updated u) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addParameters(Parameter... params) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public boolean isMemory(){
+		return true;
 	}
 
 	

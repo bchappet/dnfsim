@@ -31,16 +31,7 @@ public class Characteristics {
 	
 	/**This name**/
 	public final static String NAME = "Charac";
-	/**Fields name**/
 	
-	//col.names = c("iteration","Convergence","MeanError","Obstinacy","NoFocus","MaxSum","MeanCompTime","AcceptableError")
-	public static final String CONVERGENCE = "Convergence";
-	public static final String MEAN_ERROR = "MeanError";
-	public static final String OBSTINACY = "Obstinacy";
-	public static final String NO_FOCUS = "NoFocus";
-	public static final String MAX_SUM = "MaxSum";
-	public static final String MEAN_COMP_TIME = "MeanCompTime" ;
-	public static final String ACC_ERROR = "AcceptableError"; 
 	
 	
 	protected String name;
@@ -52,6 +43,8 @@ public class Characteristics {
 	
 	public Characteristics(Space space,Statistics stats,TrajectoryUnitMap... params)
 	{
+//		System.out.println("MEM:"+"construct:"+this.getClass());
+//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.name = NAME;
 		this.stats = stats;
 		this.space = space;

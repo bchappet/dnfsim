@@ -1,5 +1,7 @@
 package unitModel;
 
+import java.util.Arrays;
+
 import maps.Parameter;
 import maps.Var;
 import coordinates.NullCoordinateException;
@@ -28,6 +30,7 @@ public class RateCodedUnitModel extends UnitModel {
 
 	@Override
 	public double compute() throws NullCoordinateException {
+		//System.out.println("Space : " + space + " coord : " + Arrays.toString(coord));
 		return computation2(params.get(POTENTIAL).get(coord), 
 				params.get(TAU).get(coord), params.get(INPUT).get(coord),
 				params.get(CNFT).get(coord), params.get(H).get(coord));

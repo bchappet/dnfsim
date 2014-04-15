@@ -68,6 +68,7 @@ public class Curve2D extends Plot {
 
 	/** Line width for the curve */
 	private static final float CURVE_WIDTH = 2.0f;
+	private static final int SIZE_LIMIT = 1000;
 
 	/** Display colors boundaries */
 	protected Color color_min;
@@ -287,7 +288,9 @@ public class Curve2D extends Plot {
 	@Override
 	public void render(Graphics2D g, int w, int h) {     
 
-
+//		if(vars.length() > SIZE_LIMIT){
+//			vars.clear(); //TODO
+//		}
 
 		// Get the 2 traces to display
 		Trace var_x = vars.getCoord(vx);

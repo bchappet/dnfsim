@@ -3,6 +3,8 @@ package optimisation;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
+import statistics.CharacteristicsCNFT;
+
 import console.CommandLineFormatException;
 
 
@@ -34,6 +36,19 @@ public class GATestLauncher extends GALauncher {
 			// nothing
 			
 		}
+
+		@Override
+		public void addScenarioFitness(String scenario, double scenarioFitness) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public double getScenarioFitness(int individu, int iteration,
+				int scenarioId, CharacteristicsCNFT charac) {
+			// TODO Auto-generated method stub
+			return 0;
+		}
 		
 	}
 	
@@ -42,8 +57,8 @@ public class GATestLauncher extends GALauncher {
 	public static void main(String[] args) throws CommandLineFormatException, IOException, ClassNotFoundException, SecurityException, IllegalArgumentException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InterruptedException{
 		
 		GATestLauncher ga = new GATestLauncher();
-		int genMax1 = 20;
-		int genMax2 = 4;
+		int genMax1 = 10;
+		int genMax2 = 20;
 		
 		GAOptimizer gao = new GAOptimizer(ga,new GAPrinter() ,"gen_max="+genMax1+";reevaluate=F;");
 		gao.lauchGA();

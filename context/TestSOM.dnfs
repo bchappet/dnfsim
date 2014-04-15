@@ -1,0 +1,11 @@
+threshold=0.75;
+ia=1.25;
+ib=-0.7;
+wa=0.1;
+wb=1.0;
+tau=0.65;
+alpha=10;
+tck_nb=2;
+tck_dt=100;
+noise_amp=0.01;
+resolution=49;

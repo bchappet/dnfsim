@@ -1,14 +1,14 @@
 package cellularAutomata;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
+import maps.AbstractUnitMap;
 import maps.Map;
 import maps.NeighborhoodMap;
 import maps.Parameter;
 import maps.UnitLeaf;
-import maps.Var;
+import maps.UnitParameter;
 import unitModel.UnitModel;
 import utils.ArrayUtils;
 import utils.Hardware;
@@ -20,18 +20,19 @@ public class PRNGUnitModel extends UnitModel {
 	
 	/**Parameters**/
 	public static final int FRAC = 0;//Fractional fp size
-	public static final int MAP = 1;//Map of CA
 
 	
 	/**List of available random number**/
 	protected List<Integer> randomNumbers;
 	/**Index of next random number**/
 	protected int index = 0;
+	/**Map of {@link CACellUnitModel}**/
+	protected Parameter map;
 
 
 	public PRNGUnitModel(Parameter map) {
 		randomNumbers = new ArrayList<Integer>();
-		addParameters(map.clone());
+		this.map =  map;
 	}
 
 	
@@ -39,12 +40,13 @@ public class PRNGUnitModel extends UnitModel {
 	public PRNGUnitModel(Parameter map,Parameter dt, Space space, Parameter... parameters) {
 		super(dt, space, parameters);
 		randomNumbers = new ArrayList<Integer>();
-		addParameters(map.clone());
+		this.map =  map;
 	}
 	public void reset(){
 		super.reset();
 		index = 0;
 		randomNumbers.clear();
+		map.reset();
 	}
 	
 	@Override
@@ -52,9 +54,9 @@ public class PRNGUnitModel extends UnitModel {
 		PRNGUnitModel clone = (PRNGUnitModel) super.clone();
 		clone.randomNumbers =  new ArrayList<Integer>();
 		clone.index = 0;
-		clone.cloneParameter(MAP);
-		NeighborhoodMap map = (NeighborhoodMap) clone.params.get(MAP);//TODO herer
-		map.getNeighborhood().get(0).setMap(new UnitLeaf(map));
+		Parameter mapCloned = map.clone();
+		clone.map = mapCloned;
+		((NeighborhoodMap) mapCloned).getNeighborhoods().get(0).setMap(new UnitLeaf((UnitParameter) mapCloned));
 		
 		return clone;
 	}
@@ -64,7 +66,8 @@ public class PRNGUnitModel extends UnitModel {
 		PRNGUnitModel clone = (PRNGUnitModel) super.clone2();
 		clone.randomNumbers =  new ArrayList<Integer>();
 		clone.index = 0;
-		clone.cloneParameter(MAP);
+		Parameter mapCloned = map.clone();
+		clone.map = mapCloned;
 		return clone;
 	}
 	
@@ -92,18 +95,20 @@ public class PRNGUnitModel extends UnitModel {
 	 * @return
 	 */
 	public int getIndex(int index){
-		return (int) params.get(MAP).get(index);
+		return (int) map.get(index);
 	}
 	
 	public int getFast(int x,int y){
-		return (int) params.get(MAP).getFast(x,y);
+		return (int) map.getFast(x,y);
 	}
 
+	public Parameter getMap(){
+		return map;
+	}
 
 	@Override
 	public double compute() throws NullCoordinateException {
 		index = 0;
-		Map map = (Map) params.get(MAP);
 		map.compute(); //as it is not shared whithin the units, we have to compute it here
 		randomNumbers.clear();
 		//Fill the list of random number with the map result

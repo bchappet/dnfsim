@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.Matrix;
 import maps.Var;
 
@@ -12,7 +13,7 @@ import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 import fft.SVD;
 
-public class SVDTest {
+public class SVDTest  extends TestCase {
 	
 	Matrix kernel;
 

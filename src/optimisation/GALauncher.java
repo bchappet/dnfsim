@@ -16,7 +16,7 @@ public abstract class GALauncher {
 
 	public abstract boolean assertConstraints(double[] ind);
 		
-	
+	protected abstract String[] getOptimizedParameters();
 
 
 

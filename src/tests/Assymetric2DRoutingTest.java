@@ -1,6 +1,8 @@
 package tests;
 
 
+import junit.framework.TestCase;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,7 +10,7 @@ import org.junit.Test;
 import routing.Assymetric2DRouting;
 import routing.Routing;
 
-public class Assymetric2DRoutingTest {
+public class Assymetric2DRoutingTest  extends TestCase {
 
 	private Routing routing;
 	

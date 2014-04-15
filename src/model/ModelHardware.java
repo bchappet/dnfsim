@@ -1,6 +1,7 @@
 package model;
 
 import hardSimulator.NullSpikingNeuronHUM;
+import hardSimulator.SpikingNeuronCAPRNGUHM;
 import hardSimulator.SpikingNeuronHUM;
 
 import java.util.Arrays;
@@ -20,7 +21,8 @@ import maps.Var;
 import neigborhood.Neighborhood;
 import neigborhood.V4Neighborhood2D;
 import statistics.Stat;
-import statistics.Statistics;
+import statistics.StatMapCNFT;
+import statistics.StatisticsCNFT;
 import unitModel.RandTrajUnitModel;
 import unitModel.Sum;
 import unitModel.UnitModel;
@@ -56,43 +58,44 @@ public class ModelHardware extends ModelNSpike {
 		
 		//We transform each parameter in fp param with frac precision
 		Parameter frac = command.get(CNFTCommandLine.FRAC);
+		Parameter proba_frac = command.get(CNFTCommandLine.PROBA_FRAC);
 		Var dt = command.get(CNFTCommandLine.DT);
 
 		
-		fp_hppa = new TrajectoryUnitMap("fp_pa_hidden",dt,extendedSpace,hppa,frac){
+		fp_hppa = new TrajectoryUnitMap("fp_pa_hidden",dt,noDimSpace,hppa,proba_frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
 		
 
-		fp_hppb = new TrajectoryUnitMap("fp_pb_hidden",dt,extendedSpace,hppb,frac){
+		fp_hppb = new TrajectoryUnitMap("fp_pb_hidden",dt,noDimSpace,hppb,proba_frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
-		fp_hpA = new TrajectoryUnitMap("fp_pA_hidden",dt,extendedSpace,hpA,frac){
+		fp_hpA = new TrajectoryUnitMap("fp_pA_hidden",dt,noDimSpace,hpA,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		
-		fp_hpB = new TrajectoryUnitMap("fp_pB_hidden",dt,extendedSpace,hpB,frac){
+		fp_hpB = new TrajectoryUnitMap("fp_pB_hidden",dt,noDimSpace,hpB,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 		Parameter threshold = command.get(CNFTCommandLine.THRESHOLD);
-		fp_threshold = new TrajectoryUnitMap("fp_threshold",dt,extendedSpace,threshold,frac){
+		fp_threshold = new TrajectoryUnitMap("fp_threshold",dt,noDimSpace,threshold,frac){
 			@Override
 			public double computeTrajectory(double... param)   {
-				return Hardware.toFPDouble(param[0], (int)param[1]);
+				return Hardware.toFPDouble(param[0], (int)param[1],Hardware.ROUND);
 			}
 		};
 
@@ -101,15 +104,22 @@ public class ModelHardware extends ModelNSpike {
 		fp_hpA.toStatic();
 		fp_hpB.toStatic();
 		fp_threshold.toStatic();
+		this.addParameters(command.get(CNFTCommandLine.BUFF_WIDTH));
+		this.addParameters(command.get(CNFTCommandLine.COMPUTE_CLK));
+		System.out.println("pa : " + fp_hppa.get());
+		System.out.println("pb : " + fp_hppb.get());
+		System.out.println("ia : " + fp_hpA.get());
+		System.out.println("ib : " + fp_hpB.get());
+		System.out.println("th : " + fp_threshold.get());
 		
 	}
-
 	
-
 	protected void initModel() throws CommandLineFormatException, NullCoordinateException
 	{
 		Var vdt = command.get(CNFTCommandLine.DT); //integration dt*
-		
+
+		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
+
 		//In this model we use an input already multiplied by dt/tau
 		Map hard_input = new Map("input*dt/tau",new UnitModel(vdt,space2d,input,pTau) {
 			
@@ -118,29 +128,29 @@ public class ModelHardware extends ModelNSpike {
 				return getParam(0).get(coord) * dt.get()/getParam(1).get(coord);
 			}
 		});
-		
-		Var compute_clk = command.get(CNFTCommandLine.COMPUTE_CLK);
-		displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
+
+
+
+		Parameter displayDt = new TrajectoryUnitMap("hard_clk",vdt,noDimSpace,compute_clk) {
 			@Override
 			public double computeTrajectory(double... param) {
 				return dt.get()/param[0];
 			}
 		};
 		displayDt.toStatic();
-		
+
 		potential = new NeighborhoodMap(POTENTIAL,new SpikingNeuronHUM(),displayDt,space2d,
 				compute_clk,
 				fp_hpA,fp_hpB,fp_hppa,fp_hppb,fp_threshold,
-				command.get(CNFTCommandLine.FRAC),
-				pn,hard_input,pTau,vdt);
+				command.get(CNFTCommandLine.BUFF_WIDTH),
+				pn,hard_input,pTau,vdt,new Var(8));
 		Neighborhood nei = new V4Neighborhood2D(space2d,
 				new UnitLeaf((UnitParameter) potential));
 		nei.setNullUnit(new NullSpikingNeuronHUM());
 		((NeighborhoodMap)potential).addNeighboors(nei);
 		potential.toParallel();
-		
-		
-		
+
+
 		this.root = potential;
 
 		focus = new SubUnitMap(FOCUS, (AbstractUnitMap) potential, SpikingNeuronHUM.SPIKING_UNIT);
@@ -152,12 +162,19 @@ public class ModelHardware extends ModelNSpike {
 			public double compute() throws NullCoordinateException {
 				return getParam(0).get(coord)*getParam(2).get(coord) - getParam(1).get(coord)*getParam(3).get(coord);
 			}
-			
+
 		});
-		this.addParameters(sum);
+		this.addParameters(sum);//to reach it
+		//this.addParameters(caMaps.toArray(new Map[]{}));
+
+
 
 		root.constructMemory();
 	}
+
+	
+
+
 
 	@Override
 	public List<Parameter> getDefaultDisplayedParameter() {
@@ -184,9 +201,11 @@ public class ModelHardware extends ModelNSpike {
 			}
 		};
 
-		Stat stat = new Stat(command.get(CNFTCommandLine.INPUT_DT),noDimSpace,this);
-		stats = new Statistics("Stats",command.get(CNFTCommandLine.INPUT_DT), 
-				noDimSpace,stat.getDefaultStatistics(new Leaf(focus),  trackable));
+		Stat stat = new Stat(command.get(CNFTCommandLine.INPUT_DT),this);
+		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(focus), trackable);
+		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
+		stats = new StatisticsCNFT("Stats",command.get(CNFTCommandLine.STAT_DT), 
+				noDimSpace,array);
 
 	}
 	@Override

@@ -4,11 +4,11 @@
  */
 package modelCMSVA;
 
+import coordinates.NullCoordinateException;
+import coordinates.Space;
 import maps.Parameter;
 import maps.Var;
 import unitModel.UnitModel;
-import coordinates.NullCoordinateException;
-import coordinates.Space;
 
 
 
@@ -17,24 +17,24 @@ import coordinates.Space;
  * @author john
  */
 public class UnitModelCMSVA extends UnitModel{
-	public final static int MAIN = 0;
-	public final static int TAU =1;
-	public final static int BASELINE = 2;
-	public final static int ALPHA = 3;
-        private int tailleConvolutions;
-        
-        public UnitModelCMSVA(){
-		super();
-	}
+    public final static int MAIN = 0;
+    public final static int TAU =1;
+    public final static int BASELINE = 2;
+    public final static int ALPHA = 3;
 
-	public UnitModelCMSVA(Var dt, Space space,Parameter main, Parameter tau, Parameter baseline, Parameter alpha, Parameter... convolutions) {
-		super(dt, space, convolutions);
-                this.addParameters(main);
-                this.addParameters(tau);
-                this.addParameters(baseline);
-                this.addParameters(alpha);
-                tailleConvolutions = convolutions.length;
-        }
+    public UnitModelCMSVA(){
+            super();
+    }
+
+    public UnitModelCMSVA(Var dt, Space space,Parameter main, Parameter tau, Parameter baseline, Parameter alpha, Parameter... convolutions) {
+            super(dt, space, convolutions);
+            this.addParameters(main);
+            this.addParameters(tau);
+            this.addParameters(baseline);
+            this.addParameters(alpha);
+    }
+   
+   
 
     @Override
     public double compute() throws NullCoordinateException {

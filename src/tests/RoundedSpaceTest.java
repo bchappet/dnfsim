@@ -4,6 +4,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.Arrays;
 
+import junit.framework.TestCase;
+
 import maps.Var;
 
 import org.junit.After;
@@ -15,7 +17,7 @@ import coordinates.NullCoordinateException;
 import coordinates.RoundedSpace;
 import coordinates.Space;
 
-public class RoundedSpaceTest {
+public class RoundedSpaceTest extends TestCase {
 
 	private Space space;
 
@@ -594,7 +596,7 @@ public class RoundedSpaceTest {
 	@Test
 	public void extendsSpace() throws NullCoordinateException{
 		space = new DefaultRoundedSpace(new Var(50), 2,true); 
-		Space extended = space.extend(2d);
+		Space extended = space.extend(2d,false);
 		System.out.println(extended);
 		System.out.println(extended.getDiscreteSize()[0] +"=="+ (space.getDiscreteSize()[0]*2));
 		assertTrue(extended.getDiscreteSize()[0] == space.getDiscreteSize()[0]*2);

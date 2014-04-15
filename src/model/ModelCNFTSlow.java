@@ -35,7 +35,7 @@ public class ModelCNFTSlow extends ModelCNFT {
 		
 		//Init params
 		
-		cnftW = (Map) getLateralWeights(CNFTW, vdt, extendedSpace, hpA, pa, hpB, pb);
+		cnftW = (Map) getLateralWeights(CNFTW, vdt, extendedFramedSpace, hpA, pa, hpB, pb);
 
 		/*Unit model convolution ( very slow)*/
 				UnitModel cnftUnit = new Convolution(vdt, space2d);
@@ -51,8 +51,8 @@ public class ModelCNFTSlow extends ModelCNFT {
 		/*Unit model convolution ( very slow)*/
 				((NeighborhoodMap)cnft).addNeighboors(
 						new ConstantNeighborhood(
-								(int) (extendedSpace.getResolution()/2d), 
-								extendedSpace,
+								(int) (extendedComputationSpace.getResolution()/2d), 
+								extendedComputationSpace,
 								(UnitParameter) cnftW),
 						new WrappedGlobalNeigborhood(
 								(int) (space2d.getResolution()/2d),

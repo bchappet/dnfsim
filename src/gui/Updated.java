@@ -11,4 +11,6 @@ public interface Updated {
 	
 	public void update() throws NullCoordinateException;
 
+	public void reset();
+
 }

@@ -4,17 +4,17 @@ import java.util.concurrent.BlockingQueue;
 
 import maps.Parameter;
 import model.Model;
-import statistics.Characteristics;
-import statistics.Statistics;
+import statistics.CharacteristicsCNFT;
+import statistics.StatisticsCNFT;
 
-public class CNFTIndivEvaluator extends IndivEvaluator implements Runnable {
+public class CNFTIndivEvaluator extends IndivEvaluator  {
 
 	public final static int SWITCHING = 5;
 	
 	public final static int MAX_FITNESS = 50;
 
 	protected double fitness;
-	protected CNFTGALauncher gaLauncher;
+	protected GALauncher gaLauncher;
 
 	protected BlockingQueue<Model> modelPool;
 	protected String[] scenarios;
@@ -22,7 +22,7 @@ public class CNFTIndivEvaluator extends IndivEvaluator implements Runnable {
 
 	protected String[] parameterNames;
 
-	public CNFTIndivEvaluator(BlockingQueue<Model> modelPool,CNFTGALauncher gaLauncher,String[] scenarios,String[] parameterNames,int[] nbIteration) {
+	public CNFTIndivEvaluator(BlockingQueue<Model> modelPool,GALauncher gaLauncher,String[] scenarios,String[] parameterNames,int[] nbIteration) {
 		this.modelPool = modelPool;
 		this.gaLauncher = gaLauncher;
 		this.scenarios = scenarios;
@@ -89,13 +89,13 @@ public class CNFTIndivEvaluator extends IndivEvaluator implements Runnable {
 	}
 
 
-	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId,Characteristics charac){
+	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId,CharacteristicsCNFT charac){
 		charac.compute();
-		double conv =  charac.getParam(Characteristics.CONVERGENCE).get();
-		double noFocus = charac.getParam(Characteristics.NO_FOCUS).get();
-		double obstinacy = charac.getParam(Characteristics.OBSTINACY).get();
-		double meanError  = charac.getParam(Characteristics.MEAN_ERROR).get();
-		double accError = charac.getParam(Characteristics.ACC_ERROR).get();
+		double conv =  charac.getParam(CharacteristicsCNFT.CONVERGENCE).get();
+		double noFocus = charac.getParam(CharacteristicsCNFT.NO_FOCUS).get();
+		double obstinacy = charac.getParam(CharacteristicsCNFT.OBSTINACY).get();
+		double meanError  = charac.getParam(CharacteristicsCNFT.MEAN_ERROR).get();
+		double accError = charac.getParam(CharacteristicsCNFT.ACC_ERROR).get();
 		double fitness = 0;
 		if(scenarioId != SWITCHING){
 
@@ -135,7 +135,7 @@ public class CNFTIndivEvaluator extends IndivEvaluator implements Runnable {
 
 
 		double ret;
-		if(val == Statistics.ERROR){
+		if(val == StatisticsCNFT.ERROR){
 			ret = error[paramIndex];
 		}else{
 			ret =  (val - minimums[paramIndex])/(wanteds[paramIndex] - minimums[paramIndex]);

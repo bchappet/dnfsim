@@ -1,7 +1,5 @@
 package maps;
 
-import java.util.AbstractList;
-
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
 
@@ -155,7 +153,7 @@ public class SubUnitMap extends AbstractUnitMap  {
 
 
 	public UnitModel getUnitModel() {
-		return unitModel.getSubUnit(subUnitIndex);
+		return map.unitModel.getSubUnit(subUnitIndex);
 	}
 
 	public String toString()
@@ -182,5 +180,14 @@ public class SubUnitMap extends AbstractUnitMap  {
 		}
 		return res;
 	}
+	
+	@Override
+	public void delete(){
+		super.delete();
+		map = null;
+		
+	}
+	
+	
 
 }

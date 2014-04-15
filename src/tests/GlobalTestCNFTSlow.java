@@ -7,6 +7,8 @@ import gui.Printer;
 import java.math.BigDecimal;
 import java.net.URL;
 
+import junit.framework.TestCase;
+
 import model.Model;
 import model.ModelCNFTSlow;
 
@@ -14,9 +16,9 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import statistics.Characteristics;
+import statistics.CharacteristicsCNFT;
 
-public class GlobalTestCNFTSlow {
+public class GlobalTestCNFTSlow   extends TestCase{
 	
 	private Model cnft;
 	
@@ -97,10 +99,10 @@ public class GlobalTestCNFTSlow {
 		//For 100 iterations
 		System.out.println(cnft.getCharac());
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE),
 				convergence_result));
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR),
 				mean_error_result));
 	}
 	
@@ -131,10 +133,10 @@ public class GlobalTestCNFTSlow {
 		//For 100 iterations
 		System.out.println(cnft.getCharac());
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.CONVERGENCE),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.CONVERGENCE),
 				convergence_result));
 		assertTrue(equals(
-				cnft.getCharac().getWtrace().getLast(Characteristics.MEAN_ERROR),
+				cnft.getCharac().getWtrace().getLast(CharacteristicsCNFT.MEAN_ERROR),
 				mean_error_result));
 
 	}

@@ -3,6 +3,7 @@ package tests;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 
 import org.junit.After;
 import org.junit.Before;
@@ -10,7 +11,7 @@ import org.junit.Test;
 
 import coordinates.Coor;
 
-public class CoorTest {
+public class CoorTest  extends TestCase{
 
 	private Coor<Integer> coorint;
 	private Coor<Double> coordouble;
@@ -29,30 +30,7 @@ public class CoorTest {
 
 	
 
-	@Test
-	public void testMultCopyDouble() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAddCopyDouble() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testAddCopyCoorOfT() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testMultCopyCoorOfT() {
-		fail("Not yet implemented");
-	}
-
-	@Test
-	public void testSubCopy() {
-		fail("Not yet implemented");
-	}
+	
 
 	@Test
 	public void testToInt() {

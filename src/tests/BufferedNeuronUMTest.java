@@ -1,6 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertTrue;
+import junit.framework.TestCase;
 import maps.NeighborhoodMap;
 import maps.NullBufferedNeuronUM;
 import maps.Unit;
@@ -18,7 +19,7 @@ import routing.Assymetric2DHardRouting;
 import coordinates.DefaultRoundedSpace;
 import coordinates.Space;
 
-public class BufferedNeuronUMTest  {
+public class BufferedNeuronUMTest  extends TestCase {
 	
 	NeighborhoodMap neuron;
 	int n = 1;

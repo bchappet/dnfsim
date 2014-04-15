@@ -1,6 +1,7 @@
 package statistics;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -9,6 +10,7 @@ import java.util.List;
 import maps.AbstractMap;
 import maps.Parameter;
 import maps.Var;
+import model.Model;
 import plot.Trace;
 import plot.WTrace;
 import coordinates.NullCoordinateException;
@@ -20,36 +22,15 @@ import coordinates.Space;
  * @author bchappet
  *
  */
-public class Statistics{
-
-
-
-
-
-	
-
+public class Statistics {
 
 
 	/** Name of statistic fields**/
-	public static final String ACT_SUM = "ActivitySum";
-	public static final String CENTER_X = "CenterX";
-	public static final String CENTER_Y = "CenterY";
-	public static final String CLOSEST_TRACK = "ClosestTrack";
-	public static final String TRACK_Y = "TrackY";
-	public static final String TRACK_X = "TrackX";
-	public static final String ERROR_DIST = "ErrorDist";
+	
 	public static final String COMPTIME = "CompTime";
 	public static final String TIME = "Time";
 
-	public static final String WIDTH = "Bubble Width";
-	public static final String HEIGHT = "Bubble Height";
-	public static final String MAX_WEIGHT = "Weight max";
-	public static final String CONVERGENCE = "Convergence";
-	public static final String ACC_ERROR = "Acceptable Error";
-	public static final String FOCUS = "Focus";
-	public static final String TRUE_ERROR ="True Error";
-	
-	
+
 	/**Determin the update time of the dynamic parameter**/
 	protected Var dt; 
 
@@ -62,7 +43,7 @@ public class Statistics{
 
 	/**List of the parameter nodes**/
 	protected List<Parameter> paramNodes; 
-	
+
 	/**Computational time**/
 	protected Var compTime;
 	/**Last time of computation**/
@@ -73,11 +54,14 @@ public class Statistics{
 	protected String name;
 
 	public static final int ERROR = -1;
-	
+
+
+
+
 	/**Compatibility with old plotting method**/
 	protected WTrace wtrace;
 
-	
+
 
 	public Statistics(String name, Var dt, Space space,StatMap... trajectoryUnitMap) {
 		this.name = name;
@@ -95,24 +79,24 @@ public class Statistics{
 			st.constructMemory();
 		}
 	}
-	
-	
 
-	
+
+
+
 	/**
 	 * Add a map to the list and add a trace
 	 * @param map
 	 */
-	public void addStatisticMap(StatMap map){
+	public void addStatisticMap(StatMapCNFT map){
 		paramNodes.add(map);
 		wtrace.addTrace(map.getName());
 	}
-	
+
 	/**
 	 * Remove map to the list but not to the wtrace
 	 * @param map
 	 */
-	public void removeStatisticMap(StatMap map){
+	public void removeStatisticMap(StatMapCNFT map){
 		paramNodes.remove(map);
 		wtrace.removeTrace(map.getName());
 	}
@@ -128,7 +112,7 @@ public class Statistics{
 		wtrace.clear();
 		for(Parameter p : paramNodes){
 			p.reset();
-//			wtrace.addTrace(p.getName());
+			//			wtrace.addTrace(p.getName());
 		}
 	}
 
@@ -145,7 +129,7 @@ public class Statistics{
 	public double getLast(String ref) {
 		return wtrace.get(getIndexOf(ref), wtrace.length()-1);
 	}
-	
+
 	/**
 	 * Return the statistic parameter having the name ref
 	 * @param ref
@@ -194,11 +178,11 @@ public class Statistics{
 		while( i < paramNodes.size())
 		{
 			ret.add(paramNodes.get(i).get());
-//			System.out.print(paramNodes.get(i).getName()+",");
+			//			System.out.print(paramNodes.get(i).getName()+",");
 			i++;
 		}
-//		System.out.println();
-//		System.out.println(ret.size() + " parameters!!!!!");
+		//		System.out.println();
+		//		System.out.println(ret.size() + " parameters!!!!!");
 		return ret;
 	}
 
@@ -210,25 +194,42 @@ public class Statistics{
 	 * @param timeLimit (ms)
 	 * @throws NullCoordinateException 
 	 */
-	public void update(double timeLimit) throws NullCoordinateException
+	public void update(BigDecimal timeLimit) throws NullCoordinateException
 	{
 		long systemTime = System.currentTimeMillis();
 		this.compTime.set(systemTime-lastTime);
 		lastTime = systemTime;
-		
-		while (time.get()<timeLimit) {
-			//Update the children params
-			for(Parameter m : paramNodes) 
-			{
-				if(m instanceof AbstractMap)
-					((AbstractMap) m).update(timeLimit);
+
+		//		while (time.get()<timeLimit) {
+		//			//Update the children params
+		//			for(Parameter m : paramNodes) 
+		//			{
+		//				if(m instanceof AbstractMap)
+		//					((AbstractMap) m).update(timeLimit);
+		//			}
+		//			// Compute the new state
+		//			compute();
+		//			// Update the time
+		//			time.set(time.get()+ dt.get());
+		//		}
+		//		/System.out.println(this);
+
+		//Update the children params
+		for(Parameter m : paramNodes) {
+			if(m instanceof AbstractMap){
+				((AbstractMap) m).update(timeLimit);
 			}
-			// Compute the new state
-			compute();
-			// Update the time
-			time.set(time.get()+ dt.get());
 		}
-//		/System.out.println(this);
+		
+		
+		//update this if necessary
+				BigDecimal bTime = new BigDecimal(time.val );
+				bTime = bTime.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
+				if(timeLimit.compareTo(bTime) >= 0){
+					//System.out.println("Update stats : " + this.time.val);
+					this.compute();
+					this.time.val = bTime.doubleValue() + dt.get();
+				}
 	}
 
 	public void compute() throws NullCoordinateException {
@@ -270,6 +271,13 @@ public class Statistics{
 	public String toString()
 	{
 		return wtrace.toString();
+	}
+
+
+
+
+	public Var getDt() {
+		return dt;
 	}
 
 

@@ -62,8 +62,12 @@ public class Unit implements Cloneable {
 		
 		clone.memories = new ArrayList<UnitModel>()	;
 		for(UnitModel um : memories){
-			clone.memories.add(um.clone());
+			UnitModel mem = um.clone();
+			//mem.setCoord(getCoord());
+			clone.memories.add(mem);
+			
 		}
+		
 		
 		//Update Unit references
 		for(UnitModel um : clone.memories){
@@ -168,6 +172,7 @@ public class Unit implements Cloneable {
 	public void compute() throws NullCoordinateException {
 		//System.err.println("compute : " + memories.get(wrapAccess(current+1)).hashCode());
 		UnitModel currentUM = memories.get(wrapAccess(current+1));
+		
 		double result = currentUM.computeActivity();
 		currentUM.set(result);
 		currentUM.incrTime();
@@ -185,6 +190,12 @@ public class Unit implements Cloneable {
 		for(UnitModel u : memories)
 			u.reset();
 
+	}
+	
+	public void resetState() {
+		for(UnitModel u : memories)
+			u.resetState();
+		
 	}
 
 
@@ -280,5 +291,14 @@ public class Unit implements Cloneable {
 	public UnitModel getSubUnit(int subUnitIndex, int delay) {
 		return getUnitModel(delay).getSubUnit(subUnitIndex);
 	}
+
+	public void delete() {
+		for(UnitModel um : memories){
+			um.delete();
+		}
+		
+	}
+
+	
 
 }

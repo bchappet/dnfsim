@@ -1,12 +1,16 @@
 package maps;
 
-import java.util.Arrays;
+import gui.Updated;
+
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import model.Model;
+
 import unitModel.UnitModel;
-import console.CNFTCommandLine;
+import console.CommandLine;
 import console.CommandLineFormatException;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
@@ -49,6 +53,9 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	/**Set of parent map**/
 	protected Set<AbstractMap> parents;
 
+	/**Set of vue object to signal***/
+	protected Set<Updated> vue;
+
 
 
 	/**
@@ -64,9 +71,9 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		this.isMemory = false;
 		this.isStatic = false;
 		this.parents = new HashSet<AbstractMap>();
+		this.vue = new HashSet<Updated>();
 		updateParents();
 	}
-
 
 	/**
 	 * The parameter will be shared with the {@link ParameterUser}
@@ -79,8 +86,22 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		this.isMemory = false;
 		this.isStatic = false;
 		this.parents = new HashSet<AbstractMap>();
+		this.vue = new HashSet<Updated>();
 		updateParents();
 	}
+
+	public void addVue(Updated u){
+		vue.add(u);
+	}
+
+	protected void updateVue(){
+		for(Updated u : vue){
+			u.update();
+		}
+	}
+
+
+
 
 	@Override
 	protected  void onInitilization(){
@@ -93,8 +114,10 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * @param timeLimit (s)
 	 * @throws NullCoordinateException 
 	 */
-	public void update(double timeLimit) throws NullCoordinateException
+	public void update(BigDecimal timeLimit) throws NullCoordinateException
 	{
+		//System.out.println("Update " + this.name + " : " + time.val + " => " + timeLimit);
+		//		System.out.println("Update : " + name);
 		//		while (time.val<timeLimit) {
 		//			if(!isStatic)
 		//			{
@@ -113,22 +136,65 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		//		}
 		//time.val >= timeLimit
 
-		if(!isStatic)
-		{
-			//Update the children params
-			for(Parameter m : params) {
-				if(m instanceof AbstractMap){
-					((AbstractMap) m).update(timeLimit);
-				}
+		//dnfsom
+		//		if(!isStatic)
+		//		{
+		//			//Update the children params
+		//			for(Parameter m : params) {
+		//				if(m instanceof AbstractMap){
+		//					((AbstractMap) m).update(timeLimit);
+		//				}
+		//			}
+		//		}
+		//		while(time.val < timeLimit){
+		//			if(!isStatic){
+		//				//	System.err.println(params);
+		//				System.out.println("$$Compute " + this.name);
+		//				this.compute();
+		//				this.updateVue();
+		//			}
+		//			time.val = time.val + dt.get();
+		//		}
+
+		//architecture
+		//		while(time.val < timeLimit){
+		//
+		//			//Update the children params
+		//			for(Parameter m : params) {
+		//				if(m instanceof AbstractMap){
+		//					((AbstractMap) m).update(time.val + dt.get());
+		//				}
+		//			}
+		//
+		//			if(!isStatic){
+		//				//	System.err.println(params);
+		//				this.compute();
+		//				this.updateVue();
+		//			}
+		//			time.val = time.val + dt.get();
+		//		}
+
+		//Clock like
+		//Update the children params
+		for(Parameter m : params) {
+			if(m instanceof AbstractMap){
+				((AbstractMap) m).update(timeLimit);
 			}
 		}
-		while(time.val < timeLimit){
-			if(!isStatic)
+		//update this if necessary
+		if(!isStatic){
+			BigDecimal bTime = new BigDecimal(time.val );
+			bTime = bTime.setScale(Model.SCALE_LIMIT,Model.ROUDING_MODE);
+			if(timeLimit.compareTo(bTime) >= 0){
+				//System.err.println("Compute " + name + " time : " + time.get() + " dt : " + dt.get());
 				this.compute();
-			time.val = time.val + dt.get();
+				this.updateVue();//TODO case à cocher si on veut updater vue à chaque update
+				this.time.val = bTime.doubleValue() + dt.get();
+			}
 		}
 
 	}
+
 
 	/**
 	 * @return an array with every values contained in the data structure
@@ -190,6 +256,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		}
 
 		this.compute();
+		this.updateVue();
 
 	}
 	@Override
@@ -200,9 +267,28 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 				m.reset();
 			}
 		}
+		resetVue();
 
 	}
 
+	@Override
+	public void resetState() {
+		if(!isStatic){
+			for(Parameter m : params){
+				m.resetState();
+			}
+		}
+		resetVue();
+
+	}
+
+
+	private void resetVue() {
+		for(Updated u : vue){
+			u.reset();
+		}
+
+	}
 
 	@Override
 	public void addParameters(Parameter ... params)
@@ -218,6 +304,11 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	{
 		this.parents.add(updatable);
 	}
+
+	@Override
+	public void removeParent(AbstractMap updatable){
+		this.parents.remove(updatable);
+	}
 	@Override
 	public void signalParents()
 	{
@@ -225,6 +316,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 		try {
 			if(isStatic)
 				this.compute();
+			this.updateVue();
 		} catch (NullCoordinateException e) {
 			e.printStackTrace();
 			System.exit(-1);
@@ -233,11 +325,22 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 			p.signalParents();
 	}
 	@Override
-	public void delete()
+	public  void delete()
 	{
-		for(AbstractMap  p : parents){
+		for(Parameter p : params){
+			p.removeParent(this);
+		}
+
+		super.delete();
+
+
+		for(AbstractMap p : parents){
 			p.removeParameter(this);
 		}
+
+		//	ensure null (accelerate GB collection?)
+		name = null;
+		parents = null;
 	}
 
 
@@ -255,7 +358,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 */
 	protected void updateParents()
 	{
-//		System.out.println(name + " ==> " + params);
+		//		System.out.println(name + " ==> " + params);
 		for(Parameter p : params){
 			p.addParent(this);
 		}
@@ -274,12 +377,14 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	public String display2D() throws NullCoordinateException {
 		String string = "Name : " + name + "\n";
 		string += "Memory : " + isMemory +"\n";
+		string +="x:"+space.getDiscreteSize()[Space.X] + " y:"+space.getDiscreteSize()[Space.Y];
 		if(isMemory)
 		{
 			int index = 0;
-			for(int i = 0 ; i < space.getResolution() ; i++){
-				for(int j = 0 ; j < space.getResolution() ; j++){
-					string += this.get(index) +",";
+			for(int i = 0 ; i < space.getDiscreteSize()[Space.X] ; i++){
+				for(int j = 0 ; j < space.getDiscreteSize()[Space.Y] ; j++){
+					string += (((int)(this.get(index)*10000))/10000.0) +",";
+					//					string += (this.get(index))+",";
 					index ++;
 				}
 				string +="\n";
@@ -292,25 +397,49 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * Return a string containing the map caracteristics and values (if memory)
 	 * @throws NullCoordinateException 
 	 */
+	//	public String displayMemory() throws NullCoordinateException {
+	//		String string = "";
+	//		int index = 0;
+	//		for(int i = 0 ; i < space.getResolution()-1 ; i++){
+	//			for(int j = 0 ; j < space.getResolution()-1 ; j++){
+	//				string += ((int)(this.get(index)*10000))/10000. + ",";
+	//				index ++;
+	//			}
+	//			string += ((int)(this.get(index)*10000))/10000.;
+	//			index ++;
+	//
+	//			string +="\n";
+	//		}
+	//
+	//		for(int j = 0 ; j < space.getResolution()-1 ; j++){
+	//			string += ((int)(this.get(index)*10000))/10000. + ",";
+	//			index ++;
+	//		}
+	//		string += ((int)(this.get(index)*10000))/10000.;
+	//		index ++;
+	//
+	//		return string;
+	//	}
+
 	public String displayMemory() throws NullCoordinateException {
 		String string = "";
 		int index = 0;
 		for(int i = 0 ; i < space.getResolution()-1 ; i++){
 			for(int j = 0 ; j < space.getResolution()-1 ; j++){
-				string += ((int)(this.get(index)*10000))/10000. + ",";
+				string += this.get(index) + ",";
 				index ++;
 			}
-			string += ((int)(this.get(index)*10000))/10000.;
+			string += this.get(index);
 			index ++;
 
 			string +="\n";
 		}
 
 		for(int j = 0 ; j < space.getResolution()-1 ; j++){
-			string += ((int)(this.get(index)*10000))/10000. + ",";
+			string += this.get(index) + ",";
 			index ++;
 		}
-		string += ((int)(this.get(index)*10000))/10000.;
+		string += this.get(index);
 		index ++;
 
 		return string;
@@ -349,14 +478,15 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	{
 		String ret = "";
 		ret+= printoffset(offset) + this.name + "\n";
+
 		for(Parameter p : params)
 		{
 			if(p instanceof AbstractMap)
-				ret += ((AbstractMap) p).toStringRecursive(offset+1) + "\n";
+				ret += ((AbstractMap) p).toStringRecursive(offset+1)  + "\n";
 			else
-				ret += printoffset(offset+1) + p.getName() +"\n";
+				ret += printoffset(offset+1) + p.getName()  + "\n";
 		}
-		System.out.println(ret);
+		//System.out.println(ret);
 
 		return ret;
 	}
@@ -406,47 +536,77 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	 * to find a parameter with the given path a.b.c...
 	 * We cann add .clone to set a clone of this parameter and return it
 	 * @param path
-	 * @param level
+	 * @param level : begin at 0
 	 * @param name (optional) name of the clone
 	 * @return
 	 * @throws BadPathException
 	 * @throws CommandLineFormatException 
 	 */
-	public Parameter getPath(String path,int level,String name,CNFTCommandLine cl) throws BadPathException, CommandLineFormatException {
+	public Parameter getPath(String path,int level,String name,CommandLine cl) throws BadPathException, CommandLineFormatException {
 		String[] pa = path.split("\\.");
 
 
-		Parameter p =  getParameter(pa[level++]);
+		Parameter p =  getParameter(pa[level]);
+		level ++;
 		if(p != null){
-			if(p instanceof AbstractMap){
-				return ((AbstractMap)p).getPath(path, level,name,cl);
-			}else{
-				if(level == pa.length ){
-					return p;
-				}else if(p instanceof Var && pa[level].equals("clone")){
-					//we clone the var and return it
-					Var newP = (Var) ((Var)p).clone();
-					newP.setName(name); 
-					if(p.equals(dt)){
-						dt = newP;
-					}else{
-						this.params.set(this.params.indexOf(p),newP);
-					}
-					return newP;
-				}else if(p instanceof Var && pa[level].equals("share")){
-					if(p.equals(dt)){
-						dt = cl.get(name);
-					}else
-						this.params.set(this.params.indexOf(p),cl.get(name));
-					return p;
+			if(level == pa.length ){
+				return p;
+			}else if(p instanceof Var && pa[level].equals("clone")){
+				//we clone the var and return it
+				Var newP = (Var) ((Var)p).clone();
+				newP.setName(name); 
+				if(p.equals(dt)){
+					dt = newP;
 				}else{
-					throw new BadPathException("The path " + path + " was bad. Stopped at " + this.name + ".");
+					this.params.set(this.params.indexOf(p),newP);
 				}
+				return newP;
+			}else if(p instanceof Var && pa[level].equals("share")){
+				if(p.equals(dt)){
+					dt = cl.get(name);
+				}else
+					this.params.set(this.params.indexOf(p),cl.get(name));
+				return p;
+			}else if(p instanceof AbstractMap){
+				return ((AbstractMap)p).getPath(path, level, name, cl);
+			}else{
+				throw new BadPathException("The path " + path + " was bad. Stopped at " + this.name + ".");
+
 			}
+
 		}else{
 			throw new BadPathException("The path " + path + " was bad.Because the parameter " + pa[level-1] + " was not found.");
 		}
 	}
+
+
+	public Set<AbstractMap> getParents() {
+		return parents;
+	}
+
+	/**
+	 * Recursively look for the smallest dt
+	 * @return
+	 */
+	public double findSmallestDt() {
+		double min = Double.MAX_VALUE;
+		for(Parameter p : params){
+			if(p instanceof AbstractMap){
+				double pDt = ((AbstractMap) p).findSmallestDt();
+				if(pDt < min){
+					min = pDt;
+				}
+			}
+		}
+		double tDt = this.dt.get();
+		if(tDt < min){
+			min = tDt;
+		}
+		return min;
+	}
+
+
+
 
 
 

@@ -18,7 +18,7 @@ public class ParamHeaderPanel extends HeaderPanel {
 
 	protected Parameter param;
 
-	public ParamHeaderPanel(GUI gui,Parameter param) {
+	public ParamHeaderPanel(RunnerGUI gui,Parameter param) {
 		super(gui);
 		this.param = param;
 		this.setBorder(BorderFactory.createTitledBorder("Param"));

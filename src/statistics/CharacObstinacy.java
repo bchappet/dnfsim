@@ -22,29 +22,45 @@ public class CharacObstinacy extends Charac {
 	public double computeTrajectory(double... param) {
 
 		double ret = Statistics.ERROR;
-		int convtime = (int) get(Characteristics.CONVERGENCE);
-		
+		double convtime =  get(CharacteristicsCNFT.CONVERGENCE);
+		int convIt = (int) Math.round( (convtime/stats.dt.get()));
 		
 		
 		if(convtime != Statistics.ERROR){
-			Trace closestTrack = stats.getTrace(Statistics.CLOSEST_TRACK);
+			Trace closestTrack = stats.getTrace(StatisticsCNFT.CLOSEST_TRACK);
 		
 			//the tracked stimulus is the tracked one at conv time
-			int previousStimulusHash = (int) closestTrack.get( convtime);
+			int previousStimulusHash;
+		
+			//Since it can be Error, we have to find the next valid one
+			do{
+				previousStimulusHash = (int) closestTrack.get( convIt);
+				convIt++;
+			}while(previousStimulusHash == Statistics.ERROR);
+			//System.out.println("init hash : " + previousStimulusHash);
+			
+			
 			
 			ret = 0;
-			for(int i = convtime; i < closestTrack.size() ; i++)
+			for(int i = convIt; i < closestTrack.size() ; i++)
 			{
 				int  currentStimulusHash = (int) closestTrack.get(i);
 				if(currentStimulusHash != Statistics.ERROR )
 				{
-					if(currentStimulusHash != previousStimulusHash)
+					//System.out.println("current hash : " + currentStimulusHash);
+					if(currentStimulusHash != previousStimulusHash){
+						//System.out.println(currentStimulusHash+ "!="+ previousStimulusHash);
 						ret ++; //the closest stimulus is different from the previous one
+						
+						//update previous stimulus hash
+						previousStimulusHash = currentStimulusHash;
+					}
+					
 				}
-				//update previous stimulus hash
-				previousStimulusHash = currentStimulusHash;
+				
 			}
 		}
+		//System.out.println("Obstinacy : " + ret);
 		return ret;
 	}
 
