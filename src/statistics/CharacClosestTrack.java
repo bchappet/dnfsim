@@ -33,13 +33,17 @@ public class CharacClosestTrack extends Charac {
 			Map<Integer,Integer> map = new HashMap<Integer, Integer>();
 			for(int i = convIt ; i <  closestTrack.size() ; i++){
 				int hash = (int) closestTrack.get(i);
-				if(map.containsKey(hash)){
-					map.put(hash,map.get(hash)+1);
-				}else{
-					map.put(hash,1);
+				
+				if(hash != Statistics.ERROR){
+					//System.out.println(i + " hash " + hash);
+					if(map.containsKey(hash)){
+						map.put(hash,map.get(hash)+1);
+					}else{
+						map.put(hash,1);
+					}
 				}
 			}
-			
+
 			//find the max value
 			Integer max = Integer.MIN_VALUE;
 			Integer maxKey = Statistics.ERROR;
