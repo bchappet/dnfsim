@@ -31,6 +31,9 @@ public class VarString extends Var {
 	public void setString(String newStr)
 	{
 		this.str = newStr;
+		if(this.name != null){
+			signalParents();
+		}
 	}
 
 }

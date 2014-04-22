@@ -1,11 +1,15 @@
 package reservoirComputing;
 
+import model.Model;
 import console.CNFTCommandLine;
 import console.CommandLine;
 import console.CommandLineFormatException;
 
 public class ESNCommandLine extends CommandLine {
 
+	
+	public static final String SEP = "sep";//separator for csv files
+	
 	public static final String LENGTH_RESERVOIR = "length_reservoir";
 	public static final String WRAP_RESERVOIR = "wrap_reservoir";
 	public static final String DT_RESERVOIR = "dt_reservoir";
@@ -21,15 +25,14 @@ public class ESNCommandLine extends CommandLine {
 	public static final String OUTPUT_MEMORY = "output_memory";
 	public static final String OUTPUT_POLYNOMIAL_DEGREE = "output_polynomial_degree";
 	
+	
 
-	public ESNCommandLine(String command) throws CommandLineFormatException {
-		super(command);
+	public ESNCommandLine(String command,Model model) throws CommandLineFormatException {
+		super(command,model);
 	}
 
-	public ESNCommandLine() throws CommandLineFormatException {
-	}
 
-	public ESNCommandLine(CNFTCommandLine commandLine) {
+	public ESNCommandLine(CommandLine commandLine) {
 		super(commandLine);
 	}
 	
@@ -44,7 +47,7 @@ public class ESNCommandLine extends CommandLine {
 				+DT_INPUT+"=0.1,0,10,0.1;"		+DT_OUTPUT+"=0.1,0,10,0.1;"
 				+LEARNING_RATE+"=0.01,0,1,0.01;"+LENGHT_OUTPUT+"=1,1,1,1;"
 				+OUTPUT_MEMORY+"=1,0,10,1;"		+OUTPUT_POLYNOMIAL_DEGREE+"=1,0,10,1;"
-				;
+				+SEP+"=,;";
 	}
 
 }

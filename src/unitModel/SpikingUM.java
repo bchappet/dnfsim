@@ -32,8 +32,8 @@ public class SpikingUM extends UnitModel {
 	 * 
 	 * @param potential
 	 * @param th : threshold
-	 * @param low : value affected if the potential is lower than the threshold
-	 * @param high : value affected if the potential is higher than the threshold
+	 * @param low : value returned if the potential is lower than the threshold
+	 * @param high : value returned if the potential is higher than the threshold
 	 * @return
 	 */
 	protected double computation2(double potential, double th, double low, double high) {

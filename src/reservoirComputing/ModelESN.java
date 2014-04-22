@@ -92,7 +92,7 @@ public class ModelESN extends Model {
 	@Override
 	protected void initializeCommandLine(String contextScript)
 			throws CommandLineFormatException {
-		command = new ESNCommandLine(contextScript);
+		command = new ESNCommandLine(contextScript,this);
 		
 	}
 
@@ -148,18 +148,19 @@ public class ModelESN extends Model {
 		spaceOutput = new DiscreteSquareSpace(length_output,1,false);
 		spaceOutput.setSimulationSpace(new  DiscreteSquareSpace(new Var(Math.sqrt(length_output.val)), 2,false ));
 
-		String weightsRRFileName = command.getString(ESNCommandLine.WRR_FILE);
-		String weightsROFileName = command.getString(ESNCommandLine.WRO_FILE);
+		Parameter weightsRRFileName = command.get(ESNCommandLine.WRR_FILE);
+		Parameter weightsROFileName = command.get(ESNCommandLine.WRO_FILE);
+		Parameter currentSep = command.get(ESNCommandLine.SEP);
 
 		Space spaceWeightsReservoir = new DiscreteSquareSpace(lenght_reservoir, 2, false);
 
 
 		weightsIR = new Map(WEIGHTS_IR,new RandTrajUnitModel(dtReservoir, spaceReservoir, new Var(0),new Var(1)));
 		weightsIR.toStatic();
-		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, dtReservoir, spaceWeightsReservoir, weightsRRFileName,",");
+		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, dtReservoir, spaceWeightsReservoir, weightsRRFileName,currentSep);
 		weightsRR.toStatic();
 		
-		weightsRO = new  MatrixCSVFileReader(WEIGHTS_RO, dtOutput, spaceReservoir,weightsROFileName,",");
+		weightsRO = new  MatrixCSVFileReader(WEIGHTS_RO, dtOutput, spaceReservoir,weightsROFileName,currentSep);
 		weightsRO.toStatic();
 		input = getInput();
 		Parameter conv_WRR_R = new MultiplicationMatrix("conv_WRR_R", dtReservoir, spaceReservoir); 
@@ -186,9 +187,8 @@ public class ModelESN extends Model {
 		output.constructAllMemories();
 		targetOutput.constructAllMemories();
 		
-		root = (AbstractMap) reservoir;
-		addParameters(output);
-
+		root = (AbstractMap)output;
+		addParameters(targetOutput);
 
 
 

@@ -4,23 +4,26 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import coordinates.Space;
 
 public class MatrixCSVFileReader extends MatrixFileReader implements Parameter {
 	
-	protected String sep;
+	
+	public final static int SEP = 1;
+	
 
-	public MatrixCSVFileReader(String name, Var dt, Space space,
-			String fileName,String sep, Parameter... params) {
-		super(name, dt, space, fileName, params);
-		this.sep = sep;
+	public MatrixCSVFileReader(String name, Var dt, Space space, Parameter... params) {
+		super(name, dt, space, params);
 	}
 	
 	@Override
 	public void compute()  {
 		try {
-//			System.out.println("iteration : " + iteration);
+			String fileName = ((VarString) getParam(FILE_NAME)).getString();
+			String sep = ((VarString) getParam(SEP)).getString();
+			
 			FileReader fr = new FileReader(fileName+"_"+iteration +".csv");
 			BufferedReader br = new BufferedReader(fr);
 			

@@ -2,9 +2,8 @@ package maps;
 
 import gui.Updated;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 import unitModel.UnitModel;
 import utils.Cloneable;
@@ -36,7 +35,7 @@ public class Var implements Parameter,Cloneable {
 	protected double min;
 	protected double max;
 
-	protected List<AbstractMap> parents;
+	protected Set<AbstractMap> parents;
 
 
 
@@ -51,7 +50,7 @@ public class Var implements Parameter,Cloneable {
 //		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.val = val;
 		this.name = name;
-		this.parents = new LinkedList<AbstractMap>();
+		this.parents = new HashSet<AbstractMap>();
 	}
 	
 	public Var(String name,double val,double min,double max,double step){

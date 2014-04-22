@@ -14,19 +14,20 @@ import coordinates.Space;
  */
 public class MatrixFileReader extends Matrix {
 	
-	protected String fileName;
+	/**Parameters**/
+	public final static int FILE_NAME = 0;
 	protected int iteration = 0;
 
-	public MatrixFileReader(String name, Var dt, Space space,String fileName,
+	public MatrixFileReader(String name, Var dt, Space space,
 			Parameter... params) {
 		super(name, dt, space, params);
-		this.fileName = fileName;
 	}
 	
 	@Override
 	public void compute()  {
 		try {
 //			System.out.println("iteration : " + iteration);
+			String fileName = ((VarString) getParam(FILE_NAME)).getString();
 			FileReader fr = new FileReader(fileName+"_"+iteration +".fig");
 			BufferedReader br = new BufferedReader(fr);
 			

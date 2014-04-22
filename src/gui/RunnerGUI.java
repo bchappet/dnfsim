@@ -600,8 +600,6 @@ public class RunnerGUI extends JApplet{
 					e.printStackTrace();
 				} catch (NullCoordinateException e) {
 					e.printStackTrace();
-				} catch (BadPathException e) {
-					e.printStackTrace();
 				}
 			}
 
