@@ -117,6 +117,7 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	public void update(BigDecimal timeLimit) throws NullCoordinateException
 	{
 		//System.out.println("Update " + this.name + " : " + time.val + " => " + timeLimit);
+		//System.out.println( this.display2D());
 		//		System.out.println("Update : " + name);
 		//		while (time.val<timeLimit) {
 		//			if(!isStatic)
@@ -377,14 +378,15 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	public String display2D() throws NullCoordinateException {
 		String string = "Name : " + name + "\n";
 		string += "Memory : " + isMemory +"\n";
-		string +="x:"+space.getDiscreteSize()[Space.X] + " y:"+space.getDiscreteSize()[Space.Y];
+		string +="x:"+space.getDiscreteSize()[Space.X] + " y:"+space.getDiscreteSize()[Space.Y] + "\n";
 		if(isMemory)
 		{
+			
 			int index = 0;
 			for(int i = 0 ; i < space.getDiscreteSize()[Space.X] ; i++){
 				for(int j = 0 ; j < space.getDiscreteSize()[Space.Y] ; j++){
 					string += (((int)(this.get(index)*10000))/10000.0) +",";
-					//					string += (this.get(index))+",";
+//										string += (this.get(index))+",";
 					index ++;
 				}
 				string +="\n";
@@ -421,9 +423,16 @@ public abstract class AbstractMap extends ParameterUser implements Parameter,Clo
 	//		return string;
 	//	}
 
+	/**
+	 * Display memory if any. For 1D or 2D space
+	 * @Precond : memory is initialized
+	 * @return
+	 * @throws NullCoordinateException
+	 */
 	public String displayMemory() throws NullCoordinateException {
 		String string = "";
 		int index = 0;
+		System.out.println("space : " + space);
 		for(int i = 0 ; i < space.getResolution()-1 ; i++){
 			for(int j = 0 ; j < space.getResolution()-1 ; j++){
 				string += this.get(index) + ",";

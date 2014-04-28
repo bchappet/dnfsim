@@ -31,7 +31,7 @@ public class CoorWinnerMap extends VectorMap {
 
 	public CoorWinnerMap(String name, Parameter dt, Space space, Parameter... maps) {
 		super(name, dt, space, maps);
-		vect = new double[2];
+		setVector(new double[2]);
 	}
 
 	@Override
@@ -51,12 +51,10 @@ public class CoorWinnerMap extends VectorMap {
 		//System.out.println("index : " + index);
 		Double[] center = space.indexToCoord(index);
 		if(max == 0){
-			vect[Space.X] = -100;
-			vect[Space.Y] = -100;
+			setVector(new double[]{-100,-100});
 		}else{
 		//	System.out.println("center : " + Arrays.toString(space.discreteProj(center)));
-			vect[Space.X] = center[Space.X];
-			vect[Space.Y] = center[Space.Y];
+			setVector(new double[]{center[Space.X], center[Space.Y]});
 		}
 
 	}

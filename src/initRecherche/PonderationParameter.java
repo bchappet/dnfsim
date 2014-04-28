@@ -14,14 +14,12 @@ public class PonderationParameter extends VectorMap {
 	
 	public PonderationParameter(String name, Parameter dt, Space space, Parameter... maps) {
 		super(name, dt, space, maps);		
-		vect = new double[ModelCNFTPredictive.NB_PREDICTIONS];
+		setVector( new double[ModelCNFTPredictive.NB_PREDICTIONS]);
+//		for(int i  =0 ; i < getVector().length ; i++){
+//			getVector()[i] = 1;
+//		}
 	}
 
-	@Override
-	public double[] getVector(int delay) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 	@Override
 	public void compute() throws NullCoordinateException {

@@ -852,7 +852,7 @@ public abstract class Space implements Cloneable,Node{
 		return "Space ["
 				+ ", origin="
 				+ Arrays.toString(origin) + ", size=" + Arrays.toString(size)
-				+ ", resolution=" + resolution + ", res=" + res + ", dim="
+				+ ", res=" + res + ", dim="
 				+ dim + ", discreteSize=" + Arrays.toString(discreteSize)
 				+ ", wrap=" + wrap + ", dimension="
 				+ Arrays.toString(dimension) 

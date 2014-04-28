@@ -107,7 +107,7 @@ public class GlobalPredictionMap extends Map {
 			if(max<ei[i-1])
 				max = ei[i-1];
 			
-			//System.out.println("ei = "+ei[i-1]);
+//			System.out.println("$$ei = "+ei[i-1]);
 		}
 		
 

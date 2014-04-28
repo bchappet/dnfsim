@@ -1,5 +1,7 @@
 package initRecherche;
 
+import java.util.Arrays;
+
 import maps.VectorMap;
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
@@ -14,7 +16,7 @@ public class CombinaisonUnitModel extends UnitModel {
 	
 	@Override
 	public double compute() throws NullCoordinateException {
-		VectorMap vect = (VectorMap) this.getParam(0);
+		PonderationParameter vect = (PonderationParameter) this.getParam(0);
 		//System.out.println("combinaison pr�dictions + "+this.getParams().size()+" + "+vect.getVector()[0]);
 		
 		double[] tab = vect.getVector();
@@ -23,11 +25,14 @@ public class CombinaisonUnitModel extends UnitModel {
 
 		for(int i=ModelCNFTPredictive.NB_PREDICTIONS+1; i<this.getParams().size();i++) {
 			//int j = i-ModelCNFTPredictive.NB_PREDICTIONS-1;
-			//System.out.println("+++++++++ "+ i +" ++++++ "+this.getParam(i).getName()+" +++++ "+j);
+//			System.out.println("+++++++++ "+ i +" ++++++ "+this.getParam(i).getName()+" +++++ "+j);
 			sum = sum + tab[i-ModelCNFTPredictive.NB_PREDICTIONS-1]*this.getParam(i).get(coord);			
 			div = div + tab[i-ModelCNFTPredictive.NB_PREDICTIONS-1];
 		}
+		if(div == 0){
+			System.err.println("!!!!erreur" + Arrays.toString(Thread.currentThread().getStackTrace()));
 		//System.out.println(div);
+		}
 		
 		// TODO Auto-generated method stub
 		return sum/div;

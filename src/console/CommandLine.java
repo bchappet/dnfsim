@@ -312,6 +312,7 @@ public class CommandLine  {
 	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
+	 * @throws IOException 
 	 * @throws BadPathException 
 	 */
 	private String execAffectation(String command, String value) throws  CommandLineFormatException, NumberFormatException, NullCoordinateException{
@@ -345,16 +346,9 @@ public class CommandLine  {
 		}
 		else if(command.equals("waitNsave"))
 		{
-			for(int i = 0 ; i < Integer.parseInt(value) ; i++)
-			{
-
-				runner.step();
-				try {
-					ret = runner.saveMaps("save/save_"+i);
-				} catch (IOException e) {
-					throw new CommandLineFormatException("IO error",e);
-				}
-			}
+			System.out.println("here");
+			BigDecimal time =  new BigDecimal(value) ; //second 
+			runner.simulateNSave(time);
 		}
 		else if(command.equals("print")){
 			String split[] = value.split(",");

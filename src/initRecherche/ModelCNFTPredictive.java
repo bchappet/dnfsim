@@ -1,5 +1,6 @@
 package initRecherche;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -73,6 +74,14 @@ public class ModelCNFTPredictive extends ModelCNFT {
     public ModelCNFTPredictive(String name) {
         super(name);
     }
+    
+	public void update(BigDecimal timeToReach) throws NullCoordinateException,
+	CommandLineFormatException {
+		super.update(timeToReach);
+		
+		
+		
+	}
 
 
     /**

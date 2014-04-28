@@ -339,11 +339,15 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	 */
 	@Override
 	public String display2D() throws NullCoordinateException {
+		try{
 		String string = "";
 		if(unitModel != null)
 			string += "Unit Model : " + unitModel.getClass() + "\n";
 		string += super.display2D();
 		return string;
+		}catch(Exception e){
+			return "exception " + this.get();
+		}
 	}	
 
 	public double[] getValues() {

@@ -1,10 +1,11 @@
 package model;
 
+import initRecherche.ModelCNFTPredictive;
+
 import java.lang.reflect.InvocationTargetException;
 
-import reservoirComputing.ModelESN;
-
 import modelCMSVA.ModelCMSVA;
+import reservoirComputing.ModelESN;
 
 
 public enum Models{

@@ -1,5 +1,10 @@
 package initRecherche;
 
+import java.util.Arrays;
+
+import maps.AbstractMap;
+import maps.Leaf;
+import maps.Map;
 import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
 
@@ -36,10 +41,21 @@ public class PredictiveUnitModel extends UnitModel {
 
 		Double[] newCoord = {newLocationX,newLocationY};
 		Double[] newCoordWrap = this.space.wrap(newCoord);
-
+		
 		double x= params.get(POTENTIAL).get(newCoordWrap[0],newCoordWrap[1]);
-		if (Double.isNaN(x)) System.out.println("argl");
-		else System.out.println("ok");
+//		if (Double.isNaN(x)){ 
+//			Leaf leaf = (Leaf) params.get(POTENTIAL);
+//			AbstractMap map = (AbstractMap) leaf.getMap();
+//			System.out.println("argl");
+//			System.out.println("wrap : " + Arrays.toString(newCoordWrap));
+//			System.out.println("potential " +map.display2D() );
+//			int index =  map.getSpace().coordToIndex(newCoordWrap[0],newCoordWrap[1]);
+//			System.out.println("index x " + index);
+//			System.out.println("getIndex x " + map.get(index));
+//			System.out.println("potential x " +((AbstractMap) ((Leaf) params.get(POTENTIAL)).getMap()).get(newCoordWrap[0],newCoordWrap[1]) );
+			
+//			}
+//		else System.out.println("ok");
 		return x;
 	}
 

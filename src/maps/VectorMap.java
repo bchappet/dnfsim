@@ -15,7 +15,7 @@ import coordinates.Space;
  */
 public abstract class VectorMap extends AbstractMap  {
 	
-	protected double[] vect;
+	private double[] vect;
 
 	public VectorMap(String name, Parameter dt, Space space, Parameter... maps) {
 		super(name, dt, space, maps);
@@ -27,17 +27,25 @@ public abstract class VectorMap extends AbstractMap  {
 	 * @return
 	 */
 	public double[] getVector(){
+		System.out.println("get vect" + Arrays.toString(vect) + Arrays.toString(Thread.currentThread().getStackTrace()));
 		return vect;
 	
+	}
+	
+	public void setVector(double[] vect){
+		System.out.println("set vect" + Arrays.toString(vect));
+		this.vect = vect;
 	}
 	
 	/**
 	 * Return the vector with the different parameter with delay
 	 * @return
 	 */
-	public  abstract double[] getVector(int delay);
-	@Override
-	public abstract void compute() throws NullCoordinateException;
+	public double[] getVector(int delay) {
+		
+		throw new Error("not implemented");
+	}
+
 
 
 	@Override

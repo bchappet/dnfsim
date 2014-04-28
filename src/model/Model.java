@@ -166,7 +166,8 @@ public abstract class Model implements Node {
 	CommandLineFormatException {
 		this.modifyModel();
 		clockStep = findSmallestDt();
-		//System.out.println("clock step : " + clockStep);
+//		System.out.println("clock step : " + clockStep);
+		
 
 		while(this.time.compareTo(timeToReach) <= 0){
 

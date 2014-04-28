@@ -52,20 +52,20 @@ public class Runner  implements Runnable{
 	protected boolean savemap;
 	/**Core used #**/
 	protected int core;
-	
-	
 
-	
+
+
+
 	/**
 	 * Time of each step
 	 * TODO why is it also the display dt now? (from dnf_som...)
 	 */
 	protected Var guiStep = null; //in s
-	
+
 	/**Current time of simulation**/
 	protected BigDecimal time;
-	
-	
+
+
 
 
 	public Runner(Model model,String scenario,Printer printer) throws CommandLineFormatException{
@@ -111,15 +111,33 @@ public class Runner  implements Runnable{
 	 */
 	public void simulate(BigDecimal timeToReach) throws CommandLineFormatException {
 		//System.out.println("Simulate :  Current time = " + time + " time end = " +  timeToReach);
-		
+
 		BigDecimal gStep = new BigDecimal(guiStep.get());
 		gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
-		
+
 		time = time.add(gStep);
 		while( time.compareTo( timeToReach) <= 0){
 			//System.out.println(" ==> update " + time);
 			update(time);
 			time = time.add(gStep);
+		}
+
+	}
+
+	public void simulateNSave(BigDecimal timeToReach) throws CommandLineFormatException {
+		BigDecimal gStep = new BigDecimal(guiStep.get());
+		gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
+
+		time = time.add(gStep);
+		try {
+			while( time.compareTo( timeToReach) <= 0){
+				System.out.println(" ==> update " + time);
+				this.update(time);
+				this.saveMaps("save/save_"+time);
+				time = time.add(gStep);
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 	}
@@ -145,7 +163,7 @@ public class Runner  implements Runnable{
 
 	@Override
 	public void run(){
-		
+
 		//Lauch scenario if there is one
 		try{
 			if(scenario != null){ //as many time as iteration
@@ -159,9 +177,9 @@ public class Runner  implements Runnable{
 					reset();
 				}
 			}else{//there is no scenario, we init manually
-				
+
 				this.firstComputation();
-				
+
 			}
 		}catch (Exception e) {
 			e.printStackTrace();
@@ -175,12 +193,12 @@ public class Runner  implements Runnable{
 					while(!play && !exit)
 						Thread.sleep(100);
 					long time_start = System.currentTimeMillis();
-					
+
 					BigDecimal gStep = new BigDecimal(guiStep.get());
 					gStep = gStep.setScale(Model.SCALE_LIMIT,  Model.ROUDING_MODE);
-					
+
 					time = time.add(gStep);
-					
+
 					update(time);
 					long computationTime = System.currentTimeMillis()-time_start;
 					// Remaining delay to wait after the computations
@@ -202,7 +220,7 @@ public class Runner  implements Runnable{
 	public void setPrinter(Printer printer2) {
 		this.printer = printer2;
 	}
-	
+
 	/**
 	 * Compute time = 0 state
 	 * @throws CommandLineFormatException 
@@ -219,7 +237,7 @@ public class Runner  implements Runnable{
 	 * Reinitialize parameters with the  default script and the context command
 	 */
 	public void reinitialize()
-	
+
 	{
 		try{
 			model.getCommandLine().reinitialize();
@@ -231,8 +249,6 @@ public class Runner  implements Runnable{
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
 		} catch (NullCoordinateException e) {
-			e.printStackTrace();
-		} catch (BadPathException e) {
 			e.printStackTrace();
 		}
 	}
@@ -377,6 +393,9 @@ public class Runner  implements Runnable{
 	public void setSimulationStep(Var var) {
 		guiStep = var;
 	}
+
+
+
 
 
 }
