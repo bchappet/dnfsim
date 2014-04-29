@@ -1,13 +1,8 @@
 package maps;
 
-import com.sun.swing.internal.plaf.synth.resources.synth;
+import java.util.List;
 
-import gui.Node;
-import gui.Updated;
-import unitModel.UnitModel;
 import coordinates.NullCoordinateException;
-import coordinates.Space;
-import utils.Cloneable;
 
 /**
  * A parameter is an object which has a value at given coordinate.
@@ -37,7 +32,7 @@ import utils.Cloneable;
  * signal is sent with signalParent() method, hence a parameter should be
  * registered as parent when it is getting sons.
  * 
- * 
+ * @param E : stored type of the Parameter
  * 
  * 
  * 
@@ -50,173 +45,20 @@ import utils.Cloneable;
  * @author bchappet
  * 
  */
-public interface Parameter extends Node, Cloneable {
+public interface Parameter<E> extends Cloneable {
 
-	/**
-	 * One iteration of computation
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	public void compute() throws NullCoordinateException;
+	
 
-	/**
-	 * Compute activity at specific coordinates
-	 * 
-	 * @param index
-	 */
-	public void compute(int index);
-
-	/**
-	 * Get activity at specific continuous coordinates
-	 * 
-	 * @param coor
-	 * @return
-	 * @throws NullCoordinateException
-	 */
-	public double get(Double... coor) throws NullCoordinateException;
-
-	/**
-	 * Get the activity @Var at specified coordinates
-	 * 
-	 * @param coor
-	 * @return
-	 */
-	public Var getVar(Double... coor);
-
+	
 	/**
 	 * Get activity at specific index
 	 * 
-	 * @param index
+	 * @param coor
 	 * @return
 	 * @throws NullCoordinateException
 	 */
-	public double get(int index) throws NullCoordinateException;
+	public E getIndex(int index);
 
-	/**
-	 * Get activity at specific discrete coordinates
-	 * 
-	 * @precond : isMemory== true
-	 * @param coord
-	 * @return
-	 */
-	public double getFast(int... coord);
-
-	/**
-	 * Initialize a memory : data structure containing and computing values for
-	 * every discrete coordinate
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	public void constructMemory();
-
-	/**
-	 * Construct an array with each values of the memory Usefull to handle
-	 * optimized computation
-	 * 
-	 * @return
-	 */
-	public abstract double[] getValues();
-
-	/**
-	 * Get value at specific continuous coordinates with delay
-	 * 
-	 * @param delay
-	 *            : activity at time - delay TODO delay of 1 == parallel
-	 *            computation
-	 * @param coord
-	 *            : coord of activity
-	 * @return the activity
-	 * @throws NullCoordinateException
-	 */
-	public double getDelay(int delay, Double... coord)
-			throws NullCoordinateException;
-
-	public double getDelay(int delay, int index);
-
-	/**
-	 * Add memories buffers
-	 * 
-	 * @param nb
-	 *            : nb memory to add
-	 * @param historic
-	 *            : previous {@link UnitModel} states (optional : if no historic
-	 *            is provided, the setInitActivity() of UnitModel is used)
-	 * @throws NullCoordinateException
-	 * @Post : isMemory() = true
-	 */
-	public void addMemories(int nb, UnitModel... historic)
-			throws NullCoordinateException;
-
-	/**
-	 * Parallel computation mode is activated
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	public void toParallel() throws NullCoordinateException;
-
-	/**
-	 * Computation are now on line
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	public void onLine() throws NullCoordinateException;
-
-	/**
-	 * 
-	 * @return true if the parameter is static
-	 */
-	public boolean isStatic();
-
-	/**
-	 * Transform a {@link Parameter}
-	 * 
-	 * @post isStatic() == true
-	 * @throws NullCoordinateException
-	 */
-	public void toStatic() throws NullCoordinateException;
-
-	/**
-	 * Reset the time and the state
-	 */
-	public void reset();
-	
-	/**
-	 * Reset only state (not time)
-	 */
-	public void resetState();
-
-	/**
-	 * Add a parent to the parameter
-	 * 
-	 * @param updatable
-	 */
-	public void addParent(AbstractMap updatable);
-
-	/**
-	 * Signal that the parameter has changed
-	 * 
-	 * @throws NullCoordinateException
-	 */
-	public void signalParents() throws NullCoordinateException;
-
-	/**
-	 * Delete parameter from the tree
-	 */
-	public void delete();
-
-	public Parameter clone();
-
-	public String getName();
-
-	public Space getSpace();
-
-	public Parameter getDt();
-
-	// /////////////////////Only used in test
-	/**
-	 * Recursively construct all memories
-	 */
-	public void constructAllMemories();
 
 	/**
 	 * Set value at specific index
@@ -224,28 +66,26 @@ public interface Parameter extends Node, Cloneable {
 	 * @param index
 	 * @param new Val
 	 */
-	public void setIndex(int index, double newVal);
+	public void setIndex(int index, E newVal);
+	
 
 	/**
-	 * Remove the parent
+	 * Construct an array with each values of the memory Usefull to handle
+	 * optimized computation
 	 * 
-	 * @param updatable
-	 */
-	void removeParent(AbstractMap updatable);
-
-	/**
-	 * Add a vue component for update
-	 * 
-	 * @param u
-	 */
-	public void addVue(Updated u);
-
-	public void addParameters(Parameter...params);
-
-	/**
-	 * Return true if memory
 	 * @return
 	 */
-	public boolean isMemory();
+	public abstract List<E> getValues();
+
+
+	
+
+	public Parameter<E> clone();
+
+
+	
+	
+
+
 
 }

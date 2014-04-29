@@ -2,10 +2,10 @@ package utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 
 import unitModel.UnitModel;
-
 import maps.Parameter;
 import neuronBuffer.Buffer;
 
@@ -73,7 +73,7 @@ public class ArrayUtils {
 		for(int i = 0 ; i < values.length ; i++){
 //			System.out.println("Param : " + params.get(i));
 			//try{
-			values[i] = params.get(i).get(coord);
+			values[i] = params.get(i).getIndex(coord);
 			//}catch (NullCoordinateException e) {
 		//		values[i] = null;//the currently accessed parameter has different dimension than the accesing map
 		//	}
@@ -150,8 +150,33 @@ public class ArrayUtils {
 		double sum = 0;
 		for(int i = 0 ; i < vect.length ; i++)
 			sum +=vect[i];
-		
 		return sum;
+	}
+
+	/**
+	 * Deep comparison of 2 2D arrays
+	 * @param expected
+	 * @param result
+	 * @return
+	 */
+	public static <T> boolean equals2D(T[][] expected, T[][] result) {
+		boolean ret = true;
+		for(int i = 0 ; i < expected.length ; i++){
+			for(int j = 0 ;j < expected[0].length ; j++){
+				
+				ret &= expected[i][j].equals(result[i][j]);
+			}
+		}
+		return ret;
+	}
+
+	public static Double[] toPrimitive(
+			double[] tab) {
+		Double[] ret = new Double[tab.length];
+		for(int i = 0 ; i < tab.length ; i++){
+			ret[i] = tab[i];
+		}
+		return ret;
 	}
 
 	

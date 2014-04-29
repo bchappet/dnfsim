@@ -18,17 +18,11 @@ import coordinates.Space;
  *
 
  */
-public abstract class AbstractUnitMap extends AbstractMap implements UnitParameter 
+public abstract class UnitMap implements Parameter//extends AbstractMap 
 {
 
-	/**the unitModel will define the computation of the map**/
-	protected UnitModel unitModel;
 	/**Collection of units**/
 	protected AbstractList<Unit> units;
-
-	protected List<SubUnitMap> subUnitMaps;
-
-	protected boolean isTrajectory; //true if nodim TODO develop concept
 
 
 
@@ -38,12 +32,9 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	 * @param name
 	 * @param unitModel
 	 */
-	public AbstractUnitMap(String name,UnitModel unitModel)
+	public UnitMap(String name,UnitModel unitModel)
 	{
-		super(name,unitModel);
-		this.unitModel = unitModel;
-		subUnitMaps = new LinkedList<SubUnitMap>();
-		isTrajectory = (space.getDiscreteVolume() <= 1);
+		//TODO
 	}
 
 
@@ -56,7 +47,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	 * @param params
 	 * @Post : the unitModel attributes will be changed to be shared with this map
 	 */
-	public AbstractUnitMap(String name,UnitModel unitModel,Parameter dt, Space space, Parameter... maps) {
+	public UnitMap(String name,UnitModel unitModel,Parameter dt, Space space, Parameter... maps) {
 		super(name,dt, space, maps);
 		subUnitMaps = new LinkedList<SubUnitMap>();
 		if(unitModel != null)
@@ -83,7 +74,7 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 	 * @throws NullCoordinateException 
 	 */
 	@Override
-	public double get(int index) throws NullCoordinateException
+	public double getIndex(int index) throws NullCoordinateException
 	{
 		if(isMemory)
 		{
@@ -305,10 +296,10 @@ public abstract class AbstractUnitMap extends AbstractMap implements UnitParamet
 		}
 	}
 
-	public AbstractUnitMap clone() 
+	public UnitMap clone() 
 	{
-		AbstractUnitMap clone =
-				(AbstractUnitMap) super.clone();
+		UnitMap clone =
+				(UnitMap) super.clone();
 		clone.unitModel = unitModel.clone();
 
 		return clone;
