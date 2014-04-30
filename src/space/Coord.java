@@ -64,8 +64,7 @@ public class Coord<T> implements Parameter<T> {
 	}
 
 
-	@Override
-	public void setIndex(int index, T newVal) {
+	public void set(int index, T newVal) {
 		this.values.set(index, newVal);
 	}
 	

@@ -1,10 +1,11 @@
-package mapTests;
+package mapsTests;
 
 import java.util.Arrays;
 import java.util.List;
 
 import junit.framework.TestCase;
 import maps.MatrixDouble2D;
+import maps.Var;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -71,13 +72,6 @@ public class MatrixDouble2DTest extends TestCase {
 		assertTrue("The returned array should be equal",ArrayUtils.equals2D(expected,result));
 	}
 	
-	@Test
-	public void testSetIndex(){
-		uut.setIndex(0, 10d);
-		uut.setIndex(11, 100d);
-		assertEquals("The set index should modifie the value on the right place",10d,uut.getIndex(0));
-		assertEquals("The set index should modifie the value on the right place",100d,uut.getIndex(11));
-	}
 	
 	@Test
 	public void testGetValues(){
@@ -90,7 +84,13 @@ public class MatrixDouble2DTest extends TestCase {
 	public void testClone(){
 		MatrixDouble2D clone = uut.clone();
 		assertEquals("the clone name should be good",uut.getName()+"_clone",clone.getName());
+		assertSame("The space should be the same",uut.getSpace(),clone.getSpace());
+		
+		assertEquals("The values should be the same:",uut.toString(),clone.toString());
+		
+		
 	}
+	
 	
 	
 	

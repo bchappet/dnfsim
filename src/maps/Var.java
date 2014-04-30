@@ -11,15 +11,15 @@ import coordinates.NullCoordinateException;
 	* via the name
  *
  */
-public class Var<E>  implements Parameter<E>,Cloneable {
+public class Var<T>  implements Parameter<T>,NoDimension<T>{
 
 	/**Current value **/
-	public E val; 
+	public T val; 
 	/**Name (optional) **/
 	protected String name;
 	
 	
-	public Var(E val)
+	public Var(T val)
 	{
 		this.val = val;
 		this.name = null;
@@ -29,7 +29,7 @@ public class Var<E>  implements Parameter<E>,Cloneable {
 	 * @param name
 	 * @param val
 	 */
-	public Var(String name,E val)
+	public Var(String name,T val)
 	{
 		this.val = val;
 		this.name = name;
@@ -39,7 +39,8 @@ public class Var<E>  implements Parameter<E>,Cloneable {
 	 * Return the value
 	 * @return
 	 */
-	public E get() {
+	@Override
+	public T get() {
 		return val;
 	}
 
@@ -48,7 +49,7 @@ public class Var<E>  implements Parameter<E>,Cloneable {
 	 * Set the value
 	 * @param val
 	 */
-	public void set(E val) {
+	public void set(T val) {
 		this.val = val;
 
 	}
@@ -64,11 +65,11 @@ public class Var<E>  implements Parameter<E>,Cloneable {
 
 
 
-	public Var<E> clone()
+	public Var<T> clone()
 	{
-		Var<E> clone = null;
+		Var<T> clone = null;
 		try {
-			clone = (Var<E>) super.clone();
+			clone = (Var<T>) super.clone();
 			clone.val = this.val;
 			clone.name = this.name;
 		} catch (CloneNotSupportedException e) {
@@ -88,20 +89,18 @@ public class Var<E>  implements Parameter<E>,Cloneable {
 	}
 
 	@Override
-	public E getIndex(int index) {
+	public T getIndex(int index) {
 		return val;
 	}
 
 	@Override
-	public List<E> getValues() {
-		List<E> ret = new ArrayList<E>();
+	public List<T> getValues() {
+		List<T> ret = new ArrayList<T>();
 		ret.add(val);
 		return ret;
 	}
-	@Override
-	public void setIndex(int index, E newVal) {
-		this.val = (E) newVal;
-	}
+	
+	
 
 	
 

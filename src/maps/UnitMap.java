@@ -1,390 +1,145 @@
 package maps;
 
 import java.util.AbstractList;
+import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
-import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
+import utils.Cloneable;
 
+import space.Space;
 import unitModel.UnitModel;
-import utils.ArrayUtils;
-import coordinates.NullCoordinateException;
-import coordinates.Space;
 
 /**
+ * A unit map is a {@link Map} containing a list of {@link UnitModel}
+ * The {@link UnitModel} are in fact interfaced with {@link Unit} which contains
+ * a list of {@link UnitModel} to handle delays and parallel computations.
+ * 
+ * TODO For now we always init memory, is it a good idea? 
+ * 
  * 
  * @author bchappet
+ * 
  *
 
  */
-public abstract class UnitMap implements Parameter//extends AbstractMap 
+public class UnitMap<T,C> implements Map<T,C> 
 {
 
 	/**Collection of units**/
-	protected AbstractList<Unit> units;
-
-
+	private AbstractList<Unit<T>> units;
+	/**Name of the map**/
+	private String name;
+	
+	/**Space of the map**/
+	private Space<C> space;
+	
+	/**List of parameters**/
+	private List<Parameter<T>> params;
 
 
 	/**
-	 * Share attribute with the unitmodel
+	 * Construct an unitMap and initialize the units List with the unitModel
+	 * the parameters are also shared with the UnitModel
+	 * But only the map can change it
 	 * @param name
+	 * @param space
 	 * @param unitModel
-	 */
-	public UnitMap(String name,UnitModel unitModel)
-	{
-		//TODO
-	}
-
-
-	/**
-	 * Constructor
-	 * @param unitModel (optional) suposed to be constructed without parameters
-	 * @param name
-	 * @param dt
-	 * @param refSpace should be specific for each map (at least the dimension)
 	 * @param params
-	 * @Post : the unitModel attributes will be changed to be shared with this map
 	 */
-	public UnitMap(String name,UnitModel unitModel,Parameter dt, Space space, Parameter... maps) {
-		super(name,dt, space, maps);
-		subUnitMaps = new LinkedList<SubUnitMap>();
-		if(unitModel != null)
-			initUnitModel(unitModel);
+	public UnitMap(String name,Space<C> space,UnitModel<T> unitModel, Parameter<T>... params) {
+		this.space = space;
+		this.name = name;
+		this.units = new ArrayList<Unit<T>>(this.space.getVolume());
+		this.params = new ArrayList<Parameter<T>>(Arrays.asList(params));
+		this.initMemory(unitModel);
+	}
+	
+	
+	private void initMemory(UnitModel<T> um) {
+		for(int i = 0 ; i < this.space.getVolume() ; i++){
+			UnitModel<T> clone = um.clone();
+			this.units.add(new Unit<T>(clone));
+		}
+		
 	}
 
-	public void addSubUnitMap(SubUnitMap sum) {
-		subUnitMaps.add(sum);
 
+	@Override
+	public UnitMap<T,C> clone(){
+		UnitMap<T, C> clone = null;
+		try {
+			clone = (UnitMap<T,C>) super.clone();
+			clone.space = this.space; //shared
+			clone.name = this.name + "_clone"; //different
+			clone.params = (List<Parameter<T>>) ((ArrayList<Parameter<T>>) params).clone(); //Shallow clone 
+			//We have to copy the unit states and history => deep cloning 
+			for(int i  = 0 ; i < clone.units.size() ; i++){
+				clone.units.set(i, this.units.get(i).clone());
+			}
+		} catch (CloneNotSupportedException e) {
+			// supported
+			e.printStackTrace();
+		}
+		return clone;
+	}
+	
+	/**
+	 * For now assume that memory is on
+	 * And parallel is on
+	 */
+	@Override
+	public void compute() {
+		
+		for(Unit<T> u : units){
+			u.compute(params);
+		}
+		for(Unit<T> u : units){
+			u.swap();
+		}
+		
+		
 	}
 
-	protected void initUnitModel(UnitModel um) {
-		this.unitModel = um;
-		this.unitModel.shareAttributesWith(this);
+
+	@Override
+	public T getIndex(int index) {
+		return units.get(index).get();
 	}
 
 
 
 	/**
-	 * Return the activity at the specific index
-	 * Faster if memory
-	 * @param index
-	 * @return
-	 * @throws NullCoordinateException 
+	 * Warning copy current values into an arrayList => slow
 	 */
 	@Override
-	public double getIndex(int index) throws NullCoordinateException
-	{
-		if(isMemory)
-		{
-			//TODO store in an array
-			return units.get(index).get();
+	public List<T> getValues() {
+		List<T> ret = new ArrayList<T>(units.size());
+		for(Unit<T> unit : units){
+			ret.add(unit.get());
 		}
-		else
-		{
-			//NoMemory
-			unitModel.setCoord(this.space.indexToCoord(index));
-			return unitModel.computeActivity();
-		}
-	}
-
-	@Override
-	public double getFast(int ... coord)
-	{
-		//		System.out.println("Name : " + getName() + " isMem : " + isMemory);
-		//		System.out.println("Coord : " + Arrays.toString(coord));
-		int index = this.space.coordToIndex(coord);
-		//		System.out.println("index : " + index);
-		double ret = units.get(index).get();
 		return ret;
 	}
 
-	/**
-	 * 
-	 * @return the order for computation.
-	 * 
-	 */
-	public Iterator<Unit> getComputationIterator()
-	{
-		//		return units.iterator();
 
-		return new FramedSpaceIterator(space,units);
-	}
-
-	/**
-	 * TODO not finished (will be used to change refSpace resolution)
-	 * @param oldSpace
-	 */
-	public void project(Space oldSpace)
-	{
-		if(isMemory)
-		{
-			try{
-				//Create a new generic collection
-				AbstractList<Unit> newUnits = units.getClass().newInstance();
-
-
-				for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
-				{
-					Double[] coord = space.indexToCoord(i);
-					Unit u = units.get(oldSpace.coordToIndex(coord));
-					u.setCoord(coord); //warning : the buffered UnitModel will have different coordinates
-					newUnits.add(u);
-				}
-
-
-				System.exit(-1);
-			} catch (InstantiationException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			} catch (NullCoordinateException e) {
-				e.printStackTrace();
-				System.exit(-1);
-			}
-		}
-	}
-
-	protected boolean inComputation = false;//lock to avoid reeentrant computation
 	@Override
-	public void compute(int index) {
-		if(!inComputation){
-			inComputation = true;
-
-			for(Parameter p : params){
-				p.compute(index);
-			}
-			if(isMemory){
-				try{
-					this.units.get(index).compute();
-				}catch(IndexOutOfBoundsException e){
-					this.units.get(0).compute();
-					//TODO handle space differences
-				}
-			}
-			inComputation = false;
-		}
-
-	}
-
-
-
-	/**
-	 * Return the activity at the specific continuous coord
-	 * Faster if noMemory
-	 * @param Double ... coordinates
-	 * @return the activity at the specific continuous coord
-	 * @throws NullCoordinateException if a coordinate was null while we excpected a value
-	 */
-	public double get(Double... coord) throws NullCoordinateException
-	{
-		//TODO maybe we should handle here parrallel vs online
-		/*if(parallel delay = 1) else delay = 0, getDelay(delay,coord)*/
-		//		System.err.println("Name : " + name);
-		//		System.err.println(Arrays.toString(coord));
-		//		System.err.println(space);
-		return getDelay(0,coord);
-	}
-
-	public Var getVar(Double ... coord){
-		if(isMemory)
-		{
-			int index = this.space.coordToIndex(coord);
-			return units.get(index).getVar();
-		}
-		else
-		{
-			//NoMemory
-			unitModel.setCoord(coord);
-			double res  = unitModel.computeActivity();
-			unitModel.set(res);
-			return unitModel.getActivity();
-		}
+	public Space<C> getSpace() {
+		return space;
 	}
 
 	@Override
-	public double getDelay(int delay, Double... coord) throws NullCoordinateException{
-
-
-		if(isMemory)
-		{
-			if(isTrajectory){
-				return units.get(0).get(delay);
-			}else{
-				//			System.err.println("Coor : " + Arrays.toString(coord));
-				//			System.err.println("Nom : " + this.name + ". space : " + this.space);
-				int index = this.space.coordToIndex(coord);//TODO check it to avoid the previous test
-				double ret = units.get(index).get(delay);
-				return ret;
-			}
-		}
-		else
-		{
-			//NoMemory
-			unitModel.setCoord(coord);
-
-			return unitModel.computeActivity();
-		}
-
+	public String getName() {
+		return name;
 	}
 
 	@Override
-	public double getDelay(int delay, int index) {
-		if(isMemory)
-		{
-			//System.err.println("Nom : " + this.name + ". space : " + this.space);
-			double ret = units.get(index).get(delay);
-			return ret;
-		}
-		else
-		{
-			//NoMemory
-			unitModel.setCoord(space.indexToCoord(index));
-			return unitModel.computeActivity();
-		}
+	public void addParameters(Parameter<T>... params) {
+		this.params.addAll(Arrays.asList(params));
+		
 	}
 
 	@Override
-	public void addMemories(int nb,UnitModel... historic) throws NullCoordinateException{
-		if(!isMemory)
-			constructMemory();
-
-		for(Unit unit : units)
-		{
-			unit.addMemories(nb,historic);
-		}
+	public Parameter<T> setParameter(int index, Parameter<T> newParam) {
+		return this.params.set(index, newParam);
 	}
-
-	@Override
-	public void toParallel() throws NullCoordinateException {
-		if(!isMemory)
-			constructMemory();
-
-		for(Unit unit : units)
-			unit.toParallel();
-
-	}
-
-	@Override
-	public void onLine() throws NullCoordinateException {
-		if(!isMemory)
-			constructMemory();
-
-		for(Unit unit : units)
-			unit.onLine();
-
-	}
-
-
-	public void reset()  {
-		super.reset();
-		if(isMemory && !isStatic){
-			for(Unit u : units)
-				u.reset();
-		}
-
-	}
-
-	public void resetState(){
-		super.resetState();
-		if(isMemory && !isStatic){
-			for(Unit u : units)
-				u.resetState();
-		}
-	}
-
-	public UnitMap clone() 
-	{
-		UnitMap clone =
-				(UnitMap) super.clone();
-		clone.unitModel = unitModel.clone();
-
-		return clone;
-	}
-
-	/**
-	 * Return the unit at the specific index
-	 * @param index
-	 * @return the unit at the index
-	 */
-	public Unit getUnit(int index) {
-		return units.get(index);
-	}
-
-
-	public UnitModel getUnitModel() {
-		return unitModel;
-	}
-
-	public String toString()
-	{
-		return this.name;
-	}
-
-	/**
-	 * Return a string containing the map caracteristics and values (if memory)
-	 * @throws NullCoordinateException 
-	 */
-	@Override
-	public String display2D() throws NullCoordinateException {
-		try{
-		String string = "";
-		if(unitModel != null)
-			string += "Unit Model : " + unitModel.getClass() + "\n";
-		string += super.display2D();
-		return string;
-		}catch(Exception e){
-			return "exception " + this.get();
-		}
-	}	
-
-	public double[] getValues() {
-		double[] res = new double[units.size()];
-		for(int i = 0 ; i < res.length ; i++)
-		{
-			res[i] = units.get(i).get();
-		}
-		return res;
-	}
-
-
-	public List<SubUnitMap> getSubUnitMaps() {
-		return subUnitMaps;
-	}
-
-	public void setIndex(int index, double val) {
-		units.get(index).getUnitModel().set(val);
-
-	}
-
-	@Override
-	public void delete(){
-		super.delete();
-		if(isMemory){
-			for(Unit u : units){
-				u.delete();
-			}
-		}
-
-		for(SubUnitMap sm : subUnitMaps){
-			sm.delete();
-		}
-
-		unitModel = null;
-		units = null;
-		subUnitMaps = null;
-
-	}
-
-
-
-
-
-
-
-
 
 }

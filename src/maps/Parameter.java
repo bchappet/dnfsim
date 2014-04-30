@@ -1,7 +1,7 @@
 package maps;
 
 import java.util.List;
-
+import utils.Cloneable;
 import coordinates.NullCoordinateException;
 
 /**
@@ -45,7 +45,7 @@ import coordinates.NullCoordinateException;
  * @author bchappet
  * 
  */
-public interface Parameter<E> extends Cloneable {
+public interface Parameter<T> extends Cloneable {
 
 	
 
@@ -57,17 +57,8 @@ public interface Parameter<E> extends Cloneable {
 	 * @return
 	 * @throws NullCoordinateException
 	 */
-	public E getIndex(int index);
+	public T getIndex(int index);
 
-
-	/**
-	 * Set value at specific index
-	 * 
-	 * @param index
-	 * @param new Val
-	 */
-	public void setIndex(int index, E newVal);
-	
 
 	/**
 	 * Construct an array with each values of the memory Usefull to handle
@@ -75,12 +66,15 @@ public interface Parameter<E> extends Cloneable {
 	 * 
 	 * @return
 	 */
-	public abstract List<E> getValues();
+	public abstract List<T> getValues();
 
 
 	
-
-	public Parameter<E> clone();
+	/**
+	 * 
+	 * @return
+	 */
+	public Parameter<T> clone();
 
 
 	

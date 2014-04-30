@@ -1,4 +1,4 @@
-package mapTests;
+package mapsTests;
 
 import static org.junit.Assert.assertEquals;
 import maps.Var;

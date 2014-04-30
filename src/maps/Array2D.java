@@ -21,12 +21,5 @@ public interface Array2D<E> {
 	 */
 	public E getFast(int x, int y);
 	
-	/**
-	 * Set the element at coordinate x,y
-	 * @param x
-	 * @param y
-	 * @param newVal
-	 */
-	public void setFast(int x, int y,E newVal);
 
 }

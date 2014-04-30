@@ -54,8 +54,7 @@ public class Coord2D<T> extends Coord<T> {
 			throw new IndexOutOfBoundsException("index " + index + " is not available for a two dimentional coordinate.");
 	}
 	
-	@Override
-	public void setIndex(int index, T newVal) {
+	public void set(int index, T newVal) {
 		if(index == Space2D.X)
 			x = newVal;
 		else if(index == Space2D.Y)

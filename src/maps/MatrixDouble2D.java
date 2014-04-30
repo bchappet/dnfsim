@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import space.Coord2D;
-import space.Space;
 import space.Space2D;
 import utils.ArrayUtils;
 
@@ -22,7 +21,7 @@ import utils.ArrayUtils;
  *
  */
 @SuppressWarnings("serial")
-public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map<Double,Integer>,Array2D<Double> {
+public class MatrixDouble2D extends Jama.Matrix implements Map<Double,Integer>,Array2D<Double> {
 
 	/**
 	 * Name of the matrix
@@ -34,14 +33,20 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	 */
 	private Space2D space;
 
+	
+	/**
+	 * List of accessible parameter
+	 */
+	private List<Parameter<Double>> params;
+	
 	/**
 	 * Construct a matrix and init a discrete 2D  space to handle it
 	 * (x -> rowWidth = values[0].length and y -> columnWidth = values[].length)
 	 * @param name
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,double[][] values){
-		this(name,new Space2D(values[0].length,values.length),values);
+	public MatrixDouble2D(String name,double[][] values,Parameter<Double>... params){
+		this(name,new Space2D(values[0].length,values.length),values,params);
 	}
 	/**
 	 * Construct a matrix with the specified space
@@ -49,10 +54,11 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	 * @param space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Space2D space,double[][] values){
+	public MatrixDouble2D(String name,Space2D space,double[][] values,Parameter<Double>... params){
 		super(values);
 		this.name = name;
 		this.space =space;
+		this.params = new ArrayList<Parameter<Double>>(Arrays.asList(params));
 	}
 	/**
 	 * Construct a matrix with the specified space and specified value
@@ -60,10 +66,11 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	 * @param space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Space2D space,double cst){
+	public MatrixDouble2D(String name,Space2D space,double cst,Parameter<Double>... params){
 		super(space.getDimensions()[Space2D.Y],space.getDimensions()[Space2D.X],cst);
 		this.name = name;
 		this.space =space;
+		this.params = new ArrayList<Parameter<Double>>(Arrays.asList(params));
 	}
 	
 	/**
@@ -71,8 +78,8 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	 * @param name
 	 * @param space
 	 */
-	public MatrixDouble2D(String name,Space2D space){
-		this(name,space,0.);
+	public MatrixDouble2D(String name,Space2D space,Parameter<Double>... params){
+		this(name,space,0.,params);
 	}
 	
 	@Override
@@ -111,18 +118,6 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	}
 
 
-	@Override
-	public void setIndex(int index, Double newVal) {
-		Coord2D<Integer> coord = space.indexToCoord(index);
-		this.setFast(coord.x, coord.y, newVal);
-		
-	}
-	
-	@Override
-	public void setFast(int x, int y, Double newVal) {
-		this.set(y, x, newVal);
-	}
-
 
 
 	/**
@@ -137,9 +132,7 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 
 	@Override
 	public MatrixDouble2D clone(){
-		 MatrixDouble2D clone = ( MatrixDouble2D)super.clone();
-		 clone.name = this.name+"_clone";
-		 clone.space = this.space.clone();
+		 MatrixDouble2D clone = new MatrixDouble2D(this.name+"_clone",this.space,this.getArrayCopy());
 		 return clone;
 	}
 	
@@ -175,6 +168,14 @@ public class MatrixDouble2D extends Jama.Matrix implements Parameter<Double>,Map
 	@Override
 	public String getName() {
 		return this.name;
+	}
+	@Override
+	public void addParameters(Parameter<Double>... params) {
+		this.params.addAll(Arrays.asList(params));
+	}
+	@Override
+	public Parameter<Double> setParameter(int index, Parameter<Double> newParam) {
+		return this.params.set(index, newParam);
 	}
 	
 	

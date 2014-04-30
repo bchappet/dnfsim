@@ -1,0 +1,36 @@
+#Started on 28/04/2014
+
+28/04/2014
+~~Space hierarchy cleaned
+++Coord
+--Leaf concept replaced by boolean in methods to avoid recursive call
+--UnitParameter
+--Delete UnitModel from AbstractUnitMap, it will now be the first index of the list
+--Delete the possibility to give param to the map or the unit model.
+	It will be the unitModel only
+--Delete parameterUser
+
+--Now the controller update every thing => dt is inside  the controler, static also
+
+--getDelay will be in interface delayable
+
+TODO
+**implémenter directement JAMA dans matrix
+**penser a une architecture pour simuler hardware modules (subUnitMap.. pas terrible)
+**C'est débile de init memory alors que les calculs devraient se faire en continuous
+en fait il vaudrai mieux avoir une mémoire uniquement 
+		-Pour l'affichage
+		-Si on accede plusieur fois à une valeur
+			Ex input: on l'affiche => garde en mémoire les val discretes
+						mais pour les calculs on pourrai préférer les vals exactes
+						sauf que c'est tjr aux même coord continues qui corrsponden
+						aux coord discretes donc c'est bon.
+		-Par contre: ya t'il un moment ou on veut des valeur à des coord diff?
+			@TODO
+**Je me souvien qu'il y avait un problème avec les time step faire des tests précis
+pour les diagnostiquer au fur et à mesure...
+**Verifier le concept de trajectoire
+**Utiliser des outils de script
+
+**Respecter MVC
+	Script = controleur => decide de l'ordre de mise à jour des map
