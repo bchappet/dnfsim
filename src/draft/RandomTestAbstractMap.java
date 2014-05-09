@@ -1,22 +1,21 @@
 package draft;
 
-import gui.Printer;
-
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import maps.AbstractMap;
-import maps.Map;
-import maps.Parameter;
-import maps.Var;
-import model.Model;
-import model.ModelCNFT;
-import unitModel.RandTrajUnitModel;
-import console.CommandLineFormatException;
-import coordinates.DefaultRoundedSpace;
-import coordinates.NullCoordinateException;
-import coordinates.Space;
+import main.java.console.CommandLineFormatException;
+import main.java.coordinates.DefaultRoundedSpace;
+import main.java.coordinates.NullCoordinateException;
+import main.java.coordinates.Space;
+import main.java.gui.Printer;
+import main.java.maps.AbstractMap;
+import main.java.maps.Map;
+import main.java.maps.Parameter;
+import main.java.maps.Var;
+import main.java.model.Model;
+import main.java.model.ModelCNFT;
+import main.java.unitModel.RandTrajUnitModel;
 
 /**
  * Map de test pour remplir l'Ã©numÃ©ration InputsMaps
@@ -33,14 +32,14 @@ public class RandomTestAbstractMap extends Map {
 		super(name,new RandTrajUnitModel(dt, space, new Var(0),
 				params[NOISE_AMP]), dt, space, params);
 		// Construct noise map
-		//		UnitModel noise = new RandTrajUnitModel(dt, space, new Var(0),
+		//		UnitModel noise = new RandTrajUnitModel(dt, main.java.space, new Var(0),
 		//				params[NOISE_AMP]);
 		// Map mNoise = new Map("Noise", noise);
 		// mNoise.constructMemory(); // otherwise the noise is changed at each
 		// // computation step
-		// // Construct the input as a sum of theses params
-		// unitModel = new Sum(dt, space, mNoise);
-		//		unitModel = noise;
+		// // Construct the main.java.input as a sum of theses params
+		// main.java.unitModel = new Sum(dt, main.java.space, mNoise);
+		//		main.java.unitModel = noise;
 	}
 	
 	public void compute(){
