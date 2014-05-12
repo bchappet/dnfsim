@@ -23,8 +23,8 @@ public class SpaceDisplayNode extends DisplayNode {
 		this.space = space;
 	}
 
-	public void valueChanged(ParameterView parameterView) {
-		parameterView.setDisplayedParam("Space selected" ,
+	public void valueChanged(DetailsPanel detailsPanel) {
+		detailsPanel.setDisplayedParam("Space selected" ,
 				new SpaceHeaderPanel(gui, (Space)linked),
 				this.getParamPanel());
 	}

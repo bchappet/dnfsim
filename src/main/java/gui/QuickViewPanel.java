@@ -106,7 +106,7 @@ public   class QuickViewPanel extends JPanelDB  implements Updated {
 			if (button == MouseEvent.BUTTON3) //Left click
 			{
 
-				final DynamicParamsView view = gui.getDynamicParamView();
+				final ParameterCanvaPanel view = gui.getDynamicParamView();
 				if(!pane.isDisplayed)
 				{
 

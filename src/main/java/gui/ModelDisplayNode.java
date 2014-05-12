@@ -12,10 +12,10 @@ public class ModelDisplayNode extends DisplayNode implements Suscriber {
 		linked.addSuscriber(this);
 	}
 	
-	public void valueChanged(ParameterView parameterView) {
+	public void valueChanged(DetailsPanel detailsPanel) {
 		
 		gui.displayModel((Model)linked);
-		parameterView.setDisplayedParam("Model selected" ,
+		detailsPanel.setDisplayedParam("Model selected" ,
 		new ModelHeaderPanel(gui,(Model) linked),
 		super.getParamPanel());
 	}

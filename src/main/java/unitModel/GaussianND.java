@@ -3,13 +3,16 @@ package main.java.unitModel;
 import static java.lang.Math.abs;
 import static java.lang.Math.exp;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.List;
 
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
+import main.java.space.Space;
+import main.java.space.WrappableDouble2DSpace;
 import main.java.maps.Parameter;
 import main.java.maps.Track;
 import main.java.maps.Var;
+import main.java.space.Coord;
 import main.resources.utils.ArrayUtils;
 
 /**
@@ -17,45 +20,28 @@ import main.resources.utils.ArrayUtils;
  * @author bchappet
  *
  */
-public class GaussianND extends UnitModel implements Track{
-	public static final int INTENSITY = 0;
-	public static final int WIDTH = 1;
-	public static final int COORDS = 2;
+public class GaussianND extends UnitModel<Double> implements Track{
+	public static final int SPACE = 0;
+	public static final int INTENSITY = 1;
+	public static final int WIDTH = 2;
+	public static final int COORDS = 3;
 	
-	protected Double[] saveCenter;
-	protected Double[] saveDim;
 
-	public GaussianND(Var dt, Space space,Parameter intensity,Parameter width,
-			Parameter ... center) {
-		super(dt, space,ArrayUtils.concat(new Parameter[]{intensity,width},center));
-		saveCenter = new Double[space.getDim()];
-		saveDim = new Double[space.getDim()];
+	public GaussianND(Double init) {
+		super(init);
 	}
-
-
+	
 	@Override
-	public double compute() throws NullCoordinateException {
-		//Save center and dim
+	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
 		
 		
-		
-		for(int i = 0 ; i < saveCenter.length ; i++)
-			saveCenter[i] = params.getIndex(COORDS+i).get();
-		double width = params.getIndex(WIDTH).get();
-		for(int i = 0 ; i < saveDim.length ; i++)
-			saveDim[i]	=  width;
-		
-//		if(saveCenter[1] >0.0001 ){
-//			System.out.println("Inside::Compute " +  Arrays.toString(saveCenter) + " time : " + time.get());
-//		}
-		
-		
-		
+		Space space = (Space) params.get(SPACE);
 		//Translate the coor in the center centered refSpace
 		Double[] translation = new Double[params.size()-COORDS];//Translated main.java.coordinates
+		Coord<Double> coord = ((WrappableDouble2DSpace) space).indexToCoordContinuous(index);//TODO more generic
 		for(int i = 0 ; i < translation.length; i++){
 //			System.out.println("coor : " + i + " = " + coord[i]);
-			translation[i] = abs(coord[i]-params.getIndex(COORDS+i).getIndex(coord));
+			translation[i] = abs(coord.getIndex(i)-(Double)params.get(COORDS+i).getIndex(index));
 		}
 		
 		//Wrap the coor if needed
@@ -86,6 +72,9 @@ public class GaussianND extends UnitModel implements Track{
 	public Double[] getDimension() throws NullCoordinateException {
 		return saveDim;
 	}
+
+
+	
 
 	
 

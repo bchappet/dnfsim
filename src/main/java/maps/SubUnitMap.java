@@ -46,7 +46,7 @@ public class SubUnitMap extends UnitMap  {
 		else
 		{
 			//NoMemory TODO compatible?
-			map.unitModel.setCoord(this.space.indexToCoord(index));
+			map.unitModel.setCoord(this.space.indexToCoordInt(index));
 			return map.unitModel.getSubUnit(subUnitIndex).computeActivity();
 		}
 	}
@@ -54,7 +54,7 @@ public class SubUnitMap extends UnitMap  {
 	@Override
 	public double getFast(int ... coord)
 	{
-		int index = this.space.coordToIndex(coord);
+		int index = this.space.coordIntToIndex(coord);
 		double ret = map.units.get(index).getSubUnit(subUnitIndex).get();
 		return ret;
 	}
@@ -81,7 +81,7 @@ public class SubUnitMap extends UnitMap  {
 	public Var getVar(Double ... coord){
 		if(map.isMemory)
 		{
-			int index = this.space.coordToIndex(coord);
+			int index = this.space.coordIntToIndex(coord);
 			return map.units.get(index).getSubUnit(subUnitIndex).getVar();
 		}
 		else
@@ -100,7 +100,7 @@ public class SubUnitMap extends UnitMap  {
 		if(map.isMemory)
 		{
 			//System.err.println("Nom : " + this.name + ". main.java.space : " + this.space);
-			int index = this.space.coordToIndex(coord);
+			int index = this.space.coordIntToIndex(coord);
 			double ret = map.units.get(index).getSubUnit(subUnitIndex,delay).get();
 			return ret;
 		}

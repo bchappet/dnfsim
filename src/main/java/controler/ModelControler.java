@@ -7,28 +7,32 @@ import java.util.List;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
-import main.java.maps.AbstractMap;
 import main.java.maps.BadPathException;
 import main.java.maps.HasChildren;
-import main.java.maps.Map;
 import main.java.maps.Parameter;
-import main.java.maps.Var;
 import main.java.model.Model;
 import main.java.statistics.Characteristics;
 import main.java.statistics.Statistics;
+import main.java.view.ModelView;
 import main.java.view.ModelViewAdapter;
+import main.java.view.ParamViewAdapter;
+import main.java.view.ParameterView;
 
 public class ModelControler extends ParameterControler {
 	private ParameterControlerTree tree;
-	private CommandLine command;
 	
 
-	public ModelControler(Model model,CommandLine command) {
-		super(model,new ModelViewAdapter(model));
-		this.command = command;
+	public ModelControler(Model model) {
+		super(model);
 		 tree = new ParameterControlerTree(this);
 		 contructTree((HasChildren) model,this, tree);
 	}
+	
+	@Override
+	protected ParamViewAdapter createParamViewAdapter(ParameterView view) {
+		return new ModelViewAdapter(this, (ModelView) view);
+	}
+	
 	
 	/**
 	 * Construct the tree and avoid recursivity //TODO register on tree change
@@ -37,14 +41,14 @@ public class ModelControler extends ParameterControler {
 	 * @param tree
 	 */
 	private List<HasChildren> alreadySeen = new LinkedList<HasChildren>(); //save the already registered map to avoid recursivity
-	public void contructTree(HasChildren node,ParameterControler rootPc,ParameterControlerTree tree){
+	private void contructTree(HasChildren node,ParameterControler rootPc,ParameterControlerTree tree){
 		this.alreadySeen.add(node);
 		for(int i  = 0 ; i < node.getParameters().size() ; i++){
 			
 			Parameter p = (Parameter) node.getParameters().get(i);
+			ParameterControler pc = ParameterControlerFactory.getControler(p);
+			rootPc.addChild(pc);
 			if(p instanceof HasChildren && !this.alreadySeen.contains((HasChildren)p)){
-				ParameterControler pc = ParameterControlerFactory.getControler(p);
-				rootPc.addChild(pc);
 				contructTree((HasChildren) p,pc,tree);
 			}
 			
@@ -104,77 +108,13 @@ public class ModelControler extends ParameterControler {
 //		}
 	}
 
-	public void simulate(BigDecimal time) {
+	public void reset() {
+		//TODO
 		// TODO Auto-generated method stub
 		
-	}
-
-	public void simulateNSave(BigDecimal time) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public Characteristics getCharac() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Statistics getStatistics() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public void saveStats(String string) throws IOException {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public String saveMaps(String value)throws IOException {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	
-
-	public void play() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void firstComputation() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void step() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void reset() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void pause() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void exit() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	/**
-	 * Recursively look for a parameter
-	 * 
-	 * @param keyName
-	 * @return
-	 */
-	public Parameter getParameter(String keyName) {
-		return null;
-	}
 //		Parameter ret = null;
 //		int i = 0;
 //		// Explore map tree
@@ -189,7 +129,7 @@ public class ModelControler extends ParameterControler {
 //			}
 //			if (ret == null) {
 //				// explore stat params
-//				ret = stats.getParam(keyName);
+//				ret = statsControler.getParam(keyName);
 //				if (ret == null) {
 //					// Explore charac params
 //					ret = charac.getParam(keyName);
@@ -198,6 +138,8 @@ public class ModelControler extends ParameterControler {
 //		}
 //		return ret;
 //	}
+	
+
 	
 
 	

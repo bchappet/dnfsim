@@ -12,15 +12,13 @@ import java.util.LinkedList;
 import java.util.List;
 
 import main.java.console.CNFTCommandLine;
+import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
-import main.java.coordinates.DefaultRoundedSpace;
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
+import main.java.space.Space;
 import main.java.gui.Suscriber;
 import main.java.maps.AbstractMap;
 import main.java.maps.ConvolutionMatrix2D;
 import main.java.maps.InfiniteDt;
-import main.java.maps.Leaf;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
@@ -56,6 +54,7 @@ import draft.RandomTestAbstractMap;
 /**
  * Standard CNFT equation main.java.model
  * @author bchappet
+ * @version 12/05/2014
  *
  */
 public class ModelCNFT extends Model{
@@ -91,13 +90,6 @@ public class ModelCNFT extends Model{
 
 	protected List<AbstractMap> trackable;
 
-	/**The two type of refSpace used in the main.java.unitModel**/
-	protected Space refSpace;
-	protected Space space2d;//2 dim refSpace
-	protected Space noDimSpace;//"no dim" refSpace : only one value
-	protected Space extendedConvSpace; //For the lateral weight (if no wrap : res*=2) (convolution kernel)
-	protected Space extendedComputationSpace;//Frame of computation if no wrap
-	protected Space extendedFramedSpace; //For no wrap => no computation outside the frame
 
 
 
@@ -106,48 +98,45 @@ public class ModelCNFT extends Model{
 		super(name);
 		this.trackable = new LinkedList<AbstractMap>();
 	}
-
-	protected void initializeCommandLine(String contextScript) throws CommandLineFormatException {
-		command = new CNFTCommandLine(contextScript, this);
-		this.refSpace = new DefaultRoundedSpace(
-				command.get(CNFTCommandLine.RESOLUTION), 2,
-				command.getBool(CNFTCommandLine.WRAP));
-
+	
+	public CommandLine constructCommandLine() throws CommandLineFormatException{
+		return new CNFTCommandLine();
 	}
 
+
 	@Override
-	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
+	protected void initializeParameters() throws CommandLineFormatException{
 
 		/*Here we initialize some main.java.space which will be used later**/
-		noDimSpace = refSpace.clone(); //Space with "0" dimension for single value map
-		noDimSpace.setDimension(new int[]{0,0});
-
-		space2d = refSpace.clone();//Standard 2D main.java.space for the 2D map 
-		space2d.setDimension(new int[]{1,1});
-
-
-		double extensionConvolution = 1; //extension for the weight map if we don't wrap
-		double extensionComputation = 1; //More computation main.java.space if we wrap
-		if(!refSpace.isWrap()){
-			extensionConvolution = 2; //we need a kernel of 2 time the map
-			extensionComputation = 1.2; //enough to diminish border effects
-
-		}
-
-
-		//If no wrap we may want to compute outside the borders
-		//-0.6,0.6 (instead of -0.5,0.5) main.java.space
-		extendedComputationSpace = space2d.extend(extensionComputation,false);
-		//System.out.println(extendedComputationSpace.getResolution());
-		//Extended main.java.space is a -1.2,1.2 (instead of -0.5,0.5) main.java.space
-		// used for lateral weights map in case of non wrapped convolution
-		extendedConvSpace = extendedComputationSpace.extend(extensionConvolution,false);
-		//System.out.println(extendedConvSpace.getResolution());
-
-		//If no wrap, we are using this main.java.space to have value outside the frame
-		//but we do not compute outside the frame
-		//the frame state that we don't want to compute outside the frame, for the main.java.input for instance
-		extendedFramedSpace = space2d.extend(extensionComputation,true);
+//		noDimSpace = refSpace.clone(); //Space with "0" dimension for single value map
+//		noDimSpace.setDimension(new int[]{0,0});
+//
+//		space2d = refSpace.clone();//Standard 2D main.java.space for the 2D map 
+//		space2d.setDimension(new int[]{1,1});
+//
+//
+//		double extensionConvolution = 1; //extension for the weight map if we don't wrap
+//		double extensionComputation = 1; //More computation main.java.space if we wrap
+//		if(!refSpace.isWrap()){
+//			extensionConvolution = 2; //we need a kernel of 2 time the map
+//			extensionComputation = 1.2; //enough to diminish border effects
+//
+//		}
+//
+//
+//		//If no wrap we may want to compute outside the borders
+//		//-0.6,0.6 (instead of -0.5,0.5) main.java.space
+//		extendedComputationSpace = space2d.extend(extensionComputation,false);
+//		//System.out.println(extendedComputationSpace.getResolution());
+//		//Extended main.java.space is a -1.2,1.2 (instead of -0.5,0.5) main.java.space
+//		// used for lateral weights map in case of non wrapped convolution
+//		extendedConvSpace = extendedComputationSpace.extend(extensionConvolution,false);
+//		//System.out.println(extendedConvSpace.getResolution());
+//
+//		//If no wrap, we are using this main.java.space to have value outside the frame
+//		//but we do not compute outside the frame
+//		//the frame state that we don't want to compute outside the frame, for the main.java.input for instance
+//		extendedFramedSpace = space2d.extend(extensionComputation,true);
 
 
 		//Displayed parameter
@@ -162,7 +151,7 @@ public class ModelCNFT extends Model{
 
 
 		initDefaultInput();
-		initLateralWeightParams(extendedConvSpace);
+		initLateralWeightParams();
 		initModel();
 	}
 
@@ -183,9 +172,9 @@ public class ModelCNFT extends Model{
 	public Parameter getLateralWeights(String name,Var<BigDecimal> dt,Space extendedSpace,
 			Parameter ia,Parameter wa,Parameter ib,Parameter wb) throws CommandLineFormatException 
 			{
-		Map cnfta = new UnitMap(name + "_A",dt, extendedSpace,new GaussianND(), ia, wa, new Var(0),new Var(0));
-		Map cnftb = new UnitMap(name + "_B",dt, extendedSpace,new GaussianND(), ib, wb, new Var(0),new Var(0));
-		Map sum = new UnitMap(name,new InfiniteDt(),extendedSpace,new SomUM(),cnfta,cnftb);
+		Map cnfta = new UnitMap(name + "_A",dt, extendedSpace,new GaussianND(0d), ia, wa, new Var(0),new Var(0));
+		Map cnftb = new UnitMap(name + "_B",dt, extendedSpace,new GaussianND(0d), ib, wb, new Var(0),new Var(0));
+		Map sum = new UnitMap(name,new InfiniteDt(),extendedSpace,new SomUM(0d),cnfta,cnftb);
 		return sum;
 			}
 
@@ -199,9 +188,11 @@ public class ModelCNFT extends Model{
 	 * @throws CloneNotSupportedException
 	 * @throws NullCoordinateException 
 	 */
-	protected void initLateralWeightParams(final Space extendedSpace) 
+	protected void initLateralWeightParams() 
 			throws CommandLineFormatException
 			{
+		
+		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
 
 		Var<String> equationWeights = new Var<String>("$1/$2**2*40**2/$3");
 		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),equationWeights,pa,extendedSpace.getSimulationSpace().getResolution(),alphaP);
@@ -221,7 +212,7 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException 
 	 * @throws CloneNotSupportedException 
 	 */
-	protected void initModel() throws CommandLineFormatException, NullCoordinateException
+	protected void initModel() throws CommandLineFormatException
 	{
 		Var vdt = command.get(CNFTCommandLine.DT); //default dt
 		initLateralWeights();
@@ -234,7 +225,7 @@ public class ModelCNFT extends Model{
 		this.root = potential;
 	}
 
-	protected void initLateralWeights() throws NullCoordinateException, CommandLineFormatException {
+	protected void initLateralWeights() throws  CommandLineFormatException {
 		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedConvSpace, hpA, pa, hpB, pb);
 	}
 	/**
@@ -247,7 +238,7 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException 
 	 * @throws CloneNotSupportedException 
 	 */
-	protected void initDefaultInput() throws CommandLineFormatException, NullCoordinateException
+	protected void initDefaultInput() throws CommandLineFormatException
 	{
 
 		//Construct noise map

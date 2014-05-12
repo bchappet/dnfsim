@@ -42,13 +42,13 @@ public class Space2D extends Space<Integer> {
 	}
 	
 	@Override
-	public Coord2D<Integer> indexToCoord(int index){
+	public Coord2D<Integer> indexToCoordInt(int index){
 		int dimX = this.getDimX();
 		return new Coord2D<Integer>(index % dimX,index/dimX);
 		
 	}
 	@Override
-	public int coordToIndex(Coord<Integer> coord){
+	public int coordIntToIndex(Coord<Integer> coord){
 		int dimX = this.getDimX();
 		return coord.getIndex(X)+ coord.getIndex(Y)*dimX;
 	}
@@ -70,6 +70,21 @@ public class Space2D extends Space<Integer> {
 	public Space2D clone(){
 		Space2D clone = (Space2D) super.clone();
 		return clone;
+	}
+
+	@Override
+	public Coord<Integer> indexToCoord(int index) {
+		return indexToCoordInt(index);
+	}
+
+	@Override
+	public int coordToIndex(Coord<Integer> coord) {
+		return coordIntToIndex(coord);
+	}
+
+	@Override
+	public Coord<Integer> wrapCoordInt(Coord<Integer> coord) {
+		return wrapCoord(coord);
 	}
 
 }

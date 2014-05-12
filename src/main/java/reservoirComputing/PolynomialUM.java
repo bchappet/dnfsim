@@ -41,7 +41,7 @@ public class PolynomialUM extends UnitModel<Double> {
 //				System.out.println("index : " +c.getSpace().coordToIndex(new Coord<Integer>(i,j)));
 //				System.out.println("delay : " + d);
 //				
-				res += c.getIndex(c.getSpace().coordToIndex(new Coord<Integer>(i,j))) * Math.pow(u.getIndex(index), i) * Math.pow(u.getDelay(index, d), j);
+				res += c.getIndex(c.getSpace().coordIntToIndex(new Coord<Integer>(i,j))) * Math.pow(u.getIndex(index), i) * Math.pow(u.getDelay(index, d), j);
 			}
 		}
 		

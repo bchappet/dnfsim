@@ -60,7 +60,7 @@ public class BufferedNeuronUMCAPRNG extends BufferedNeuronUM {
 				@Override
 				protected boolean testProba(double proba) {
 					
-					 PRNGWrapperUM um = (PRNGWrapperUM) map.getUnit(space.coordToIndex(neuron.coord)).getUnitModel();
+					 PRNGWrapperUM um = (PRNGWrapperUM) map.getUnit(space.coordIntToIndex(neuron.coord)).getUnitModel();
 					 double rand = um.getRandomNumber();
 					 return rand <= proba;
 				}

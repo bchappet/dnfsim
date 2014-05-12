@@ -2,6 +2,7 @@ package main.java.view;
 
 import java.math.BigDecimal;
 
+import main.java.controler.ParameterControler;
 import main.java.gui.ColorMap;
 import main.java.maps.Array2D;
 import main.java.maps.Parameter;
@@ -18,13 +19,10 @@ import main.resources.utils.ArrayUtils;
 public class Array2DViewAdapter extends ParamViewAdapter {
 	
 
-	public Array2DViewAdapter(Parameter param,ParameterView paramView) {
+	public Array2DViewAdapter(ParameterControler param,ParameterView paramView) {
 		super(param,paramView);
 	}
 	
-	public Array2DViewAdapter(Parameter param){
-		super(param);
-	}
 	
 	@Override
 	public void updateView(BigDecimal time){
@@ -47,9 +45,11 @@ public class Array2DViewAdapter extends ParamViewAdapter {
 	}
 
 	@Override
-	protected ParameterView getDefaultView(Parameter param) {
+	protected  ParameterView getDefaultView(ParameterControler param) {
 		return new View2D(ArrayUtils.toPrimitiveArray(((Array2D<Number>)param).get2DArray()));
 	}
+
+
 	
 	
 

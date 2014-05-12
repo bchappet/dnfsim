@@ -10,8 +10,8 @@ public class View1D extends View2D {
 	private int current;
 	
 
-	public View1D(double[] initialState,ColorMap colorMap) {
-		super(new double[10][initialState.length],colorMap);
+	public View1D(String name,double[] initialState,ColorMap colorMap) {
+		super(name,new double[10][initialState.length],colorMap);
 		this.current = 0;
 		this.buffer[current] = initialState;
 	}

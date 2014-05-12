@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import main.java.coordinates.NullCoordinateException;
+import main.java.maps.Computable;
 import main.java.maps.HasChildren;
 import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
@@ -22,9 +23,10 @@ import main.java.plot.WTrace;
  * @author bchappet
  *
  */
-public class Statistics implements HasChildren<Parameter>{
+public class Statistics implements HasChildren<Parameter>,Computable{
 
 
+	
 	/** Name of statistic fields**/
 	
 	public static final String COMPTIME = "CompTime";
@@ -43,30 +45,35 @@ public class Statistics implements HasChildren<Parameter>{
 	protected List<Parameter> paramNodes; 
 
 	/**Computational time**/
-	protected Var<BigDecimal> compTime;
+	protected Var<Long> compTime;
 	/**Last time of computation**/
 	protected long lastTime;
 
 
-	/**Name of the node**/
 	protected String name;
 
 	public static final int ERROR = -1;
+	public static final String NAME = "stats";
 
 
 
 
 	/**Compatibility with old plotting method**/
 	protected WTrace wtrace;
+	
+	/**TODO not very MVC**/
+	private String defaultDisplayedParameter;
 
 
 
-	public Statistics(String name, Var<BigDecimal> dt,Parameter... parameter) {
+	public Statistics(String name,String defaultDisplayedParameter,
+			Var<BigDecimal> dt,Parameter... parameter) {
 		this.name = name;
+		this.defaultDisplayedParameter = defaultDisplayedParameter;
 		this.paramNodes = new LinkedList<Parameter>();
 		this.dt = dt;
 		this.time = new Var<BigDecimal>(TIME,new BigDecimal("0"));
-		this.compTime = new Var<BigDecimal>(COMPTIME,new BigDecimal(ERROR));
+		this.compTime = new Var<Long>(COMPTIME,-1L);
 		this.lastTime = System.currentTimeMillis();
 		paramNodes.addAll(Arrays.asList(time,compTime));
 		paramNodes.addAll(Arrays.asList(parameter));
@@ -189,8 +196,12 @@ public class Statistics implements HasChildren<Parameter>{
 
 
 	
-
+	/**
+	 * Compute copy values in wtrace
+	 * @throws NullCoordinateException
+	 */
 	public void compute() throws NullCoordinateException {
+		this.updateCompTime();
 		List<Number> paramTest = getParametersState();
 		double[] paramArray = new double[paramTest.size()];
 		for(int i = 0 ; i < paramArray.length ; i++){
@@ -198,6 +209,18 @@ public class Statistics implements HasChildren<Parameter>{
 		}
 		wtrace.add(paramArray);
 	}
+	/**
+	 * Update compTime Var
+	 */
+	private void updateCompTime() {
+		long current = System.currentTimeMillis();
+		long newCompTime = current - lastTime;
+		this.compTime.set(newCompTime);
+		this.lastTime = current;
+	}
+
+
+
 
 	public double get(String name) {
 		return wtrace.getLast(name);
@@ -291,6 +314,13 @@ public class Statistics implements HasChildren<Parameter>{
 	public void setTime(BigDecimal currentTime) {
 		this.time.set(currentTime);
 		
+	}
+
+
+
+
+	public String getDefaultDisplayedStat() {
+		return this.defaultDisplayedParameter;
 	}
 
 

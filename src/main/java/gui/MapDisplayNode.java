@@ -15,8 +15,8 @@ public class MapDisplayNode extends DisplayNode {
 		super(parent, linked, gui);
 	}
 
-	public void valueChanged(ParameterView parameterView) throws NullCoordinateException {
-		parameterView.setDisplayedParam("Map selected" ,
+	public void valueChanged(DetailsPanel detailsPanel) throws NullCoordinateException {
+		detailsPanel.setDisplayedParam("Map selected" ,
 				new MapHeaderPanel(gui, (AbstractMap) linked),
 				super.getParamPanel(),
 				this.getQuickViewPanel());

@@ -13,8 +13,8 @@ public class StatisticsESN extends Statistics {
 	public static final String TARGETED_OUTPUT = "targeted_output";
 	public static final String OUTPUT = "output";
 
-	public StatisticsESN(String name, Var<BigDecimal> dt,Parameter... trajectoryUnitMap) {
-		super(name, dt, trajectoryUnitMap);
+	public StatisticsESN(String name,String defaultDisplayedParameter, Var<BigDecimal> dt,Parameter... trajectoryUnitMap) {
+		super(name,defaultDisplayedParameter, dt, trajectoryUnitMap);
 	}
 
 }

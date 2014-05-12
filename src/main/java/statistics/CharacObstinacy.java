@@ -67,7 +67,7 @@ public class CharacObstinacy extends Charac {
 
 	/*	@Override
 	public double eval(int startingIteration) {
-		Trace obs = stats.getCoord(StatisticsImproved.CLOSEST_INPUT);
+		Trace obs = statsControler.getCoord(StatisticsImproved.CLOSEST_INPUT);
 
 		int nbChanging = 0; //the focus is change its target
 		double prev = 0; //previous value

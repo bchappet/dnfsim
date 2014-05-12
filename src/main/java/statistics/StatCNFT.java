@@ -334,7 +334,7 @@ public class StatCNFT {
 
 			@Override
 			public double computeStatistic() {
-				//System.out.println("Compute stats" + Arrays.toString(Thread.currentThread().getStackTrace()));
+				//System.out.println("Compute statsControler" + Arrays.toString(Thread.currentThread().getStackTrace()));
 				if(convergence == StatisticsCNFT.ERROR){
 
 					int currentStimulis = (int)( ((Parameter) getParam(1)).get());

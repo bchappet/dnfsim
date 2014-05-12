@@ -71,7 +71,7 @@ public class SomUM extends NeighborhoodUnitModel {
 	 */
 	public void setCoord(Double... coord) {
 		super.setCoord(coord);
-		Double[] inputSpaceCoord = inputSpace.indexToCoord(space.getFramedSpace().coordToIndex(coord));
+		Double[] inputSpaceCoord = inputSpace.indexToCoordInt(space.getFramedSpace().coordIntToIndex(coord));
 //		this.weights[Space.X] =  inputSpaceCoord[Space.X];
 //		this.weights[Space.Y] = inputSpaceCoord[Space.Y];
 		//System.out.println(main.java.space);

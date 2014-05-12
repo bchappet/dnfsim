@@ -10,6 +10,7 @@ import main.java.plot.Curve2D;
 import main.java.plot.Plotter;
 import main.java.statistics.Statistics;
 
+@Deprecated
 public class StatisticPanel extends JPanel {
 	
 	/**

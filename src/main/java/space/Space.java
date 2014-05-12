@@ -1,7 +1,9 @@
 package main.java.space;
 
 import java.util.Arrays;
+import java.util.List;
 
+import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
 import main.java.maps.Var;
 
@@ -19,7 +21,7 @@ import main.java.maps.Var;
  * @author bchappet
  *
  */
-public class Space<T> implements Cloneable{
+public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	
 	
 	/**
@@ -39,30 +41,30 @@ public class Space<T> implements Cloneable{
 	
 	/**
 	 * Transform an index corresponding to the flattened version of the main.java.space to
-	 * its coordinate into this main.java.space
+	 * its coordinate into this main.java.space Integer to ensure that every space can be taken as a array
 	 * @param index
 	 * @return
 	 */
-	public Coord<Integer> indexToCoord(int index){
-		return null; //TODO
-	}
+	public abstract Coord<Integer> indexToCoordInt(int index);
+	
+	public abstract Coord<T> indexToCoord(int index);
+	
+	
 	
 	/**
-	 * Transform a coordinate into its flattened main.java.space index
+	 * Transform a coordinate into its flattened main.java.space index Integer to ensure that every space can be taken as a array
 	 * @param coord
 	 * @return
 	 */
-	public int coordToIndex(Coord<T> coord){
-		return -1; //TODO
-	}
+	public abstract int coordIntToIndex(Coord<Integer> coord);
+	
+	public abstract int coordToIndex(Coord<T> coord);
 	
 	/**
 	 * Return the volume of the main.java.space
 	 * @return
 	 */
-	public int getVolume(){
-		return -1;//TODO
-	}
+	public abstract int getVolume();
 	
 	
 	
@@ -71,9 +73,9 @@ public class Space<T> implements Cloneable{
 	 * @param coord
 	 * @return wrapped main.java.coordinates
 	 */
-	public Coord<T> wrapCoord(Coord<T> coord){
-		return null;//TODO
-	}
+	public abstract Coord<T> wrapCoord(Coord<T> coord);
+	
+	public abstract Coord<Integer> wrapCoordInt(Coord<Integer> coord);
 	
 	public SingleValueParam<Integer>[] getDimensions(){
 		return dimensions;
@@ -127,6 +129,22 @@ public class Space<T> implements Cloneable{
 		clone.dimensions = Arrays.copyOf(this.dimensions, this.dimensions.length);
 		return clone;
 	}
+
+	@Override
+	public SingleValueParam<Integer> getIndex(int index) {
+		return this.dimensions[index];
+	}
+
+	@Override
+	public List<SingleValueParam<Integer>> getValues() {
+		return Arrays.asList(dimensions);
+	}
+
+	@Override
+	public String getName() {
+		return ""+this.getClass(); //TODO??
+	}
+
 	
 	
 	

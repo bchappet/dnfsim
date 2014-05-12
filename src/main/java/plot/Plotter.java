@@ -31,12 +31,18 @@ package main.java.plot;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.EventObject;
+import java.util.logging.Logger;
+
+import main.java.view.ParameterView;
 
 public class Plotter extends JPanelDB {
+	
+	private final transient Logger LOGGER = Logger.getLogger(Plotter.class.getName());
+
     /** Axis to display */
-    Axis axis;
+	private    Axis axis;
     /** Subplots to display */
-    ArrayList<Plot> plots = new ArrayList<Plot>();  
+	private   ArrayList<Plot> plots = new ArrayList<Plot>();  
     
     /** Constructor with axis */
     public Plotter(Plot...plots) {
@@ -70,6 +76,7 @@ public class Plotter extends JPanelDB {
     
     @Override
     public void render(Graphics2D g) {
+    	LOGGER.info("Rendering " + this);
         // Compute the limits of the graph
         axis.clearLimits();
         for (Plot p : plots) {

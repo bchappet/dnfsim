@@ -4,31 +4,34 @@ import java.math.BigDecimal;
 
 import main.java.statistics.Characteristics;
 import main.java.view.CharacteristicsViewAdapter;
+import main.java.view.ParamViewAdapter;
+import main.java.view.ParameterView;
 
-public class CharacteristicsControler extends ParameterControler implements ComputableControler {
+public class CharacteristicsControler extends  ParameterControler {
 
 	public CharacteristicsControler(Characteristics param) {
-		super(param, new CharacteristicsViewAdapter(param));
+		super(param);
 	}
 
 
-	@Override
 	public void compute(BigDecimal currentTime) {
-		Characteristics map = ((Characteristics)getParam());
 		
-		if(map.getTime().add((BigDecimal) map.getDt().get()).compareTo(currentTime) == 0){
-			map.setTime(currentTime);
-			map.compute();
-			this.getParaView().updateView(currentTime);
-		}
+			((Characteristics) getParam()).compute();
+			if(this.getParamViewAdapter() != null)
+				this.getParamViewAdapter().updateView(currentTime);
+		
 		
 	}
 
+
 	@Override
-	public BigDecimal getNextTime() {
-		Characteristics map = (Characteristics) this.getParam();
-		BigDecimal nextTime = map.getTime().add((BigDecimal) map.getDt().get());
-		return nextTime;
+	protected ParamViewAdapter createParamViewAdapter(ParameterView view) {
+		return new CharacteristicsViewAdapter(this, view);
+	}
+
+
+	public String[] getTrajectoryUnitMapsName() {
+		return ((Characteristics) getParam()).getTrajectoryUnitMapsName();
 	}
 
 }

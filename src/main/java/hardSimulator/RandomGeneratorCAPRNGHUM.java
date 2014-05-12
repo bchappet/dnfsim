@@ -22,7 +22,7 @@ public class RandomGeneratorCAPRNGHUM extends RandomGeneratorHUM {
 	public double compute() throws NullCoordinateException {
 		//TODO validate map computation
 		UnitMap map = (UnitMap) params.getIndex(CA_PRNG_MAP);
-		PRNGWrapperUM um = (PRNGWrapperUM) map.getUnit(space.coordToIndex(coord)).getUnitModel();
+		PRNGWrapperUM um = (PRNGWrapperUM) map.getUnit(space.coordIntToIndex(coord)).getUnitModel();
 		for(int i = 0 ; i < (int)params.getIndex(NB_VAL).getIndex(coord) ; i++){
 			outputs[i] = um.getRandomNumber();
 		}

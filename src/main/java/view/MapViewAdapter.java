@@ -2,7 +2,8 @@ package main.java.view;
 
 import java.math.BigDecimal;
 
-import main.java.gui.ColorMap;
+import main.java.controler.MapControler;
+import main.java.controler.ParameterControler;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.space.Coord2D;
@@ -21,24 +22,21 @@ import main.resources.utils.ArrayUtils;
 public class MapViewAdapter extends ParamViewAdapter {
 	
 
-	public MapViewAdapter(Parameter param,ParameterView paramView) {
+	public MapViewAdapter(ParameterControler param,ParameterView paramView) {
 		super(param,paramView);
 	}
 	
-	public MapViewAdapter(Parameter param) {
-		super(param);
-	}
 	
 	@Override
 	public void updateView(BigDecimal time){
 		
-		Map map = (Map) getParameter();
+		MapControler mapControler = (MapControler) getParameter();
 		
 		if(this.getParamView() instanceof View2D ){
-			((View2D)this.getParamView()).update(getValuesForView2D(map));
+			((View2D)this.getParamView()).update(getValuesForView2D(mapControler));
 		}else if(this.getParamView() instanceof View1D ){
 			//if the matrix is n * 1 or 1*m we can put it in a 1D main.java.view
-			double[] values = ArrayUtils.toPrimitiveArray1D(map.getValues());
+			double[] values = ArrayUtils.toPrimitiveArray1D(mapControler.getValues());
 			((View1D)this.getParamView()).update(values);
 			
 			
@@ -53,15 +51,15 @@ public class MapViewAdapter extends ParamViewAdapter {
 	 * @param map
 	 * @return
 	 */
-	private static double[][] getValuesForView2D(Map map){
-		Coord2D<Integer> dim = get2DDimFromSpace(map.getSpace());
-		double[][] values = ArrayUtils.toPrimitiveArray(map.getValues(),dim.x,dim.y);
+	private static double[][] getValuesForView2D(MapControler mapC){
+		Coord2D<Integer> dim = get2DDimFromSpace(mapC.getSpace());
+		double[][] values = ArrayUtils.toPrimitiveArray(mapC.getValues(),dim.x,dim.y);
 		return values;
 	}
 	
 	@Override
-	protected ParameterView getDefaultView(Parameter param){
-		return new View2D(getValuesForView2D((Map)param));
+	protected ParameterView getDefaultView(ParameterControler pc){
+		return new View2D(pc.getName(),getValuesForView2D((MapControler)pc));
 	}
 
 	/**

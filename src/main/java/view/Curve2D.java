@@ -4,13 +4,14 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 import javax.swing.JPanel;
 
 import main.java.space.Coord2D;
 
-public class Curve2D extends ParameterView{
+public class Curve2D extends ParameterViewDB{
 	
 	/**Margin ratio**/
 	private double margin = 0.99;
@@ -32,7 +33,8 @@ public class Curve2D extends ParameterView{
 	
 	
 	
-	public Curve2D() {
+	public Curve2D(String name) {
+		super(name);
 		min = new Coord2D<Double>(0d, 0d);
 		max = new Coord2D<Double>(0d, 0d);
 		coords = new ArrayList<Coord2D<Double>>();
@@ -77,8 +79,21 @@ public class Curve2D extends ParameterView{
 		max.y = maxY;
 	}
 
+
 	@Override
-	public void paint(Graphics g) {
+	public void interact(EventObject event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void interactRelease(EventObject event) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void render(Graphics2D g) {
 		Graphics2D g2 = (Graphics2D) g;
 		
 		Dimension dim = this.getSize();
@@ -108,6 +123,8 @@ public class Curve2D extends ParameterView{
 		
 		for(int i = 0 ; i < blackBorder ; i++)
 			g.drawRect(offsetX-i, offsetY-i, dx+2*i, dy+2*i);
+
+		
 	}
 
 }

@@ -1,41 +1,41 @@
 package main.java.controler;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import main.java.maps.Map;
+import main.java.maps.MatrixDouble2D;
+import main.java.space.Space;
 import main.java.view.MapViewAdapter;
 import main.java.view.ParamViewAdapter;
+import main.java.view.ParameterView;
 
-public class MapControler extends ParameterControler implements ComputableControler {
+public class MapControler extends ComputableControler {
 
 	public MapControler(Map param) {
-		super(param, new MapViewAdapter(param));
+		super(param);
 	}
 	
-	public MapControler(Map param,ParamViewAdapter adaptater) {
-		super(param, adaptater);
-	}
-	
-	
-
-	public void compute(BigDecimal currentTime){
-		Map map = (Map) this.getParam();
-		if(map.getTime().add((BigDecimal) map.getDt().get()).compareTo(currentTime) == 0){
-			map.setTime(currentTime);
-			map.compute();
-			this.getParaView().updateView(currentTime);
+	public String displayText() {
+		if(getParam() instanceof MatrixDouble2D){
+			return getParam().toString();
+		}else{
+			return getParam().toString();
 		}
 	}
-	
-	public BigDecimal getNextTime(){
-		Map map = (Map) this.getParam();
-		BigDecimal nextTime = map.getTime().add((BigDecimal) map.getDt().get());
-		return nextTime;
-	}
+
 
 	@Override
-	public String toString() {
-		return ((Map)getParam()).getName();
+	protected ParamViewAdapter createParamViewAdapter(ParameterView param) {
+		return new MapViewAdapter(this,param);
+	}
+
+	public Space getSpace() {
+		return ((Map)getParam()).getSpace();
+	}
+
+	public List getValues() {
+		return getParam().getValues();
 	}
 
 }

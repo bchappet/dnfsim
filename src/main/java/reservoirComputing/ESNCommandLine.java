@@ -28,8 +28,8 @@ public class ESNCommandLine extends CommandLine {
 	
 	
 
-	public ESNCommandLine(String command) throws CommandLineFormatException {
-		super(command);
+	public ESNCommandLine() throws CommandLineFormatException {
+		super();
 	}
 
 
@@ -38,16 +38,18 @@ public class ESNCommandLine extends CommandLine {
 
 	public  String defaultScript()
 	{
+		System.out.println("here");
 		return super.defaultScript() 
 				
 				+LENGTH_RESERVOIR+"=49,1,1000,1;"	+WRAP_RESERVOIR+"=T;"
 				+DT_RESERVOIR+"=bd0.1,0,10,0.1;"	+WRR_FILE+"=files/weights;"
-				+WRO_FILE+"=files/weightsOutput;"
+				+WRO_FILE+"=files/weightsOutput;"	
 				+DT_LEARNING+"=bd0.1,0,10,0.1;"	+LENGHT_INPUT+"=1,1,1,1;"
 				+DT_INPUT+"=bd0.1,0,10,0.1;"		+DT_OUTPUT+"=bd0.1,0,10,0.1;"
 				+LEARNING_RATE+"=0.01,0,1,0.01;"+LENGHT_OUTPUT+"=1,1,1,1;"
 				+OUTPUT_MEMORY+"=1,0,10,1;"		+OUTPUT_POLYNOMIAL_DEGREE+"=1,0,10,1;"
 				+SEP+"=,;";
+		
 	}
 
 

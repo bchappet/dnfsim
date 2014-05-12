@@ -50,9 +50,9 @@ public class RunnerGUI extends JApplet{
 
 	protected Runner runner;
 
-	protected DynamicParamsView maps;
+	protected ParameterCanvaPanel maps;
 	protected Root root;
-	protected TreeParametersView treeView;
+	protected ParameterTreePanel treeView;
 	protected Thread computationThread;
 	protected StatisticPanel stat;
 	protected TextAreaInOut txtArea; //Display area
@@ -188,13 +188,13 @@ public class RunnerGUI extends JApplet{
 
 		UIManager.put("Panel.background", Color.white);
 
-		JPanel paramView = new ParameterView();
+		JPanel paramView = new DetailsPanel();
 		paramView.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16)); 
 
 		DisplayNode node = new DisplayNode(null,root,this);
 		node.setVisible(true);
 		JTree tree = new JTree(node);
-		treeView = new TreeParametersView(node,tree,root, (ParameterView) paramView,this);
+		treeView = new ParameterTreePanel(node,tree,root, (DetailsPanel) paramView,this);
 		treeView.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
 		treeView.setBorder(BorderFactory.createTitledBorder("Models tree"));
 		treeView.setBackground(Color.white);
@@ -210,7 +210,7 @@ public class RunnerGUI extends JApplet{
 		stat.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
 		leftPane.add(stat);
 
-		maps = new DynamicParamsView(this);
+		maps = new ParameterCanvaPanel(this);
 
 		JPanel header = new JPanel();
 		initHeader(header);
@@ -261,7 +261,7 @@ public class RunnerGUI extends JApplet{
 
 		//Show the main.java.model param panel directly
 		DisplayNode disp = treeView.getNode(root.getActiveModel());
-		disp.valueChanged((ParameterView) paramView);
+		disp.valueChanged((DetailsPanel) paramView);
 	}
 
 	public Parameter searchParameter(String name) {
@@ -552,7 +552,7 @@ public class RunnerGUI extends JApplet{
 	//		}
 	//	}
 
-	public DynamicParamsView getDynamicParamView() {
+	public ParameterCanvaPanel getDynamicParamView() {
 		return maps;
 
 	}
@@ -606,7 +606,7 @@ public class RunnerGUI extends JApplet{
 		}
 	}
 
-	public TreeParametersView getTreeView() {
+	public ParameterTreePanel getTreeView() {
 		return treeView;
 	}
 

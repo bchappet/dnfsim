@@ -12,15 +12,15 @@ import javax.swing.UIManager;
 
 import main.java.applet.AppletStub;
 import main.java.model.Model;
-import main.java.model.Root;
 import main.java.statistics.Statistics;
+import main.java.controler.Runner;
 
 
 
 public class Printer{
 	//Command line parameters
 
-	public static final String MODEL = "main.java.model";
+	public static final String MODEL = "model";
 	public static final String CONTEXT = "context";
 	public static final String SCENARIO = "scenario";
 	public static final String SHOW_GUI = "show";
@@ -33,6 +33,9 @@ public class Printer{
 	protected int nb = 0;
 	/**Nb info character to print**/
 	private  String infoString;
+	
+	
+	public static final String CONTEXT_PATH = "file:./src/main/scripts/context/";
 
 
 
@@ -52,24 +55,7 @@ public class Printer{
 	}
 
 
-	public static String readFile(URL url) throws FileNotFoundException{
-		File file = new File(url.getPath());
-		StringBuilder fileContents = new StringBuilder((int)file.length());
-		Scanner scanner = new Scanner(file);
-		String command = null;
 
-		try {
-			while(scanner.hasNextLine()) {        
-				fileContents.append(scanner.nextLine() );
-			}
-			command = fileContents.toString();
-		} finally {
-			scanner.close();
-		}
-
-		return command;
-
-	}
 
 
 	/** Main function to start the program **/
@@ -108,21 +94,8 @@ public class Printer{
 			}
 			String scenario = System.getProperty(SCENARIO);
 
-			String contextScript;
-			URL contextPath;
+			String contextScript = System.getProperty(CONTEXT);
 
-			contextPath = new URL("file:./context/");
-
-
-			if(context == null || context.isEmpty()){
-
-				//Default behaviour : read the file in default context path with the same name as the main.java.model
-				contextScript = readFile(new URL("file:"+contextPath.getPath()+model+".dnfs"));
-			}else{
-
-				//The context is given by the string 
-				contextScript = context;
-			}
 
 			String nbInfoS = System.getProperty(INFO);
 			int nbInfo = 0;
@@ -149,27 +122,10 @@ public class Printer{
 
 			for(int i = 0 ; i < nbCore ; i++){
 				if(iterations[i] > 0){
-					Root root = new Root();
-					Model modelM = Root.constructModel(model);
-					root.addModel(modelM);
-					root.setActiveModel(model);
 
-					runners[i] = new Runner(modelM,scenario,printer);
+					runners[i] = new Runner(printer,model,contextScript,scenario,showGui);
 					runners[i].setIteration(iterations[i]);
-					runners[i].setSavemap(savemap,i);
-
-					root.getActiveModel().initialize(contextScript);
-					root.getActiveModel().getCommandLine().setRunner(runners[i]);
-
-					if(showGui){
-						RunnerGUI applet =  new RunnerGUI(runners[i],root,contextPath,
-								new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
-						// Configure the frame to display the Applet
-						applet.setStub(new AppletStub(applet, "Simulation"));
-//						Thread guiTh = new Thread(main.java.applet);
-//						guiTh.start();
-						runners[i].setLock(applet.getLock());
-					}
+					//runners[i].setSavemap(savemap,i); //TODO
 
 					threads[i] = new Thread(runners[i]);
 					threads[i].start();

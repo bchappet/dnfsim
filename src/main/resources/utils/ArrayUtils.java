@@ -7,6 +7,7 @@ import java.util.List;
 
 import main.java.gui.ColorMap;
 import main.java.maps.Parameter;
+import main.java.maps.SingleValueParam;
 import main.java.neuronBuffer.Buffer;
 
 
@@ -279,6 +280,26 @@ public class ArrayUtils {
 		
 		return ret;
 		
+	}
+
+	public static String toString2D(List values,
+			int width,
+			int height) {
+		String ret = "";
+		for(int i = 0 ; i < height-1 ; i++){ //colulmn Width Y
+			for(int j = 0 ; j < width-1 ; j++){ //row width X
+				ret += values.get(i * width + j) + ",";
+			}
+			ret += values.get(i *width + width-1);
+			ret += "\n";
+		}
+		
+		for(int j = 0 ; j < width-1 ; j++){
+			ret += values.get((height-1)*width) + ",";
+		}
+		ret += values.get((height-1)*width+ width -1);
+		
+		return ret;
 	}
 
 	

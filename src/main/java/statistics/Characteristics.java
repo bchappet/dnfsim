@@ -8,6 +8,7 @@ import java.util.List;
 import main.java.coordinates.NullCoordinateException;
 import main.java.coordinates.Space;
 import main.java.maps.AbstractMap;
+import main.java.maps.Computable;
 import main.java.maps.HasChildren;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
@@ -34,7 +35,7 @@ import main.java.plot.WTrace;
  * @author bchappet
  *
  */
-public class Characteristics implements HasChildren<Parameter> {
+public class Characteristics implements HasChildren<Parameter>,Computable {
 	
 	/**This name**/
 	public final static String NAME = "Charac";
@@ -70,10 +71,8 @@ public class Characteristics implements HasChildren<Parameter> {
 
 	/**
 	 * Return the result of each characteristic computation
-	 * @return a WTrace with each result
-	 * @throws NullCoordinateException 
 	 */
-	public WTrace compute() throws NullCoordinateException
+	public void compute() 
 	{
 		
 		for(Parameter p : params){
@@ -81,7 +80,6 @@ public class Characteristics implements HasChildren<Parameter> {
 		}
 		
 		wtrace.add(getTrajectoryUnitMapsState());
-		return wtrace;
 	}
 	
 	public void reset()

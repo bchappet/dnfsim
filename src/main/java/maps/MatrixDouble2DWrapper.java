@@ -28,7 +28,7 @@ public class MatrixDouble2DWrapper extends MatrixDouble2D {
 		double[][] val = getJamat().getArray();
 		for(int i = 0 ; i < val[0].length ; i++){
 			for(int j = 0 ; j < val.length ; j++){
-				val[j][i] = map.getIndex(map.getSpace().coordToIndex(new Coord<Integer>(i,j))).doubleValue();
+				val[j][i] = map.getIndex(map.getSpace().coordIntToIndex(new Coord<Integer>(i,j))).doubleValue();
 			}
 		}
 	}

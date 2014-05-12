@@ -295,6 +295,10 @@ public class Curve2D extends Plot {
 		// Get the 2 traces to display
 		Trace var_x = vars.getCoord(vx);
 		Trace var_y = vars.getCoord(vy);
+		
+//		System.out.println("render curve2D");
+//		System.out.println("Tarce x : " + var_x);
+//		System.out.println("Values : " + var_x.getMax());
 
 
 		// Transform the trace main.java.coordinates

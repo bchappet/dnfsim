@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.console.CNFTCommandLine;
+import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.InfiniteDt;
@@ -43,7 +44,7 @@ public class ModelESN extends Model {
 	public static final String WEIGHTS_RR = "WeightsRR";
 	public static final String WEIGHTS_RO = "WeightsRO";
 
-	public static final String INPUT = "main.java.input";
+	public static final String INPUT = "input";
 	public static final String RESERVOIR = "reservoir";
 	public static final String OUTPUT = "output";
 	public static final String TARGET_OUTPUT = "target_output";
@@ -92,6 +93,11 @@ public class ModelESN extends Model {
 		return inputRes;
 	}
 	
+	
+	@Override
+	public CommandLine constructCommandLine() throws CommandLineFormatException{
+		return new ESNCommandLine();
+	}
 	
 
 	/**
@@ -150,7 +156,7 @@ public class ModelESN extends Model {
 		Space spaceWeightsReservoir = new Space2D(lenght_reservoir,lenght_reservoir);
 
 
-		weightsIR = new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var(0),new Var(1));
+		weightsIR = new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(1d));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
 		weightsRO = new  MatrixCSVFileReader(WEIGHTS_RO, new InfiniteDt(), new Space2D(lenght_reservoir,new Var<Integer>(1)),weightsROFileName,currentSep);
 		input = getInput();
@@ -199,7 +205,7 @@ public class ModelESN extends Model {
 		
 
 
-		stats = new StatisticsESN("Stats",stat_dt,error,targetOutput,output);
+		stats = new StatisticsESN(Statistics.NAME,StatisticsESN.ERROR_DIST,stat_dt,error,targetOutput,output);
 
 
 	}
@@ -230,9 +236,9 @@ public class ModelESN extends Model {
 
 
 	@Override
-	public List<Parameter> getDefaultDisplayedParameter() {
-		Parameter[] ret = {input,reservoir,output,targetOutput,weightsIR,weightsRR,weightsRO};
-		return Arrays.asList(ret);
+	public String[] getDefaultDisplayedParameter() {
+		String[] ret = {INPUT,RESERVOIR,OUTPUT,TARGET_OUTPUT,WEIGHTS_IR,WEIGHTS_RR,WEIGHTS_RO};
+		return ret;
 	}
 
 	@Override

@@ -52,7 +52,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	protected boolean assynchronousComputation = false;
 
 	/**This will be the computation time step for main.java.model update. It is the smallest
-	 * dt in the parameter tree and the stats
+	 * dt in the parameter tree and the statsControler
 	 */
 	protected BigDecimal clockStep;
 
@@ -68,8 +68,14 @@ public abstract class Model implements HasChildren<Parameter> {
 		parameters = new LinkedList<Parameter>();
 	}
 
-	
-
+	/**
+	 * construct the model specific command line
+	 * @return
+	 * @throws CommandLineFormatException
+	 */
+	public CommandLine constructCommandLine() throws CommandLineFormatException{
+		return new CommandLine();
+	}
 
 
 	/**
@@ -141,10 +147,11 @@ public abstract class Model implements HasChildren<Parameter> {
 
 	/**
 	 * First displayed parameters when the main.java.model is selected
+	 *TODO not very MVC
 	 * 
 	 * @return
 	 */
-	public abstract List<Parameter> getDefaultDisplayedParameter();
+	public abstract String[] getDefaultDisplayedParameter();
 
 	
 
@@ -183,7 +190,7 @@ public abstract class Model implements HasChildren<Parameter> {
 ////				}
 //			}
 //			//System.out.println("Update " + time + " (time to reach : ) " + timeToReach );
-//			stats.update(time);
+//			statsControler.update(time);
 //
 //			this.time = this.time.add(clockStep);
 //		}
@@ -343,7 +350,8 @@ public abstract class Model implements HasChildren<Parameter> {
 
 	/**
 	 * 
-	 * @return the defult displayed stat
+	 * @return the defult displayed stat //TODO not very mvc
+	 * @deprecated
 	 */
 	public  abstract String getDefaultDisplayedStatistic() ;
 		

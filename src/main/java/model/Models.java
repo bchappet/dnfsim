@@ -78,6 +78,18 @@ public enum Models{
 		}
 		throw new Exception("Model " + modelName+ " does not exist");
 	}
+	/**
+	 * Return model name list
+	 * @return
+	 */
+	public static String[] nameList(){
+		Models[] models = Models.values();
+		String[] ret = new String[models.length];
+		for(int i = 0 ; i < ret.length ; i++){
+			ret[i] = models[i].getName();
+		}
+		return ret;
+	}
 
 	public String getName() {
 		return name;

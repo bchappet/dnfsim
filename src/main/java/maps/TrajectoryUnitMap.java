@@ -56,7 +56,7 @@ public abstract class TrajectoryUnitMap extends Map {
 			for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
 			{
 				UnitModel u = (UnitModel)unitModel.clone();
-				u.setCoord(space.indexToCoord(i));
+				u.setCoord(space.indexToCoordInt(i));
 				
 				this.units.add(new Unit(u));
 			}

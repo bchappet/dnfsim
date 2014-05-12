@@ -2,13 +2,13 @@ package main.java.view;
 
 import java.math.BigDecimal;
 
-import main.java.gui.ColorMap;
+import main.java.controler.ParameterControler;
 import main.java.maps.Parameter;
 
 public abstract class ParamViewAdapter {
 	
 	private ParameterView paramView;
-	private Parameter param;
+	private ParameterControler param;
 
 	
 
@@ -17,30 +17,17 @@ public abstract class ParamViewAdapter {
 	 * @param param
 	 * @param paramView
 	 */
-	public ParamViewAdapter(Parameter param,ParameterView paramView) {
-		this.paramView = paramView;
+	public ParamViewAdapter(ParameterControler param,ParameterView paramView) {
 		this.param = param;
+		if(paramView == null){
+			this.paramView = this.getDefaultView(param);
+		}else{
+			this.paramView = paramView;
+		}
 		
 	}
 	
-	/**
-	 * Construct a paramater adpter with the default main.java.view
-	 * @param param
-	 * @param cm
-	 */
-	public ParamViewAdapter(Parameter param) {
-		this.param = param;
-		this.paramView = getDefaultView(param);
-		
-	}
-	
-	/**
-	 * Return and construct the dafault main.java.view for this kind of parameter
-	 * @param param
-	 * @param cm
-	 * @return
-	 */
-	protected abstract ParameterView getDefaultView(Parameter param);
+	protected abstract  ParameterView getDefaultView(ParameterControler param);
 
 	
 	/**
@@ -50,7 +37,7 @@ public abstract class ParamViewAdapter {
 	public abstract void updateView(BigDecimal time);
 		
 	
-	protected Parameter getParameter(){
+	protected ParameterControler getParameter(){
 		return this.param;
 	}
 	
@@ -58,7 +45,7 @@ public abstract class ParamViewAdapter {
 	/**
 	 * @return the paramView
 	 */
-	protected ParameterView getParamView() {
+	public ParameterView getParamView() {
 		return paramView;
 	}
 

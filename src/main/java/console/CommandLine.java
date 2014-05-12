@@ -9,7 +9,10 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
+import main.java.controler.CharacteristicsControler;
+import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
+import main.java.controler.ParameterControler;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.BadPathException;
 import main.java.maps.Parameter;
@@ -18,7 +21,6 @@ import main.java.maps.Var;
 import main.java.model.Model;
 import main.java.plot.Trace;
 import main.java.space.Coord;
-import precision.PrecisionVar;
 
 public class CommandLine  {
 
@@ -39,7 +41,8 @@ public class CommandLine  {
 	static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
 	
 	
-	public static final String PRECISION = "precision";
+	/**For simulation: simlation speed = real time * TIME_SPEED_RATIO**/
+	public static final String TIME_SPEED_RATIO = "time_speed_ratio";
 	
 
 	protected String initScript;
@@ -49,18 +52,27 @@ public class CommandLine  {
 	protected Map<String, Coord<?>> definitionSet;
 	/**With the main.java.model main.java.controler we will be able to control the main.java.model**/
 	private ModelControler currentModelControler;
+	private ComputationControler computationControler;
+	private CharacteristicsControler characControler;
 
 	/**
 	 * Parse the default script and the initScript
 	 * @throws CommandLineFormatException
 	 */
-	public CommandLine(String initScript) throws CommandLineFormatException {
-		this.initScript = initScript;
+	public CommandLine() throws CommandLineFormatException {
 		this.map = new HashMap<String, Var>();
 		this.definitionSet = new HashMap<String,Coord<?>>();
+	}
+	/**
+	 * Clear the map and Set a new context
+	 * @param context
+	 * @throws CommandLineFormatException
+	 */
+	public void setContext(String context) throws CommandLineFormatException{
+		this.map.clear();
+		this.initScript = context;
 		parseInitialCommand(defaultScript());
-		if(initScript != null && !initScript.isEmpty())
-			parseInitialCommand(initScript);
+		parseInitialCommand(context);
 	}
 	
 	
@@ -70,11 +82,10 @@ public class CommandLine  {
 	{
 		return ""
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
+				+TIME_SPEED_RATIO+"=1.0,0.1,10,0.1;";
 //				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
 //				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
 //				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
-				+PRECISION+"=8,1,30,1;"
-				;
 	}
 
 
@@ -168,14 +179,7 @@ public class CommandLine  {
 
 								var.set(val);
 							}
-							else if(obj.matches("0b[01]+")){
-								try{
-									((PrecisionVar)var).set(Integer.parseInt(obj.substring(2), 2));
-								}catch(NumberFormatException e){
-									throw new CommandLineFormatException("Bad binary String format : " + obj);
-
-								}
-							}
+							//TODO separate integer from double
 							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
 							{
 								String[] numbers = obj.split(",");
@@ -307,21 +311,21 @@ public class CommandLine  {
 		else if(command.equals("wait"))
 		{
 			BigDecimal time =  new BigDecimal(value) ; //second 
-			currentModelControler.simulate(time);
+			computationControler.compute(computationControler.getTime().add(time));
 		}
-		else if(command.equals("waitNsave"))
-		{
-			System.out.println("here");
-			BigDecimal time =  new BigDecimal(value) ; //second 
-			currentModelControler.simulateNSave(time);
-		}
+//		else if(command.equals("waitNsave"))
+//		{
+//			System.out.println("here");
+//			BigDecimal time =  new BigDecimal(value) ; //second 
+//			currentModelControler.simulateNSave(time);
+//		}
 		else if(command.equals("print")){
 			String split[] = value.split(",");
-			currentModelControler.getCharac().compute();
+			this.characControler.compute(this.computationControler.getTime());
 
 			for(String s : split){
 				if(s.equals("all")){
-					String[] all = currentModelControler.getCharac().getTrajectoryUnitMapsName();
+					String[] all = this.characControler.getTrajectoryUnitMapsName();
 					for(String s2 : all){
 						ret += findParameterValue(s2) + ",";
 					}
@@ -332,31 +336,31 @@ public class CommandLine  {
 			}
 		}
 
-		else if(command.equals("trace")){//return a statistic trace
-			String name = value;
-
-			Trace res = currentModelControler.getStatistics().getTrace(name);
-			if(res == null){
-				throw new CommandLineFormatException("The trace " + name + " does not exist.");
-			}else{
-				ret = ""+res.toString(true);
-			}
-
-		}
-		else if(command.equals("SaveStats")){
-			try {
-				currentModelControler.saveStats(value+".csv");
-			} catch (IOException e) {
-				throw new CommandLineFormatException("IO error",e);
-			}
-		}
-		else if(command.equals("SaveMaps")){
-			try {
-				ret = currentModelControler.saveMaps(value);
-			} catch (IOException e) {
-				throw new CommandLineFormatException("IO error",e);
-			}
-		}
+//		else if(command.equals("trace")){//return a statistic trace
+//			String name = value;
+//
+//			Trace res = currentModelControler.getStatistics().getTrace(name);
+//			if(res == null){
+//				throw new CommandLineFormatException("The trace " + name + " does not exist.");
+//			}else{
+//				ret = ""+res.toString(true);
+//			}
+//
+//		}
+//		else if(command.equals("SaveStats")){
+//			try {
+//				currentModelControler.saveStats(value+".csv");
+//			} catch (IOException e) {
+//				throw new CommandLineFormatException("IO error",e);
+//			}
+//		}
+//		else if(command.equals("SaveMaps")){
+//			try {
+//				ret = currentModelControler.saveMaps(value);
+//			} catch (IOException e) {
+//				throw new CommandLineFormatException("IO error",e);
+//			}
+//		}
 
 		else
 			ret = null;
@@ -378,10 +382,11 @@ public class CommandLine  {
 	protected String findParameterValue(String key) throws CommandLineFormatException{
 		String ret = "";
 		//System.out.println("Find param : " + key);
-		try{
-			Parameter param =currentModelControler.getParameter(key);
+			ParameterControler param =currentModelControler.getControler(key);
 			if(param == null){
-				param = currentModelControler.getPath(key,0,null,this);
+				//param = currentModelControler.getPath(key,0,null,this); TODO
+				return null;
+				
 			}
 
 			if(param != null)
@@ -391,7 +396,8 @@ public class CommandLine  {
 				if(param instanceof SingleValueParam){
 					ret += ((SingleValueParam) param).get();
 				}else{
-					ret += param.hashCode();
+					System.out.println("here");
+					ret += param.displayText();
 				}
 
 			}
@@ -399,9 +405,7 @@ public class CommandLine  {
 			{
 				throw new CommandLineFormatException("La variable " + key + " n'existe pas");
 			}
-		}catch (BadPathException e2) {
-			throw new CommandLineFormatException(e2);
-		}
+		
 
 
 		return ret;
@@ -447,21 +451,21 @@ public class CommandLine  {
 	 */
 	private String execCommand(String command) throws CommandLineFormatException {
 		String ret = "";
-		if(command.equals("play"))
-			currentModelControler.play();
-		else if(command.equals("init")) //t = 0 computation
-			currentModelControler.firstComputation();
-		else if(command.equals("pause"))
-			currentModelControler.pause();
-		else if(command.equals("step"))
-			currentModelControler.step();
-		else if(command.equals("reset"))
+//		if(command.equals("play"))
+//			currentModelControler.play();
+//		else if(command.equals("init")) //t = 0 computation
+//			currentModelControler.firstComputation();
+//		else if(command.equals("pause"))
+//			currentModelControler.pause();
+//		else if(command.equals("step"))
+//			currentModelControler.step();
+		if(command.equals("reset"))
 			currentModelControler.reset();
-		else if(command.equals("compute"))
-		{	
-			currentModelControler.getCharac().compute();
-			//ret = main.java.model.getCharac().toString();
-		}
+//		else if(command.equals("compute"))
+//		{	
+//			currentModelControler.getCharac().compute();
+//			//ret = main.java.model.getCharac().toString();
+//		}
 		else if(command.equals("args")){
 			for(String k : map.keySet()){
 				ret += k + "=";
@@ -469,7 +473,7 @@ public class CommandLine  {
 			}
 		}
 		else if(command.equals("exit"))
-			currentModelControler.exit();
+			System.exit(0);
 
 		else
 		{
@@ -480,8 +484,10 @@ public class CommandLine  {
 
 	}
 
-	public void parseInitialCommand(String command) throws CommandLineFormatException
+	private void parseInitialCommand(String command) throws CommandLineFormatException
 	{
+		
+		
 		command = command.replaceAll("\\s+", "");
 		String[] tab = command.split(";+");
 		for(String s : tab)
@@ -507,17 +513,7 @@ public class CommandLine  {
 
 					map.put(key, new Var<Boolean>(key,val));
 				}
-				else if(obj.matches("0b[01]+")){
-					Var precision = get(PRECISION);//assumes that the precision is already set
-					try{
-						map.put(key,new PrecisionVar(key,Integer.parseInt(obj.substring(2), 2), precision));
-					}catch(NumberFormatException e){
-						throw new CommandLineFormatException("Bad binary String format : " + obj);
-
-					}
-
-
-				}
+				
 				
 				else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer with definition set
 				{
@@ -597,6 +593,22 @@ public class CommandLine  {
 
 	public String getScript() {
 		return initScript;
+	}
+
+
+
+
+	public void setComputationControler(
+			ComputationControler computationControler) {
+		this.computationControler = computationControler;
+		
+	}
+
+
+
+
+	public void setCharacControler(CharacteristicsControler characContrl) {
+		this.characControler = characContrl;
 	}
 	
 

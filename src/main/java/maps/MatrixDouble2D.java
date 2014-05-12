@@ -106,7 +106,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Doubl
 
 	@Override
 	public Double getIndex(int index) {
-		Coord2D<Integer> coord = (Coord2D<Integer>) this.getSpace().indexToCoord(index);
+		Coord2D<Integer> coord = (Coord2D<Integer>) this.getSpace().indexToCoordInt(index);
 		return this.getFast(coord.x, coord.y);
 	}
 

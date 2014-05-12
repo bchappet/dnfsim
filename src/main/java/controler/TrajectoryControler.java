@@ -8,7 +8,7 @@ import main.java.view.SingleValueParamViewAdapter;
 public class TrajectoryControler extends MapControler {
 
 	public TrajectoryControler(Parameter param) {
-		super((Map) param, new SingleValueParamViewAdapter(param));
+		super((Map) param);
 	}
 	
 	

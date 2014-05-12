@@ -11,8 +11,8 @@ public class LeafDisplayNode extends DisplayNode {
 		super(parent, linked, gui);
 	}
 	
-	public void valueChanged(ParameterView parameterView) throws NullCoordinateException {
-		parameterView.setDisplayedParam("Leaf selected" ,
+	public void valueChanged(DetailsPanel detailsPanel) throws NullCoordinateException {
+		detailsPanel.setDisplayedParam("Leaf selected" ,
 		new MapHeaderPanel(gui, (Parameter) linked),
 		super.getParamPanel(),
 		this.getQuickViewPanel());

@@ -17,7 +17,7 @@ import main.java.plot.JPanelDB;
  * @author benoit
  *
  */
-public class View2D extends JPanelDB{
+public class View2D extends ParameterViewDB{
 
 	/**Values to display**/
 	protected double[][] buffer;
@@ -29,14 +29,15 @@ public class View2D extends JPanelDB{
 	/**Color map**/
 	private ColorMap colorMap;
 
-	public View2D(double[][] initialState,ColorMap colorMap) {
+	public View2D(String name,double[][] initialState,ColorMap colorMap) {
+		super(name);
 		this.buffer = initialState;
 		this.colorMap = colorMap;
 		
 	}
 	
-	public View2D(double[][] initialState) {
-		this(initialState, new DefaultColorMap());
+	public View2D(String name,double[][] initialState) {
+		this(name,initialState, new DefaultColorMap());
 		
 	}
 

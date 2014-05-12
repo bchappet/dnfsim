@@ -13,12 +13,12 @@ public class Space1D extends Space2D {
 	}
 	
 	@Override
-	public Coord1D<Integer> indexToCoord(int index){
+	public Coord1D<Integer> indexToCoordInt(int index){
 		return new Coord1D<Integer>(index);
 	}
 	
 	@Override
-	public int coordToIndex(Coord<Integer> coord){
+	public int coordIntToIndex(Coord<Integer> coord){
 		return coord.getIndex(X);
 	}
 	

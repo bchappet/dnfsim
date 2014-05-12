@@ -6,6 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.space.Space;
+import main.java.space.Space2D;
+import main.resources.utils.ArrayUtils;
 
 /**
  * Define a map:
@@ -15,7 +17,7 @@ import main.java.space.Space;
  * @param <T> Type of data in the map
  * @param <C> Type of coordinate use to access the map
  */
-public abstract class Map<T,C> implements HasChildren<T> {
+public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	
 	/**Name of the map**/
 	private String name;
@@ -138,7 +140,7 @@ public abstract class Map<T,C> implements HasChildren<T> {
 		int result = 1;
 		result = prime * result + ((dt == null) ? 0 : dt.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
-		result = prime * result + ((params == null) ? 0 : params.hashCode());
+		//result = prime * result + ((params == null) ? 0 : params.hashCode());
 		result = prime * result + ((space == null) ? 0 : space.hashCode());
 		result = prime * result + ((time == null) ? 0 : time.hashCode());
 		return result;
@@ -186,6 +188,9 @@ public abstract class Map<T,C> implements HasChildren<T> {
 	}
 	
 	
+	public String toString(){
+		return ArrayUtils.toString2D(getValues(),getSpace().getDimensions()[Space2D.X].get(),getSpace().getDimensions()[Space2D.Y].get());
+	}
 
 	
 	

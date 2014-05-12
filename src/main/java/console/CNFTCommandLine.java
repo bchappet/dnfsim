@@ -122,9 +122,9 @@ public class CNFTCommandLine extends CommandLine{
 	/**URL of config file (optional)**/
 	protected URL contextPath;
 
-	public CNFTCommandLine(String command,Model model) throws CommandLineFormatException
+	public CNFTCommandLine() throws CommandLineFormatException
 	{
-		super(command,model);
+		super();
 		this.contextPath = null;
 	}
 

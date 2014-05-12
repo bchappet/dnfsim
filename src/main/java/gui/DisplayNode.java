@@ -185,13 +185,13 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 
 	/**
 	 * Method called the treeNode is selected
-	 * @param parameterView
+	 * @param detailsPanel
 	 * @throws NullCoordinateException
 	 */
-	public void valueChanged(ParameterView parameterView) throws NullCoordinateException {
+	public void valueChanged(DetailsPanel detailsPanel) throws NullCoordinateException {
 		if(!(linked instanceof Root || linked instanceof CharacteristicsCNFT))
 		{
-			parameterView.setDisplayedParam("Param selected" ,
+			detailsPanel.setDisplayedParam("Param selected" ,
 					new ParamHeaderPanel(gui,(Parameter) linked),
 					this.getParamPanel(),
 					getQuickViewPanel());
@@ -207,7 +207,7 @@ public class DisplayNode implements javax.swing.tree.TreeNode{
 		{
 			if(n instanceof Var)
 			{
-				ParameterModifier spm = new ParameterModifier(gui, (Var) n);
+				ParameterModifierPanel spm = new ParameterModifierPanel(gui, (Var) n);
 				ret.add(spm);
 			}
 		}

@@ -2,6 +2,7 @@ package main.java.view;
 
 import java.math.BigDecimal;
 
+import main.java.controler.ParameterControler;
 import main.java.gui.ColorMap;
 import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
@@ -17,14 +18,15 @@ import main.java.space.Coord2D;
  */
 public class SingleValueParamViewAdapter extends ParamViewAdapter {
 	
-
-	public SingleValueParamViewAdapter(Parameter param,ParameterView paramView) {
+	/**
+	 * 
+	 * @param param
+	 * @param paramView (optional) 
+	 */
+	public SingleValueParamViewAdapter(ParameterControler param,ParameterView paramView) {
 		super(param,paramView);
 	}
 	
-	public SingleValueParamViewAdapter(Parameter param) {
-		super(param);
-	}
 	
 	public void updateView(BigDecimal time){
 		
@@ -40,10 +42,9 @@ public class SingleValueParamViewAdapter extends ParamViewAdapter {
 		}
 		
 	}
-
 	@Override
-	protected ParameterView getDefaultView(Parameter param) {
-		return new Curve2D();
+	protected  ParameterView getDefaultView(ParameterControler param) {
+		return new Curve2D(param.getName());
 	}
 	
 	

@@ -108,7 +108,7 @@ public class NeighborhoodMap extends Map {
 			{
 				//System.out.println(i);
 				NeighborhoodUnitModel u = (NeighborhoodUnitModel)unitModel.clone();
-				u.setCoord(space.indexToCoord(i));
+				u.setCoord(space.indexToCoordInt(i));
 				this.units.add(new Unit(u));
 			}
 			//System.out.println(name +" =>Constructing neighborhood");

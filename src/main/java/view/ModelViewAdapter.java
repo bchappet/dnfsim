@@ -2,27 +2,33 @@ package main.java.view;
 
 import java.math.BigDecimal;
 
-import main.java.maps.Parameter;
+import javax.swing.JPanel;
+
+import main.java.controler.ModelControler;
+import main.java.controler.ParameterControler;
 
 public class ModelViewAdapter extends ParamViewAdapter {
 
-	public ModelViewAdapter(Parameter param, ParameterView paramView) {
+	/**
+	 * Here paramView is mandatory
+	 * @param param
+	 * @param paramView
+	 */
+	public ModelViewAdapter(ModelControler param, ModelView paramView) {
 		super(param, paramView);
 	}
 
-	public ModelViewAdapter(Parameter param) {
-		super(param);
-	}
-
-	@Override
-	protected ParameterView getDefaultView(Parameter param) {
-		return new ModelView();
-	}
 
 	@Override
 	public void updateView(BigDecimal time) {
-		// TODO Auto-generated method stub
+		//((JPanel) this.getParamView()).repaint();
 
+	}
+
+
+	@Override
+	protected ParameterView getDefaultView(ParameterControler param) {
+		throw new Error("Should be constructed with paramView != null");
 	}
 
 }

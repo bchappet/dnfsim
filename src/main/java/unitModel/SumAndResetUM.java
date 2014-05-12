@@ -31,7 +31,7 @@ public class SumAndResetUM extends Sum {
 			
 			//Reset activity as we get it
 			ret += p.getIndex(coord);
-			((UnitMap)p).getUnit(space.coordToIndex(coord)).reset();
+			((UnitMap)p).getUnit(space.coordIntToIndex(coord)).reset();
 		}
 		return ret;
 	}

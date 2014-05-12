@@ -258,7 +258,7 @@ public class GAPrinter implements Serializable {
 	}
 
 	/**
-	 * Load stats from the file
+	 * Load statsControler from the file
 	 * @param string
 	 * @throws ClassNotFoundException 
 	 * @throws IOException 
