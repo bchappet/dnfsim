@@ -61,8 +61,8 @@ public class View2D extends ParameterViewDB{
 		{
 			for( int j = 0 ; j <buffer.length ; j ++)
 			{
-				//System.out.println("i:"+i+" j:"+j);
-				//System.out.println(buffer[j][i]);
+//				System.out.println("i:"+i+" j:"+j);
+//				System.out.println(buffer[j][i]);
 				tmp.setColor(colorMap.getColor(getValue(i,j)));
 				tmp.fillRect(i,j,1,1);
 			}

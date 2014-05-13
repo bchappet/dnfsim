@@ -59,7 +59,7 @@ public class Runner implements Runnable {
 		this.loadModel(modelName,initScript);
 
 	}
-	
+
 	public GlobalView getGlobalView(){
 		return this.view;
 	}
@@ -95,6 +95,7 @@ public class Runner implements Runnable {
 			cl.setCharacControler(characContrl);
 			if(gui){
 				this.view.loadModelView(name,mc,computationControler,model.getDefaultDisplayedParameter());
+				this.view.setVisible(true);
 			}
 		}
 		catch(Exception e){
@@ -120,13 +121,14 @@ public class Runner implements Runnable {
 
 	@Override
 	public void run() {
-		
-		System.out.println("here1");
+
 		try{
-			for(int i = 0 ; i < iteration ; i++){
-				String[] commands = runningScript.split("[\n|;]+");
-				for(int j = 0 ; j < commands.length ; j++){
-					this.printer.print( this.interpret(commands[j]));
+			if(runningScript != null){
+				for(int i = 0 ; i < iteration ; i++){
+					String[] commands = runningScript.split("[\n|;]+");
+					for(int j = 0 ; j < commands.length ; j++){
+						this.printer.print( this.interpret(commands[j]));
+					}
 				}
 			}
 			if(this.gui){

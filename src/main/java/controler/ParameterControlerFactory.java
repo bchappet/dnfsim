@@ -5,6 +5,7 @@ import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
+import main.java.space.Space;
 import main.java.statistics.Characteristics;
 import main.java.statistics.Statistics;
 import main.java.view.SingleValueParamViewAdapter;
@@ -25,6 +26,8 @@ public class ParameterControlerFactory {
 			return new StatisticsControler((Statistics)param);
 		}else if(param instanceof Characteristics){
 			return new CharacteristicsControler((Characteristics)param);
+		}else if(param instanceof Space){
+			return new SpaceControler((Space)param);
 		}else{
 			return new MapControler((Map) param);
 		}

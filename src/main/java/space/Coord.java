@@ -62,11 +62,11 @@ public class Coord<T> implements Parameter<T> {
 	
 	@Override
 	public String toString(){
-		String ret = "";
+		String ret = "(";
 		for(int i = 0 ; i < values.size()-1 ; i++){
 			ret += values.get(i) + ",";
 		}
-		ret += values.get(values.size()-1);
+		ret += values.get(values.size()-1) + ")";
 		return ret;
 	}
 

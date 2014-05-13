@@ -27,7 +27,7 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	/**
 	 * N Dimension of the main.java.space (if fixed should be indexed with constants) 
 	 */
-	private SingleValueParam<Integer>[] dimensions;
+	private Coord<SingleValueParam<Integer>> dimensions; //TODO change to coord
 
 	
 	/**
@@ -35,7 +35,12 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	 * @param dimensions (will be copied)
 	 */
 	public Space(SingleValueParam<Integer>... dimensions){
-		this.dimensions = Arrays.copyOf(dimensions,dimensions.length);
+		this.dimensions = new Coord<SingleValueParam<Integer>>(Arrays.asList(dimensions));
+		
+	}
+	
+	public Space(Coord<SingleValueParam<Integer>> dimensions){
+		this.dimensions = dimensions;
 		
 	}
 	
@@ -77,13 +82,13 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	
 	public abstract Coord<Integer> wrapCoordInt(Coord<Integer> coord);
 	
-	public SingleValueParam<Integer>[] getDimensions(){
+	public Coord<SingleValueParam<Integer>> getDimensions(){
 		return dimensions;
 	}
 	
 	@Override
 	public String toString(){
-		return "" + this.getClass() + " dim:" + Arrays.toString(this.dimensions);
+		return "" + this.getClass() + " dim:" + this.dimensions;
 	
 	}
 	
@@ -96,7 +101,7 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode(dimensions);
+		result = prime * result + dimensions.hashCode();
 		return result;
 	}
 
@@ -112,7 +117,7 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 		if (!(obj instanceof Space))
 			return false;
 		Space other = (Space) obj;
-		if (!Arrays.equals(dimensions, other.dimensions))
+		if (!dimensions.equals(dimensions))
 			return false;
 		return true;
 	}
@@ -126,18 +131,18 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 			//  clone supported
 			e.printStackTrace();
 		}
-		clone.dimensions = Arrays.copyOf(this.dimensions, this.dimensions.length);
+		clone.dimensions = this.dimensions.clone();
 		return clone;
 	}
 
 	@Override
 	public SingleValueParam<Integer> getIndex(int index) {
-		return this.dimensions[index];
+		return this.dimensions.getIndex(index);
 	}
 
 	@Override
 	public List<SingleValueParam<Integer>> getValues() {
-		return Arrays.asList(dimensions);
+		return dimensions.getValues();
 	}
 
 	@Override

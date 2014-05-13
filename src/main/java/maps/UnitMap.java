@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import main.java.space.Coord2D;
 import main.java.space.Space;
 import main.java.unitModel.UnitModel;
 import main.resources.utils.Cloneable;
@@ -23,11 +24,11 @@ import main.resources.utils.Cloneable;
  *
 
  */
-public class UnitMap<T,C> extends Map<T,C> 
+public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 {
 
 	/**Collection of units**/
-	private AbstractList<Unit<T>> units;
+	private List<Unit<T>> units;
 	
 
 	/**
@@ -49,12 +50,16 @@ public class UnitMap<T,C> extends Map<T,C>
 	 * Initialize the memory of the unit map
 	 * @param um
 	 */
-	private void initMemory(UnitModel<T> um) {
+	protected void initMemory(UnitModel<T> um) {
 		for(int i = 0 ; i < this.getSpace().getVolume() ; i++){
 			UnitModel<T> clone = um.clone();
 			this.units.add(new Unit<T>(clone));
 		}
 		
+	}
+	
+	protected List<Unit<T>> getUnits(){
+		return this.units;
 	}
 	
 	/**
@@ -157,6 +162,16 @@ public class UnitMap<T,C> extends Map<T,C>
 			ret.add(unit.get());
 		}
 		return ret;
+	}
+
+	@Override
+	public Unit<T> getUnit(int index) {
+		return this.units.get(index);
+	}
+
+	public void set(int index, T val) {
+		this.units.get(index).set(val);
+		
 	}
 
 

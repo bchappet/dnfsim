@@ -37,7 +37,7 @@ public abstract class ParamViewAdapter {
 	public abstract void updateView(BigDecimal time);
 		
 	
-	protected ParameterControler getParameter(){
+	protected ParameterControler getParameterControler(){
 		return this.param;
 	}
 	

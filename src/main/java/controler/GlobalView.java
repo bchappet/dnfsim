@@ -104,8 +104,12 @@ public class GlobalView extends JFrame {
 			ParameterControler mapC =  mc.getControler(param);
 			mapC.initView(null);
 			ParameterView mapView = mapC.getParamView();
+			if(mapView == null)
+				throw new Error("Map view of " + param + " is null");
 			modelView.addView( mapView);
+			System.out.println("Add map view : " + param + " typr " + mapView.getClass() + " pc :" + System.identityHashCode(mapC));
 		}
+		//Parameter root = mc.getContr
 
 		JButton playPause = new JButton("Play/Pause");
 		playPause.addActionListener(new ActionListener() {

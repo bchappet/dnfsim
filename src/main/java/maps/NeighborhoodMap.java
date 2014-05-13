@@ -1,13 +1,13 @@
 package main.java.maps;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 
 import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
 import main.java.neigborhood.Neighborhood;
+import main.java.space.Space;
 import main.java.unitModel.NeighborhoodUnitModel;
 import main.java.unitModel.UnitModel;
 
@@ -22,63 +22,16 @@ import main.java.unitModel.UnitModel;
  * @author bchappet
  *
  */
-public class NeighborhoodMap extends Map {
+public class NeighborhoodMap<T,C> extends UnitMap<T, C> {
 
 	/**List of linked neigboorhood**/
 	protected List<Neighborhood> neighborhood;
-	
-	public NeighborhoodMap(String name,UnitModel um,Parameter dt, Space space, Parameter... maps){
-		super(name,um,dt,space,maps);
+
+	public NeighborhoodMap(String name,Var<BigDecimal> dt,Space<C> space,NeighborhoodUnitModel<T> unitModel, Parameter... params) {
+		super(name,dt,space,unitModel,params);
 		this.neighborhood = new ArrayList<Neighborhood>();
 	}
-	
-	@Override
-	public NeighborhoodMap clone(){
-		NeighborhoodMap clone = (NeighborhoodMap) super.clone();
-		
-		
-		
-		clone.neighborhood = new ArrayList<Neighborhood>();
-		for(Neighborhood nei : this.neighborhood){
-			Neighborhood newNei = nei.clone();
-			if(nei.getMap() instanceof Leaf && ((Leaf)nei.getMap()).getMap() == this){
-				//if the neighbourhood linked map was this one,
-				//we have to replace it by the cloned one
-				newNei.setMap(new UnitLeaf(clone));
-			}
-			clone.neighborhood.add(newNei);
-		}
-		
-		//Add new neighbours to the memory
-		
-		if(clone.isMemory()){
-			for(Unit unit : clone.units)//TODO dirty
-			{
-				//Share the neighboorhood list within the differents UM
-				for(int i = 1 ; i < unit.memories.size() ; i++){
-					((NeighborhoodUnitModel)unit.getUnitModel(i)).setNeighborhood(
-							((NeighborhoodUnitModel)unit.getUnitModel(0)).getNeighborhood());
-				}
-			}
-			
-			for(Neighborhood neigh : clone.neighborhood)
-			{
-				neigh.getMap().constructMemory();
-				for(Unit unit : clone.units)
-				{
-					Unit[] unitArray = ((Neighborhood) neigh).getNeighborhoodUnits(unit.getCoord());
-					((NeighborhoodUnitModel) unit.getUnitModel()).addNeighborhoods(unitArray);
-					
-				}
 
-			}
-		}
-		
-		
-		
-		return clone;
-	}
-	
 	/**
 	 * One should call constructMemory before using it
 	 * @param name
@@ -86,46 +39,77 @@ public class NeighborhoodMap extends Map {
 	 * @param neighborhood
 	 * @throws NullCoordinateException
 	 */
-	public NeighborhoodMap(String name, UnitModel unitModel,Neighborhood... neighborhood) throws NullCoordinateException {
-		super(name, unitModel);
-		this.neighborhood = new LinkedList<Neighborhood>();
+	public NeighborhoodMap(String name,Var<BigDecimal> dt,Space<C> space, NeighborhoodUnitModel<T> unitModel,Neighborhood... neighborhood) throws NullCoordinateException {
+		this(name,dt,space,unitModel,(Parameter) null);
 		this.addNeighboors(neighborhood);
 	}
 
-	public void constructMemory() throws NullCoordinateException
+	/**
+	 * Called when we finnish to set neighboors
+	 */
+	public void initNeighboorhood()
 	{
-		if(!isMemory)
+		//Construct as much main.java.unitModel as necessary
+		//with the correct coordinate
+
+		//System.out.println(name +" =>Constructing neighborhood");
+		for(Neighborhood neigh : neighborhood)
 		{
-			//To avoid recursivity when calling neigh.getMap().constructMemory();
-			this.isMemory = true;
-			//Create the generic collection
-			this.units =  new ArrayList<Unit>();
-			//Construct as much main.java.unitModel as necessary
-			//with the correct coordinate
-
-			//System.out.println(name +" =>Constructing memory from unit main.java.model " + main.java.unitModel.hashCode());
-			for(int i = 0 ; i < space.getDiscreteVolume() ; i++)
+			for(int i = 0 ; i < getUnits().size() ; i++)
 			{
+				Unit<T> unit = getUnits().get(i);
 				//System.out.println(i);
-				NeighborhoodUnitModel u = (NeighborhoodUnitModel)unitModel.clone();
-				u.setCoord(space.indexToCoordInt(i));
-				this.units.add(new Unit(u));
+				Unit<T>[] unitArray = ((Neighborhood) neigh).getNeighborhoodUnits(i);
+				((NeighborhoodUnitModel) unit.getUnitModel()).addNeighborhoods(unitArray);
 			}
-			//System.out.println(name +" =>Constructing neighborhood");
-			for(Neighborhood neigh : neighborhood)
+
+		}
+
+	}
+
+
+	@Override
+	public NeighborhoodMap<T,C> clone(){
+		NeighborhoodMap clone = (NeighborhoodMap) super.clone();
+		clone.neighborhood = new ArrayList<Neighborhood>();
+		for(Neighborhood nei : this.neighborhood){
+			Neighborhood newNei = nei.clone();
+			clone.neighborhood.add(newNei);
+		}
+
+		//Add new neighbours to the memory
+
+		for(int j = 0 ; j< clone.getUnits().size() ; j++)//TODO dirty
+		{
+			Unit unit = (Unit ) clone.getUnits().get(j);
+			//Share the neighboorhood list within the differents UM
+			for(int i = 1 ; i < unit.getMemories().size() ; i++){
+				((NeighborhoodUnitModel)unit.getUnitModel(i)).setNeighborhood(
+						((NeighborhoodUnitModel)unit.getUnitModel(0)).getNeighborhood());
+			}
+		}
+
+		for(int i = 0 ; i < clone.neighborhood.size() ; i++)
+		{
+			Neighborhood neigh = (Neighborhood) clone.neighborhood.get(i);
+			for(int j = 0 ;j < clone.getUnits().size() ; j++)
 			{
-				neigh.getMap().constructMemory();
-				for(Unit unit : units)
-				{
-					//System.out.println(i);
-					Unit[] unitArray = ((Neighborhood) neigh).getNeighborhoodUnits(unit.getCoord());
-					((NeighborhoodUnitModel) unit.getUnitModel()).addNeighborhoods(unitArray);
-				}
+				Unit unit = (Unit) clone.getUnits().get(j);
+				Unit[] unitArray = ((Neighborhood) neigh).getNeighborhoodUnits(j);
+				((NeighborhoodUnitModel) unit.getUnitModel()).addNeighborhoods(unitArray);
 
 			}
-			
+
 		}
+
+
+
+		return clone;
 	}
+
+
+
+
 
 	/**
 	 * Add neighboors
@@ -141,8 +125,8 @@ public class NeighborhoodMap extends Map {
 	public List<Neighborhood> getNeighborhoods() {
 		return neighborhood;
 	}
-	
-	
+
+
 
 }
 

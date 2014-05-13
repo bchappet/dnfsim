@@ -74,6 +74,7 @@ public class ComputationControler {
 	public void compute(BigDecimal timeLimit){
 		LOGGER.info("Computation until: " + timeLimit );
 		if(time.equals(new BigDecimal("0"))){
+			LOGGER.info("First computation");
 			this.firstComputation();
 		}
 

@@ -37,7 +37,8 @@ public enum Models{
 	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
 	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
 	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
-	ESN("ESN",ModelESN.class,false);
+	ESN("ESN",ModelESN.class,false),
+	DMADSom("DMADSom",ModelDMADSom.class,false);
 	
 	private final boolean assynch;
 	private final String name;

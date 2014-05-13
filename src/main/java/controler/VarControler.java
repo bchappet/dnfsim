@@ -5,7 +5,7 @@ import main.java.view.ParamViewAdapter;
 import main.java.view.ParameterView;
 import main.java.view.SingleValueParamViewAdapter;
 
-public class VarControler extends ParameterControler {
+public class VarControler extends ParameterControler implements SingleValueControler{
 
 	public VarControler(Var param) {
 		super(param);

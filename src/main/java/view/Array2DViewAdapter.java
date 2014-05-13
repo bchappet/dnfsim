@@ -27,7 +27,7 @@ public class Array2DViewAdapter extends ParamViewAdapter {
 	@Override
 	public void updateView(BigDecimal time){
 		
-		Array2D<Double> array = (Array2D<Double>) getParameter();
+		Array2D<Double> array = (Array2D<Double>) getParameterControler();
 		
 		if(this.getParamView() instanceof View2D ){
 			double[][] values = ArrayUtils.toPrimitiveArray(array.get2DArray());

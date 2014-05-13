@@ -14,18 +14,14 @@ import main.java.maps.Var;
  * @version 12/05/2014
  *
  */
-public class WrappableDouble2DSpace extends Space<Double> {
+public class WrappableDouble2DSpace extends DoubleSpace2D {
 
 	private Var<Boolean> wrapped;
-	private Var<Double>[] origin;
-	private Var<Double>[] length;
 
 	public WrappableDouble2DSpace(Var<Double>[] origin,
 			Var<Double>[] length,Var<Integer> resolution,Var<Boolean> wrapped) {
-		super(resolution, resolution);
+		super(origin,length,resolution);
 		this.wrapped =wrapped;
-		this.origin = origin;
-		this.length = length;
 	}
 
 	@Override

@@ -1,15 +1,10 @@
 package main.java.neigborhood;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
 import main.java.maps.Parameter;
 import main.java.maps.Unit;
 import main.java.maps.UnitParameter;
-import main.java.maps.Var;
-import main.java.unitModel.UMWrapper;
+import main.java.space.Space;
 import main.java.unitModel.UnitModel;
 import main.resources.utils.Cloneable;
 
@@ -21,32 +16,32 @@ import main.resources.utils.Cloneable;
  * @author bchappet
  *
  */
-public abstract class Neighborhood implements Cloneable {
+public abstract class Neighborhood<C> implements Cloneable {
 
-	protected Space space;
+	protected Space<C> space;
 	/**Linked map (can be set later)**/
 	protected UnitParameter map;
 
 	/**This unit will be set if we are out of bounds (optional) but should be set if no wrap and special unit acces**/
-	protected UnitModel nullUnit = new UMWrapper(new Var(0));
+	//protected UnitModel nullUnit = new UMWrapper<T>(initActivity)
 
-	public Neighborhood(Space space)
+	public Neighborhood(Space<C> space)
 	{
 		this(space,null);
 	}
 
 
-	public Neighborhood(Space space, UnitParameter map)
+	public Neighborhood(Space<C> space, UnitParameter map)
 	{
 		this.space = space;
 		this.map = map;
 	}
 
-	public Neighborhood clone()
+	public Neighborhood<C> clone()
 	{
-		Neighborhood clone = null;
+		Neighborhood<C> clone = null;
 		try {
-			clone = (Neighborhood) super.clone(); //everything is shared
+			clone = (Neighborhood<C>) super.clone(); //everything is shared
 		} catch (CloneNotSupportedException e) {
 			//no
 		}
@@ -60,49 +55,24 @@ public abstract class Neighborhood implements Cloneable {
 	 * @return The neighboorhood unit or a NullUnit if the neighbour is out of bound
 	 * @throws NullCoordinateException
 	 */
-	public Unit[] getNeighborhoodUnits(Double ... coord ) throws NullCoordinateException
+	public Unit[] getNeighborhoodUnits(int index ) throws NullCoordinateException
 	{
-		Double[][] neighCoords = this.getNeighborhood(coord);
+		int[] neighCoords = this.getNeighborhood(index);
 		Unit[] ret = new Unit[neighCoords.length];
 
 		for(int i = 0 ; i < ret.length ; i++){
 			try{
-				ret[i] = map.getUnit(space.coordToIndex(neighCoords[i]));
-			}catch (NullCoordinateException e) {
+				ret[i] = map.getUnit(neighCoords[neighCoords[i]]);
+			}catch (ArrayIndexOutOfBoundsException e) {
 				//Out of bounds
 				//System.out.println("Out of bound, constructing a null unit");
-				ret[i] = new Unit(nullUnit);
+				ret[i] = new NullUnit(map.getUnit(0));
 			}
 		}
 
 		return ret;
 	}
 
-	/**
-	 * For display : return index of neighboors of current index
-	 * @param index
-	 * @return
-	 */
-	public  int[] getNeighborhood(int index){
-
-		Double[][] tmp = getNeighborhood(space.indexToCoord(index));
-		List<Integer> list = new ArrayList<Integer>(4);
-		for(int i = 0 ; i < tmp.length ; i ++){
-			boolean noNull = true;
-			for(int j = 0 ; j < tmp[i].length ; j++){
-				noNull &= tmp[i][j] != null;
-			}
-			if(noNull){
-				list.add( space.coordToIndex(tmp[i]));
-			}
-		}
-		int[] res= new int[list.size()];
-		for(int i = 0 ; i < res.length ; i++){
-			res[i] = list.get(i);
-		}
-		
-		return res;
-	}
 
 
 
@@ -112,7 +82,7 @@ public abstract class Neighborhood implements Cloneable {
 	 * @return an array of main.java.coordinates
 	 * @throws NullCoordinateException coordinate bad format
 	 */
-	public abstract Double[][] getNeighborhood(Double... coord) throws NullCoordinateException;
+	public abstract int[] getNeighborhood(int index);
 
 	public Space getSpace() {
 		return space;
@@ -126,9 +96,7 @@ public abstract class Neighborhood implements Cloneable {
 		this.map = map;
 	}
 
-	public void setNullUnit(UnitModel um) {
-		this.nullUnit = um;
-	}
+	
 
 
 }

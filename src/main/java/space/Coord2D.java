@@ -36,6 +36,10 @@ public class Coord2D<T> extends Coord<T> {
 		this.y = values.get(Space2D.Y);
 	}
 
+	public Coord2D(Coord<T> coord) {
+		this(coord.getIndex(Space2D.X),coord.getIndex(Space2D.Y));
+	}
+
 	@Override
 	public List<T> getValues(){
 		List<T> ret = new ArrayList<T>(2);
@@ -92,7 +96,7 @@ public class Coord2D<T> extends Coord<T> {
 	
 	@Override
 	public String toString(){
-		return ""+this.x+","+this.y;
+		return "("+this.x+","+this.y+")";
 	}
 	
 	

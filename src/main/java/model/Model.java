@@ -147,7 +147,7 @@ public abstract class Model implements HasChildren<Parameter> {
 
 	/**
 	 * First displayed parameters when the main.java.model is selected
-	 *TODO not very MVC
+	 *TODO not very MVC init with a script
 	 * 
 	 * @return
 	 */

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import main.java.space.Coord2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
 import main.resources.utils.ArrayUtils;
@@ -90,7 +91,7 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	 * @param index
 	 * @return
 	 */
-	protected Parameter getParam(int index){
+	public Parameter getParam(int index){
 		return this.params.get(index);
 	}
 	
@@ -189,7 +190,8 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	
 	
 	public String toString(){
-		return ArrayUtils.toString2D(getValues(),getSpace().getDimensions()[Space2D.X].get(),getSpace().getDimensions()[Space2D.Y].get());
+		return ArrayUtils.toString2D(getValues(),getSpace().getDimensions().getIndex(Space2D.X).get(),
+				getSpace().getDimensions().getIndex(Space2D.Y).get());
 	}
 
 	

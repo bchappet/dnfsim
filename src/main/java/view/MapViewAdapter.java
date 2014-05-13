@@ -6,6 +6,7 @@ import main.java.controler.MapControler;
 import main.java.controler.ParameterControler;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
+import main.java.maps.SingleValueParam;
 import main.java.space.Coord2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
@@ -30,7 +31,7 @@ public class MapViewAdapter extends ParamViewAdapter {
 	@Override
 	public void updateView(BigDecimal time){
 		
-		MapControler mapControler = (MapControler) getParameter();
+		MapControler mapControler = (MapControler) getParameterControler();
 		
 		if(this.getParamView() instanceof View2D ){
 			((View2D)this.getParamView()).update(getValuesForView2D(mapControler));
@@ -70,7 +71,8 @@ public class MapViewAdapter extends ParamViewAdapter {
 	private static Coord2D<Integer> get2DDimFromSpace(Space space) {
 		//TODO finish
 		
-		return new Coord2D<Integer>((Integer)space.getDimensions()[Space2D.X].get(),(Integer) space.getDimensions()[Space2D.Y].get());
+		return new Coord2D<Integer>((Integer)( ((SingleValueParam) space.getDimensions().getIndex(Space2D.X)).get()),
+				(Integer) ((SingleValueParam) space.getDimensions().getIndex(Space2D.Y)).get());
 	}
 	
 	

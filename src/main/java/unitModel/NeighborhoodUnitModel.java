@@ -19,20 +19,16 @@ import main.java.maps.Var;
  * @author bchappet
  *
  */
-public abstract class NeighborhoodUnitModel extends UnitModel {
+public abstract class NeighborhoodUnitModel<T> extends UnitModel<T> {
 	
 	/**List of array of unit : each list contains Units from one map**/
 	protected List<Unit[]> neighborhoods;
 	
-	public NeighborhoodUnitModel(){
-		super();
+	public NeighborhoodUnitModel(T defaultValue){
+		super(defaultValue);
 		neighborhoods = new ArrayList<Unit[]>();
 	}
 	
-	public NeighborhoodUnitModel(Parameter dt, Space space, Parameter... parameters) {
-		super(dt, space, parameters);
-		neighborhoods = new ArrayList<Unit[]>();
-	}
 	
 	public void onNeighborhoodAddition(){
 		//nothing by default
@@ -49,23 +45,23 @@ public abstract class NeighborhoodUnitModel extends UnitModel {
 		return clone;
 	}
 	
-	@Override
-	public NeighborhoodUnitModel clone2() 
-	{
-		NeighborhoodUnitModel clone = (NeighborhoodUnitModel) super.clone2();
-		//we are in the same unit: the neighbourhood is the same
-		clone.neighborhoods = this.neighborhoods;
-		clone.onNeighborhoodAddition();
-		return clone;
-	}
-
+//	@Override
+//	public NeighborhoodUnitModel clone2() 
+//	{
+//		NeighborhoodUnitModel clone = (NeighborhoodUnitModel) super.clone2();
+//		//we are in the same unit: the neighbourhood is the same
+//		clone.neighborhoods = this.neighborhoods;
+//		clone.onNeighborhoodAddition();
+//		return clone;
+//	}
+//
 	
 
 	/**
 	 * Add an array of {@link Unit} to the neighborhood list
 	 * @param units
 	 */
-	public void addNeighborhoods(Unit[] units) {
+	public void addNeighborhoods(Unit<T>[] units) {
 		neighborhoods.add(units);
 		onNeighborhoodAddition();
 	}

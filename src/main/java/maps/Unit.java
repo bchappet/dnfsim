@@ -133,7 +133,7 @@ public class Unit<T> implements Cloneable {
 	 * Get current {@link UnitModel}
 	 * @return
 	 */
-	public UnitModel getUnitModel()
+	public UnitModel<T> getUnitModel()
 	{
 		return memories.get(current);
 	}
@@ -142,7 +142,7 @@ public class Unit<T> implements Cloneable {
 	 * Get the {@link UnitModel} at iteration t - delay
 	 * @return
 	 */
-	public UnitModel getUnitModel(int delay)
+	public UnitModel<T> getUnitModel(int delay)
 	{
 		int access = wrapAccess(current - delay);
 		return memories.get(access);
@@ -243,6 +243,8 @@ public class Unit<T> implements Cloneable {
 
 	
 
-
+	public void set(T val){
+		this.getUnitModel().set(val);
+	}
 
 }

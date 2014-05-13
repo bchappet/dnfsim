@@ -1,0 +1,98 @@
+package main.java.space;
+
+import java.util.ArrayList;
+import java.util.Random;
+
+import main.java.maps.Var;
+
+public class DoubleSpace2D extends DoubleSpace {
+	
+	
+	public DoubleSpace2D(Coord<Var<Double>> origin,
+			Coord<Var<Double>> length,Var<Integer> resolution) {
+		super(origin,length,resolution);
+	}
+	
+	public DoubleSpace2D(Var<Double> originX,Var<Double> originY,
+			Var<Double> lengthX,Var<Double> lengthY,Var<Integer> resolution) {
+		this(new Coord<Var<Double>>(originX,originY),new Coord<Var<Double>>(lengthX,lengthY),resolution);
+	}
+	
+	@Override
+	public Coord2D<Double> indexToCoord(int index) {
+		return (Coord2D<Double>)(super.indexToCoord(index));
+	}
+	
+	protected Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
+		return new Coord2D<Double>(super.toTypeCoord(intCoord));
+	}
+	
+	
+	
+	private static Var<Double>[] getArray(Var<Double> ...vars )
+	{
+		return vars;
+	}
+	private double getLengthX(){
+		return getLenght(Space2D.X);
+	}
+	
+	private double getLengthY(){
+		return getLenght(Space2D.Y);
+	}
+	
+	private double getOriX(){
+		return getOrigin(Space2D.X);
+	}
+	
+	private double getOriY(){
+		return getOrigin(Space2D.Y);
+	}
+	
+	/**
+	 * Return the X dimension (row length)
+	 * @return
+	 */
+	public int getDimX(){
+		return this.getDimensions().getIndex(Space2D.X).get().intValue();
+	}
+	
+	/**
+	 * Return the Y dimension (column length)
+	 * @return
+	 */
+	public int getDimY(){
+		return this.getDimensions().getIndex(Space2D.Y).get().intValue();
+	}
+	
+	@Override
+	public Coord2D<Integer> indexToCoordInt(int index){
+		int dimX = this.getDimX();
+		return new Coord2D<Integer>(index % dimX,index/dimX);
+		
+	}
+	@Override
+	public int coordIntToIndex(Coord<Integer> coord){
+		int dimX = this.getDimX();
+		return coord.getIndex(Space2D.X)+ coord.getIndex(Space2D.Y)*dimX;
+	}
+
+	public Coord2D<Double> getGaussianSample(){
+		Random rand = new Random();
+		double widthX = this.getLengthX();
+		double widthY = this.getLengthY();
+		double oriX = this.getOriX();
+		double oriY = this.getOriY();
+		double cx = widthX/2d - oriX;
+		double cy = widthY/2d - oriY;
+		System.out.println(rand.nextGaussian());
+		double x = (rand.nextGaussian()*widthX/6d)+cx;  //TODO
+		double y = (rand.nextGaussian()*widthY/6d)+cy; //TODO test
+	//	System.out.println("("+x+","+y+")");
+		
+		return new Coord2D<Double>(x,y);
+	}
+
+	
+
+}

@@ -30,7 +30,7 @@ public class Space2D extends Space<Integer> {
 	 * @return
 	 */
 	public int getDimX(){
-		return this.getDimensions()[X].get().intValue();
+		return this.getDimensions().getIndex(X).get().intValue();
 	}
 	
 	/**
@@ -38,7 +38,7 @@ public class Space2D extends Space<Integer> {
 	 * @return
 	 */
 	public int getDimY(){
-		return this.getDimensions()[Y].get().intValue();
+		return this.getDimensions().getIndex(Y).get().intValue();
 	}
 	
 	@Override

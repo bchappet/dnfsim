@@ -1,7 +1,7 @@
 package main.java.maps;
 
-public interface UnitParameter extends Parameter {
+public interface UnitParameter<T> extends Parameter<T> {
 	
-	public Unit getUnit(int index);
+	public Unit<T> getUnit(int index);
 
 }

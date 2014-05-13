@@ -193,7 +193,7 @@ public class ModelCNFT extends Model{
 			{
 		
 		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
-
+		//wa = wa_/(res^2)*40^2/alpha 
 		Var<String> equationWeights = new Var<String>("$1/$2**2*40**2/$3");
 		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),equationWeights,pa,extendedSpace.getSimulationSpace().getResolution(),alphaP);
 		hpB = new Trajectory<Double>("B_hidden",new InfiniteDt(),new ComputeUM(0d),equationWeights,pb,extendedSpace.getSimulationSpace().getResolution(),alphaP);

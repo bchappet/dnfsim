@@ -1,19 +1,13 @@
 package main.java.gui;
 
-import java.awt.Dimension;
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.net.URL;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.swing.UIManager;
 
-import main.java.applet.AppletStub;
-import main.java.model.Model;
-import main.java.statistics.Statistics;
 import main.java.controler.Runner;
+import main.java.statistics.Statistics;
 
 
 

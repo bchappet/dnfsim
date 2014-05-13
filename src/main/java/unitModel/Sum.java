@@ -1,30 +1,32 @@
 package main.java.unitModel;
 
+import java.math.BigDecimal;
+import java.util.List;
+
 import main.java.coordinates.NullCoordinateException;
 import main.java.coordinates.Space;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
 
-public class Sum extends UnitModel {
+public class Sum extends UnitModel<Double> {
 
-	public Sum(Var dt, Space space, Parameter... parameters) {
-		super(dt, space, parameters);
+	public Sum(Double init) {
+		super(init);
 	}
 
-	public Sum() {
-		super();
-	}
+
+
 
 	@Override
-	public double compute() throws NullCoordinateException {
+	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
 		double ret = 0;
 		//System.out.println("params : " + params);
 		for(Parameter p : params)
 		{//System.out.print( "; " + ret +" += " +p.get(coord));
-			ret += p.getIndex(coord);
+			ret += ((Number)p.getIndex(index)).doubleValue();
 		}
                
-                return ret;
+        return ret;
 	}
 
 }

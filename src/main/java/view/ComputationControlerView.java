@@ -1,10 +1,15 @@
 package main.java.view;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
+import main.java.controler.ComputationControler;
 import main.java.maps.Var;
 
 public class ComputationControlerView {
+	
+	private final transient Logger LOGGER = Logger.getLogger(ComputationControlerView.class.getName());
+
 
 	/**True if the simulation gui is playing**/
 	private boolean play;
@@ -27,6 +32,7 @@ public class ComputationControlerView {
 	public void delayComputation(BigDecimal currentSimulationTime){
 		try{
 			while(!play){
+				//LOGGER.info("Pause");
 				Thread.sleep(100);
 			}
 			delayComputationSpeed(currentSimulationTime);

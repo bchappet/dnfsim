@@ -24,6 +24,10 @@ public abstract class ParameterControler {
 	private List<ParameterControler> children;
 	private ParamViewAdapter paraView;//Optional
 
+	/**
+	 * Construct a parameter comtroler
+	 * @param param
+	 */
 	public ParameterControler(Parameter param) {
 		this.param = param ;
 		this.paraView = null;

@@ -25,6 +25,7 @@ public class ModelControler extends ParameterControler {
 	public ModelControler(Model model) {
 		super(model);
 		 tree = new ParameterControlerTree(this);
+		 System.out.println(tree);
 		 contructTree((HasChildren) model,this, tree);
 	}
 	
@@ -46,7 +47,11 @@ public class ModelControler extends ParameterControler {
 		for(int i  = 0 ; i < node.getParameters().size() ; i++){
 			
 			Parameter p = (Parameter) node.getParameters().get(i);
+			if(p == null){
+				throw new Error("Parameter null in " + this.getName() + " index " + i);
+			}
 			ParameterControler pc = ParameterControlerFactory.getControler(p);
+			
 			rootPc.addChild(pc);
 			if(p instanceof HasChildren && !this.alreadySeen.contains((HasChildren)p)){
 				contructTree((HasChildren) p,pc,tree);
