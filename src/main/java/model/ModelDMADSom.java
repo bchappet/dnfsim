@@ -84,7 +84,7 @@ public class ModelDMADSom extends Model {
 			afferent_weights.set(i, coord);
 			
 		}
-	//	System.out.println(afferent_weights);
+		System.out.println(afferent_weights);
 		
 		//X is the afferent potential neural input 1D
 		UnitMap<Double,Integer> afferent_input = new UnitMap<Double,Integer>("neural_input",dt,space,new NeuralInputUM(0d),
@@ -141,7 +141,7 @@ public class ModelDMADSom extends Model {
 
 	@Override
 	public String[] getDefaultDisplayedParameter() {
-		return new String[]{INPUT,"neural_input",POTENTIAL,"modulation_map"};//AFFERENT_WEIGHTS,LATERAL_WEIGHTS};
+		return new String[]{INPUT,AFFERENT_WEIGHTS,"neural_input",POTENTIAL,"modulation_map"};//AFFERENT_WEIGHTS,LATERAL_WEIGHTS};
 //		return new String[]{INPUT,POTENTIAL};
 	}
 

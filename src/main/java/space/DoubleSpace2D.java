@@ -23,8 +23,9 @@ public class DoubleSpace2D extends DoubleSpace {
 		return (Coord2D<Double>)(super.indexToCoord(index));
 	}
 	
+	@Override
 	protected Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
-		return new Coord2D<Double>(super.toTypeCoord(intCoord));
+		return new Coord2D<Double>(super.toTypeCoord(intCoord),this);
 	}
 	
 	

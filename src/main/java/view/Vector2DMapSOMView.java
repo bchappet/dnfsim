@@ -7,14 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.coordinates.Space;
-import main.java.maps.FramedSpaceIterator;
-import main.java.maps.SingleValueParam;
-import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.neigborhood.Neighborhood;
 import main.java.space.Coord;
 import main.java.space.Coord2D;
-import main.java.unitModel.SomUM;
 
 public class Vector2DMapSOMView extends DisplaySampleMap2D {
 	
@@ -23,7 +19,7 @@ public class Vector2DMapSOMView extends DisplaySampleMap2D {
 	protected List<Coord<Integer>> link;
 	protected List<Coord2D<Double>> values;
 
-	protected List<int[]> neigh;
+	protected int[] neigh;
 
 	protected Space mapSpace;
 
@@ -32,13 +28,13 @@ public class Vector2DMapSOMView extends DisplaySampleMap2D {
 	protected Color cVal = Color.RED;
 	protected Color cLinks = Color.GRAY;
 
-	public Vector2DMapSOMView(String name, Coord2D<Double> init,
-			Coord<Var<Double>> spaceOri, Coord<Var<Double>> spaceLength,Neighborhood neigh) {
-		super(name, init, spaceOri, spaceLength);
-		link = new ArrayList<Coord<Integer>>();
-		values = new ArrayList<Coord2D<Double>>();
-		for(int i = 0 ; i < res*res ; i++){
-			neigh = neigh.getNeighborhood(i); //TODO not dynamic
+	public Vector2DMapSOMView(String name, List<Coord2D<Double>> init,
+			Coord<Var<Double>> spaceOri, Coord<Var<Double>> spaceLength,Neighborhood neigh,int volume) {
+		super(name, init.get(0), spaceOri, spaceLength);
+		link = new ArrayList<Coord<Integer>>(volume);
+		values =init;
+		for(int i = 0 ; i < volume; i++){
+			this.neigh = neigh.getNeighborhood(i); //TODO not dynamic
 		}
 	}
 	
@@ -69,9 +65,9 @@ public class Vector2DMapSOMView extends DisplaySampleMap2D {
 			
 			
 			
-			for(int j = 0 ; j < neighTab.length ; j++ ){
+			for(int j = 0 ; j < neigh.length ; j++ ){
 				int[] coordA = getCoord(values.get(i),dim);
-				int[] coordB = getCoord(values.get(neighTab[j]),dim);
+				int[] coordB = getCoord(values.get(neigh[j]),dim);
 //				System.out.println("draw between : " + Arrays.toString(coordA) + " and " + Arrays.toString(coordB));
 				g.drawLine(coordA[X], coordA[Y], coordB[X], coordB[Y]);
 			}

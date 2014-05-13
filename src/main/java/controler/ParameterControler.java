@@ -150,6 +150,13 @@ public abstract class ParameterControler {
 	public String displayText() {
 		return toString();
 	}
+	/**
+	 * Return the first element to display
+	 * @return
+	 */
+	public Object getObjectUnitToDisplay() {
+		return this.param.getIndex(0);
+	}
 
 	
 	

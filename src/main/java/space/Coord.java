@@ -15,7 +15,12 @@ import main.java.maps.Parameter;
 public class Coord<T> implements Parameter<T> {
 	private List<T> values;
 	private String name;
+	/**Optional **/
+	private Space space; 
 	
+	public Space getSpace() {
+		return space;
+	}
 	/**
 	 * Constructor with an array
 	 * @param values
@@ -23,6 +28,10 @@ public class Coord<T> implements Parameter<T> {
 	public Coord(T... values){
 		this(null,values);
 		
+	}
+	
+	public void setSpace(Space space){
+		this.space = space;
 	}
 	
 	public Coord(String name,T... values){
@@ -40,6 +49,10 @@ public class Coord<T> implements Parameter<T> {
 		this.values = values;
 	}
 	
+	public Coord(List<T> list, DoubleSpace doubleSpace) {
+		this(list);
+		this.setSpace(doubleSpace);
+	}
 	/**
 	 * Return coordinate on specific axis
 	 * @param index

@@ -55,8 +55,8 @@ public class SingleValueParamViewAdapter extends ParamViewAdapter {
 		if(param instanceof TrajectoryControler){
 			TrajectoryControler pc = (TrajectoryControler) param;
 			if(pc.get() instanceof Coord2D){
-			return new DisplaySampleMap2D(param.getName(),(Coord2D<Double>) pc.get(),((DoubleSpace2D) pc.getValueSpace()).getOrigin(), ((DoubleSpace2D) pc.getValueSpace()).getLength(),
-					((DoubleSpace2D) pc.getValueSpace()).getResolution());
+			return new DisplaySampleMap2D(param.getName(),(Coord2D<Double>) pc.get(),((DoubleSpace2D) pc.getValueSpace()).getOrigin(),
+					((DoubleSpace2D) pc.getValueSpace()).getLength());
 			}else{
 				return new Curve2D(param.getName());
 			}

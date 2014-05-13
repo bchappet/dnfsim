@@ -40,6 +40,10 @@ public class Coord2D<T> extends Coord<T> {
 		this(coord.getIndex(Space2D.X),coord.getIndex(Space2D.Y));
 	}
 
+	public Coord2D(Coord<Double> typeCoord, Space space) {
+		this.setSpace(space);
+	}
+
 	@Override
 	public List<T> getValues(){
 		List<T> ret = new ArrayList<T>(2);
@@ -98,6 +102,8 @@ public class Coord2D<T> extends Coord<T> {
 	public String toString(){
 		return "("+this.x+","+this.y+")";
 	}
+
+	
 	
 	
 

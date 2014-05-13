@@ -84,7 +84,7 @@ public class DoubleSpace extends Space<Double> {
 			double coor = (current/res*size) - ori;
 			list.add(coor);
 		}
-		return new Coord<Double>(list);
+		return new Coord<Double>(list,this);
 	}
 
 	@Override
