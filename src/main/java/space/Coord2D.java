@@ -40,7 +40,8 @@ public class Coord2D<T> extends Coord<T> {
 		this(coord.getIndex(Space2D.X),coord.getIndex(Space2D.Y));
 	}
 
-	public Coord2D(Coord<Double> typeCoord, Space space) {
+	public Coord2D(Coord<T> coord, Space space) {
+		this(coord);
 		this.setSpace(space);
 	}
 

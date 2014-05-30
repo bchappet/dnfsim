@@ -14,6 +14,7 @@ import java.util.List;
 import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
 import main.java.gui.Suscriber;
 import main.java.maps.AbstractMap;
@@ -87,6 +88,9 @@ public class ModelCNFT extends Model{
 	protected Parameter pTau;
 	protected Parameter hpA;
 	protected Parameter hpB;
+	
+	private DoubleSpace2D space;
+	private Var<Integer> res;
 
 	protected List<AbstractMap> trackable;
 
@@ -138,6 +142,10 @@ public class ModelCNFT extends Model{
 //		//the frame state that we don't want to compute outside the frame, for the main.java.input for instance
 //		extendedFramedSpace = space2d.extend(extensionComputation,true);
 
+		
+		res = command.get(DMADSomCommandLine.RESOLUTION);
+		space = new DoubleSpace2D(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
+				new Var<Double>("SizeX",1.),new Var<Double>("SizeY",1.),res);
 
 		//Displayed parameter
 		addParameters(command.get(CNFTCommandLine.DT));
@@ -169,12 +177,12 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException 
 	 * @throws CloneNotSupportedException 
 	 */
-	public Parameter getLateralWeights(String name,Var<BigDecimal> dt,Space extendedSpace,
+	public Parameter getLateralWeights(String name,Var<BigDecimal> dt,Space space,
 			Parameter ia,Parameter wa,Parameter ib,Parameter wb) throws CommandLineFormatException 
 			{
-		Map cnfta = new UnitMap(name + "_A",dt, extendedSpace,new GaussianND(0d), ia, wa, new Var(0),new Var(0));
-		Map cnftb = new UnitMap(name + "_B",dt, extendedSpace,new GaussianND(0d), ib, wb, new Var(0),new Var(0));
-		Map sum = new UnitMap(name,new InfiniteDt(),extendedSpace,new SomUM(0d),cnfta,cnftb);
+		Map cnfta = new UnitMap(name + "_A",dt, space,new GaussianND(0d), ia, wa, new Var(0),new Var(0));
+		Map cnftb = new UnitMap(name + "_B",dt, space,new GaussianND(0d), ib, wb, new Var(0),new Var(0));
+		Map sum = new UnitMap(name,new InfiniteDt(),space,new Sum(0d),cnfta,cnftb);
 		return sum;
 			}
 
@@ -195,8 +203,10 @@ public class ModelCNFT extends Model{
 		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
 		//wa = wa_/(res^2)*40^2/alpha 
 		Var<String> equationWeights = new Var<String>("$1/$2**2*40**2/$3");
-		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),equationWeights,pa,extendedSpace.getSimulationSpace().getResolution(),alphaP);
-		hpB = new Trajectory<Double>("B_hidden",new InfiniteDt(),new ComputeUM(0d),equationWeights,pb,extendedSpace.getSimulationSpace().getResolution(),alphaP);
+		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),
+				equationWeights,pa,space.getResolution(),alphaP);
+		hpB = new Trajectory<Double>("B_hidden",new InfiniteDt(),new ComputeUM(0d),
+				equationWeights,pb,space.getResolution(),alphaP);
 			}
 
 
@@ -214,10 +224,10 @@ public class ModelCNFT extends Model{
 	 */
 	protected void initModel() throws CommandLineFormatException
 	{
-		Var vdt = command.get(CNFTCommandLine.DT); //default dt
+		Var dt = command.get(CNFTCommandLine.DT); //default dt
 		initLateralWeights();
-		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),vdt,extendedComputationSpace);
+		cnft = new ConvolutionMatrix2D(CNFT,dt,extendedComputationSpace);
+		potential = new Map(POTENTIAL,new RateCodedUnitModel(),dt,extendedComputationSpace);
 
 		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),
 				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL));
@@ -226,7 +236,7 @@ public class ModelCNFT extends Model{
 	}
 
 	protected void initLateralWeights() throws  CommandLineFormatException {
-		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), extendedConvSpace, hpA, pa, hpB, pb);
+		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), space, hpA, pa, hpB, pb);
 	}
 	/**
 	 * init the default main.java.input 

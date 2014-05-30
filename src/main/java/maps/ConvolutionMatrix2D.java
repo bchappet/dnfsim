@@ -3,11 +3,14 @@ package main.java.maps;
 import static java.lang.Math.max;
 import static java.lang.Math.min;
 
-import java.util.Arrays;
+import java.math.BigDecimal;
+import java.util.List;
 
-import main.java.coordinates.Space;
+import main.java.neigborhood.WrappedSpace;
+import main.java.space.Space2D;
+import Jama.Matrix;
 
-public class ConvolutionMatrix2D extends Matrix2D {
+public class ConvolutionMatrix2D extends MatrixDouble2D {
 
 	/**The two dimension position**/
 	public final static int X = 0;
@@ -18,25 +21,9 @@ public class ConvolutionMatrix2D extends Matrix2D {
 	public final static int INPUT = 1;
 
 
-
-
-	public ConvolutionMatrix2D(String name, Var dt, Space space,Parameter... params) {
-		super(name, dt, space, params);
-		if( space.getDim() != 2){
-			System.err.println("Warning, bad dimension " + Arrays.toString(Thread.currentThread().getStackTrace()));
-		}
-		constructParametersMemory();
+	public ConvolutionMatrix2D(String name,Var<BigDecimal> dt,Space2D space,Parameter<Double>... params){
+		super(name,dt,space,params);
 	}
-
-	@Override
-	public void addParameters(Parameter ... params)
-	{
-		super.addParameters(params);
-		constructParametersMemory();
-	}
-	
-	
-
 
 	/**
 	 * @Precond : the kernel and the main.java.input are matrices
@@ -45,19 +32,20 @@ public class ConvolutionMatrix2D extends Matrix2D {
 	public void compute()
 	{
 		/**Kernel size**/
-		int kx = params.getIndex(KERNEL).getSpace().getDiscreteSize()[X];
-		int ky = params.getIndex(KERNEL).getSpace().getDiscreteSize()[Y];
+		
+		int kx = ((Space2D) ((Map) getParam(KERNEL)).getSpace()).getDimX();
+		int ky = ((Space2D) ((Map) getParam(KERNEL)).getSpace()).getDimY();
 		/**Input size**/
 		
-		int vx = params.getIndex(INPUT).getSpace().getDiscreteSize()[X];
-		int vy = params.getIndex(INPUT).getSpace().getDiscreteSize()[Y];
+		int vx = ((Space2D) ((Map) getParam(INPUT)).getSpace()).getDimX();
+		int vy = ((Space2D) ((Map) getParam(INPUT)).getSpace()).getDimY();
 		/**This size**/
-		int width = this.getSpace().getDiscreteSize()[X];
+		int width = (this.getSpace()).getDimX();
 
 		////////////////////////////////////////////////////////////////////
 
-		double[] input = params.getIndex(INPUT).getValues();
-		double[] kernel = params.getIndex(KERNEL).getValues();
+		List<Double> input = getParam(INPUT).getValues();
+		List<Double> kernel = getParam(KERNEL).getValues();
 
 		//		try{
 		//		System.out.println(((Matrix)params.get(INPUT)).display2D());
@@ -69,7 +57,9 @@ public class ConvolutionMatrix2D extends Matrix2D {
 		int cys = ky;
 		int xs = vx;
 		int ys = vy;
-		boolean wrap = space.isWrap();
+		boolean wrap = this.getSpace() instanceof WrappedSpace;
+		
+		double[][] result = new double[xs][ys]; //result of convolution
 
 		for (int x=0; x<xs; x++) {
 			for (int y=0; y<ys; y++) {
@@ -79,7 +69,7 @@ public class ConvolutionMatrix2D extends Matrix2D {
 						int inx = (x+(cxs-1)/2-cx+xs)%xs;
 						for (int cy=0; cy<cys; cy++) {
 							int iny = (y+(cys-1)/2-cy+ys)%ys;
-							res += input[inx + iny * ys]*kernel[cx + cy * cys];
+							res += input.get(inx + iny * ys)*kernel.get(cx + cy * cys);
 						}
 					}
 				} else {
@@ -91,13 +81,15 @@ public class ConvolutionMatrix2D extends Matrix2D {
 						final int cymax = min((cys-1)/2+ys-y,cys);
 						for (int cy=cymin; cy<cymax; cy++) {
 							int iny = y-(cys-1)/2+cy;
-							res += input[inx + iny * ys]*kernel[cx + cy * cys];
+							res += input.get(inx + iny * ys)*kernel.get(cx + cy * cys);
 						}
 					}
 				}
-				values[x + y*width] = res;
+				result[x][y] = res;
 			}
 		}
+		
+		this.setJamat(new Matrix(result));
 
 
 		// find center position of kernel (half of kernel size)

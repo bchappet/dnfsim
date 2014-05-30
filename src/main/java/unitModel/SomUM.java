@@ -22,7 +22,7 @@ public class SomUM extends NeighborhoodUnitModel {
 	public static final int LEARNING_RATE = 2;
 	//
 
-	//Weight to describe the main.java.input
+	//Weight to describe the input
 	protected double[] weights;
 
 	//Input main.java.space

@@ -38,7 +38,7 @@ public class ESNCommandLine extends CommandLine {
 
 	public  String defaultScript()
 	{
-		System.out.println("here");
+		//System.out.println("here");
 		return super.defaultScript() 
 				
 				+LENGTH_RESERVOIR+"=49,1,1000,1;"	+WRAP_RESERVOIR+"=T;"

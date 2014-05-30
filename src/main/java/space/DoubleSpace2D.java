@@ -1,6 +1,5 @@
 package main.java.space;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 import main.java.maps.Var;
@@ -22,6 +21,7 @@ public class DoubleSpace2D extends DoubleSpace {
 	public Coord2D<Double> indexToCoord(int index) {
 		return (Coord2D<Double>)(super.indexToCoord(index));
 	}
+	
 	
 	@Override
 	protected Coord<Double> toTypeCoord(Coord<Integer> intCoord) {

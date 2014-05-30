@@ -73,14 +73,13 @@ public class ModelDMADSom extends Model {
 		UnitMap<Double,Integer> modulationMap =  new UnitMap<Double,Integer>("modulation_map",dt,space,new ModulationMapUM(0d),lateralWeights); //potential
 		
 		
-		//init afferent weight de facon ordonée 2D
-		AfferentWeightsUnitModel um = new AfferentWeightsUnitModel(new Coord2D<Double>(0.5d,0.5d)); //TODO
+		//init afferent weight de facon ordonï¿½e 2D
+		AfferentWeightsUnitModel um = new AfferentWeightsUnitModel(new Coord2D<Double>(0.5d,0.5d)); 
 		
 		UnitMap<Coord2D<Double>,Integer> afferent_weights = new UnitMap<Coord2D<Double>,Integer>(AFFERENT_WEIGHTS,dt,space,um,
 				this.command.get(DMADSomCommandLine.AFFERENT_LEARNING_RATE),modulationMap,input);//afferent_weights
 		for(int i = 0 ; i < afferent_weights.getSpace().getVolume() ; i++){
 			Coord2D<Double> coord = (Coord2D<Double>) inputSpace.indexToCoord(i);
-			//System.out.println(coord);
 			afferent_weights.set(i, coord);
 			
 		}

@@ -7,7 +7,11 @@ import main.java.coordinates.NullCoordinateException;
 import main.java.coordinates.Space;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
-
+/**
+ * Perform an addition of the given parameters
+ * @author bchappet
+ *
+ */
 public class Sum extends UnitModel<Double> {
 
 	public Sum(Double init) {

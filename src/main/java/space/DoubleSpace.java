@@ -82,6 +82,7 @@ public class DoubleSpace extends Space<Double> {
 			double size = length.getIndex(i).get();
 			double res = getDimensions().getIndex(i).get();
 			double coor = (current/res*size) - ori;
+			
 			list.add(coor);
 		}
 		return new Coord<Double>(list,this);

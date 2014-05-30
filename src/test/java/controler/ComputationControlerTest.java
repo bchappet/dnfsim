@@ -31,10 +31,10 @@ public class ComputationControlerTest {
 	    logger.addHandler(fileTxt);
 
 		
-		ESNCommandLine cl = new ESNCommandLine("");
+		ESNCommandLine cl = new ESNCommandLine();
 		model = new ModelESN("test_esn");
 		model.initialize(cl);
-		mc = new ModelControler(model,cl);
+		mc = new ModelControler(model);
 		cl.setCurentModelControler(mc);
 		uut = new ComputationControler(mc.getTree());
 		

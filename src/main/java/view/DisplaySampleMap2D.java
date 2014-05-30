@@ -141,10 +141,10 @@ public class DisplaySampleMap2D extends ParameterViewDB {
 		int dx = (int) (dim.width*margin);
 		int dy = (int) (dim.height*margin);
 		
+		
+		
 		double factX = dx/this.spaceLength.getIndex(X).get();
 		int x = (int) Math.round(((coord.getIndex(Space2D.X) - oriX) * factX));
-	
-		
 		//x += offsetX;
 		
 		double factY = dy/this.spaceLength.getIndex(Y).get();

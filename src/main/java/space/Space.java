@@ -149,6 +149,26 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	public String getName() {
 		return ""+this.getClass(); //TODO??
 	}
+	/**
+	 * Check that the coord are inside the space limit,change the coord into... if not
+	 * and return false if not inside
+	 * @param coords
+	 */
+	public boolean checkInside(Coord<Integer> coord) {
+		boolean inside = true;
+		
+		for(int i = 0 ; i < coord.getSize() ; i++){
+			int coor = coord.getIndex(i);
+			inside &= (coor >= 0 && coor < dimensions.getIndex(i).get()); 
+		}
+		if(!inside){
+			Integer[] ret = new Integer[coord.getSize()];
+			for(int i = 0 ; i < ret.length ; i++)
+				coord.set(i, ret[i]);
+		}
+		return inside;
+		
+	}
 
 	
 	

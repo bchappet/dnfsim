@@ -19,7 +19,6 @@ import Jama.Matrix;
  * 
  * Will handle double matrix data
  * We may want to compute it to update the matrix state
- * Directly inherited from Jama.Matrix to optimize computation
  * @author bchappet
  *
  */
