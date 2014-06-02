@@ -5,7 +5,6 @@ import java.util.List;
 
 import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
-import main.java.maps.Var;
 
 /**
  * N-dimensional discrete main.java.space.
@@ -169,6 +168,8 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 		return inside;
 		
 	}
+
+	
 
 	
 	

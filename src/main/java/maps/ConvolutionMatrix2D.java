@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import main.java.neigborhood.WrappedSpace;
+import main.java.space.Space;
 import main.java.space.Space2D;
 import Jama.Matrix;
 
@@ -21,7 +22,7 @@ public class ConvolutionMatrix2D extends MatrixDouble2D {
 	public final static int INPUT = 1;
 
 
-	public ConvolutionMatrix2D(String name,Var<BigDecimal> dt,Space2D space,Parameter<Double>... params){
+	public ConvolutionMatrix2D(String name,Var<BigDecimal> dt,Space space,Parameter<Double>... params){
 		super(name,dt,space,params);
 	}
 
@@ -85,7 +86,7 @@ public class ConvolutionMatrix2D extends MatrixDouble2D {
 						}
 					}
 				}
-				result[x][y] = res;
+				result[y][x] = res;//to be compatible with jamat: transpose
 			}
 		}
 		

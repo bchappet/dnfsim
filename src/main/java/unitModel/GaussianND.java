@@ -4,16 +4,14 @@ import static java.lang.Math.abs;
 import static java.lang.Math.exp;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
-import main.java.space.Space;
-import main.java.space.WrappableDouble2DSpace;
 import main.java.maps.Parameter;
 import main.java.maps.Track;
-import main.java.maps.Var;
+import main.java.neigborhood.WrappedSpace;
 import main.java.space.Coord;
-import main.resources.utils.ArrayUtils;
+import main.java.space.Space;
+import main.java.space.WrappableDouble2DSpace;
 
 /**
  * Use continuous main.java.coordinates
@@ -38,15 +36,15 @@ public class GaussianND extends UnitModel<Double> implements Track{
 		Space space = (Space) params.get(SPACE);
 		//Translate the coor in the center centered refSpace
 		Double[] translation = new Double[params.size()-COORDS];//Translated main.java.coordinates
-		Coord<Double> coord = ((WrappableDouble2DSpace) space).indexToCoordContinuous(index);//TODO more generic
+		Coord<Double> coord = ((WrappableDouble2DSpace) space).indexToCoord(index);//TODO more generic
 		for(int i = 0 ; i < translation.length; i++){
 //			System.out.println("coor : " + i + " = " + coord[i]);
 			translation[i] = abs(coord.getIndex(i)-(Double)params.get(COORDS+i).getIndex(index));
 		}
 		
 		//Wrap the coor if needed
-		if(space.isWrap()) 
-			translation = space.wrap(translation);
+		if(space instanceof WrappedSpace) 
+			translation = ((WrappedSpace)space).wrap(translation);
 		
 		//Compute sum of squares x²+y²+z²+...
 		double sumOfSquare = 0;
@@ -54,9 +52,9 @@ public class GaussianND extends UnitModel<Double> implements Track{
 				sumOfSquare += translation[i]*translation[i];
 		}
 
-		double res = params.getIndex(INTENSITY).getIndex(coord)*exp(
+		double res = (Double)params.get(INTENSITY).getIndex(index)*exp(
 				-(sumOfSquare)/(
-						Math.pow(params.getIndex(WIDTH).getIndex(coord),2)));
+						Math.pow((Double) params.get(WIDTH).getIndex(index),2)));
 		return res;
 	}
 	
@@ -64,13 +62,13 @@ public class GaussianND extends UnitModel<Double> implements Track{
 	
 
 	@Override
-	public Double[] getCenter() throws NullCoordinateException {
-		return saveCenter;
+	public Double[] getCenter() {
+		return null;//TODO
 	}
 
 	@Override
-	public Double[] getDimension() throws NullCoordinateException {
-		return saveDim;
+	public Double[] getDimension() {
+		return null; //TODO
 	}
 
 

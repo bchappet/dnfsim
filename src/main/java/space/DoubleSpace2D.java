@@ -4,7 +4,7 @@ import java.util.Random;
 
 import main.java.maps.Var;
 
-public class DoubleSpace2D extends DoubleSpace {
+public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 	
 	
 	public DoubleSpace2D(Coord<Var<Double>> origin,

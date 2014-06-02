@@ -8,7 +8,7 @@ import main.java.maps.Var;
  * @author bchappet
  *
  */
-public class Space2D extends Space<Integer> {
+public class Space2D extends Space<Integer> implements ISpace2D {
 	
 	public final static int X = 0; //row length
 	public final static int Y = 1; //column length

@@ -3,9 +3,9 @@ package main.java.maps;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 import main.java.space.Coord2D;
+import main.java.space.ISpace2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
 import main.resources.utils.ArrayUtils;
@@ -43,7 +43,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Doubl
 	 * @param main.java.space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space2D space,double[][] values,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double[][] values,Parameter<Double>... params){
 		super(name,dt,space,params);
 		this.jamat = new Matrix(values);
 	}
@@ -53,9 +53,9 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Doubl
 	 * @param main.java.space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space2D space,double cst,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double cst,Parameter<Double>... params){
 		super(name,dt,space,params);
-		this.jamat = new Matrix(space.getDimY(),space.getDimX(),cst);
+		this.jamat = new Matrix(((ISpace2D) space).getDimY(),((ISpace2D) space).getDimX(),cst);
 	}
 	
 	/**
@@ -63,7 +63,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Doubl
 	 * @param name
 	 * @param main.java.space
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space2D space,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,Parameter<Double>... params){
 		this(name,dt,space,0.,params);
 	}
 	

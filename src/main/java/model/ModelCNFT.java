@@ -1,11 +1,5 @@
 package main.java.model;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -14,8 +8,7 @@ import java.util.List;
 import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
-import main.java.space.DoubleSpace2D;
-import main.java.space.Space;
+import main.java.coordinates.NullCoordinateException;
 import main.java.gui.Suscriber;
 import main.java.maps.AbstractMap;
 import main.java.maps.ConvolutionMatrix2D;
@@ -23,9 +16,11 @@ import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
-import main.java.maps.TrajectoryUnitMap;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
+import main.java.space.DoubleSpace2D;
+import main.java.space.Space;
+import main.java.space.Space2D;
 import main.java.statistics.Charac;
 import main.java.statistics.CharacAccError;
 import main.java.statistics.CharacClosestTrack;
@@ -46,7 +41,6 @@ import main.java.unitModel.CosTraj;
 import main.java.unitModel.GaussianND;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.RateCodedUnitModel;
-import main.java.unitModel.SomUM;
 import main.java.unitModel.Sum;
 import main.java.unitModel.UnitModel;
 import draft.RandomTestAbstractMap;
@@ -75,10 +69,10 @@ public class ModelCNFT extends Model{
 
 
 
-	protected Parameter cnft;
-	protected AbstractMap cnftW;
-	protected AbstractMap input;
-	protected AbstractMap potential;
+	protected Map cnft;
+	protected Map cnftW;
+	protected Map input;
+	protected Map potential;
 
 
 
@@ -177,7 +171,7 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException 
 	 * @throws CloneNotSupportedException 
 	 */
-	public Parameter getLateralWeights(String name,Var<BigDecimal> dt,Space space,
+	public Map getLateralWeights(String name,Var<BigDecimal> dt,Space space,
 			Parameter ia,Parameter wa,Parameter ib,Parameter wb) throws CommandLineFormatException 
 			{
 		Map cnfta = new UnitMap(name + "_A",dt, space,new GaussianND(0d), ia, wa, new Var(0),new Var(0));
@@ -224,19 +218,19 @@ public class ModelCNFT extends Model{
 	 */
 	protected void initModel() throws CommandLineFormatException
 	{
-		Var dt = command.get(CNFTCommandLine.DT); //default dt
+		Var<BigDecimal> dt = command.get(CNFTCommandLine.DT); //default dt
 		initLateralWeights();
-		cnft = new ConvolutionMatrix2D(CNFT,dt,extendedComputationSpace);
-		potential = new Map(POTENTIAL,new RateCodedUnitModel(),dt,extendedComputationSpace);
+		cnft = new ConvolutionMatrix2D(CNFT,dt,space);
+		potential = new UnitMap<Double, Double>(POTENTIAL,dt,space,new RateCodedUnitModel(0.));
 
-		potential.addParameters(new Leaf(potential),command.get(CNFTCommandLine.TAU),
+		potential.addParameters(potential,command.get(CNFTCommandLine.TAU),
 				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL));
-		cnft.addParameters(cnftW,new Leaf(potential));
+		cnft.addParameters(cnftW,potential);
 		this.root = potential;
 	}
 
 	protected void initLateralWeights() throws  CommandLineFormatException {
-		this.cnftW = (AbstractMap) getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), space, hpA, pa, hpB, pb);
+		this.cnftW =  getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), space, hpA, pa, hpB, pb);
 	}
 	/**
 	 * init the default main.java.input 
@@ -250,18 +244,14 @@ public class ModelCNFT extends Model{
 	 */
 	protected void initDefaultInput() throws CommandLineFormatException
 	{
+		Var<BigDecimal> dtNoise = command.get(CNFTCommandLine.NOISE_DT);
+		Var<BigDecimal> dtInput = command.get(CNFTCommandLine.INPUT_DT);
 
 		//Construct noise map
-		UnitModel noise = new RandTrajUnitModel(command.get(CNFTCommandLine.NOISE_DT),extendedFramedSpace,
+		Map mNoise = new UnitMap("Noise",dtNoise,space,new RandTrajUnitModel(0.),
 				new Var(0),command.get(CNFTCommandLine.NOISE_AMP));
-		Map mNoise = new Map("Noise",noise);
-		mNoise.constructMemory(); //otherwise the noise is changed at each computation step
-		//Construct the main.java.input as a sum of theses params
-		UnitModel sum = new Sum(command.get(CNFTCommandLine.INPUT_DT),extendedFramedSpace, mNoise);
-		this.input = new Map(INPUT,sum);
-		this.input.constructMemory();
-		modifyModel();
-
+		//Construct the input as a sum of theses params
+		this.input = new UnitMap(INPUT,dtInput,space,new Sum(0.),mNoise);
 	}
 
 	/**
@@ -271,14 +261,14 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 */
-	protected AbstractMap constructDistracter(String name) throws NullCoordinateException, CommandLineFormatException{
+	protected Map constructDistracter(String name) throws NullCoordinateException, CommandLineFormatException{
 		//Construct distracters map
-		Map cx2 = new UnitMap("CenterX",command.get(CNFTCommandLine.DT),noDimSpace,new RandTrajUnitModel(),
+		Map cx2 = new UnitMap("CenterX",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
 				new Var(0),new Var(0.5));
-		Map cy2 = new UnitMap("CenterY",command.get(CNFTCommandLine.DT),noDimSpace,new RandTrajUnitModel(),
+		Map cy2 = new UnitMap("CenterY",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
 				new Var(0),new Var(0.5));
 
-		Map mDistr = new UnitMap(name,command.get(CNFTCommandLine.DISTR_DT),extendedFramedSpace,new GaussianND(),
+		Map mDistr = new UnitMap(name,command.get(CNFTCommandLine.DISTR_DT),space,new GaussianND(0.),
 				command.get(CNFTCommandLine.DISTR_INTENSITY), 
 				command.get(CNFTCommandLine.DISTR_WIDTH), 
 				cx2,cy2);
@@ -295,8 +285,8 @@ public class ModelCNFT extends Model{
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 */
-	protected AbstractMap constructTrack(String name, int num, int nbTrack) throws NullCoordinateException, CommandLineFormatException{
-		Map cx = new Map("CenterX_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
+	protected Map constructTrack(String name, int num, int nbTrack) throws NullCoordinateException, CommandLineFormatException{
+		Map cx = new UnitMap("CenterX_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
 				command.get(CNFTCommandLine.TRACK_CENTER),
 				command.get(CNFTCommandLine.TRACK_RADIUS),
 				command.get(CNFTCommandLine.TRACK_PERIOD),
@@ -310,7 +300,7 @@ public class ModelCNFT extends Model{
 		//				return ret;
 		//			}
 
-		Map cy = new Map("CenterY_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
+		Map cy = new UnitMap("CenterY_"+num,new CosTraj(command.get(CNFTCommandLine.TRACK_DT),noDimSpace,
 				command.get(CNFTCommandLine.TRACK_CENTER),
 				command.get(CNFTCommandLine.TRACK_RADIUS),
 				command.get(CNFTCommandLine.TRACK_PERIOD),
