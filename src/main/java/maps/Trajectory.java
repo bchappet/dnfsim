@@ -6,7 +6,7 @@ import main.java.space.NoDimSpace;
 import main.java.unitModel.UnitModel;
 
 /**
- * A trajectory has only one main.java.unitModel
+ * A trajectory has only one unitModel
  * @author bchappet
  *
  * @param <T> computed type
