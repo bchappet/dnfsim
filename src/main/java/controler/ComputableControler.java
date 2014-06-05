@@ -24,7 +24,6 @@ public abstract class ComputableControler extends ParameterControler {
 	public void compute(BigDecimal currentTime) {
 		
 		Computable map = ((Computable)getParam());
-		
 			map.setTime(currentTime);
 			LOGGER.info("compute "+ this.getName() + " : current time = " + currentTime + " class : " + this.getClass());
 			map.compute();
@@ -40,8 +39,6 @@ public abstract class ComputableControler extends ParameterControler {
 				this.getParamViewAdapter().updateView(currentTime);
 				((JPanel) this.getParamView()).repaint();
 			}
-				
-		
 	}
 
 	/**

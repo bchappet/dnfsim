@@ -95,7 +95,7 @@ public class ModelESN extends Model {
 	
 	
 	@Override
-	public CommandLine constructCommandLine() throws CommandLineFormatException{
+	public CommandLine constructCommandLine() {
 		return new ESNCommandLine();
 	}
 	

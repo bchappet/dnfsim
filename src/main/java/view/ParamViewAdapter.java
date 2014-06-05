@@ -3,7 +3,6 @@ package main.java.view;
 import java.math.BigDecimal;
 
 import main.java.controler.ParameterControler;
-import main.java.maps.Parameter;
 
 public abstract class ParamViewAdapter {
 	
@@ -26,7 +25,11 @@ public abstract class ParamViewAdapter {
 		}
 		
 	}
-	
+	/**
+	 * Return the default view associated with the parameter controller
+	 * @param param
+	 * @return
+	 */
 	protected abstract  ParameterView getDefaultView(ParameterControler param);
 
 	
@@ -49,12 +52,7 @@ public abstract class ParamViewAdapter {
 		return paramView;
 	}
 
-	/**
-	 * @param paramView the paramView to set
-	 */
-	public void setParamView(ParameterView paramView) {
-		this.paramView = paramView;
-	}
+	
 
 	
 	

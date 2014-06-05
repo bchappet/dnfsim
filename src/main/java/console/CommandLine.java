@@ -59,7 +59,7 @@ public class CommandLine  {
 	 * Parse the default script and the initScript
 	 * @throws CommandLineFormatException
 	 */
-	public CommandLine() throws CommandLineFormatException {
+	public CommandLine() {
 		this.map = new HashMap<String, Var>();
 		this.definitionSet = new HashMap<String,Coord<?>>();
 	}

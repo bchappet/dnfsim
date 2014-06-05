@@ -3,7 +3,6 @@ package main.java.view;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
-import main.java.controler.ComputationControler;
 import main.java.maps.Var;
 
 public class ComputationControlerView {
@@ -57,9 +56,9 @@ public class ComputationControlerView {
 		double simulationTimeGap = currentSimulationTime.subtract(lastSimulationTime).doubleValue(); //seconds
 		long realTimeGap = currentRealTime - lastRealTime;//milisec
 		double realTimeGapSec = realTimeGap/1000d; //second
-		System.out.println("time speed ratio " +this.timeSpeedRatio.get());
+		//System.out.println("time speed ratio " +this.timeSpeedRatio.get());
 		double wantedSimulationTime =  (simulationTimeGap * this.timeSpeedRatio.get());
-		System.out.println("Obtained simulation time " + wantedSimulationTime);
+		//System.out.println("Obtained simulation time " + wantedSimulationTime);
 		
 		if(realTimeGapSec < wantedSimulationTime){
 			Thread.sleep((long) ((wantedSimulationTime-realTimeGapSec)*1000));

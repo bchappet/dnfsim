@@ -11,6 +11,7 @@ import main.java.gui.Printer;
 import main.java.model.Model;
 import main.java.model.Models;
 import main.java.statistics.Characteristics;
+import main.java.view.GlobalView;
 import main.resources.utils.FluxUtils;
 
 /**
@@ -49,9 +50,6 @@ public class Runner implements Runnable {
 		this.gui = gui;
 		this.printer = printer;
 		this.runningScript = runningScript;
-
-
-
 		if(gui){
 			view = new GlobalView(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()),this);
 		}

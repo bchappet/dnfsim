@@ -73,9 +73,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	 * @return
 	 * @throws CommandLineFormatException
 	 */
-	public CommandLine constructCommandLine() throws CommandLineFormatException{
-		return new CommandLine();
-	}
+	public abstract CommandLine constructCommandLine();
 
 
 	/**

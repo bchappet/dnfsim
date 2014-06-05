@@ -28,7 +28,7 @@ public class ESNCommandLine extends CommandLine {
 	
 	
 
-	public ESNCommandLine() throws CommandLineFormatException {
+	public ESNCommandLine()  {
 		super();
 	}
 

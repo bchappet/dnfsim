@@ -1,4 +1,4 @@
-package main.java.controler;
+package main.java.view;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -14,13 +14,14 @@ import javax.swing.UIManager;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.controler.ComputationControler;
+import main.java.controler.ModelControler;
+import main.java.controler.ParameterControler;
+import main.java.controler.Runner;
+import main.java.controler.StatisticsControler;
+import main.java.controler.VarControler;
 import main.java.model.Models;
 import main.java.statistics.Statistics;
-import main.java.view.ComputationControlerView;
-import main.java.view.ModelView;
-import main.java.view.ParameterModifierPanel;
-import main.java.view.ParameterView;
-import main.java.view.StatisticView;
 
 /**
  * Init the global frame with a model menu
@@ -107,7 +108,7 @@ public class GlobalView extends JFrame {
 			if(mapView == null)
 				throw new Error("Map view of " + param + " is null");
 			modelView.addView( mapView);
-			System.out.println("Add map view : " + param + " typr " + mapView.getClass() + " pc :" + System.identityHashCode(mapC));
+			//System.out.println("Add map view : " + param + " typr " + mapView.getClass() + " pc :" + System.identityHashCode(mapC));
 		}
 		//Parameter root = mc.getContr
 

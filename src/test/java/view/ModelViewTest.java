@@ -1,5 +1,7 @@
 package test.java.view;
 
+import java.awt.Dimension;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -28,9 +30,12 @@ public class ModelViewTest extends JFrame{
 
 	@Before
 	public void setUp() throws Exception {
-		ESNCommandLine cl = new ESNCommandLine("");
+	
 		model = new ModelESN("test_esn");
+		ESNCommandLine cl = (ESNCommandLine) model.constructCommandLine();
+		cl.setContext("");
 		model.initialize(cl);
+		
 		this.modelControler = new ModelControler(model);
 		cl.setCurentModelControler(modelControler);
 	}
@@ -38,9 +43,10 @@ public class ModelViewTest extends JFrame{
 
 	@Test
 	public void testModelViewVoid() throws InterruptedException {
-		uut = new ModelView("uut", modelControler.getTree());
+		Dimension dim = new Dimension(1000, 600);
+		uut = new ModelView(dim,"uut", modelControler.getTree());
 		this.add(uut);
-		this.setSize(1000, 600);
+		this.setSize(dim);
 		
 		this.setVisible(true);
 		Thread.sleep(1000);
@@ -48,7 +54,8 @@ public class ModelViewTest extends JFrame{
 
 	@Test
 	public void testModelViewStat() throws InterruptedException {
-		uut = new ModelView("uut", modelControler.getTree());
+		Dimension dim = new Dimension(1000, 600);
+		uut = new ModelView(dim,"uut", modelControler.getTree());
 		
 		StatisticsControler statsControler = (StatisticsControler) modelControler.getControler(Statistics.NAME);
 		StatisticView statView = new StatisticView(statsControler);
@@ -58,7 +65,7 @@ public class ModelViewTest extends JFrame{
 		
 		
 		this.add(uut);
-		this.setSize(1000, 600);
+		this.setSize(dim);
 		
 		this.setVisible(true);
 		Thread.sleep(1000);
@@ -66,7 +73,8 @@ public class ModelViewTest extends JFrame{
 	
 	@Test
 	public void testModelViewStatnCanvas() throws InterruptedException {
-		uut = new ModelView("uut", modelControler.getTree());
+		Dimension dim = new Dimension(1000, 600);
+		uut = new ModelView(dim,"uut", modelControler.getTree());
 		
 		StatisticsControler statsControler = new StatisticsControler(model.getStatistics());
 		StatisticView statView = new StatisticView(statsControler);
@@ -80,7 +88,7 @@ public class ModelViewTest extends JFrame{
 		uut.addView( mapView);
 		
 		this.add(uut);
-		this.setSize(1000, 600);
+		this.setSize(dim);
 		
 		this.setVisible(true);
 		Thread.sleep(1000);

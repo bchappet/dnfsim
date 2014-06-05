@@ -2,13 +2,10 @@ package main.java.view;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.Image;
 import java.util.EventObject;
 import java.util.LinkedList;
 
-import main.java.maps.SingleValueParam;
 import main.java.maps.Var;
 import main.java.space.Coord;
 import main.java.space.Coord2D;
@@ -96,9 +93,6 @@ public class DisplaySampleMap2D extends ParameterViewDB {
 		int offsetY = (int) ((dim.height - dy)/2d);
 
 		
-		
-		
-
 		g.setColor(cOld);
 		for(Coord<Double> old : history)
 		{

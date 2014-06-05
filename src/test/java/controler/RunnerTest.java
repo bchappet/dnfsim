@@ -1,9 +1,9 @@
 package test.java.controler;
 
 import static org.junit.Assert.*;
-import main.java.controler.GlobalView;
 import main.java.controler.Runner;
 import main.java.gui.Printer;
+import main.java.view.GlobalView;
 
 import org.junit.Before;
 import org.junit.Test;
