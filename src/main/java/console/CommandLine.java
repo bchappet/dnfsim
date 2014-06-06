@@ -486,7 +486,7 @@ public class CommandLine  {
 
 	private void parseInitialCommand(String command) throws CommandLineFormatException
 	{
-		
+		if(!command.isEmpty()){
 		
 		command = command.replaceAll("\\s+", "");
 		String[] tab = command.split(";+");
@@ -496,7 +496,7 @@ public class CommandLine  {
 			String key =  split[0];
 			if(split.length == 1)
 			{
-				throw new CommandLineFormatException(key + " invalid");
+				throw new CommandLineFormatException(key + " invalid" + " in " + s);
 			}
 			else
 			{

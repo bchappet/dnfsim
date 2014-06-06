@@ -48,8 +48,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	/** True when the main.java.model will be initilized **/
 	protected boolean isInitilized = false;
 
-	/** True when we are performing assynchronous computation **/
-	protected boolean assynchronousComputation = false;
+	
 
 	/**This will be the computation time step for main.java.model update. It is the smallest
 	 * dt in the parameter tree and the statsControler
@@ -303,9 +302,7 @@ public abstract class Model implements HasChildren<Parameter> {
 		this.suscribers.add(s);
 	}
 
-	public void setAssynchronousComputation(boolean assynchronousComputation) {
-		this.assynchronousComputation = assynchronousComputation;
-	}
+	
 
 	public boolean isInitilized() {
 		return isInitilized;
