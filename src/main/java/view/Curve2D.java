@@ -1,16 +1,19 @@
 package main.java.view;
 
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
 
-import javax.swing.JPanel;
-
 import main.java.space.Coord2D;
 
+/**
+ * Display the evolution of one parameter value.
+ * The plot will only display the y values with a undefined X axis: 1 unit per value
+ * @author benoit
+ *
+ */
 public class Curve2D extends ParameterViewDB{
 	
 	/**Margin ratio**/
@@ -23,60 +26,48 @@ public class Curve2D extends ParameterViewDB{
 	private int nbDotMax=100;
 
 
-	/**X Y coordinate**/
-	private List<Coord2D<Double>> coords;
+	/** Y coordinate**/
+	private List<Double> values;
+	
 
 	/**Min max for the graph axis**/
-	private Coord2D<Double> min;
-	private Coord2D<Double> max;
+	private Coord2D<Double> minMax;
+
 	
 	
 	
 	
 	public Curve2D(String name) {
 		super(name);
-		min = new Coord2D<Double>(0d, 0d);
-		max = new Coord2D<Double>(0d, 0d);
-		coords = new ArrayList<Coord2D<Double>>();
+		minMax = new Coord2D<Double>(0d,0d);
+		values = new ArrayList<Double>();
 	}
 	
-	public void update(Coord2D<Double> coor)
+	public void update(Double coor)
 	{
-		coords.add(coor);
-		computeMinMax(coords,min,max);
+		values.add(coor);
+		computeMinMax(values);
 //		System.out.println("Min : " + min);
 //		System.out.println("Max : " + max);
 	}
 
 	/**
-	 * Compute min and max from coords
+	 * Compute min and max from values
 	 * @param coords2
 	 * @param min2
 	 * @param max2
 	 */
-	private static void computeMinMax(List<Coord2D<Double>> coords,
-			Coord2D<Double> min, Coord2D<Double> max) {
+	private void computeMinMax(List<Double> coords){
 		double minX = Double.MAX_VALUE;
 		double maxX = Double.MIN_VALUE;
-		double minY = Double.MAX_VALUE;
-		double maxY = Double.MIN_VALUE;
-		
-		for(Coord2D<Double> coord : coords){
-			if(coord.x > maxX)
-				maxX = coord.x;
-			if(coord.x < minX)
-				minX = coord.x;
-			
-			if(coord.y > maxY)
-				maxY = coord.y;
-			if(coord.y < minY)
-				minY = coord.y;
+		for(Double coord : coords){
+			if(coord > maxX)
+				maxX = coord;
+			if(coord < minX)
+				minX = coord;
 		}
-		
-		min.x = minX;
-		min.y = minY;
-		max.x = maxX;
-		max.y = maxY;
+		minMax.x =  minX;
+		minMax.y = maxX;
 	}
 
 
@@ -91,40 +82,64 @@ public class Curve2D extends ParameterViewDB{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * Transform this value into an int to plot in a graph
+	 * @param val
+	 * @param plotSize
+	 * @return
+	 */
+	public int transformValue(double val,int plotSize){
+		double size = minMax.y - minMax.x;
+		return  (int) ((val-minMax.x)/size * plotSize);
+	}
 
 	@Override
 	public void render(Graphics2D g) {
-		Graphics2D g2 = (Graphics2D) g;
 		
 		Dimension dim = this.getSize();
 		int dx = (int) (dim.width*margin);
 		int dy = (int) (dim.height*margin);
-
+		
 		int offsetX = (int) ((dim.width - dx)/2d);
 		int offsetY = (int) ((dim.height - dy)/2d);
 		
 		
 		
-		for(int i = 0 ; i < coords.size()-1 ; i++){
-			Coord2D<Double> coord1 = coords.get(i);
-			Coord2D<Double> coord2 = coords.get(i+1);
-			double sizeX = max.x - min.x;
-			double sizeY = max.y - min.y;
+		for(int i = 0 ; i < values.size()-1 ; i++){
+			Double coord1 = values.get(i);
+			Double coord2 = values.get(i+1);
+			double sizeX = values.size()-1;
 			//System.out.println("sizeX : " + sizeX + " sizeY : "+ sizeY);
 			
-			int x1 = (int) ((coord1.x-min.x)/sizeX * dx);
-			int x2 = (int) ((coord2.x-min.x)/sizeX * dx);
-			int y1 = (int) ((coord1.y-min.y)/sizeY * dy);
-			int y2 = (int) ((coord2.y-min.y)/sizeY * dy);
+			int x1 = (int) (i/sizeX* dx);
+			int x2 = (int) ((i+1)/sizeX * dx);
+			int y1 = transformValue(coord1,dy);
+			int y2 =  transformValue(coord2,dy);
 			//System.out.println(x1+","+y1+","+x2+","+y2);
-			
-			g2.drawLine(x1, dy-y1, x2, dy-y2);
+			g.drawLine(x1, dy-y1, x2, dy-y2);
 		}
 		
 		for(int i = 0 ; i < blackBorder ; i++)
 			g.drawRect(offsetX-i, offsetY-i, dx+2*i, dy+2*i);
 
 		
+	}
+
+	/**
+	 * @return the values
+	 */
+	protected List<Double> getValues() {
+		return values;
+	}
+
+
+	public double getMin() {
+		return minMax.x;
+	}
+
+	public double getMax() {
+		return minMax.y;
 	}
 
 }

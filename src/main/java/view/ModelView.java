@@ -25,7 +25,7 @@ import javax.swing.tree.TreeModel;
 public class ModelView extends ParameterViewPanel {
 	
 	/**
-	 * Center canvas displaying maps
+	 * Center canvas displaying views
 	 */
 	private ParameterCanvaPanel canvaView;
 	/**
@@ -79,14 +79,14 @@ public class ModelView extends ParameterViewPanel {
 	 * Add a stat to the statistic view
 	 * @param view
 	 */
-	public void addStatisticsView(StatisticView view){
+	public void addStatisticsView(StatisticPanel view){
 		statPanel.add(view);
 	}
 	/**
 	 * Remove stat view
 	 * @param view
 	 */
-	public void removeStatisticsView(StatisticView view){
+	public void removeStatisticsView(StatisticPanel view){
 		statPanel.remove(view);
 	}
 	

@@ -2,16 +2,16 @@ package main.java.maps;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import main.java.coordinates.NullCoordinateException;
-import main.resources.utils.Cloneable;
+import java.util.Observable;
+import java.util.Observer;
+import java.util.Set;
 
 /**
 	* A Var is an object which has a name and can be modified from the controller
 	* via the name
  *
  */
-public class Var<T>  implements Parameter<T>,SingleValueParam<T>{
+public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam<T>{
 
 	/**Current value **/
 	private T val; 
@@ -19,6 +19,10 @@ public class Var<T>  implements Parameter<T>,SingleValueParam<T>{
 	private String name;
 	
 	
+	/**
+	 * 
+	 * @param val
+	 */
 	public Var(T val)
 	{
 		this.val = val;
@@ -47,10 +51,13 @@ public class Var<T>  implements Parameter<T>,SingleValueParam<T>{
 
 	/**
 	 * Set the value
+	 * will notify the observers
 	 * @param val
 	 */
 	public void set(T val) {
 		this.val = val;
+		this.setChanged();
+		this.notifyObservers(this.val);
 
 	}
 

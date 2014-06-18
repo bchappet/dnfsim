@@ -24,26 +24,26 @@ import main.java.space.Coord;
 
 public class CommandLine  {
 
-	
-	
+
+
 	//public static final String DISPLAY_DT = "disp_dt"; //time refresh rate for running simu
 	public static final String SIMULATION_STEP = "simu_dt";
 	public static final String STAT_DT = "stat_dt";
 	//TODO remove it and put it in OPTIMIZATION initScript line
-//	public static final String POP_SIZE = "pop_size";
-//	public static final String ELITE_RATIO = "elite_ratio";
-//	public static final String REEVALUATE = "reevaluate";
-//	public static final String PARENT_SIGMA = "parent_sigma";
-//	public static final String MUTATION_PROB = "mutation_prob";
-//	public static final String GEN_MAX = "gen_max";
-	
+	//	public static final String POP_SIZE = "pop_size";
+	//	public static final String ELITE_RATIO = "elite_ratio";
+	//	public static final String REEVALUATE = "reevaluate";
+	//	public static final String PARENT_SIGMA = "parent_sigma";
+	//	public static final String MUTATION_PROB = "mutation_prob";
+	//	public static final String GEN_MAX = "gen_max";
+
 	//http://stackoverflow.com/questions/2206378/how-to-split-a-string-but-also-keep-the-delimiters
 	static public final String WITH_DELIMITER = "((?<=%1$s)|(?=%1$s))";
-	
-	
+
+
 	/**For simulation: simlation speed = real time * TIME_SPEED_RATIO**/
 	public static final String TIME_SPEED_RATIO = "time_speed_ratio";
-	
+
 
 	protected String initScript;
 	/**Associate a parameter name with its var**/
@@ -74,8 +74,8 @@ public class CommandLine  {
 		parseInitialCommand(defaultScript());
 		parseInitialCommand(context);
 	}
-	
-	
+
+
 
 
 	protected  String defaultScript()
@@ -83,9 +83,9 @@ public class CommandLine  {
 		return ""
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
 				+TIME_SPEED_RATIO+"=1.0,0.1,10,0.1;";
-//				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
-//				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
-//				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
+		//				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
+		//				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
+		//				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
 	}
 
 
@@ -103,13 +103,13 @@ public class CommandLine  {
 
 		return ret;
 	}
-	
+
 	public void setCurentModelControler(ModelControler mc) {
 		this.currentModelControler= mc;
-		
+
 	}
 
-	
+
 
 	/**
 	 * Return the resulting string of the execution
@@ -307,18 +307,18 @@ public class CommandLine  {
 		{
 			ret =  execScript(value);
 		}
-		
+
 		else if(command.equals("wait"))
 		{
 			BigDecimal time =  new BigDecimal(value) ; //second 
 			computationControler.compute(computationControler.getTime().add(time));
 		}
-//		else if(command.equals("waitNsave"))
-//		{
-//			System.out.println("here");
-//			BigDecimal time =  new BigDecimal(value) ; //second 
-//			currentModelControler.simulateNSave(time);
-//		}
+		//		else if(command.equals("waitNsave"))
+		//		{
+		//			System.out.println("here");
+		//			BigDecimal time =  new BigDecimal(value) ; //second 
+		//			currentModelControler.simulateNSave(time);
+		//		}
 		else if(command.equals("print")){
 			String split[] = value.split(",");
 			this.characControler.compute(this.computationControler.getTime());
@@ -336,31 +336,31 @@ public class CommandLine  {
 			}
 		}
 
-//		else if(command.equals("trace")){//return a statistic trace
-//			String name = value;
-//
-//			Trace res = currentModelControler.getStatistics().getTrace(name);
-//			if(res == null){
-//				throw new CommandLineFormatException("The trace " + name + " does not exist.");
-//			}else{
-//				ret = ""+res.toString(true);
-//			}
-//
-//		}
-//		else if(command.equals("SaveStats")){
-//			try {
-//				currentModelControler.saveStats(value+".csv");
-//			} catch (IOException e) {
-//				throw new CommandLineFormatException("IO error",e);
-//			}
-//		}
-//		else if(command.equals("SaveMaps")){
-//			try {
-//				ret = currentModelControler.saveMaps(value);
-//			} catch (IOException e) {
-//				throw new CommandLineFormatException("IO error",e);
-//			}
-//		}
+		//		else if(command.equals("trace")){//return a statistic trace
+		//			String name = value;
+		//
+		//			Trace res = currentModelControler.getStatistics().getTrace(name);
+		//			if(res == null){
+		//				throw new CommandLineFormatException("The trace " + name + " does not exist.");
+		//			}else{
+		//				ret = ""+res.toString(true);
+		//			}
+		//
+		//		}
+		//		else if(command.equals("SaveStats")){
+		//			try {
+		//				currentModelControler.saveStats(value+".csv");
+		//			} catch (IOException e) {
+		//				throw new CommandLineFormatException("IO error",e);
+		//			}
+		//		}
+		//		else if(command.equals("SaveMaps")){
+		//			try {
+		//				ret = currentModelControler.saveMaps(value);
+		//			} catch (IOException e) {
+		//				throw new CommandLineFormatException("IO error",e);
+		//			}
+		//		}
 
 		else
 			ret = null;
@@ -382,30 +382,30 @@ public class CommandLine  {
 	protected String findParameterValue(String key) throws CommandLineFormatException{
 		String ret = "";
 		//System.out.println("Find param : " + key);
-			ParameterControler param =currentModelControler.getControler(key);
-			if(param == null){
-				//param = currentModelControler.getPath(key,0,null,this); TODO
-				return null;
-				
+		ParameterControler param =currentModelControler.getControler(key);
+		if(param == null){
+			//param = currentModelControler.getPath(key,0,null,this); TODO
+			return null;
+
+		}
+
+		if(param != null)
+		{
+
+			//Print the value of the given parameter or map
+			if(param instanceof SingleValueParam){
+				ret += ((SingleValueParam) param).get();
+			}else{
+				System.out.println("here");
+				ret += param.displayText();
 			}
 
-			if(param != null)
-			{
+		}
+		else
+		{
+			throw new CommandLineFormatException("La variable " + key + " n'existe pas");
+		}
 
-				//Print the value of the given parameter or map
-				if(param instanceof SingleValueParam){
-					ret += ((SingleValueParam) param).get();
-				}else{
-					System.out.println("here");
-					ret += param.displayText();
-				}
-
-			}
-			else
-			{
-				throw new CommandLineFormatException("La variable " + key + " n'existe pas");
-			}
-		
 
 
 		return ret;
@@ -451,21 +451,21 @@ public class CommandLine  {
 	 */
 	private String execCommand(String command) throws CommandLineFormatException {
 		String ret = "";
-//		if(command.equals("play"))
-//			currentModelControler.play();
-//		else if(command.equals("init")) //t = 0 computation
-//			currentModelControler.firstComputation();
-//		else if(command.equals("pause"))
-//			currentModelControler.pause();
-//		else if(command.equals("step"))
-//			currentModelControler.step();
+		//		if(command.equals("play"))
+		//			currentModelControler.play();
+		//		else if(command.equals("init")) //t = 0 computation
+		//			currentModelControler.firstComputation();
+		//		else if(command.equals("pause"))
+		//			currentModelControler.pause();
+		//		else if(command.equals("step"))
+		//			currentModelControler.step();
 		if(command.equals("reset"))
 			currentModelControler.reset();
-//		else if(command.equals("compute"))
-//		{	
-//			currentModelControler.getCharac().compute();
-//			//ret = main.java.model.getCharac().toString();
-//		}
+		//		else if(command.equals("compute"))
+		//		{	
+		//			currentModelControler.getCharac().compute();
+		//			//ret = main.java.model.getCharac().toString();
+		//		}
 		else if(command.equals("args")){
 			for(String k : map.keySet()){
 				ret += k + "=";
@@ -487,85 +487,86 @@ public class CommandLine  {
 	private void parseInitialCommand(String command) throws CommandLineFormatException
 	{
 		if(!command.isEmpty()){
-		
-		command = command.replaceAll("\\s+", "");
-		String[] tab = command.split(";+");
-		for(String s : tab)
-		{
-			String[] split = s.split("=");
-			String key =  split[0];
-			if(split.length == 1)
+
+			command = command.replaceAll("\\s+", "");
+			String[] tab = command.split(";+");
+			for(String s : tab)
 			{
-				throw new CommandLineFormatException(key + " invalid" + " in " + s);
-			}
-			else
-			{
-				//We have to determine the type of the object
-				String obj = split[1];
-				if(obj.matches("[T|F]"))//Boolean
+				String[] split = s.split("=");
+				String key =  split[0];
+				if(split.length == 1)
 				{
-					boolean val ;
+					throw new CommandLineFormatException(key + " invalid" + " in " + s);
+				}
+				else
+				{
+					//We have to determine the type of the object
+					String obj = split[1];
+					if(obj.matches("[T|F]"))//Boolean
+					{
+						boolean val ;
 
-					if( obj.equals("T"))
-						val = true;
-					else 
-						val = false;
+						if( obj.equals("T"))
+							val = true;
+						else 
+							val = false;
 
-					map.put(key, new Var<Boolean>(key,val));
-				}
-				
-				
-				else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer with definition set
-				{
-					String[] numbers = obj.split(",");
-					//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-					Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]));
-					Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
-					map.put(key,var);
-					this.definitionSet.put(key, defSet);
-				}
-				else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?") )//Integer 
-				{
-					//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-					Var<Integer> var = new Var<Integer>(key,Integer.parseInt(obj));
-					map.put(key,var);
-				}
-				else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// Big Decimal with definition set
-				{
-					String[] numbers = obj.split(",");
-					//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-					Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(numbers[0].substring(2)));
-					Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
-					map.put(key,var);
-					this.definitionSet.put(key, defSet);
+						map.put(key, new Var<Boolean>(key,val));
+					}
 
-				}
-				else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )//Big Decimal
-				{
-					//System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
-					Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(obj.substring(2)));
-					map.put(key,var);
-				}
-				else if(obj.matches("[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// double with definition set
-				{
-					String[] numbers = obj.split(",");
-					//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-					Var<Double> var = new Var<Double>(key,Double.parseDouble(numbers[0]));
-					Coord<Double> defSet = new Coord<Double>(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
-					map.put(key,var);
-					this.definitionSet.put(key, defSet);
 
-				}
-				else if(obj.matches("[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )// double
-				{
-					//System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
-					Var<Double> var = new Var<Double>(key,Double.parseDouble(obj));
-					map.put(key,var);
-				}
+					else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer with definition set
+					{
+						String[] numbers = obj.split(",");
+						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+						Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]));
+						Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
+						map.put(key,var);
+						this.definitionSet.put(key, defSet);
+					}
+					else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?") )//Integer 
+					{
+						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+						Var<Integer> var = new Var<Integer>(key,Integer.parseInt(obj));
+						map.put(key,var);
+					}
+					else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// Big Decimal with definition set
+					{
+						String[] numbers = obj.split(",");
+						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(numbers[0].substring(2)));
+						Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
+						map.put(key,var);
+						this.definitionSet.put(key, defSet);
 
-				else//String by default
-				{
-					map.put(key, new Var<String>(key,obj));
+					}
+					else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )//Big Decimal
+					{
+						//System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
+						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(obj.substring(2)));
+						map.put(key,var);
+					}
+					else if(obj.matches("[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// double with definition set
+					{
+						String[] numbers = obj.split(",");
+						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+						Var<Double> var = new Var<Double>(key,Double.parseDouble(numbers[0]));
+						Coord<Double> defSet = new Coord<Double>(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+						map.put(key,var);
+						this.definitionSet.put(key, defSet);
+
+					}
+					else if(obj.matches("[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )// double
+					{
+						//System.out.println("map.add " + key + " val : " +Double.parseDouble(obj) );
+						Var<Double> var = new Var<Double>(key,Double.parseDouble(obj));
+						map.put(key,var);
+					}
+
+					else//String by default
+					{
+						map.put(key, new Var<String>(key,obj));
+					}
 				}
 			}
 		}
@@ -601,7 +602,7 @@ public class CommandLine  {
 	public void setComputationControler(
 			ComputationControler computationControler) {
 		this.computationControler = computationControler;
-		
+
 	}
 
 
@@ -610,7 +611,7 @@ public class CommandLine  {
 	public void setCharacControler(CharacteristicsControler characContrl) {
 		this.characControler = characContrl;
 	}
-	
+
 
 
 

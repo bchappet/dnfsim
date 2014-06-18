@@ -1,6 +1,7 @@
 package test.java.controler;
 
 import static org.junit.Assert.*;
+import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.maps.Map;
 import main.java.reservoirComputing.ESNCommandLine;
@@ -25,8 +26,9 @@ public class ModelControlerTest {
 //		traj.addParameters(traj2);
 //		this.root.addParameters(traj);
 		
-		ESNCommandLine cl = new ESNCommandLine("");
 		model = new ModelESN("test_esn");
+		ESNCommandLine cl = (ESNCommandLine) model.constructCommandLine();
+		cl.setContext("");
 		model.initialize(cl);
 		uut = new ModelControler(model);
 		cl.setCurentModelControler(uut);
@@ -38,7 +40,7 @@ public class ModelControlerTest {
 
 	@Test
 	public void testContructTree() {
-		
+		//TODO update
 		String expected = "test_esn\n"+
 	"	target_output\n"+
 	"		main.java.input\n"+

@@ -1,13 +1,10 @@
 package main.resources.utils;
 
-import java.awt.LayoutManager;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.java.gui.ColorMap;
 import main.java.maps.Parameter;
-import main.java.maps.SingleValueParam;
 import main.java.neuronBuffer.Buffer;
 
 
@@ -176,8 +173,7 @@ public class ArrayUtils {
 	 * @param tab
 	 * @return
 	 */
-	public static Double[] toPrimitive(
-			double[] tab) {
+	public static Double[] toPrimitive(double[] tab) {
 		Double[] ret = new Double[tab.length];
 		for(int i = 0 ; i < tab.length ; i++){
 			ret[i] = tab[i];

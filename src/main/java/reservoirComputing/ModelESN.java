@@ -220,7 +220,7 @@ public class ModelESN extends Model {
 			public Double compute(BigDecimal time,int index, List<Parameter> params) {
 				Statistics stats = (Statistics) params.get(0);
 				Trace error = stats.getTrace(StatisticsESN.ERROR_DIST);
-				Trace targetedOutput = stats.getTrace(StatisticsESN.TARGETED_OUTPUT);
+				Trace targetedOutput = stats.getTrace(StatisticsESN.TARGET_OUTPUT);
 				
 				double meanError = error.getMean();
 				double varTargetedOutput = targetedOutput.getVar();

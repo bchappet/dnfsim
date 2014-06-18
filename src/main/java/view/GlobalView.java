@@ -93,7 +93,7 @@ public class GlobalView extends JFrame {
 		
 
 		StatisticsControler statsControler = (StatisticsControler) mc.getControler(Statistics.NAME);
-		StatisticView statView = new StatisticView(statsControler);
+		StatisticPanel statView = new StatisticPanel(statsControler);
 		statsControler.initView(statView);
 		statView.getPlotter().setPreferredSize(new Dimension(dim.width/4,(dim.height/3)));
 

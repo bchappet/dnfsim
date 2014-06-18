@@ -23,7 +23,7 @@ import Jama.Matrix;
  *
  */
 @SuppressWarnings("serial")
-public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Double> {
+public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble {
 
 	private Jama.Matrix jamat;
 	
@@ -138,6 +138,14 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2D<Doubl
 	public String toString(){
 		double[][] val = this.jamat.getArray();
 		return ArrayUtils.toString(val);
+	}
+	@Override
+	public double[][] get2DArrayDouble() {
+		return this.jamat.getArray();
+	}
+	@Override
+	public double getFastDouble(int x, int y) {
+		return  this.jamat.getArray()[x][y];
 	}
 	
 //	@Override

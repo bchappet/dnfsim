@@ -7,41 +7,39 @@ import main.java.controler.ParameterControler;
 public abstract class ParamViewAdapter {
 	
 	private ParameterView paramView;
-	private ParameterControler param;
+	private ParameterControler paramControler;
 
 	
 
 	/**
 	 * Construct a main.java.view adpter which can handle several kind of main.java.view
-	 * @param param
-	 * @param paramView
+	 * @paramControler paramControler
+	 * @paramControler paramView
 	 */
-	public ParamViewAdapter(ParameterControler param,ParameterView paramView) {
-		this.param = param;
-		if(paramView == null){
-			this.paramView = this.getDefaultView(param);
-		}else{
-			this.paramView = paramView;
+	public ParamViewAdapter(ParameterControler paramControler,ViewConfiguration vc) {
+		if(paramControler == null){
+			throw new IllegalArgumentException("the ParameterControler whas null ");
 		}
+		this.paramControler = paramControler;
+		this.paramView = this.constructView(paramControler,vc);
+		this.paramControler.setParamViewAdapter(this);
+	
 		
 	}
-	/**
-	 * Return the default view associated with the parameter controller
-	 * @param param
-	 * @return
-	 */
-	protected abstract  ParameterView getDefaultView(ParameterControler param);
-
 	
+	
+	protected abstract ParameterView constructView(ParameterControler paramControler,ViewConfiguration vc);
+
+
 	/**
 	 * Update the main.java.view with parameter value
-	 * @param time
+	 * @paramControler time
 	 */
-	public abstract void updateView(BigDecimal time);
+	public abstract void updateView();
 		
 	
 	protected ParameterControler getParameterControler(){
-		return this.param;
+		return this.paramControler;
 	}
 	
 	

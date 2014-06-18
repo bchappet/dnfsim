@@ -1,0 +1,10 @@
+colormap=AdaptiveAndEquilibratedColorMap
+---------------------------------------------
+Model
+	StatView
+		Plot2D
+		Truc
+			1
+				2
+		Truc2
+	Machin

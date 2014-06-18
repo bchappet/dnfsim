@@ -15,7 +15,7 @@ public class StatisticsViewAdapter extends ParamViewAdapter {
 
 	@Override
 	protected  ParameterView getDefaultView(ParameterControler param) {
-		return new StatisticView((StatisticsControler) this.getParameterControler());
+		return new StatisticPanel((StatisticsControler) this.getParameterControler());
 	}
 
 	@Override

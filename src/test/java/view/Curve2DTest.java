@@ -1,11 +1,8 @@
 package test.java.view;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import main.java.space.Coord2D;
 import main.java.view.Curve2D;
 
 import org.junit.Before;
@@ -31,13 +28,13 @@ public class Curve2DTest  extends JFrame {
 		this.setVisible(true);
 		this.repaint();
 		Thread.sleep(100);
-		uut.update(new Coord2D<Double>(0.1,0.1));
+		uut.update(0.1);
 		this.repaint();
 		Thread.sleep(100);
-		uut.update(new Coord2D<Double>(0.2,0.2));
+		uut.update(0.2);
 		this.repaint();
 		Thread.sleep(100);
-		uut.update(new Coord2D<Double>(0.5,0.2));
+		uut.update(0.1);
 		this.repaint();
 		Thread.sleep(1000);
 	}

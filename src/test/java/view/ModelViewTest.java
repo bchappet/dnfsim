@@ -14,7 +14,7 @@ import main.java.reservoirComputing.ModelESN;
 import main.java.statistics.Statistics;
 import main.java.view.ModelView;
 import main.java.view.ParameterView;
-import main.java.view.StatisticView;
+import main.java.view.StatisticPanel;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +58,7 @@ public class ModelViewTest extends JFrame{
 		uut = new ModelView(dim,"uut", modelControler.getTree());
 		
 		StatisticsControler statsControler = (StatisticsControler) modelControler.getControler(Statistics.NAME);
-		StatisticView statView = new StatisticView(statsControler);
+		StatisticPanel statView = new StatisticPanel(statsControler);
 		statsControler.initView(statView);
 		
 		uut.addStatisticsView(statView);
@@ -77,7 +77,7 @@ public class ModelViewTest extends JFrame{
 		uut = new ModelView(dim,"uut", modelControler.getTree());
 		
 		StatisticsControler statsControler = new StatisticsControler(model.getStatistics());
-		StatisticView statView = new StatisticView(statsControler);
+		StatisticPanel statView = new StatisticPanel(statsControler);
 		statsControler.initView(statView);
 		
 		uut.addStatisticsView(statView);

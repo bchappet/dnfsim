@@ -1,0 +1,7 @@
+ia=1.38;
+wa=0.00053;
+tau=0.64;
+threshold=0.75;
+alpha=10.01;
+inh_cst=-0.64;
+

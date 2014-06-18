@@ -19,47 +19,17 @@ import main.java.view.ParamViewAdapter;
 import main.java.view.ParameterView;
 
 public class ModelControler extends ParameterControler {
+	/**Contains only the root**/
 	private ParameterControlerTree tree;
 	
 
 	public ModelControler(Model model) {
 		super(model);
 		 tree = new ParameterControlerTree(this);
-		 System.out.println(tree);
-		 contructTree((HasChildren) model,this, tree);
-	}
-	
-	@Override
-	protected ParamViewAdapter createParamViewAdapter(ParameterView view) {
-		return new ModelViewAdapter(this, (ModelView) view);
 	}
 	
 	
-	/**
-	 * Construct the tree and avoid recursivity //TODO register on tree change
-	 * @param root
-	 * @param rootPc
-	 * @param tree
-	 */
-	private List<HasChildren> alreadySeen = new LinkedList<HasChildren>(); //save the already registered map to avoid recursivity
-	private void contructTree(HasChildren node,ParameterControler rootPc,ParameterControlerTree tree){
-		this.alreadySeen.add(node);
-		for(int i  = 0 ; i < node.getParameters().size() ; i++){
-			
-			Parameter p = (Parameter) node.getParameters().get(i);
-			if(p == null){
-				throw new Error("Parameter null in " + this.getName() + " index " + i);
-			}
-			ParameterControler pc = ParameterControlerFactory.getControler(p);
-			
-			rootPc.addChild(pc);
-			if(p instanceof HasChildren && !this.alreadySeen.contains((HasChildren)p)){
-				contructTree((HasChildren) p,pc,tree);
-			}
-			
-		}
-		
-	}
+	
 	
 	public ParameterControlerTree getTree(){
 		return tree;

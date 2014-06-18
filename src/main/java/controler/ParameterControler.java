@@ -35,16 +35,7 @@ public abstract class ParameterControler {
 		LOGGER.info("Contruct parameterControler: " + "paramType : " + param.getClass().getName() + " name : " + param.getName());
 	}
 	
-	/**
-	 * Create the ParamViewAdpter if it does not exist
-	 * @param paramView (optional) if null, will construct default view
-	 */
-	public void initView(ParameterView paramView) {
-		if(this.paraView == null){
-			LOGGER.info("INIT view of   paramType : " + param.getClass().getName() + " name : " + param.getName());
-			this.paraView = this.createParamViewAdapter(paramView);
-		}
-	}
+	
 	
 	public void addChild(ParameterControler child){
 		this.children.add(child);
@@ -59,17 +50,11 @@ public abstract class ParameterControler {
 		return this.getName();
 	}
 	
-	/**
-	 * Construct the ParamViewAdapter
-	 * @param view (optional)
-	 * @return
-	 */
-	protected abstract ParamViewAdapter createParamViewAdapter(ParameterView view);
-
+	
 	/**
 	 * @return the param
 	 */
-	protected Parameter getParam() {
+	public Parameter getParam() {
 		return param;
 	}
 	
@@ -95,12 +80,7 @@ public abstract class ParameterControler {
 		return paraView.getParamView();
 	}
 
-	/**
-	 * @param paraView the paraView to set
-	 */
-	protected void setParaView(ParamViewAdapter paraView) {
-		this.paraView = paraView;
-	}
+	
 
 	public int getChildCount() {
 		return children.size();
@@ -124,28 +104,6 @@ public abstract class ParameterControler {
 		return getParam().getName();
 	}
 	
-	/**
-	 * Return the controler of given parameter name
-	 * @param name
-	 * @return
-	 */
-	public ParameterControler getControler(String name) {
-		if(this.getName() == null){
-			return null;
-		}
-		 if( this.getName().equals(name)){
-			return this;
-		}else{
-			ParameterControler ret = null;
-			for(int i = 0 ; i < this.getChildCount() ; i++){
-				ret = getChild(i).getControler(name);
-				if(ret != null){
-					return ret;
-				}
-			}
-			return ret;
-		}
-	}
 
 	public String displayText() {
 		return toString();
