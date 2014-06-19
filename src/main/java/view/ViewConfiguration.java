@@ -24,7 +24,17 @@ public class ViewConfiguration {
 		
 		public ViewConfNode(String name) {
 			this.name = name.replace("\t",	"");
+			this.viewAdapter = null;
 			//System.out.println("construct :" + this.name);
+		}
+		
+		public ViewConfNode(String name,String adapterName) {
+			this(name);
+			this.viewAdapter = adapterName;
+		}
+		
+		public String getViewAdapterName(){
+			return this.viewAdapter;
 		}
 
 		public String toString(){
@@ -94,28 +104,30 @@ private void constructTreeRecursive(TreeNode<ViewConfNode> node,BufferedReader b
 	line = br.readLine();
 	if(line != null){
 		incrLevel = parseIncrLevel(line);
+		String[] args= line.split(":");
+		ViewConfNode nodeData;
+		TreeNode<ViewConfNode> newNode;
+		if(args.length==2){
+			 nodeData = new ViewConfNode(args[0],args[1]);
+		}else{
+			nodeData = new ViewConfNode(args[0]);
+		}
 		if(incrLevel == currentIncrLevel){
-			ViewConfNode nodeData = new ViewConfNode(line);
 			TreeNode<ViewConfNode> parent = node.getParent();
-			TreeNode<ViewConfNode> newNode = new TreeNode<ViewConfNode>(nodeData, parent);
+			newNode = new TreeNode<ViewConfNode>(nodeData, parent);
 			parent.addChild(newNode);
-			constructTreeRecursive(newNode, br, incrLevel);
 		}else if(incrLevel == currentIncrLevel +1){
-			ViewConfNode nodeData = new ViewConfNode(line);
-			TreeNode<ViewConfNode> newNode = new TreeNode<ViewConfNode>(nodeData, node);
+			newNode = new TreeNode<ViewConfNode>(nodeData, node);
 			node.addChild(newNode);
-			constructTreeRecursive(newNode, br, incrLevel);
-
 		}else if(incrLevel <  currentIncrLevel){
-			ViewConfNode nodeData = new ViewConfNode(line);
 			TreeNode<ViewConfNode> parent = node.getParent(currentIncrLevel-incrLevel+1);
-			TreeNode<ViewConfNode> newNode = new TreeNode<ViewConfNode>(nodeData, parent);
+			newNode = new TreeNode<ViewConfNode>(nodeData, parent);
 			parent.addChild(newNode);
-			constructTreeRecursive(newNode, br,incrLevel);
 		}else {
 
 			throw new IllegalArgumentException("Bad file: we found an problem in the incrementation. Please revise the file.");
 		}
+		constructTreeRecursive(newNode, br,incrLevel);
 	}
 
 }
@@ -158,8 +170,12 @@ public String[] getOptions(String name){
  * @param param
  * @return
  */
-public String getViewControler(String param){
-	return null; //TODO
+public String getViewAdapter(String param){
+	TreeNode<ViewConfNode> node = this.tree.getNode(param);
+	if(node == null){
+		throw new IllegalArgumentException("The param " + param + " was not found in the tree");
+	}
+	return node.getData().getViewAdapterName();
 }
 
 public ColorMap getColorMap() {

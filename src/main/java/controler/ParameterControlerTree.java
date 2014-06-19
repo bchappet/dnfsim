@@ -33,13 +33,7 @@ public class ParameterControlerTree implements TreeModel {
 	 */
 	public ParameterControler getControler(String name) {
 		ParameterControler ret =  this.getControler(name, root);
-		if(ret ==null){
-			System.err.println(this.toString());
-			throw new IllegalArgumentException("cannot find the parameter " + name);
-		}else{
-			return ret;
-		}
-				
+		return ret;
 	}
 	
 	/**

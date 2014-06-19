@@ -86,7 +86,7 @@ public class TreeNode<T> {
 	/**
 	 * @return the data
 	 */
-	protected T getData() {
+	public T getData() {
 		return data;
 	}
 

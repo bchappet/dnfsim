@@ -21,14 +21,14 @@ public abstract class ParamViewAdapter {
 			throw new IllegalArgumentException("the ParameterControler whas null ");
 		}
 		this.paramControler = paramControler;
-		this.paramView = this.constructView(paramControler,vc);
+		this.paramView = this.constructView(vc);
 		this.paramControler.setParamViewAdapter(this);
 	
 		
 	}
 	
 	
-	protected abstract ParameterView constructView(ParameterControler paramControler,ViewConfiguration vc);
+	protected abstract ParameterView constructView(ViewConfiguration vc);
 
 
 	/**
@@ -42,13 +42,18 @@ public abstract class ParamViewAdapter {
 		return this.paramControler;
 	}
 	
-	
 	/**
 	 * @return the paramView
 	 */
 	public ParameterView getParamView() {
 		return paramView;
 	}
+
+
+	
+
+
+	
 
 	
 

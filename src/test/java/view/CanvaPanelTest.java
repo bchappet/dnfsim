@@ -1,6 +1,9 @@
 package test.java.view;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.math.BigDecimal;
 
 import javax.swing.JFrame;
 
@@ -32,7 +35,7 @@ public class CanvaPanelTest extends JFrame {
 		cl.setCurentModelControler(mc);
 		cc = new ComputationControler(mc.getTree());
 	
-		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/StatisticsPanelTest.gui"),mc.getTree());
+		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/CanvaPanelTest.gui"),mc.getTree());
 		
 		uut = new CanvaPanel("uut",vf);
 		this.setVisible(true);
@@ -42,8 +45,20 @@ public class CanvaPanelTest extends JFrame {
 	}
 
 	@Test
-	public void test() {
-		fail("Not yet implemented");
+	public void test() throws InterruptedException {
+		cc.compute(new BigDecimal("0.1"));
+		
+		Thread.sleep(100);
+		this.repaint();
+		cc.compute(new BigDecimal("0.2"));
+		Thread.sleep(100);
+		this.repaint();
+		cc.compute(new BigDecimal("0.3"));
+		Thread.sleep(100);
+		this.repaint();
+		Thread.sleep(10000);
+		
+		assertTrue("visual test ",true);
 	}
 
 }

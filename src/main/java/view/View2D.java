@@ -6,10 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.EventObject;
 
-import main.java.gui.ColorMap;
-import main.java.gui.DefaultColorMap;
-import main.java.plot.JPanelDB;
-
 /**
  * Respect the minimum knowledge paradigm
  * Can display wathever double matrix
@@ -20,7 +16,7 @@ import main.java.plot.JPanelDB;
 public class View2D extends ParameterViewDB{
 
 	/**Values to display**/
-	protected double[][] buffer;
+	protected Number[][] buffer;
 	/**Margin ratio**/
 	private double margin = 0.99;
 	/**Black border in pixel**/
@@ -29,19 +25,16 @@ public class View2D extends ParameterViewDB{
 	/**Color map**/
 	private ColorMap colorMap;
 
-	public View2D(String name,double[][] initialState,ColorMap colorMap) {
+	public View2D(String name,Number[][] initialState,ColorMap colorMap) {
 		super(name);
 		this.buffer = initialState;
 		this.colorMap = colorMap;
 		
 	}
 	
-	public View2D(String name,double[][] initialState) {
-		this(name,initialState, new DefaultColorMap());
-		
-	}
+	
 
-	public void update(double[][] values)
+	public void update(Number[][] values)
 	{
 		this.buffer = values;
 	}
@@ -81,7 +74,7 @@ public class View2D extends ParameterViewDB{
 	 * @return
 	 */
 	protected double getValue(int i, int j) {	
-		return buffer[j][i];
+		return buffer[j][i].doubleValue();
 	}
 
 	@Override

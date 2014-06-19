@@ -34,6 +34,7 @@ public class CanvaPanel extends ViewPanel {
 		String[] options = getViewFactory().getViewConfiguration().getOptions(name);
 		calculateGridLayout(options.length);
 		for(String opt : options){
+//			System.out.println("Options : " + opt);
 			//we could call addView but we prefer to calculate the grid layout before and avoid recalculating it several time
 			ParameterView vp = vf.constructView(opt); 
 			views.add(vp);

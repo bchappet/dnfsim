@@ -11,9 +11,8 @@ public class SingleValueParamCurve2DAdapter extends ParamViewAdapter {
 	}
 
 	@Override
-	protected ParameterView constructView(ParameterControler paramControler,
-			ViewConfiguration vc) {
-		return new Curve2D(paramControler.getName());
+	protected ParameterView constructView(ViewConfiguration vc) {
+		return new Curve2D(getParameterControler().getName());
 	}
 
 	@Override
@@ -21,7 +20,6 @@ public class SingleValueParamCurve2DAdapter extends ParamViewAdapter {
 		Curve2D pv = (Curve2D) this.getParamView();
 		SingleValueParam<? extends Number> param = (SingleValueParam<? extends Number> )this.getParameterControler().getParam();
 		pv.update(param.get().doubleValue());
-
 	}
 
 }
