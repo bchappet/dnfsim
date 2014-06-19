@@ -23,8 +23,6 @@ public abstract class ParamViewAdapter {
 		this.paramControler = paramControler;
 		this.paramView = this.constructView(vc);
 		this.paramControler.setParamViewAdapter(this);
-	
-		
 	}
 	
 	

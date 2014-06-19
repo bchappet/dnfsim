@@ -16,7 +16,7 @@ import java.util.EventObject;
 public class View2D extends ParameterViewDB{
 
 	/**Values to display**/
-	protected Number[][] buffer;
+	protected double[][] buffer;
 	/**Margin ratio**/
 	private double margin = 0.99;
 	/**Black border in pixel**/
@@ -25,7 +25,7 @@ public class View2D extends ParameterViewDB{
 	/**Color map**/
 	private ColorMap colorMap;
 
-	public View2D(String name,Number[][] initialState,ColorMap colorMap) {
+	public View2D(String name,double[][] initialState,ColorMap colorMap) {
 		super(name);
 		this.buffer = initialState;
 		this.colorMap = colorMap;
@@ -34,7 +34,7 @@ public class View2D extends ParameterViewDB{
 	
 	
 
-	public void update(Number[][] values)
+	public void update(double[][] values)
 	{
 		this.buffer = values;
 	}
@@ -74,7 +74,7 @@ public class View2D extends ParameterViewDB{
 	 * @return
 	 */
 	protected double getValue(int i, int j) {	
-		return buffer[j][i].doubleValue();
+		return buffer[j][i];
 	}
 
 	@Override

@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import main.java.maps.Computable;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
+import main.java.view.ParamViewAdapter;
 import main.java.view.View2D;
 
 public abstract class ComputableControler extends ParameterControler {
@@ -28,15 +29,15 @@ public abstract class ComputableControler extends ParameterControler {
 			LOGGER.info("compute "+ this.getName() + " : current time = " + currentTime + " class : " + this.getClass());
 			map.compute();
 			
-			
-			if(this.getParamViewAdapter() != null){
+			ParamViewAdapter pva = this.getParamViewAdapter();
+			if(pva != null){
 				//System.out.println("*************Display " + map.toString());
 //				if(this.getParamView() instanceof View2D)
 //				System.out.println(map.toString());
 //				
 				//TODO also delay to reduce display frequency
 				LOGGER.info("******************update view : " + this.getName());
-				this.getParamViewAdapter().updateView();
+				pva.updateView();
 				((JPanel) this.getParamView()).repaint();
 			}
 	}

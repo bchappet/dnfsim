@@ -3,6 +3,7 @@ import java.util.List;
 
 import main.java.controler.MapControler;
 import main.java.controler.ParameterControler;
+import main.java.maps.Array2DDouble;
 import main.java.maps.Parameter;
 import main.java.maps.Array2D;
 import main.java.maps.SingleValueParam;
@@ -18,32 +19,17 @@ public class MapView2DAdapter extends ParamViewAdapter{
 
 	@Override
 	protected ParameterView constructView(ViewConfiguration vc) {
-		return new View2D(getParameterControler().getName(),getArray((MapControler) getParameterControler()),vc.getColorMap());
+		return new View2D(getParameterControler().getName(),
+				((MapControler)getParameterControler()).getArray(),vc.getColorMap());
 	}
 
 	@Override
 	public void updateView() {
-		((View2D)getParamView()).update(getArray((MapControler) getParameterControler()));
+		((View2D)getParamView()).update(
+				((MapControler)getParameterControler()).getArray());
 	}
-	/**
-	 * 
-	 * @param paramControler
-	 * @return
-	 */
-	protected Number[][] getArray(MapControler  paramControler){
-		MapControler pc = (MapControler) paramControler;
-		Parameter param = pc.getParam();
-		Number[][] ret;
-		if(param instanceof Array2D){
-			ret =  ((Array2D<? extends Number>)param).get2DArray();
-		}else{
-			List<? extends Number> list = pc.getValues(); 
-			Coord<SingleValueParam<Integer>> dim =  pc.getSpace().getDimensions();
-			ret = ArrayUtils.toPrimitiveArray(list, dim.getIndex(0).get(), dim.getIndex(1).get());
-		}
-		
-		return ret;
-	}
+	
+	
 
 	
 

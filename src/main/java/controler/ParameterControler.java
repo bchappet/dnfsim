@@ -54,7 +54,7 @@ public abstract class ParameterControler {
 	/**
 	 * @return the param
 	 */
-	public Parameter getParam() {
+	protected Parameter getParam() {
 		return param;
 	}
 	

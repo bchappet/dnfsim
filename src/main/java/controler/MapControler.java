@@ -1,14 +1,16 @@
 package main.java.controler;
 
-import java.math.BigDecimal;
 import java.util.List;
 
+import main.java.maps.Array2D;
+import main.java.maps.Array2DDouble;
 import main.java.maps.Map;
 import main.java.maps.MatrixDouble2D;
+import main.java.maps.Parameter;
+import main.java.maps.SingleValueParam;
+import main.java.space.Coord;
 import main.java.space.Space;
-import main.java.view.MapViewAdapter;
-import main.java.view.ParamViewAdapter;
-import main.java.view.ParameterView;
+import main.resources.utils.ArrayUtils;
 
 public class MapControler extends ComputableControler {
 
@@ -23,12 +25,26 @@ public class MapControler extends ComputableControler {
 			return getParam().toString();
 		}
 	}
-
-
-	@Override
-	protected ParamViewAdapter createParamViewAdapter(ParameterView param) {
-		return new MapViewAdapter(this,param);
+	/**
+	 * Return the values of the map in double[][] format
+	 * @return
+	 */
+	public double[][] getArray(){
+		Parameter param = this.getParam();
+		double[][] ret;
+		if(param instanceof Array2DDouble){
+			ret = ((Array2DDouble)param).get2DArrayDouble();
+		}
+		else if(param instanceof Array2D){
+			ret =  ArrayUtils.toPrimitiveArray(((Array2D<? extends Number>)param).get2DArray());
+		}else{
+			List<? extends Number> list = param.getValues(); 
+			Coord<SingleValueParam<Integer>> dim =  ((Map)param).getSpace().getDimensions();
+			ret = ArrayUtils.toPrimitiveDoubleArray(list, dim.getIndex(0).get(), dim.getIndex(1).get());
+		}
+		return ret;
 	}
+	
 
 	public Space getSpace() {
 		return ((Map)getParam()).getSpace();
