@@ -119,5 +119,10 @@ public class ViewFactory {
 	protected ViewConfiguration getViewConfiguration() {
 		return viewConfiguration;
 	}
+	
+	public ParameterControlerTree getParameterControlerTree()
+	{
+		return this.pcTree;
+	}
 
 }

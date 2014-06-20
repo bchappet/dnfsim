@@ -20,39 +20,59 @@ import main.java.coordinates.NullCoordinateException;
 /**
  * Define the TreePanel view and The DetailsPanel feeding. Maybe we should separate the two
  * @author benoit
- * @version 10/05/2014
+ * @version 20/06/2014
  *
  */
-public class ParameterTreePanel extends JScrollPane implements TreeSelectionListener,MouseListener {
+public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListener,MouseListener {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 4334546971336119655L;
-
-	protected JTree tree;
+	
+	/**Scroll pane**/
+	private JScrollPane scrollPane;
+	
+	private JTree jtree;
 	/**Margin of the panel**/
-	protected int margin = 10;
+	private int margin = 10;
 	/**
 	 * When a parameter is selected, its informations are displayed in this
-	 * panel
+	 * panel 
+	 * Optional
 	 **/
 	protected DetailsPanel detailsPanel;
 
-
-	public ParameterTreePanel(JTree tree, DetailsPanel detailsPanel) {
-		super(tree);
+	/**
+	 * 
+	 * @param name
+	 * @param vf
+	 * @param detailsPanel (optional)
+	 */
+	public ParameterTreePanel(String name,ViewFactory vf, DetailsPanel detailsPanel) {
+		super(name,vf);
+		this.jtree = new JTree(vf.getParameterControlerTree());
+		this.scrollPane = new JScrollPane(this.jtree);
+		this.add(scrollPane);
 		//System.out.println("tree" +treeModel);
-		this.tree = tree;
 		this.detailsPanel = detailsPanel;
 		//System.out.println(root.printTree(0));
-		this.tree.setRootVisible(true);
-		this.tree.getSelectionModel().setSelectionMode(
+		this.jtree.setRootVisible(true);
+		this.jtree.getSelectionModel().setSelectionMode(
 				TreeSelectionModel.SINGLE_TREE_SELECTION);
 		/* Listen to the events */
-		this.tree.addTreeSelectionListener(this);
-		this.tree.addMouseListener(this);
+		this.jtree.addTreeSelectionListener(this);
+		this.jtree.addMouseListener(this);
 		//System.out.println("Jtree" +tree);
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param vf
+	 */
+	public ParameterTreePanel(String name,ViewFactory vf){
+		this(name,vf,null);
 	}
 	
 	
@@ -61,8 +81,8 @@ public class ParameterTreePanel extends JScrollPane implements TreeSelectionList
 	
 	public void delete()
 	{
-		this.tree.collapseRow(this.tree.getRowCount());
-		this.tree = null;
+		this.jtree.collapseRow(this.jtree.getRowCount());
+		this.jtree = null;
 	}
 
 
@@ -77,8 +97,8 @@ public class ParameterTreePanel extends JScrollPane implements TreeSelectionList
 
 	@Override
 	public void valueChanged(TreeSelectionEvent arg0) {
-		ParameterControler disp = (ParameterControler) tree.getLastSelectedPathComponent();
-		if(disp != null)
+		ParameterControler disp = (ParameterControler) jtree.getLastSelectedPathComponent();
+		if(this.detailsPanel != null && disp != null)
 		{
 			detailsPanel.setDisplayedParam("Param selected" ,disp);
 		}
@@ -134,8 +154,8 @@ public class ParameterTreePanel extends JScrollPane implements TreeSelectionList
 
 
 
-	public JTree getTree() {
-		return tree;
+	public JTree getJTree() {
+		return jtree;
 	}
 
 	

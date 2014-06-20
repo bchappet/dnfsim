@@ -1,15 +1,23 @@
 package test.java.view;
 
-import javax.swing.JFrame;
+import static org.junit.Assert.assertTrue;
 
-import main.java.controler.MapControler;
-import main.java.controler.ParameterControler;
-import main.java.controler.VarControler;
-import main.java.maps.InfiniteDt;
-import main.java.maps.MatrixDouble2D;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.math.BigDecimal;
+
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
+import main.java.controler.ComputationControler;
+import main.java.controler.ModelControler;
+import main.java.reservoirComputing.ESNCommandLine;
+import main.java.reservoirComputing.ModelESN;
 import main.java.view.DetailsPanel;
-import main.java.view.MapViewAdapter;
-import main.java.view.SingleValueParamViewAdapter;
+import main.java.view.ParameterTreePanel;
+import main.java.view.ViewConfiguration;
+import main.java.view.ViewFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,46 +25,56 @@ import org.junit.Test;
 public class DetailsPanelTest extends JFrame{
 	
 	private DetailsPanel uut;
+	private ParameterTreePanel parameterTreePanel;
+	private ComputationControler cc;
+
+
 
 	@Before
 	public void setUp() throws Exception {
+		ModelESN model = new ModelESN("test_esn");
+		ESNCommandLine cl = (ESNCommandLine) model.constructCommandLine();
+		cl.setContext("");
+		model.initialize(cl);
+		ModelControler mc = new ModelControler(model);
+		cl.setCurentModelControler(mc);
+		cc = new ComputationControler(mc.getTree());
+
+		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/CanvaPanelTest.gui"),mc.getTree());
+
+		uut = new DetailsPanel("uut",vf);
+		uut.setPreferredSize(new Dimension(150,300));
+		parameterTreePanel = new ParameterTreePanel("uut",vf,uut);
+		this.setVisible(true);
 		
-		uut = new DetailsPanel();
+		JPanel jpane = new JPanel();
+		BorderLayout bl = new BorderLayout();
+		jpane.setLayout(bl);
+		jpane.add(parameterTreePanel,BorderLayout.LINE_START);
+		jpane.add(uut,BorderLayout.LINE_END);
 		
+		getContentPane().add(jpane);
+		//jpane.setPreferredSize(new Dimension(300, 300));
+		this.setPreferredSize(new Dimension(300, 300));
+		this.pack();
 	}
 
+
 	@Test
-	public void testWithoutParam() throws InterruptedException {
-		this.add(uut);
-		this.setSize(300, 200);
-		this.setVisible(true);
-		Thread.sleep(1000);
-	}
-	
-	
-	@Test
-	public void testWithParamVar() throws InterruptedException {
-		ParameterControler pc = new VarControler(new InfiniteDt());
-		pc.setParamViewAdapter(new SingleValueParamViewAdapter(pc, null));
-		uut.setDisplayedParam("displayedParam:", pc);
-		
-		this.add(uut);
-		this.setSize(300, 700);
-		this.setVisible(true);
-		Thread.sleep(1000);
-	}
-	
-	@Test
-	public void testWithParamMap() throws InterruptedException {
-		MatrixDouble2D map = new MatrixDouble2D("map", new InfiniteDt(), new double[][]{{0, 1,2},{3,4,5},{6,7,8}});
-		ParameterControler pc = new MapControler(map);
-		pc.setParamViewAdapter(new MapViewAdapter(pc, null));
-		uut.setDisplayedParam("displayedParam:", pc);
-		
-		this.add(uut);
-		this.setSize(300, 700);
-		this.setVisible(true);
-		Thread.sleep(1000);
+	public void testModelView() throws InterruptedException {
+		cc.compute(new BigDecimal("0.1"));
+
+		Thread.sleep(100);
+		this.repaint();
+		cc.compute(new BigDecimal("0.2"));
+		Thread.sleep(100);
+		this.repaint();
+		cc.compute(new BigDecimal("0.3"));
+		Thread.sleep(100);
+		this.repaint();
+		Thread.sleep(10000);
+
+		assertTrue("visual test ",true);
 	}
 
 }
