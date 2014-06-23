@@ -1,10 +1,13 @@
 package main.java.network.rsdnf;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Var;
 import main.java.network.generic.NetworkModel;
 import static main.java.network.generic.SpreadingGraphFactory.TypeGraph.RSDNF;
@@ -21,27 +24,27 @@ public class RSDNFModel extends NetworkModel {
     }
 
     public static void main(String[] args) {
-        RSDNFModel r = new RSDNFModel(("coucou"));
-//        try {
-//            //        new ModelESN("ok");
-//            RSDNFModel r = new RSDNFModel(("coucou"));
-//            CommandLine cl = new RSDNFCommandLine() {
-//                @Override
-//                public String defaultScript() {
-//                    return super.defaultScript() + WEIGTH + "=0.0;";
-//                }
-//            };//rsdnf.constructCommandLine();
-//            cl.setContext("");
-//            r.initialize(cl);
-//        } catch (CommandLineFormatException ex) {
-//            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (FileNotFoundException ex) {
-//            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (MalformedURLException ex) {
-//            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (NullCoordinateException ex) {
-//            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+//        RSDNFModel r = new RSDNFModel(("coucou"));
+        try {
+            //        new ModelESN("ok");
+            RSDNFModel r = new RSDNFModel(("coucou"));
+            CommandLine cl = new RSDNFCommandLine() {
+                @Override
+                public String defaultScript() {
+                    return super.defaultScript() + WEIGTH + "=0.0;";
+                }
+            };//rsdnf.constructCommandLine();
+            cl.setContext("");
+            r.initialize(cl);
+        } catch (CommandLineFormatException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullCoordinateException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
