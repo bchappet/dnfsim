@@ -65,6 +65,8 @@ public class ModelView extends ViewPanel {
 		this.add(canvaView, BorderLayout.CENTER);
 	}
 	
+	private void initView
+	
 	
 
 	

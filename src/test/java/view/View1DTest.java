@@ -7,8 +7,8 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
-import main.java.gui.AdaptiveAndEquilibratedColorMap;
-import main.java.gui.ColorMap;
+import main.java.view.AdaptiveAndEquilibratedColorMap;
+import main.java.view.ColorMap;
 import main.java.view.View1D;
 
 import org.junit.Before;

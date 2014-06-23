@@ -1,5 +1,6 @@
 package test.java.view;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import javax.swing.JFrame;
@@ -29,6 +30,7 @@ public class ParameterModifierPanelTest extends JFrame {
 	public void testParameterModifierPanel() throws InterruptedException {
 		
 		Thread.sleep(1000);
+		assertTrue("visual test ",true);
 	}
 
 	@Test
@@ -37,6 +39,7 @@ public class ParameterModifierPanelTest extends JFrame {
 		var.set(10d);
 		uut.update();
 		Thread.sleep(1000);
+		assertTrue("visual test ",true);
 	}
 
 }

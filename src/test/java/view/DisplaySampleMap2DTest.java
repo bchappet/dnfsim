@@ -1,5 +1,6 @@
 package test.java.view;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
@@ -52,6 +53,7 @@ public class DisplaySampleMap2DTest extends JFrame {
 		uut.update(new Coord2D<Double>(0.5,0.5));
 		this.repaint();
 		Thread.sleep(10000);
+		assertTrue("visual test ",true);
 		
 	}
 	

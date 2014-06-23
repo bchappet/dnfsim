@@ -1,7 +1,7 @@
 package main.java.view;
 
 import main.java.controler.ParameterControler;
-import main.java.maps.SingleValueParam;
+import main.java.controler.SingleValueControler;
 
 public class SingleValueParamCurve2DAdapter extends ParamViewAdapter {
 
@@ -18,8 +18,8 @@ public class SingleValueParamCurve2DAdapter extends ParamViewAdapter {
 	@Override
 	public void updateView() {
 		Curve2D pv = (Curve2D) this.getParamView();
-		SingleValueParam<? extends Number> param = (SingleValueParam<? extends Number> )this.getParameterControler().getParam();
-		pv.update(param.get().doubleValue());
+		SingleValueControler paramC = (SingleValueControler)this.getParameterControler();
+		pv.update(((Number) paramC.get()).doubleValue());
 	}
 
 }

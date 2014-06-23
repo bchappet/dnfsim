@@ -1,6 +1,6 @@
 package main.java.view;
 
-import main.java.gui.ColorMap;
+import main.java.view.ColorMap;
 
 public class View1D extends View2D {
 	

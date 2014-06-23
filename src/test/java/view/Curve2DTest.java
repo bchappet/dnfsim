@@ -1,5 +1,7 @@
 package test.java.view;
 
+import static org.junit.Assert.assertTrue;
+
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -37,6 +39,7 @@ public class Curve2DTest  extends JFrame {
 		uut.update(0.1);
 		this.repaint();
 		Thread.sleep(1000);
+		assertTrue("visual test ",true);
 	}
 
 }

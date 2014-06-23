@@ -47,8 +47,8 @@ public class ModelViewTest extends JFrame{
 		cc = new ComputationControler(mc.getTree());
 	
 		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/CanvaPanelTest.gui"),mc.getTree());
-		
-		uut = new ModelView("uut",vf);
+		Dimension dim = new Dimension(300, 300);
+		uut = new ModelView("uut",vf,dim);
 		this.setVisible(true);
 
 		this.add(uut);
