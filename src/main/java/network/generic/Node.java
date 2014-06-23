@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  *
  * Ce noeud et sa version antérieure sont liés avec un ensemble de noeud. Pour
  * faire un calcul parralèle, il faut appeler d'abord sendParallele sur tout les
- * noeuds d'un graphe, puis mettre à jour avec update previous.
+ * noeuds d'un graphe, puis mettre à jour avec update temporary.
  *
  * @author CARRARA Nicolas
  * @param <P>
@@ -22,7 +22,7 @@ import java.util.logging.Logger;
  */
 public abstract class Node<P extends Packet, E extends DirectedEdge> {
 
-    private Node<P, E> previous;
+    private Node<P, E> temporary;
 
     private boolean enabled = true;
 
@@ -32,49 +32,52 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
 
     private List<Node<P, E>> neighbors;
 
-    public Node(boolean constructPrevious, Node<P, E>... neigthbours) {
+    private int maxSize = Integer.MAX_VALUE;
+
+    public Node(Node<P, E>... neigthbours) {
         bufferPacket = new LinkedList();
         edges = new ArrayList<>();
         neighbors = new ArrayList<>();
         constructNeigthborhood(neigthbours);
-        if (constructPrevious) {
-            previous = constructPrevious(); //(Node<P, E>) clone();//
-        }
     }
 
-    public Node(boolean constructPrevious) {
+    public Node() {
         bufferPacket = new LinkedList();
         edges = new ArrayList<>();
         neighbors = new ArrayList<>();
-        if (constructPrevious) {
-            previous = constructPrevious();
-        }
+    }
+
+    public Node(int maxSize) {
+        this();
+        this.maxSize = maxSize;
+    }
+
+    public Node(int maxSize, Node<P, E>... neigthbours) {
+        this(neigthbours);
+        this.maxSize = maxSize;
+    }
+
+    @Override
+    public String toString() {
+        return bufferPacket.size() + "";
     }
 
     /**
-     * Transfert un ou plusieurs paquets à un ou plusieurs voisins
+     * Doit passer un ou plusieurs paquets à un ou plusieurs voisins. Doit se
+     * decharger d'un ou de plusieur paquet quoi qu'il arrive
      */
-    protected abstract void send();
+    public abstract void send();
 
     /**
-     * Le previous fait un send sur les voisins
+     * Doit faire un envoi de manière parallele.
      */
-    public final void sendParallele() {
-        getPrevious().send();
-    }
+    public abstract void sendParallele();
 
     /**
-     * clone this to previous
+     * Doit faire un ensemble d'opérations qui doivent préparer le noeud a
+     * appeller sendParallele().
      */
-    public final void updatePrevious() {
-        setPrevious(constructPrevious());
-    }
-
-    /**
-     *
-     * @return un clone de this.
-     */
-    protected abstract Node<P, E> constructPrevious();
+    protected abstract void prepareBeforeSendParallele();
 
     /**
      * crée un object de type E au runtime
@@ -99,6 +102,14 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
     }
 
     /**
+     *
+     * @return the load amount of the buffer
+     */
+    public final int getLoad() {
+        return getBufferPacket().size();
+    }
+
+    /**
      * lie ce noeud s à neightbor
      *
      * @param neightbor
@@ -107,11 +118,6 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
         getNeighbors().add(neightbor);
         E e = getInstance(this, neightbor);
         getEdges().add(e);
-//        if (getPrevious() != null) {
-//            E ePrevious = getInstance(getPrevious(), neightbor);
-//            e.setPrevious(ePrevious);
-//            getPrevious().getEdges().add(ePrevious);
-//        }
     }
 
     /**
@@ -124,19 +130,20 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
         for (Node<P, E> n : neightbors) {
             link(n);
         }
-//        if (getPrevious() != null) {
-//            for (Node<P, E> n : neightbors) {
-//                getPrevious().link(n.getPrevious());
-//            }
-//        }
     }
 
+    /**
+     * 
+     * @param node
+     * @return vrai si node est voisin de/link à this
+     */
     public final boolean isNeightBorTo(Node<P, E> node) {
         return getNeighbors().contains(node);
     }
 
     /**
-     * reçoit un paquet. Le rajoute à son buffer. Methode qu'on peut override si
+     * reçoit un paquet(peut etre appeler pendant une computation du spreading
+     * graph associé). Le rajoute à son buffer. Methode qu'on peut override si
      * d'autres traitements sont necessaire.
      *
      * @param packet
@@ -155,17 +162,23 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
     }
 
     /**
-     * Rajoute un paquet à la file d'attente de traitement de ce noeud.
+     * Rajoute un paquet à la file d'attente de traitement de ce noeud, si la 
+     * file n'est pas pleine, jète le paquet sinon.
      *
      * @param packet
+     * @return vrai si le packet a bien été ajouté
      */
-    public final void addToFIFO(P packet) {
-        getBufferPacket().add(packet);
+    public boolean addToFIFO(P packet) {
+        boolean added;
+        if (added = getLoad() < getMaxSize()) {
+            getBufferPacket().add(packet);
+        }
+        return added;
     }
 
-    
-    /** *************************************** getter/setter *****************/
-    
+    /**
+     * *************************************** getter/setter ****************
+     */
     public boolean isEnabled() {
         return enabled;
     }
@@ -179,17 +192,17 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
     }
 
     /**
-     * @return the previous
+     * @return the temporary
      */
-    public Node<P, E> getPrevious() {
-        return previous;
+    public Node<P, E> getTemporary() {
+        return temporary;
     }
 
     /**
-     * @param previous the previous to set
+     * @param temporary the temporary to set
      */
-    public void setPrevious(Node<P, E> previous) {
-        this.previous = previous;
+    public void setTemporary(Node<P, E> temporary) {
+        this.temporary = temporary;
     }
 
     /**
@@ -225,6 +238,13 @@ public abstract class Node<P extends Packet, E extends DirectedEdge> {
      */
     public void setNeighbors(List<Node<P, E>> neighbors) {
         this.neighbors = neighbors;
+    }
+
+    /**
+     * @return the maxSize
+     */
+    public int getMaxSize() {
+        return maxSize;
     }
 
 }

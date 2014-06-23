@@ -1,7 +1,6 @@
 package main.java.network.rsdnf;
 
 import java.util.LinkedList;
-import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.Node;
 
@@ -18,19 +17,19 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
         this.weight = weight;
     }
 
-    public RSDNFTransmitter(Var<Double> weight) {
-        super();
-        this.weight = weight.get();
-    }
-
     public RSDNFTransmitter(double weight, RSDNFTransmitter... neightbors) {
         super(neightbors);
         this.weight = weight;
     }
+    public RSDNFTransmitter(int sizeMax,double weight) {
+        super(sizeMax);
+        this.weight = weight;
+    }
 
-    public RSDNFTransmitter(Var<Double> weight, RSDNFTransmitter... neightbors) {
-        super(neightbors);
-        this.weight = weight.get();
+
+    public RSDNFTransmitter(int sizeMax,double weight, RSDNFTransmitter... neightbors) {
+        super(sizeMax,neightbors);
+        this.weight = weight;
     }
 
     /**

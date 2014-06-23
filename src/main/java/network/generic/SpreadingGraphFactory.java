@@ -3,6 +3,7 @@ package main.java.network.generic;
 import java.io.File;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.maps.Var;
 import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.network.rsdnf.RSDNFSpreadingGraph;
 import main.java.network.rsdnf.RSDNFTransmitter;
@@ -63,7 +64,7 @@ public class SpreadingGraphFactory {
                 RSDNFCommandLine crsdnf = (RSDNFCommandLine)commandLine;
                 res = new RSDNFSpreadingGraph();
                 for (int i = 0; i < matrice.length; i++) {
-                    res.getNodes().add(new RSDNFTransmitter(true,crsdnf.get(RSDNFCommandLine.WEIGTH)));
+                    res.getNodes().add(new RSDNFTransmitter(((Var<Double>)crsdnf.get(RSDNFCommandLine.WEIGTH)).get()));
                 }
                 for (int l = 0; l < matrice.length; l++) {
                     for (int c = 0; c < matrice[l].length; c++) {

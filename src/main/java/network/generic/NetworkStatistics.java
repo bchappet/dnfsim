@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package main.java.network.generic;
 
 import java.math.BigDecimal;
@@ -15,11 +14,14 @@ import main.java.statistics.Statistics;
  *
  * @author CARRARA Nicolas
  */
-public class NetworkStatistics extends Statistics
-{
+public class NetworkStatistics extends Statistics {
 
+    public static final String CURRENT_PACKET = "current_packet";
+    public static final String BUFF_MAX_LOAD = "buff_max_load";
+    
+    
     public NetworkStatistics(String name, String defaultDisplayedParameter, Var<BigDecimal> dt, Parameter... parameter) {
         super(name, defaultDisplayedParameter, dt, parameter);
     }
-    
+
 }
