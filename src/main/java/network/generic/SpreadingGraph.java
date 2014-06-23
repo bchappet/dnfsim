@@ -31,10 +31,22 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
     }
 
     /**
+     * 
+     * @return le nombre de paquet restant sur le reseau
+     */
+    public final int getLoadRemaining(){
+        int loadRemaining = 0;
+        for(N n: getNodes()){
+            loadRemaining += n.getLoad();
+        }
+        return loadRemaining;
+    }
+    
+    /**
      *
      * @return the node with the maximum load, null if nodes is empty
      */
-    public N getMostLoadedNode() {
+    public final N getMostLoadedNode() {
         N res = null;
         if (!nodes.isEmpty()) {
             res = nodes.get(0);
