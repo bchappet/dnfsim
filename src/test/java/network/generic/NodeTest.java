@@ -6,6 +6,8 @@
 
 package test.java.network.generic;
 
+import main.java.network.generic.*;
+import test.java.network.generic.*;
 import main.java.network.rsdnf.RSDNFTransmitter;
 import main.java.network.rsdnf.SpikeEdge;
 import org.junit.After;
@@ -42,7 +44,7 @@ public class NodeTest {
   
     @Test
     public void generic(){
-        RSDNFTransmitter t = new RSDNFTransmitter(true,5);
+        RSDNFTransmitter t = new RSDNFTransmitter(5);
         SpikeEdge instance = t.getInstance(t,t);
     }
     

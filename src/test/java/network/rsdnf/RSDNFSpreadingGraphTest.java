@@ -5,15 +5,17 @@
  */
 package test.java.network.rsdnf;
 
+import main.java.network.rsdnf.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
+import java.util.Arrays;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.Utils;
-import main.java.network.rsdnf.RSDNFModel;
+import static main.java.network.rsdnf.RSDNFCommandLine.WEIGTH;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertArrayEquals;
@@ -43,7 +45,12 @@ public class RSDNFSpreadingGraphTest {
     @Before
     public void setUp() throws CommandLineFormatException, FileNotFoundException, MalformedURLException {
         rsdnf = new RSDNFModel("testRSDNF");
-        CommandLine cl = rsdnf.constructCommandLine();
+        CommandLine cl = new RSDNFCommandLine() {
+            @Override
+            public String defaultScript() {
+                return super.defaultScript() + WEIGTH + "=0.0;";
+            }
+        };//rsdnf.constructCommandLine();
         cl.setContext("");
         rsdnf.initialize(cl);
     }
@@ -52,32 +59,14 @@ public class RSDNFSpreadingGraphTest {
     public void tearDown() {
     }
 
-    
-    @Test
-    public void paralleleTest() throws CommandLineFormatException{
-        double[][] transitionMatrix = {
-            {0,1,1},
-            {1,0,0},
-            {1,1,0}};
-            
-        SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(transitionMatrix, SpreadingGraphFactory.TypeGraph.RSDNF, rsdnf.getCommandLine());
-        
-        rsdnf.setSpreadingGraph(spreadingGraph);
-        
-    
-    }
-    
+
     @Test
     public void finalTest() throws CommandLineFormatException, FileNotFoundException {
         System.out.println("finalTest");
         File result = rsdnf.writeNetworkFile();
         double[][] matrixA = Utils.parseCSVFile(result);
-//        CommandLine c = new RSDNFCommandLine();
-//        c.reinitialize();
-//        c.parseCommand(c.getScript());
         SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(result, SpreadingGraphFactory.TypeGraph.RSDNF, rsdnf.getCommandLine());
         double[][] matrixB = spreadingGraph.extractAdjacentMatrix();
-//        System.out.println(Arrays.deepToString(matrixB));
         assertArrayEquals(matrixA, matrixB);
     }
 }

@@ -6,9 +6,7 @@
 
 package test.java.network.rsdnf;
 
-import main.java.network.rsdnf.RSDNFTransmitter;
-import main.java.network.rsdnf.Spike;
-import main.java.network.rsdnf.SpikeEdge;
+import main.java.network.rsdnf.*;
 import org.junit.After;
 import org.junit.AfterClass;
 import static org.junit.Assert.assertEquals;
@@ -38,8 +36,8 @@ public class SpikeEdgeTest {
     
     @Before
     public void setUp() {
-        sender = new RSDNFTransmitter(true,0.5);
-        receiver = new RSDNFTransmitter(true,0.5);
+        sender = new RSDNFTransmitter(0.5);
+        receiver = new RSDNFTransmitter(0.5);
         se = new SpikeEdge(sender, receiver);
     }
     

@@ -5,6 +5,8 @@
  */
 package test.java.network.rsdnf;
 
+import main.java.network.rsdnf.*;
+import test.java.network.rsdnf.*;
 import main.java.network.generic.Node;
 import main.java.network.rsdnf.RSDNFTransmitter;
 import main.java.network.rsdnf.Spike;
@@ -43,13 +45,13 @@ public class RSDNFTransmitterTest {
 
     @Before
     public void setUp() {
-        n1 = new RSDNFTransmitter(true,1);
-        n2 = new RSDNFTransmitter(true,1);
-        n3 = new RSDNFTransmitter(true,1);
-        n4 = new RSDNFTransmitter(true,1);
-        n5 = new RSDNFTransmitter(true,1);
-        n6 = new RSDNFTransmitter(true,1);
-        t = new RSDNFTransmitter(true,0, n1, n2, n3, n4, n5, n6);
+        n1 = new RSDNFTransmitter(1);
+        n2 = new RSDNFTransmitter(1);
+        n3 = new RSDNFTransmitter(1);
+        n4 = new RSDNFTransmitter(1);
+        n5 = new RSDNFTransmitter(1);
+        n6 = new RSDNFTransmitter(1);
+        t = new RSDNFTransmitter(0, n1, n2, n3, n4, n5, n6);
     }
 
     @After
@@ -78,7 +80,7 @@ public class RSDNFTransmitterTest {
         for (int j = 0; j < 100; j++) {
             double p = Math.random();
             int n = (int) (Math.random() * 100000);
-            t = new RSDNFTransmitter(true,1-p, n1, n2, n3, n4, n5, n6);
+            t = new RSDNFTransmitter(1-p, n1, n2, n3, n4, n5, n6);
             for (int i = 0; i < n; i++) {
                 s = new Spike();
                 t.addToFIFO(s);
@@ -102,8 +104,8 @@ public class RSDNFTransmitterTest {
     @Test
     public void testLink() {
         System.out.println("link");
-        RSDNFTransmitter neightbor = new RSDNFTransmitter(true,0.5);
-        RSDNFTransmitter instance = new RSDNFTransmitter(true,0.5);
+        RSDNFTransmitter neightbor = new RSDNFTransmitter(0.5);
+        RSDNFTransmitter instance = new RSDNFTransmitter(0.5);
         instance.link(neightbor);
         assertTrue(instance.isNeightBorTo(neightbor));
     }
@@ -114,8 +116,8 @@ public class RSDNFTransmitterTest {
     @Test
     public void testLink2() {
         System.out.println("link2");
-        RSDNFTransmitter neightbor = new RSDNFTransmitter(true,0);
-        RSDNFTransmitter instance = new RSDNFTransmitter(true,0);
+        RSDNFTransmitter neightbor = new RSDNFTransmitter(0);
+        RSDNFTransmitter instance = new RSDNFTransmitter(0);
         instance.link(neightbor);
         Spike s = new Spike();
         instance.addToFIFO(s);

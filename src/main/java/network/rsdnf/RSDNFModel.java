@@ -20,6 +20,10 @@ public class RSDNFModel extends NetworkModel {
     public RSDNFModel(String name) {
         super(name);
     }
+    
+    public static void main(String[] args){
+        new RSDNFModel(("coucou"));
+    }
 
     /**
      * creer un fichier reprensentant le reseau RSDNF
@@ -131,12 +135,14 @@ public class RSDNFModel extends NetworkModel {
 
     @Override
     protected void initializeStatistics() throws CommandLineFormatException {
-        //todo
+        super.initializeStatistics();
+        //todo ?
     }
 
     @Override
-    protected void initializeCharacteristics() throws CommandLineFormatException {
-        //todo
+    protected void initializeCharacteristics()  {
+        super.initializeCharacteristics();
+        //todo ?
     }
 
     @Override

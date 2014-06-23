@@ -1,5 +1,6 @@
 package main.java.network.rsdnf;
 
+import java.util.LinkedList;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.Node;
@@ -12,30 +13,30 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
 
     private final double weight;
 
-    public RSDNFTransmitter(boolean constructPrevious,double weight) {
-        super(constructPrevious);
+    public RSDNFTransmitter(double weight) {
+        super();
         this.weight = weight;
     }
 
-    public RSDNFTransmitter(boolean constructPrevious,Var<Double> weight) {
-        super(constructPrevious);
+    public RSDNFTransmitter(Var<Double> weight) {
+        super();
         this.weight = weight.get();
     }
 
-    public RSDNFTransmitter(boolean constructPrevious,double weight, RSDNFTransmitter... neightbors) {
-        super(constructPrevious,neightbors);
+    public RSDNFTransmitter(double weight, RSDNFTransmitter... neightbors) {
+        super(neightbors);
         this.weight = weight;
     }
 
-    public RSDNFTransmitter(boolean constructPrevious,Var<Double> weight, RSDNFTransmitter... neightbors) {
-        super(constructPrevious,neightbors);
+    public RSDNFTransmitter(Var<Double> weight, RSDNFTransmitter... neightbors) {
+        super(neightbors);
         this.weight = weight.get();
     }
 
     /**
      * Demande le transfert du premier spike de la list fifo par toutes ses
      * arrêtes. On fait un bernouilli pour savoir si oui ou non on transmet ce
-     * spike.
+     * spike.Se decharge d'un paquet meme si il n'a pas de voisin.
      */
     @Override
     public void send() {
@@ -51,6 +52,27 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
         }
     }
 
+    @Override
+    public void prepareBeforeSendParallele() {
+        RSDNFTransmitter tmp = new RSDNFTransmitter(this.weight);
+        tmp.setBufferPacket((LinkedList<Spike>) getBufferPacket().clone());
+        tmp.setEdges(this.getEdges());
+        tmp.setNeighbors(this.getNeighbors());
+        tmp.setEnabled(this.isEnabled());
+        setTemporary(tmp);
+        /**
+         * on retire un packet de la liste (celui envoyé) car c'est temporary
+         * qui va send et pas this.
+         */
+        pollPacket();
+    }
+
+    @Override
+    public void sendParallele() {
+        getTemporary().send();
+    }
+
+    
     /**
      * @return the inhibitoryWeight
      */
@@ -60,16 +82,6 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
 
     public double getEWeight() {
         return weight;
-    }
-
-    @Override
-    protected Node<Spike, SpikeEdge> constructPrevious() {
-        RSDNFTransmitter clone = new RSDNFTransmitter(false,this.weight);
-        clone.setBufferPacket(this.getBufferPacket());
-        clone.setEdges(this.getEdges());
-        clone.setNeighbors(this.getNeighbors());
-        clone.setEnabled(this.isEnabled());
-        return clone;
     }
 
 }
