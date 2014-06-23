@@ -124,8 +124,7 @@ private void constructTreeRecursive(TreeNode<ViewConfNode> node,BufferedReader b
 			newNode = new TreeNode<ViewConfNode>(nodeData, parent);
 			parent.addChild(newNode);
 		}else {
-
-			throw new IllegalArgumentException("Bad file: we found an problem in the incrementation. Please revise the file.");
+			throw new IllegalArgumentException("Bad file: a problem was found in the incrementation. Please revise the file. Incr level : " + incrLevel + " currentIncr level " + currentIncrLevel + " on line : " + line );
 		}
 		constructTreeRecursive(newNode, br,incrLevel);
 	}
