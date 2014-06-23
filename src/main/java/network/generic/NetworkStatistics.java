@@ -16,7 +16,7 @@ import main.java.statistics.Statistics;
  */
 public class NetworkStatistics extends Statistics {
 
-    public static final String CURRENT_PACKET = "current_packet";
+    public static final String LOAD_REMAINING = "current_packet";
     public static final String BUFF_MAX_LOAD = "buff_max_load";
     
     

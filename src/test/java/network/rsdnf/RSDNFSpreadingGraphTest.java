@@ -63,7 +63,7 @@ public class RSDNFSpreadingGraphTest {
     @Test
     public void finalTest() throws CommandLineFormatException, FileNotFoundException {
         System.out.println("finalTest");
-        File result = rsdnf.writeNetworkFile();
+        File result = rsdnf.writeRSDNFNetworkFile();
         double[][] matrixA = Utils.parseCSVFile(result);
         SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(result, SpreadingGraphFactory.TypeGraph.RSDNF, rsdnf.getCommandLine());
         double[][] matrixB = spreadingGraph.extractAdjacentMatrix();

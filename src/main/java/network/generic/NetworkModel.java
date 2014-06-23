@@ -5,7 +5,9 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.java.console.CommandLineFormatException;
+import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Computable;
+import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
@@ -30,30 +32,127 @@ public abstract class NetworkModel extends Model implements Computable {
         spreadingGraphFactory = SpreadingGraphFactory.getInstance();
     }
 
+    /**
+     * Doit initilialiser spreadingGraph
+     */
+    protected abstract void constructGraph();
+
+
     /*--------------------------- model --------------------------------------*/
     @Override
     protected void initializeStatistics() throws CommandLineFormatException {
-        
-        Var<BigDecimal> stat_dt = command.get(NetworkCommandLine.STAT_DT);
-        
-        // main statistic here is the maximum load of buffers
-        Trajectory maximumLoad = new Trajectory(NetworkStatistics.BUFF_MAX_LOAD, stat_dt, new UnitModel<Double>(0d) {
-            @Override
-            public Double compute(BigDecimal time, int index, List<Parameter> params) {
-                SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
-                Double maxLoad = (double) spreadingGraph.getMostLoadedNode().getBufferPacket().size();
-                System.out.println("maxLoad : "+maxLoad);
-                return maxLoad;
-            }
-        }, spreadingGraph);
 
-        stats = new NetworkStatistics(Statistics.NAME, NetworkStatistics.BUFF_MAX_LOAD, stat_dt, maximumLoad, spreadingGraph);
+        Var<BigDecimal> stat_dt = command.get(NetworkCommandLine.STAT_DT);
+
+        // main statistic here is the maximum load of buffers
+        Trajectory maximumLoad = new Trajectory(
+                NetworkStatistics.BUFF_MAX_LOAD,
+                stat_dt,
+                new UnitModel<Double>(0d) {
+                    @Override
+                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
+                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+                        Double maxLoad = (double) spreadingGraph.getMostLoadedNode().getLoad();
+                        System.out.println("maxLoad : " + maxLoad);
+                        return maxLoad;
+                    }
+                }, spreadingGraph);
+
+        // load remaining
+        Trajectory loadRemaining = new Trajectory(
+                NetworkStatistics.LOAD_REMAINING,
+                stat_dt,
+                new UnitModel<Double>(0d) {
+                    @Override
+                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
+                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+                        Double loadRemaining = (double) spreadingGraph.getLoadRemaining();
+                        System.out.println("loadRemaining : " + loadRemaining);
+                        return loadRemaining;
+                    }
+                }, spreadingGraph);
+
+        stats = new NetworkStatistics(
+                Statistics.NAME,
+                NetworkStatistics.BUFF_MAX_LOAD,
+                stat_dt,
+                maximumLoad,
+                loadRemaining,
+                spreadingGraph);
 
     }
 
     @Override
     protected void initializeCharacteristics() {
 
+        // main charac here is the maximum load of buffers
+        Trajectory maximumLoad = new Trajectory(
+                NetworkCharacteristics.BUFF_MAX_LOAD,
+                new InfiniteDt(),
+                new UnitModel<Double>(0d) {
+                    @Override
+                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
+                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+                        Double maxLoad = (double) spreadingGraph.getMostLoadedNode().getLoad();
+                        System.out.println("charac maxLoad : " + maxLoad);
+                        return maxLoad;
+                    }
+                }, spreadingGraph);
+
+        // load remaining
+        Trajectory loadRemaining = new Trajectory(
+                NetworkCharacteristics.LOAD_REMAINING,
+                new InfiniteDt(),
+                new UnitModel<Double>(0d) {
+                    @Override
+                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
+                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+                        Double loadRemaining = (double) spreadingGraph.getLoadRemaining();
+                        System.out.println("charac loadRemaining : " + loadRemaining);
+                        return loadRemaining;
+                    }
+                }, spreadingGraph);
+
+        // transmission time
+        Trajectory transmissionTime = new Trajectory(
+                NetworkCharacteristics.TRANSMISSION_TIME_BEFORE_CONGESTION,
+                new InfiniteDt(),
+                new UnitModel<Double>(0d) {
+                    @Override
+                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
+                        //todo
+//                SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+//                Double loadRemaining = (double) spreadingGraph.getLoadRemaining();
+//                System.out.println("charac loadRemaining : " + loadRemaining);
+                        return 0.0;//loadRemaining;
+                    }
+                }, spreadingGraph);
+
+        charac = new NetworkCharacteristics(
+                maximumLoad,
+                loadRemaining,
+                transmissionTime);
+
+    }
+
+    @Override
+    public String getDefaultDisplayedStatistic() {
+        return NetworkStatistics.BUFF_MAX_LOAD;
+    }
+
+    @Override
+    protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
+        constructGraph();
+    }
+
+    @Override
+    public String[] getDefaultDisplayedParameter() {
+        // todo
+        return new String[0];
+    }
+
+    @Override
+    public void modifyModel() throws CommandLineFormatException, NullCoordinateException {
     }
 
     /*---------------------- computable --------------------------------------*/
@@ -91,11 +190,6 @@ public abstract class NetworkModel extends Model implements Computable {
     public void setTime(BigDecimal currentTime) {
         // todo
     }
-
-    /**
-     * Doit initilialiser spreadingGraph
-     */
-    public abstract void constructGraph();
 
     //-----------------------  getteur/setteur ---------------------------------
     /**

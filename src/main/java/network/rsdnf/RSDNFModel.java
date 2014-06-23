@@ -1,6 +1,8 @@
 package main.java.network.rsdnf;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.net.MalformedURLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import main.java.console.CommandLine;
@@ -12,7 +14,7 @@ import static main.java.network.generic.SpreadingGraphFactory.TypeGraph.RSDNF;
 import main.java.network.generic.Utils;
 
 /**
- * 
+ *
  * @author CARRARA Nicolas
  */
 public class RSDNFModel extends NetworkModel {
@@ -20,25 +22,46 @@ public class RSDNFModel extends NetworkModel {
     public RSDNFModel(String name) {
         super(name);
     }
-    
-    public static void main(String[] args){
-        new RSDNFModel(("coucou"));
+
+    public static void main(String[] args) {
+//        RSDNFModel r = new RSDNFModel(("coucou"));
+        try {
+            //        new ModelESN("ok");
+            RSDNFModel r = new RSDNFModel(("coucou"));
+            CommandLine cl = new RSDNFCommandLine() {
+                @Override
+                public String defaultScript() {
+                    return super.defaultScript() + WEIGTH + "=0.0;";
+                }
+            };//rsdnf.constructCommandLine();
+            cl.setContext("");
+            r.initialize(cl);
+        } catch (CommandLineFormatException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (MalformedURLException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (NullCoordinateException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     /**
      * creer un fichier reprensentant le reseau RSDNF
      *
      * @return Un fichier representant le reseau RSDNF
+     * @throws main.java.console.CommandLineFormatException
      */
-    public  File writeNetworkFile() throws CommandLineFormatException {
+    public File writeRSDNFNetworkFile() throws CommandLineFormatException {
         double[][] matrice = matToFlat(generateAdjMatrix(10, 4), 10, 4);
-        File f = new File(((Var<String>)command.get(RSDNFCommandLine.PATH_RSDNF_FILE)).get());
+        File f = new File(((Var<String>) command.get(RSDNFCommandLine.PATH_RSDNF_FILE)).get());
         Utils.writeCSVFile(f, matrice);
         return f;
     }
 
 //    def generateRandomAdjMatrix(n,t):
-    public  static double[][][][] generateAdjMatrix(int n, int t) {
+    public static double[][][][] generateAdjMatrix(int n, int t) {
         int N = 0;
         int S = 1;
         int E = 2;
@@ -109,15 +132,15 @@ public class RSDNFModel extends NetworkModel {
     }
 
     @Override
-    public void constructGraph() {
+    protected void constructGraph() {
         try {
-            File networkFile = writeNetworkFile();
-            setSpreadingGraph(getSpreadingGraphFactory().constructGraph(networkFile, RSDNF,command));
+            File networkFile = writeRSDNFNetworkFile();
+            setSpreadingGraph(getSpreadingGraphFactory().constructGraph(networkFile, RSDNF, command));
         } catch (CommandLineFormatException ex) {
             Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
     @Override
     protected boolean computeStopCondition() {
         return false;
@@ -127,41 +150,5 @@ public class RSDNFModel extends NetworkModel {
     public CommandLine constructCommandLine() {
         return new RSDNFCommandLine();
     }
-
-    @Override
-    protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
-        //todo ?
-    }
-
-    @Override
-    protected void initializeStatistics() throws CommandLineFormatException {
-        super.initializeStatistics();
-        //todo ?
-    }
-
-    @Override
-    protected void initializeCharacteristics()  {
-        super.initializeCharacteristics();
-        //todo ?
-    }
-
-    @Override
-    public String[] getDefaultDisplayedParameter() {
-        //todo ?
-        return new String[0];
-    }
-
-    @Override
-    public void modifyModel() throws CommandLineFormatException, NullCoordinateException {
-        //todo ?
-    }
-
-    @Override
-    public String getDefaultDisplayedStatistic() {
-        // todo ?
-        return "";
-    }
-
-    
 
 }
