@@ -1,6 +1,5 @@
 colormap=AdaptiveAndEquilibratedColorMap
 ---------------------------------------------
 uut
-	CanvaPanel
-		WeightsIR
-		WeightsRR
+	WeightsIR
+	WeightsRR

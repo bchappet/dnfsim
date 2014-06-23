@@ -20,11 +20,6 @@ public class StatisticsControler extends  ComputableControler{
 
 	
 
-	@Override
-	protected ParamViewAdapter createParamViewAdapter(ParameterView view) {
-		return new StatisticsViewAdapter(this,view);
-	}
-
 	public WTrace getWtrace() {
 		return ((Statistics) this.getParam()).getWtrace();
 	}

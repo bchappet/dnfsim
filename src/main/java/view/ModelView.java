@@ -22,16 +22,8 @@ import javax.swing.tree.TreeModel;
  * @author benoit
  *
  */
-public class ModelView extends ParameterViewPanel {
+public class ModelView extends ViewPanel {
 	
-	/**
-	 * Center canvas displaying views
-	 */
-	private ParameterCanvaPanel canvaView;
-	/**
-	 * Statistic panel container
-	 */
-	private JPanel statPanel;
 	
 	
 	/**
@@ -40,10 +32,8 @@ public class ModelView extends ParameterViewPanel {
 	 * @param tree
 	 */
 	
-	public ModelView(Dimension dim,String name,TreeModel tree) {
-		super(name);
-		this.canvaView = new ParameterCanvaPanel();
-		JPanel detailsPanel = new DetailsPanel();
+	public ModelView(String name,ViewFactory vf,Dimension dim) {
+		super(name,vf);
 		detailsPanel.setBorder(BorderFactory.createTitledBorder("Details"));
 		
 		ParameterTreePanel treeView = new ParameterTreePanel(new JTree(tree), (DetailsPanel) detailsPanel);
@@ -75,34 +65,7 @@ public class ModelView extends ParameterViewPanel {
 		this.add(canvaView, BorderLayout.CENTER);
 	}
 	
-	/**
-	 * Add a stat to the statistic view
-	 * @param view
-	 */
-	public void addStatisticsView(StatisticPanel view){
-		statPanel.add(view);
-	}
-	/**
-	 * Remove stat view
-	 * @param view
-	 */
-	public void removeStatisticsView(StatisticPanel view){
-		statPanel.remove(view);
-	}
 	
-	/**
-	 * Add a view to the canva
-	 */
-	public void addView(ParameterView view) {
-		this.canvaView.addView(view);
-	}
-
-	/**
-	 * Remove a view to the canva
-	 */
-	public void removeView(ParameterView view) {
-		this.canvaView.removeView(view);
-	}
 
 	
 

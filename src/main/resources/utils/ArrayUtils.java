@@ -222,14 +222,14 @@ public class ArrayUtils {
 	 * @param height
 	 * @return
 	 */
-	public static Number[][] toPrimitiveArray(List<? extends Number> values, int width, int height) {
+	public static double[][] toPrimitiveDoubleArray(List<? extends Number> values, int width, int height) {
 		
-		Number[][] ret = new Number[height][width];
+		double[][] ret = new double[height][width];
 		
 		for(int i = 0 ; i < values.size() ; i++){
 			//System.out.println("i : "+ i);
 			//System.out.println("y : " + i/height + " x : " + i %  height);
-			ret[i/width][i%width] = values.get(i);
+			ret[i/width][i%width] = values.get(i).doubleValue();
 		}
 		
 		

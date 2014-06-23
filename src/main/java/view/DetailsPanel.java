@@ -15,7 +15,7 @@ import javax.swing.border.TitledBorder;
 
 
 
-public class DetailsPanel extends JPanel {
+public class DetailsPanel extends ViewPanel {
 
 	/**
 	 * 
@@ -25,9 +25,9 @@ public class DetailsPanel extends JPanel {
 	/**Displayed name of the panel**/
 	protected String title;
 
-	public DetailsPanel()
+	public DetailsPanel(String name,ViewFactory vf)
 	{
-		super();
+		super(name,vf);
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		title = new String("Please select a component in the tree");
 		setBorder(BorderFactory.createTitledBorder(title));
@@ -42,7 +42,6 @@ public class DetailsPanel extends JPanel {
 		
 		JScrollPane headerScroll = new JScrollPane(new ParamHeaderPanel(disp));
 		JScrollPane paramScroll = new JScrollPane(this.getParamPanel(disp));
-		disp.initView(null);
 		JScrollPane quickScroll = new JScrollPane((Component) disp.getParamView());
 		
 		Dimension dimThis = this.getSize();

@@ -2,8 +2,8 @@ package main.java.view;
 
 import java.awt.Component;
 import java.awt.GridLayout;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
@@ -17,7 +17,8 @@ import javax.swing.JPanel;
  */
 public class CanvaPanel extends ViewPanel {
 
-	private List<ParameterView> views;
+	
+	private Map<String,JPanel> views;
 	
 	//Setting of the GridLayout
 	private int nbRow;
@@ -30,15 +31,14 @@ public class CanvaPanel extends ViewPanel {
 		super(name,vf,new GridLayout(1,1));
 		nbCol = 1;
 		nbRow = 1;
-		this.views = new ArrayList<ParameterView>();
+		this.views = new HashMap<String,JPanel>();
 		String[] options = getViewFactory().getViewConfiguration().getOptions(name);
 		calculateGridLayout(options.length);
 		for(String opt : options){
 //			System.out.println("Options : " + opt);
 			//we could call addView but we prefer to calculate the grid layout before and avoid recalculating it several time
-			ParameterView vp = vf.constructView(opt); 
-			views.add(vp);
-			this.add(getBorderPane(vp));
+			
+			this.addView(opt);
 		}
 	}
 	
@@ -49,7 +49,7 @@ public class CanvaPanel extends ViewPanel {
 	 * @param pv
 	 * @return
 	 */
-	private static JPanel getBorderPane(ParameterView pv){
+	private static JPanel constructBorderPane(ParameterView pv){
 		JPanel borderPanel = new JPanel();
 		borderPanel.setLayout(new BoxLayout(borderPanel, BoxLayout.PAGE_AXIS));
 		borderPanel.setBorder(BorderFactory.createTitledBorder(pv.getName()));
@@ -61,20 +61,24 @@ public class CanvaPanel extends ViewPanel {
 	 * Add a map in the display vue
 	 * @param panel
 	 */
-	public synchronized void addView(ParameterView panel)
+	public synchronized void addView(String viewName)
 	{
+		ParameterView vp = this.getViewFactory().constructView(viewName); 
+		
 //		System.out.println("panel : " + panel);
 		//panel.setPreferredSize(new Dimension(300,300));
-		views.add(panel);
+		
 		calculateGridLayout(views.size());
-		this.add(getBorderPane(panel));
+		JPanel borderP = constructBorderPane(vp);
+		views.put(viewName, borderP);
+		this.add(borderP);
 		this.validate();
 	}
 	
-	public synchronized void removeView(ParameterView panel) {
-		views.remove(panel);
+	public synchronized void removeView(String viewName) {
+		this.remove(views.get(viewName));
+		views.remove(viewName);
 		calculateGridLayout(views.size());
-		this.remove(getBorderPane(panel));
 		this.validate();
 	}
 	

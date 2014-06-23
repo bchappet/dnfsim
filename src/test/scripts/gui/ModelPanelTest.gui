@@ -1,0 +1,15 @@
+colormap=AdaptiveAndEquilibratedColorMap
+---------------------------------------------
+uut
+	ParameterTreePanel
+		DetailsPanel
+	CanvaPanel
+		WeightsIR
+		WeightsRR
+	StatisticPanel
+			Plot2D
+				Time
+				error_dist
+				target_output
+				output
+				CompTime
