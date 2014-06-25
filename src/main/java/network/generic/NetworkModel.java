@@ -41,7 +41,7 @@ public abstract class NetworkModel extends Model implements Computable {
     /*--------------------------- model --------------------------------------*/
     @Override
     protected void initializeStatistics() throws CommandLineFormatException {
-
+        System.out.println("Initializing statistics");
         Var<BigDecimal> stat_dt = command.get(NetworkCommandLine.STAT_DT);
 
         // main statistic here is the maximum load of buffers
@@ -84,7 +84,7 @@ public abstract class NetworkModel extends Model implements Computable {
 
     @Override
     protected void initializeCharacteristics() {
-
+        System.out.println("Initializing characteristic");
         // main charac here is the maximum load of buffers
         Trajectory maximumLoad = new Trajectory(
                 NetworkCharacteristics.BUFF_MAX_LOAD,

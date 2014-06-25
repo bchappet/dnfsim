@@ -27,22 +27,22 @@ public class RSDNFModel extends NetworkModel {
 //        RSDNFModel r = new RSDNFModel(("coucou"));
         try {
             //        new ModelESN("ok");
-            RSDNFModel r = new RSDNFModel(("coucou"));
+            RSDNFModel r2 = new RSDNFModel(("coucou"));
             CommandLine cl = new RSDNFCommandLine() {
                 @Override
                 public String defaultScript() {
                     return super.defaultScript() + WEIGTH + "=0.0;";
                 }
-            };//rsdnf.constructCommandLine();
+            };//rsdnf.constructCommandLine()
             cl.setContext("");
-            r.initialize(cl);
+            r2.initialize(cl);
+        } catch (NullCoordinateException ex) {
+            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CommandLineFormatException ex) {
             Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
             Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (NullCoordinateException ex) {
             Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
