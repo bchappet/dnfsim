@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import main.java.initRecherche.ModelCNFTPredictive;
 import main.java.modelCMSVA.ModelCMSVA;
 import main.java.reservoirComputing.ModelESN;
+import  main.java.network.rsdnf.*;
 
 
 public enum Models{
@@ -38,7 +39,9 @@ public enum Models{
 	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
 	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false),
-	DMADSom("DMADSom",ModelDMADSom.class,false);
+	DMADSom("DMADSom",ModelDMADSom.class,false),
+	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false)
+	;
 	
 	private final boolean assynch;
 	private final String name;
@@ -53,9 +56,7 @@ public enum Models{
 	public Model construct(){
 		try {
 			Model ret =  (Model) classe.getConstructors()[0].newInstance(this.name);
-			if(assynch){
-				ret.setAssynchronousComputation(true);
-			}
+			
 			return ret;
 		} catch (InstantiationException e) {
 			e.printStackTrace();

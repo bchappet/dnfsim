@@ -17,17 +17,17 @@ import main.java.network.generic.Utils;
  *
  * @author CARRARA Nicolas
  */
-public class RSDNFModel extends NetworkModel {
+public class RSDNFNetworkModel extends NetworkModel {
 
-    public RSDNFModel(String name) {
+    public RSDNFNetworkModel(String name) {
         super(name);
     }
 
     public static void main(String[] args) {
-//        RSDNFModel r = new RSDNFModel(("coucou"));
+//        RSDNFNetworkModel r = new RSDNFNetworkModel(("coucou"));
         try {
             //        new ModelESN("ok");
-            RSDNFModel r2 = new RSDNFModel(("coucou"));
+            RSDNFNetworkModel r2 = new RSDNFNetworkModel(("coucou"));
             CommandLine cl = new RSDNFCommandLine() {
                 @Override
                 public String defaultScript() {
@@ -37,13 +37,13 @@ public class RSDNFModel extends NetworkModel {
             cl.setContext("");
             r2.initialize(cl);
         } catch (NullCoordinateException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RSDNFNetworkModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CommandLineFormatException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RSDNFNetworkModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (FileNotFoundException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RSDNFNetworkModel.class.getName()).log(Level.SEVERE, null, ex);
         } catch (MalformedURLException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RSDNFNetworkModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
@@ -137,7 +137,7 @@ public class RSDNFModel extends NetworkModel {
             File networkFile = writeRSDNFNetworkFile();
             setSpreadingGraph(getSpreadingGraphFactory().constructGraph(networkFile, RSDNF, command));
         } catch (CommandLineFormatException ex) {
-            Logger.getLogger(RSDNFModel.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(RSDNFNetworkModel.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

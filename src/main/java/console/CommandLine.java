@@ -382,7 +382,7 @@ public class CommandLine  {
 	protected String findParameterValue(String key) throws CommandLineFormatException{
 		String ret = "";
 		//System.out.println("Find param : " + key);
-		ParameterControler param =currentModelControler.getControler(key);
+		ParameterControler param =currentModelControler.getTree().getControler(key);
 		if(param == null){
 			//param = currentModelControler.getPath(key,0,null,this); TODO
 			return null;

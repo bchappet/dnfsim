@@ -43,7 +43,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	protected String name;
 
 	/** The root map of the computation tree **/
-	protected Map root;
+	protected Parameter root;
 
 	/** True when the main.java.model will be initilized **/
 	protected boolean isInitilized = false;
@@ -222,7 +222,7 @@ public abstract class Model implements HasChildren<Parameter> {
 		this.time = BigDecimal.ZERO;
 		stats.reset();
 		charac.reset();
-		root.reset(); //TODO
+		//root.reset();
 	}
 
 	/**

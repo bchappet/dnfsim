@@ -1,0 +1,16 @@
+colormap=AdaptiveAndEquilibratedColorMap
+---------------------------------------------
+RSDNF
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		WeightsIR
+		WeightsRR
+		input
+	StatisticPanel
+		Plot2D
+			Time
+			error_dist
+			target_output
+			output
+			CompTime

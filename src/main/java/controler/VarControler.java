@@ -7,9 +7,6 @@ import java.util.logging.Logger;
 import javax.swing.JPanel;
 
 import main.java.maps.Var;
-import main.java.view.ParamViewAdapter;
-import main.java.view.ParameterView;
-import main.java.view.SingleValueParamViewAdapter;
 
 public class VarControler extends ParameterControler implements SingleValueControler,Observer{
 	private final transient Logger LOGGER = Logger.getLogger(VarControler.class.getName());
@@ -33,10 +30,6 @@ public class VarControler extends ParameterControler implements SingleValueContr
 		
 	}
 
-	@Override
-	protected ParamViewAdapter createParamViewAdapter(ParameterView view) {
-		return new SingleValueParamViewAdapter(this,view);
-	}
 
 	@Override
 	public void update(Observable o, Object arg) {
@@ -44,7 +37,6 @@ public class VarControler extends ParameterControler implements SingleValueContr
 			//TODO also delay to reduce display frequency
 			LOGGER.info("******************update view : " + this.getName());
 			this.getParamViewAdapter().updateView();
-			
 			((JPanel) this.getParamView()).repaint();
 		}
 	}

@@ -143,6 +143,7 @@ public abstract class NetworkModel extends Model implements Computable {
     @Override
     protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
         constructGraph();
+        this.root = spreadingGraph;
     }
 
     @Override

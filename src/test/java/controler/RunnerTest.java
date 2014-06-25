@@ -1,6 +1,10 @@
 package test.java.controler;
 
-import static org.junit.Assert.*;
+import java.awt.Dimension;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+
 import main.java.controler.Runner;
 import main.java.gui.Printer;
 import main.java.view.GlobalView;
@@ -8,7 +12,7 @@ import main.java.view.GlobalView;
 import org.junit.Before;
 import org.junit.Test;
 
-public class RunnerTest {
+public class RunnerTest extends JFrame {
 	
 	private GlobalView applet;
 	private Runner uut;
@@ -18,9 +22,12 @@ public class RunnerTest {
 		
 		Printer printer = new Printer(0);
 		uut = new Runner(printer,"ESN",null,null,true);
+		JPanel pan = uut.getGlobalView();
+		pan.setVisible(true);
 		
-		applet = uut.getGlobalView();
-		applet.setVisible(true);
+		this.add(pan);
+		this.setSize(pan.getSize()); 
+		this.setVisible(true);
 	}
 
 	@Test

@@ -1,13 +1,16 @@
 package main.java.view;
 
 import java.math.BigDecimal;
+import java.util.logging.Logger;
 
+import main.java.controler.ComputableControler;
 import main.java.controler.ParameterControler;
 
 public abstract class ParamViewAdapter {
 	
 	private ParameterView paramView;
 	private ParameterControler paramControler;
+	private final transient Logger LOGGER = Logger.getLogger(ParamViewAdapter.class.getName());
 
 	
 
@@ -20,6 +23,7 @@ public abstract class ParamViewAdapter {
 		if(paramControler == null){
 			throw new IllegalArgumentException("the ParameterControler whas null ");
 		}
+		LOGGER.info("Construct ParamViewAdapter : " + this.getClass());
 		this.paramControler = paramControler;
 		this.paramView = this.constructView(vc);
 		this.paramControler.setParamViewAdapter(this);

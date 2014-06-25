@@ -2,14 +2,13 @@ package main.java.controler;
 
 import main.java.maps.Map;
 import main.java.maps.Parameter;
-import main.java.maps.SingleValueParam;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.space.Space;
 import main.java.statistics.Characteristics;
 import main.java.statistics.Statistics;
-import main.java.view.SingleValueParamViewAdapter;
-
+import main.java.network.generic.*;
+import main.java.network.view.*;
 /**
  * Affect a ParameterControler to each parameter
  * @author benoit
@@ -28,6 +27,8 @@ public class ParameterControlerFactory {
 			return new CharacteristicsControler((Characteristics)param);
 		}else if(param instanceof Space){
 			return new SpaceControler((Space)param);
+		}else if(param instanceof SpreadingGraph){
+			return new GraphControler(param);
 		}else{
 			return new MapControler((Map) param);
 		}

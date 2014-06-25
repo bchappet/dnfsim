@@ -38,7 +38,7 @@ public class DisplaySampleMap2DTest extends JFrame {
 		}, inputSpace);
 		
 		 uut = new DisplaySampleMap2D("uut", new Coord2D<Double>(0d,0d),inputSpace.getOrigin()
-				, inputSpace.getLength(), inputSpace.getResolution());
+				, inputSpace.getLength());
 		
 		this.add(uut);
 		

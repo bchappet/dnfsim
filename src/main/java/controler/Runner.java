@@ -18,7 +18,7 @@ import main.resources.utils.FluxUtils;
  * Read the script and/or wait for dynamic command when there is a gui.
  * The gui send textual command to the Runner.
  * 
- * MultiTrhead commpatible : one Runner per thread, one GUI par thread (if needeed ) 
+ * MultiTrhead compatible : one Runner per thread, one GUI par thread (if needeed ) 
  * but a Printer to print them all.
  * Each runner output is preceded by the thread number and the model iteration number.
  * Because to avoid rebuilding the whole model tree at each iteration, we keep the Thread, reset the model and restart the computation
@@ -30,8 +30,6 @@ import main.resources.utils.FluxUtils;
 public class Runner implements Runnable {
 
 	private boolean gui;
-
-
 
 	private CommandLine cl;
 
@@ -46,12 +44,13 @@ public class Runner implements Runnable {
 
 	private GlobalView view;
 
-	public Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui) throws Exception{
+	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui) throws Exception{
 		this.gui = gui;
 		this.printer = printer;
 		this.runningScript = runningScript;
 		if(gui){
 			view = new GlobalView(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()),this);
+			
 		}
 
 		this.loadModel(modelName,initScript);
@@ -79,7 +78,6 @@ public class Runner implements Runnable {
 			}else{
 				command = context;
 			}
-
 			Model model = Models.getModel(name).construct();
 			this.cl = model.constructCommandLine();
 			this.cl.setContext(command);
@@ -88,16 +86,17 @@ public class Runner implements Runnable {
 			cl.setCurentModelControler(mc);
 			ComputationControler computationControler = new ComputationControler(mc.getTree());
 			cl.setComputationControler(computationControler);
-
-			CharacteristicsControler characContrl = (CharacteristicsControler) mc.getControler(Characteristics.NAME);
+			CharacteristicsControler characContrl = (CharacteristicsControler) mc.getTree().getControler(Characteristics.NAME);
 			cl.setCharacControler(characContrl);
 			if(gui){
-				this.view.loadModelView(name,mc,computationControler,model.getDefaultDisplayedParameter());
+				
+				this.view.loadModelView(name,mc,computationControler);
 				this.view.setVisible(true);
 			}
 		}
 		catch(Exception e){
 			e.printStackTrace();
+			System.exit(-1);
 		}
 
 
@@ -119,7 +118,6 @@ public class Runner implements Runnable {
 
 	@Override
 	public void run() {
-
 		try{
 			if(runningScript != null){
 				for(int i = 0 ; i < iteration ; i++){
@@ -139,10 +137,8 @@ public class Runner implements Runnable {
 				}
 			}
 		}catch(Exception e){
-			//TODO
 			e.printStackTrace();
 		}
-
 	}
 
 

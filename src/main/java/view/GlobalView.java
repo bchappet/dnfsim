@@ -5,10 +5,10 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
@@ -16,12 +16,8 @@ import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
-import main.java.controler.ParameterControler;
 import main.java.controler.Runner;
-import main.java.controler.StatisticsControler;
 import main.java.controler.VarControler;
-import main.java.model.Models;
-import main.java.statistics.Statistics;
 
 /**
  * Init the global frame with a model menu
@@ -29,7 +25,10 @@ import main.java.statistics.Statistics;
  * @version 11/05/2014
  *
  */
-public class GlobalView extends JFrame {
+public class GlobalView extends JPanel {
+	
+	/**pqth of the gui files of the models : **/
+	private static final String GUI_CONF_FOLDER =  "src/main/scripts/gui/"; 
 	
 	/**Display dimension**/
 	private Dimension dim;
@@ -41,15 +40,25 @@ public class GlobalView extends JFrame {
 	private JPanel menu;
 	
 	private String currentModel;
+	
+	private ViewConfiguration viewConfiguration;
+	
+	
+	public GlobalView(Dimension dim , Runner runner) throws IOException{
+		this(new ViewConfiguration(GUI_CONF_FOLDER+"GlobalView.gui"),dim,runner);
+	}
 
-	public GlobalView(String string, ViewFactory vf,Dimension dim,Runner runner) {
+	public GlobalView( ViewConfiguration vc,Dimension dim,Runner runner) {
+		this.viewConfiguration = vc;
 		this.dim = dim;
 		this.runner = runner;
+		this.setLayout(new BorderLayout());
 		this.setSize(dim);
 		UIManager.put("Panel.background", Color.white);
-		String[] modelNames = Models.nameList();
-		combo = new JComboBox(modelNames);
-		combo.setSelectedIndex(0);
+		String[] options = this.viewConfiguration.getOptions("GlobalView");//get the list of model
+		//String[] modelNames = Models.nameList();
+		combo = new JComboBox(options);
+		
 		combo.addActionListener(new ActionListener() {
 			
 			@Override
@@ -83,56 +92,34 @@ public class GlobalView extends JFrame {
 	 * @param mc
 	 * @param computationControler
 	 * @param defaultDisplayedParameters
+	 * @throws IOException 
 	 * @throws CommandLineFormatException 
 	 */
-	public void loadModelView(String name,ModelControler mc,ComputationControler computationControler,String[] defaultDisplayedParameters) throws CommandLineFormatException{
+	public void loadModelView(String name,ModelControler mc, ComputationControler cc) throws IOException, CommandLineFormatException {
 		this.currentModel = name;
-		this.combo.setSelectedItem(name);
 		
-		ModelView modelView = new ModelView(dim,"model", mc.getTree());
+		ViewConfiguration vc = new ViewConfiguration(this.GUI_CONF_FOLDER + name +".gui");
+		ViewFactory vf = new ViewFactory(vc, mc.getTree());
+		ModelView modelView = new ModelView(name,vf,dim );
 		final ComputationControlerView compView = new ComputationControlerView(runner.getCommandLine().get(CommandLine.TIME_SPEED_RATIO));
-		computationControler.setComputationControlerView(compView);
+		cc.setComputationControlerView(compView);
 		
-
-		StatisticsControler statsControler = (StatisticsControler) mc.getControler(Statistics.NAME);
-		StatisticPanel statView = new StatisticPanel(statsControler);
-		statsControler.initView(statView);
-		statView.getPlotter().setPreferredSize(new Dimension(dim.width/4,(dim.height/3)));
-
-		
-
-		modelView.addStatisticsView(statView);
-
-		for(String param : defaultDisplayedParameters){
-			ParameterControler mapC =  mc.getControler(param);
-			mapC.initView(null);
-			ParameterView mapView = mapC.getParamView();
-			if(mapView == null)
-				throw new Error("Map view of " + param + " is null");
-			modelView.addView( mapView);
-			//System.out.println("Add map view : " + param + " typr " + mapView.getClass() + " pc :" + System.identityHashCode(mapC));
-		}
 		//Parameter root = mc.getContr
 
 		JButton playPause = new JButton("Play/Pause");
 		playPause.addActionListener(new ActionListener() {
-			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				compView.playPause();
-				
 			}
 		});
-		
 		
 		menu.add(playPause);
 		this.add(modelView,BorderLayout.CENTER);
 		
 		ParameterModifierPanel pmp = new ParameterModifierPanel(new VarControler(runner.getCommandLine().get(CommandLine.TIME_SPEED_RATIO)));
 		menu.add(pmp);
-		
-		
-		
+	
 		
 	}
 

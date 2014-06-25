@@ -1,22 +1,10 @@
 package main.java.controler;
 
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.LinkedList;
-import java.util.List;
-
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.BadPathException;
-import main.java.maps.HasChildren;
 import main.java.maps.Parameter;
 import main.java.model.Model;
-import main.java.statistics.Characteristics;
-import main.java.statistics.Statistics;
-import main.java.view.ModelView;
-import main.java.view.ModelViewAdapter;
-import main.java.view.ParamViewAdapter;
-import main.java.view.ParameterView;
 
 public class ModelControler extends ParameterControler {
 	/**Contains only the root**/

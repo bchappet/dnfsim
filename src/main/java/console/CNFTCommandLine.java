@@ -1,23 +1,5 @@
 package main.java.console;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.net.URL;
-import java.util.Map;
-
-import main.java.coordinates.NullCoordinateException;
-import main.java.gui.Runner;
-import main.java.maps.BadPathException;
-import main.java.maps.Parameter;
-import main.java.maps.Var;
-import main.java.maps.VarBool;
-import main.java.maps.VarString;
-import main.java.model.Model;
-import main.java.plot.Trace;
-import precision.PrecisionVar;
 
 /**
  * TODO commandLine should not use runner
@@ -117,16 +99,9 @@ public class CNFTCommandLine extends CommandLine{
 
 
 
-	protected Model model;
 	
-	/**URL of config file (optional)**/
-	protected URL contextPath;
 
-	public CNFTCommandLine() throws CommandLineFormatException
-	{
-		super();
-		this.contextPath = null;
-	}
+
 
 	protected  String defaultScript()
 	{
@@ -147,8 +122,8 @@ public class CNFTCommandLine extends CommandLine{
 				+DISTR_INTENSITY+"=1,0,10,0.1;"     +RESTING_POTENTIAL+"=0;"
 				+DISTR_WIDTH+"=0.1,0,1,0.1;"		+DT+"=0.1,0,10,0.1;"
 				+NOISE_DT+"=0.1,0,10,0.1;"			+HARD_DT+"=0.01,0,10,0.01;"
-				+INPUT_DT+"=0.1,0,10,0.1;"			+DISPLAY_DT+"=0.1,0,10,0.1;"
-				+BUFF_WIDTH+"=6;"			+PRECISION+"=8,1,30,1;"
+				+INPUT_DT+"=0.1,0,10,0.1;"			
+				+BUFF_WIDTH+"=6;"			
 				+COMPUTE_CLK+"=10;"			
 				+INH_CST+"=-1;"				+TAU_DT+"=6.3999999999999995;"
 				+INPUT_FILES+"=src/tests/files/main.java.input;"
@@ -171,9 +146,9 @@ public class CNFTCommandLine extends CommandLine{
 	 * Construct a new initScript line with default parameters
 	 * @throws CommandLineFormatException
 	 */
-	public CNFTCommandLine(Model model) throws CommandLineFormatException
+	public CNFTCommandLine()
 	{
-		this("",model);
+		super();
 	}
 
 	//	/**
@@ -247,24 +222,7 @@ public class CNFTCommandLine extends CommandLine{
 	//		
 	//	}
 
-	public CNFTCommandLine(CNFTCommandLine commandLine) {
-		super(commandLine);
-		this.model = commandLine.model;
-		this.runner = commandLine.runner;
-	}
 
-
-
-	
-
-
-
-	
-
-	public CNFTCommandLine clone()
-	{
-		return new CNFTCommandLine(this);
-	}
 
 	//	public static void main(String[] args){
 	//		String test = "0b02001";
