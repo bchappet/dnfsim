@@ -30,7 +30,6 @@ public class ModelViewTest extends JFrame{
 	
 	Model model;
 	ModelControler modelControler;
-	private JPanel borderPanel;
 	
 	private ModelView uut;
 	private ComputationControler cc;
@@ -46,13 +45,13 @@ public class ModelViewTest extends JFrame{
 		cl.setCurentModelControler(mc);
 		cc = new ComputationControler(mc.getTree());
 	
-		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/CanvaPanelTest.gui"),mc.getTree());
-		Dimension dim = new Dimension(300, 300);
+		ViewFactory vf = new ViewFactory(new ViewConfiguration("src/test/scripts/gui/ModelPanelTest.gui"),mc.getTree());
+		Dimension dim = new Dimension(800, 600);
 		uut = new ModelView("uut",vf,dim);
 		this.setVisible(true);
 
 		this.add(uut);
-		this.setSize(300, 300);
+		this.setSize(dim);
 	}
 	
 	@Test
@@ -67,7 +66,7 @@ public class ModelViewTest extends JFrame{
 		cc.compute(new BigDecimal("0.3"));
 		Thread.sleep(100);
 		this.repaint();
-		Thread.sleep(1000);
+		Thread.sleep(100000);
 		
 		assertTrue("visual test ",true);
 	}

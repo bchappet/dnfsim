@@ -26,6 +26,11 @@ public class ModelView extends ViewPanel {
 	
 	
 	
+	private ParameterTreePanel treeView;
+	private DetailsPanel detailsPanel;
+	private StatisticPanel statPanel;
+	private CanvaPanel canvaView;
+
 	/**
 	 * Construct the model view with the parameter tree
 	 * @param name
@@ -34,38 +39,60 @@ public class ModelView extends ViewPanel {
 	
 	public ModelView(String name,ViewFactory vf,Dimension dim) {
 		super(name,vf);
-		detailsPanel.setBorder(BorderFactory.createTitledBorder("Details"));
-		
-		ParameterTreePanel treeView = new ParameterTreePanel(new JTree(tree), (DetailsPanel) detailsPanel);
 		
 		
-		//Dimension dim = this.getSize();
-		//System.out.println("dim : " + dim);
 		UIManager.put("Panel.background", Color.white);
-		detailsPanel.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16)); 
-		//treeView.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
-		treeView.setBorder(BorderFactory.createTitledBorder("Models tree"));
-		treeView.setBackground(Color.white);
+		String[] options = getViewFactory().getViewConfiguration().getOptions(name);
+		for(String opt : options){
+			this.addView(opt,vf);
+		}
+		
+		this.organizeThings(dim);
 
+	}
 
+	private void addView(String opt,ViewFactory vf) {
+		switch(opt){
+		case "DetailsPanel" : 
+			this.detailsPanel = (DetailsPanel) vf.constructView(opt);
+			break;
+		case "ParameterTreePanel":
+			this.treeView = (ParameterTreePanel) vf.constructView(opt);
+			this.treeView.setDetailsPanel(this.detailsPanel);
+			break;
+		case "CanvaPanel":
+			this.canvaView = (CanvaPanel) vf.constructView(opt);
+			break;
+		case "StatisticPanel":
+			this.statPanel =  (StatisticPanel) vf.constructView(opt);
+			statPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
+			break;
+			
+		}
+	}
+	
+	/**
+	 * TODO : do it more versatile
+	 * @param dim
+	 */
+	private void organizeThings(Dimension dim){
+		this.detailsPanel.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16)); 
+		this.statPanel.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
+		this.treeView.setBorder(BorderFactory.createTitledBorder("Models tree"));
+		this.treeView.setBackground(Color.white);
 		JPanel leftPane = new JPanel();
 		leftPane.setLayout(new BoxLayout(leftPane, BoxLayout.PAGE_AXIS));
-		leftPane.add(treeView);
-		//leftPane.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16));
+		leftPane.add(this.treeView);
 		
-		statPanel =  new JPanel();
-		statPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
-		statPanel.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
-		leftPane.add(statPanel);
-
+		leftPane.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16));
+		leftPane.add(this.statPanel);
 
 		setLayout(new BorderLayout());
 		this.add(leftPane, BorderLayout.LINE_START);
-		this.add(detailsPanel, BorderLayout.LINE_END);
-		this.add(canvaView, BorderLayout.CENTER);
+		this.add(this.detailsPanel, BorderLayout.LINE_END);
+		this.add(this.canvaView, BorderLayout.CENTER);
 	}
 	
-	private void initView
 	
 	
 

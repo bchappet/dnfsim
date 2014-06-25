@@ -42,7 +42,7 @@ public class GlobalView extends JFrame {
 	
 	private String currentModel;
 
-	public GlobalView(Dimension dim,Runner runner) {
+	public GlobalView(String string, ViewFactory vf,Dimension dim,Runner runner) {
 		this.dim = dim;
 		this.runner = runner;
 		this.setSize(dim);
@@ -71,6 +71,8 @@ public class GlobalView extends JFrame {
 		
 	}
 	
+	
+
 	protected Runner getRunner(){
 		return this.runner;
 	}

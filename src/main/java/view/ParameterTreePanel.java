@@ -158,6 +158,11 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 		return jtree;
 	}
 
+	public void setDetailsPanel(DetailsPanel detailsPanel2) {
+		this.detailsPanel = detailsPanel2;
+		
+	}
+
 	
 
 
