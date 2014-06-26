@@ -1,5 +1,6 @@
 package main.java.view;
 
+import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -53,6 +54,7 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 		super(name,vf);
 		this.jtree = new JTree(vf.getParameterControlerTree());
 		this.scrollPane = new JScrollPane(this.jtree);
+		this.setLayout(new BorderLayout());
 		this.add(scrollPane);
 		//System.out.println("tree" +treeModel);
 		this.detailsPanel = detailsPanel;

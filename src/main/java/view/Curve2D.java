@@ -1,10 +1,13 @@
 package main.java.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.List;
+
+import javax.swing.UIManager;
 
 import main.java.space.Coord2D;
 
@@ -21,22 +24,17 @@ public class Curve2D extends ParameterViewDB{
 	/**Black border in pixel**/
 	private int blackBorder = 1; 
 
-
 	/**Max number of dot to display**/
 	private int nbDotMax=100;
-
-
 	/** Y coordinate**/
 	private List<Double> values;
-	
-
 	/**Min max for the graph axis**/
 	private Coord2D<Double> minMax;
-
 	
-	
-	
-	
+	/**
+	 * 
+	 * @param name
+	 */
 	public Curve2D(String name) {
 		super(name);
 		minMax = new Coord2D<Double>(0d,0d);
@@ -96,14 +94,14 @@ public class Curve2D extends ParameterViewDB{
 
 	@Override
 	public void render(Graphics2D g) {
-		
 		Dimension dim = this.getSize();
 		int dx = (int) (dim.width*margin);
 		int dy = (int) (dim.height*margin);
-		
+		g.setColor(Color.WHITE);
+		g.fillRect(0, 0, dx, dy);
+		g.setColor(Color.BLACK);
 		int offsetX = (int) ((dim.width - dx)/2d);
 		int offsetY = (int) ((dim.height - dy)/2d);
-		
 		
 		
 		for(int i = 0 ; i < values.size()-1 ; i++){
@@ -116,7 +114,7 @@ public class Curve2D extends ParameterViewDB{
 			int x2 = (int) ((i+1)/sizeX * dx);
 			int y1 = transformValue(coord1,dy);
 			int y2 =  transformValue(coord2,dy);
-			//System.out.println(x1+","+y1+","+x2+","+y2);
+//			System.out.println("i: " + i + " " + x1+","+y1+","+x2+","+y2);
 			g.drawLine(x1, dy-y1, x2, dy-y2);
 		}
 		

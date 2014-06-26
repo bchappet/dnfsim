@@ -5,7 +5,6 @@
  */
 package main.java.network.view;
 
-import main.java.controler.ModelControler;
 import main.java.controler.ParameterControler;
 import main.java.view.ParamViewAdapter;
 import main.java.view.ParameterView;
@@ -21,20 +20,17 @@ import main.java.view.ViewFactory;
  */
 public class GraphGraphViewAdapter extends ParamViewAdapter {
 
-    private ModelControler mc;
     
-    public GraphGraphViewAdapter(ParameterControler paramControler, ViewConfiguration vc,ModelControler mc) {
-        super(paramControler, vc);
-        this.mc = mc;
+    public GraphGraphViewAdapter(ParameterControler paramControler,ViewFactory vf) {
+        super(paramControler,vf);
     }
 
     @Override
-    protected ParameterView constructView(ViewConfiguration vc) {
-        ViewFactory viewFactory = new ViewFactory(vc, mc.getTree()); 
+    protected ParameterView constructView(ViewConfiguration vc,ViewFactory vf) {
 
         return new GraphView(
                 getParameterControler().getName(),
-                viewFactory,
+                vf,
                 ((GraphControler) getParameterControler()).getSpreadingGraphRepresentation());
     }
 

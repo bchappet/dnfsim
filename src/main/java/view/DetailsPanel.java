@@ -42,7 +42,13 @@ public class DetailsPanel extends ViewPanel {
 		
 		JScrollPane headerScroll = new JScrollPane(new ParamHeaderPanel(disp));
 		JScrollPane paramScroll = new JScrollPane(this.getParamPanel(disp));
-		JScrollPane quickScroll = new JScrollPane((Component) disp.getParamView());
+		
+		ParameterView pv = disp.getParamView();
+		if(pv == null){
+			pv = getViewFactory().constructView(disp);
+		}
+		
+		JScrollPane quickScroll = new JScrollPane((Component) pv);
 		
 		Dimension dimThis = this.getSize();
 		Dimension dim = new Dimension(((int)(dimThis.width/5d)),((int)(dimThis.height/5d)));

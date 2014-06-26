@@ -77,8 +77,14 @@ public abstract class ParameterControler {
 	}
 	
 	public ParameterView getParamView(){
-		return paraView.getParamView();
+		if(this.paraView == null){
+			return null;
+		}else{
+			return this.paraView.getParamView();
+		}
 	}
+	
+	
 
 	
 

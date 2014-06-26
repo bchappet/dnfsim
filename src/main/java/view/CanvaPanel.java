@@ -64,6 +64,9 @@ public class CanvaPanel extends ViewPanel {
 	public synchronized void addView(String viewName)
 	{
 		ParameterView vp = this.getViewFactory().constructView(viewName); 
+		if(vp == null){
+			throw new IllegalArgumentException("The construction of " +  viewName + " failed ");
+		}
 		
 //		System.out.println("panel : " + panel);
 		//panel.setPreferredSize(new Dimension(300,300));

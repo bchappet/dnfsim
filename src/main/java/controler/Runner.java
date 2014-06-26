@@ -1,8 +1,11 @@
 package main.java.controler;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.net.URL;
 import java.util.Scanner;
+
+import javax.swing.JFrame;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
@@ -22,12 +25,12 @@ import main.resources.utils.FluxUtils;
  * but a Printer to print them all.
  * Each runner output is preceded by the thread number and the model iteration number.
  * Because to avoid rebuilding the whole model tree at each iteration, we keep the Thread, reset the model and restart the computation
- *TODO check and double check that the first computation is the same that the second in every case!!!
+ * TODO check and double check that the first computation is the same that the second in every case!!!
  * @author benoit
  * @version 11/05/2014
  *
  */
-public class Runner implements Runnable {
+public class Runner extends JFrame implements Runnable {
 
 	private boolean gui;
 
@@ -49,11 +52,19 @@ public class Runner implements Runnable {
 		this.printer = printer;
 		this.runningScript = runningScript;
 		if(gui){
-			view = new GlobalView(new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()),this);
-			
+			Dimension dim = new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight());
+			view = new GlobalView(dim,this);
+						
 		}
-
 		this.loadModel(modelName,initScript);
+		
+		if(gui){
+			this.getContentPane().setLayout(new BorderLayout());
+			this.setSize(view.getSize());
+			this.add(view);
+			this.setVisible(true);
+		}
+		
 
 	}
 

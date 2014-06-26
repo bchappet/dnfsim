@@ -6,7 +6,7 @@ uut
 	CanvaPanel
 		WeightsIR
 		WeightsRR
-	StatisticPanel
+	stats
 		Plot2D
 			Time
 			error_dist

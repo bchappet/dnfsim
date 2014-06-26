@@ -26,7 +26,7 @@ public class GraphControler extends ComputableControler {
         
         SpreadingGraphRepresentation spr = new SpreadingGraphRepresentation();
 
-        SpreadingGraph sg = (SpreadingGraph) getParam().getIndex(0);
+        SpreadingGraph sg = (SpreadingGraph) getParam();
         
         /**
          * todo, on récupère des info de spreading graph pour creer spreading

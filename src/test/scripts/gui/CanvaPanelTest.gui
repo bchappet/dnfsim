@@ -1,5 +1,10 @@
 colormap=AdaptiveAndEquilibratedColorMap
 ---------------------------------------------
 uut
+	input
+	reservoir
+	output
+	target_output
 	WeightsIR
 	WeightsRR
+	WeightsRO

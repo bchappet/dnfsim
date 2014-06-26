@@ -1,16 +1,11 @@
 colormap=AdaptiveAndEquilibratedColorMap
 ---------------------------------------------
-RSDNF
+RSDNFNetwork
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
-		WeightsIR
-		WeightsRR
-		input
-	StatisticPanel
+		RSDNF Spreading Graph:main.java.network.view.GraphGraphViewAdapter
+	stats
 		Plot2D
-			Time
-			error_dist
-			target_output
-			output
-			CompTime
+			current_packet
+			buff_max_load

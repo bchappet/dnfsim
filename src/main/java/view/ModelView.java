@@ -7,9 +7,7 @@ import java.awt.Dimension;
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
-import javax.swing.JTree;
 import javax.swing.UIManager;
-import javax.swing.tree.TreeModel;
 
 
 
@@ -55,6 +53,9 @@ public class ModelView extends ViewPanel {
 		switch(opt){
 		case "DetailsPanel" : 
 			this.detailsPanel = (DetailsPanel) vf.constructView(opt);
+			if(this.treeView != null){
+				this.treeView.setDetailsPanel(this.detailsPanel);
+			}
 			break;
 		case "ParameterTreePanel":
 			this.treeView = (ParameterTreePanel) vf.constructView(opt);
@@ -63,7 +64,7 @@ public class ModelView extends ViewPanel {
 		case "CanvaPanel":
 			this.canvaView = (CanvaPanel) vf.constructView(opt);
 			break;
-		case "StatisticPanel":
+		case "stats":
 			this.statPanel =  (StatisticPanel) vf.constructView(opt);
 			statPanel.setBorder(BorderFactory.createTitledBorder("Statistics"));
 			break;
@@ -77,7 +78,6 @@ public class ModelView extends ViewPanel {
 	 */
 	private void organizeThings(Dimension dim){
 		this.detailsPanel.setPreferredSize(new Dimension(dim.width/4, dim.height/18*16)); 
-		this.statPanel.setPreferredSize(new Dimension(dim.width/4,(dim.height/18*8)));
 		this.treeView.setBorder(BorderFactory.createTitledBorder("Models tree"));
 		this.treeView.setBackground(Color.white);
 		JPanel leftPane = new JPanel();
@@ -92,10 +92,4 @@ public class ModelView extends ViewPanel {
 		this.add(this.detailsPanel, BorderLayout.LINE_END);
 		this.add(this.canvaView, BorderLayout.CENTER);
 	}
-	
-	
-	
-
-	
-
 }

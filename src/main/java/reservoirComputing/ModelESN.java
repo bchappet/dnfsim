@@ -230,7 +230,6 @@ public class ModelESN extends Model {
 		},stats);
 		
 		charac = new CharacteristicsESN(nrmse);
-
 	}
 
 
@@ -238,6 +237,7 @@ public class ModelESN extends Model {
 	@Override
 	public String[] getDefaultDisplayedParameter() {
 		String[] ret = {INPUT,RESERVOIR,OUTPUT,TARGET_OUTPUT,WEIGHTS_IR,WEIGHTS_RR,WEIGHTS_RO};
+		System.out.println(Arrays.toString(ret));
 		return ret;
 	}
 

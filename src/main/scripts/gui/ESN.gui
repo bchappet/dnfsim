@@ -4,10 +4,14 @@ ESN
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
+		input
+		reservoir
+		output
+		target_output
 		WeightsIR
 		WeightsRR
-		input
-	StatisticPanel
+		WeightsRO
+	stats
 		Plot2D
 			Time
 			error_dist

@@ -3,9 +3,8 @@ package main.java.view;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import main.java.controler.ParameterControler;
-import main.java.controler.ParameterControlerTree;
 import main.java.controler.*;
+import main.java.maps.SingleValueParam;
 
 /**
  * The view factory will construct the view thanks to a provided ParameterControler
@@ -27,9 +26,9 @@ public class ViewFactory {
 	private ViewConfiguration viewConfiguration;
 
 	/**
-	 * To access the parameterControlers
+	 * To access the parameterControlers optional
 	 */
-	private ParameterControlerTree pcTree;
+	private ParameterControlerTree pcTree; 
 
 	/**
 	 * Return the  view for the given {@ParameterControler}
@@ -43,19 +42,20 @@ public class ViewFactory {
 	}
 
 	/**
-	 * Contruct a view panel from the name
+	 * Construct a view panel from the name
 	 * @param name
 	 * @return
 	 */
 	public ViewPanel constructViewPanel(String name){
 		ViewPanel vp;
+		Class<?> clazz = null;
 		try {
-			Class<?> clazz = Class.forName("main.java.view."+name);
+			clazz = getClassName(name);
 			Constructor<?> constructor = clazz.getConstructor(String.class, ViewFactory.class);
 			vp = (ViewPanel) constructor.newInstance(name, this);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | 
 				IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
-			throw new IllegalArgumentException("The construction of " + name + " failed.",e);
+			throw new IllegalArgumentException("The construction of " + name + " failed. " + " class : " + clazz,e);
 		}
 		return vp;
 
@@ -67,25 +67,46 @@ public class ViewFactory {
 	 * @param parameterName
 	 * @return
 	 */
-	private String defaultParamViewAdapter(String parameterName){
-		ParameterControler pc = this.getParameterControler(parameterName); //will be two calls to this function...
+	private String defaultParamViewAdapter(ParameterControler pc){
+		
 		if(pc instanceof MapControler){
 			return "MapView2DAdapter";
+		}else if(pc instanceof SingleValueControler ){
+			return "SingleValueParamCurve2DAdapter";
+		}else if(pc instanceof StatisticsControler){
+			return "StatisticsViewAdapter";
 		}else{
 			return null;
 		}
 		
 	}
+	
+	public ParameterView constructView(ParameterControler pc){
+		System.out.println("constructing : " + pc.getName() + " pc type : " + pc.getClass());
+		String pvaName = viewConfiguration.getViewAdapter(pc.getName());
+		if(pvaName == null){
+			pvaName = this.defaultParamViewAdapter(pc);
+			if(pvaName == null){
+				//we assume that it is a panel
+				return constructViewPanel(pc.getName());
+			}else{
+				return constructView(pc,pvaName);
+			}
+		}else{
+			return constructView(pc,pvaName);
+		}
+	}
 
 	public ParameterView constructView(String name){
 		String pvaName = viewConfiguration.getViewAdapter(name);
 		if(pvaName == null){
-			pvaName = this.defaultParamViewAdapter(name);
+			ParameterControler pc = this.getParameterControler(name); 
+			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
 				//we assume that it is a panel
 				return constructViewPanel(name);
 			}else{
-				return constructView(name,pvaName);
+				return constructView(pc,pvaName);
 			}
 		}else{
 			return constructView(name,pvaName);
@@ -95,22 +116,47 @@ public class ViewFactory {
 	private ParameterControler getParameterControler(String parameterName){
 		return pcTree.getControler(parameterName);
 	}
+	
+	private Class<?> getClassName(String name) throws ClassNotFoundException{
+		Class<?> clazz;
+		if(name.contains(".")){
+			clazz = Class.forName(name);
+		}else{
+			clazz = Class.forName("main.java.view."+name);
+		}
+		return clazz;
+	}
 
-	private ParamViewAdapter constructParamViewAdapter(String parameterName,String pvaName) {
+	private ParamViewAdapter constructParamViewAdapter(ParameterControler pc,String pvaName) {
 		ParamViewAdapter ret;
 		try {
-			Class<?> clazz = Class.forName("main.java.view."+pvaName);
-			Constructor<?> constructor = clazz.getConstructor(ParameterControler.class, ViewConfiguration.class);
-			ret = (ParamViewAdapter) constructor.newInstance(this.getParameterControler(parameterName), this.viewConfiguration);
+			Class<?> clazz = getClassName(pvaName);
+			Constructor<?> constructor = clazz.getConstructor(ParameterControler.class, ViewFactory.class);
+			ret = (ParamViewAdapter) constructor.newInstance(pc, this);
 		} catch (ClassNotFoundException | InstantiationException | IllegalAccessException | 
 				IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			throw new IllegalArgumentException("The construction of paramViewAdapter " + pvaName + " failed.",e);
 		}
 		return ret;
 	}
+	
+	
 
 	public ParameterView constructView(String parameter,String viewAdapterName){
-		return constructParamViewAdapter(parameter, viewAdapterName).getParamView();
+		ParameterControler pc = this.getParameterControler(parameter);
+		if(pc == null){
+			System.err.println("pc null for : " + parameter + " view adapter : " + viewAdapterName);
+			System.exit(0);
+		}
+		ParamViewAdapter pva = constructParamViewAdapter(pc, viewAdapterName);
+		//pva.constructView(getViewConfiguration(), this);
+		return pva.getParamView();
+	}
+	
+	public ParameterView constructView(ParameterControler pc,String viewAdapterName){
+		ParamViewAdapter pva = constructParamViewAdapter(pc, viewAdapterName);
+		//pva.constructView(getViewConfiguration(), this);
+		return pva.getParamView();
 	}
 
 	/**

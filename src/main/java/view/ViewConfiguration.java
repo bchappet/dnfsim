@@ -172,7 +172,7 @@ public String[] getOptions(String name){
 public String getViewAdapter(String param){
 	TreeNode<ViewConfNode> node = this.tree.getNode(param);
 	if(node == null){
-		throw new IllegalArgumentException("The param " + param + " was not found in the tree");
+		return null;
 	}
 	return node.getData().getViewAdapterName();
 }

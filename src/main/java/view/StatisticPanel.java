@@ -38,12 +38,9 @@ public class StatisticPanel extends ViewPanel {
 				add(getViewFactory().constructViewPanel(name),BorderLayout.CENTER);
 			}
 		});
-		
 		this.setLayout(new BorderLayout());
 		this.add(comboBox,BorderLayout.NORTH);
-		
 		comboBox.setSelectedIndex(0);
-		
 	}
 	
 	

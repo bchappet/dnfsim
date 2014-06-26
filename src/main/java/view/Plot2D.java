@@ -20,6 +20,7 @@ import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import main.java.plot.JPanelDB;
 
@@ -84,6 +85,7 @@ public class Plot2D extends ViewPanel {
 	 */
 	public Plot2D(String name,ViewFactory vf_) {
 		super(name,vf_);
+		UIManager.put("Panel.background", Color.white);
 		this.connect = true;
 		
 		String[] options = getViewFactory().getViewConfiguration().getOptions(name);
@@ -123,6 +125,10 @@ public class Plot2D extends ViewPanel {
 				Dimension dim = this.getSize();
 				int dx = (int) (dim.width*1);
 				int dy = (int) (dim.height*1);
+				
+				g.setColor(Color.WHITE);
+				g.fillRect(0, 0, dx, dy);
+				g.setColor(Color.BLACK);
 //				System.out.println("dx : " + dx);	
 
 				int offsetX = (int) ((dim.width - dx)/2d);
