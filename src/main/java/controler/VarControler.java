@@ -36,8 +36,8 @@ public class VarControler extends ParameterControler implements SingleValueContr
 		if(this.getParamViewAdapter() != null){
 			//TODO also delay to reduce display frequency
 			LOGGER.info("******************update view : " + this.getName());
-			this.getParamViewAdapter().updateView();
-			((JPanel) this.getParamView()).repaint();
+			this.getParamViewAdapter().updateViewAndRepaint();
+			
 		}
 	}
 	

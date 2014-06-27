@@ -47,9 +47,9 @@ public class CharacteristicsCNFT extends Characteristics{
 	
 	
 	
-	public CharacteristicsCNFT(Space space,Statistics stats,TrajectoryUnitMap... params)
+	public CharacteristicsCNFT(Parameter... params)
 	{
-		super(space,stats,params);
+		super(params);
 	}
 	
 	

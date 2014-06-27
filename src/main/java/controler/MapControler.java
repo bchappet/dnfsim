@@ -54,4 +54,8 @@ public class MapControler extends ComputableControler {
 		return getParam().getValues();
 	}
 
+	public Number get(int i) {
+		return (Number) getParam().getIndex(i);
+	}
+
 }

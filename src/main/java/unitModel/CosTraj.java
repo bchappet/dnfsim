@@ -2,28 +2,41 @@ package main.java.unitModel;
 
 import static java.lang.Math.PI;
 import static java.lang.Math.cos;
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
-import main.java.maps.Parameter;
-import main.java.maps.Var;
 
-public class CosTraj extends UnitModel {
-	
+import java.math.BigDecimal;
+import java.util.List;
+
+import main.java.maps.Parameter;
+
+public class CosTraj extends UnitModel<Double> {
+
+
+
 	public final static int CENTER = 0;
 	public final static int RADIUS = 1;
 	public final static int PERIOD = 2;
 	public final static int PHASE = 3;
 
-
-
-	public CosTraj(Var dt, Space space, Parameter center,Parameter radius,Parameter period,Parameter phase) {
-		super(dt, space, center,radius,period,phase);
+	public CosTraj(Double initActivity) {
+		super(initActivity);
 	}
 
+
+
+
 	@Override
-	public double compute() throws NullCoordinateException {
-		double ret =  params.getIndex(CENTER).get()+params.getIndex(RADIUS).get()*
-				cos(2*PI*(time.get()/params.getIndex(PERIOD).get()-params.getIndex(PHASE).get()));
+	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
+		return this.compute2(
+				((Number)params.get(CENTER).getIndex(index)).doubleValue(),
+				((Number)params.get(RADIUS).getIndex(index)).doubleValue(),
+				((Number)params.get(PERIOD).getIndex(index)).doubleValue(),
+				((Number)params.get(PHASE).getIndex(index)).doubleValue(),
+				time.doubleValue());
+	}
+
+	protected Double compute2(double center,double radius,double period,double phase,double time){
+		double ret =  center+radius*
+				cos(2*PI*(time/period-phase));
 		return ret;
 	}
 

@@ -20,8 +20,8 @@ public class NetworkStatistics extends Statistics {
     public static final String BUFF_MAX_LOAD = "buff_max_load";
     
     
-    public NetworkStatistics(String name, String defaultDisplayedParameter, Var<BigDecimal> dt, Parameter... parameter) {
-        super(name, defaultDisplayedParameter, dt, parameter);
+    public NetworkStatistics(String name,  Var<BigDecimal> dt, Parameter... parameter) {
+        super(name,  dt, parameter);
     }
 
 }

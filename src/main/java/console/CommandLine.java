@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -82,7 +83,7 @@ public class CommandLine  {
 	{
 		return ""
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
-				+TIME_SPEED_RATIO+"=1.0,0.1,10,0.1;";
+				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;";
 		//				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
 		//				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
 		//				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
@@ -517,12 +518,16 @@ public class CommandLine  {
 
 					else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer with definition set
 					{
-						String[] numbers = obj.split(",");
-						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-						Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]));
-						Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
-						map.put(key,var);
-						this.definitionSet.put(key, defSet);
+						try{
+							String[] numbers = obj.split(",");
+//							System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+							Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]));
+							Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
+							map.put(key,var);
+							this.definitionSet.put(key, defSet);
+						}catch(NumberFormatException e){
+							throw new CommandLineFormatException("There was an error trying to parse the var: " + key + " " + obj,e);
+						}
 					}
 					else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?") )//Integer 
 					{

@@ -62,14 +62,11 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 	protected WTrace wtrace;
 	
 	/**TODO not very MVC**/
-	private String defaultDisplayedParameter;
 
 
 
-	public Statistics(String name,String defaultDisplayedParameter,
-			Var<BigDecimal> dt,Parameter... parameter) {
+	public Statistics(String name,	Var<BigDecimal> dt,Parameter... parameter) {
 		this.name = name;
-		this.defaultDisplayedParameter = defaultDisplayedParameter;
 		this.paramNodes = new LinkedList<Parameter>();
 		this.dt = dt;
 		this.time = new Var<BigDecimal>(TIME,new BigDecimal("0"));
@@ -318,10 +315,6 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 
 
 
-
-	public String getDefaultDisplayedStat() {
-		return this.defaultDisplayedParameter;
-	}
 
 
 

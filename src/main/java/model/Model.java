@@ -142,16 +142,6 @@ public abstract class Model implements HasChildren<Parameter> {
 	
 	
 
-	/**
-	 * First displayed parameters when the main.java.model is selected
-	 *TODO not very MVC init with a script
-	 * 
-	 * @return
-	 */
-	public abstract String[] getDefaultDisplayedParameter();
-
-	
-
 
 //	/**
 //	 * Update the root which will update the rest of the tree
@@ -210,7 +200,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	 * 
 	 * @param map
 	 */
-	public void addParameter(Parameter p, AbstractMap parent) {
+	public void addParameter(Parameter p, Map parent) {
 
 		parent.addParameters(p);
 
@@ -342,13 +332,6 @@ public abstract class Model implements HasChildren<Parameter> {
 
 
 
-
-	/**
-	 * 
-	 * @return the defult displayed stat //TODO not very mvc
-	 * @deprecated
-	 */
-	public  abstract String getDefaultDisplayedStatistic() ;
 		
 	
 

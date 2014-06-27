@@ -1,6 +1,10 @@
 package main.java.view;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Logger;
+
+
 
 
 
@@ -10,7 +14,7 @@ import main.java.controler.ParameterControler;
 
 public abstract class ParamViewAdapter {
 	
-	private ParameterView paramView;
+	private List<ParameterView> paramViews;
 	private ParameterControler paramControler;
 	private ViewFactory viewFactory; //Optional
 	private final transient Logger LOGGER = Logger.getLogger(ParamViewAdapter.class.getName());
@@ -30,7 +34,8 @@ public abstract class ParamViewAdapter {
 		this.paramControler = paramControler;
 		this.paramControler.setParamViewAdapter(this);
 		this.viewFactory = vf;
-		this.paramView = this.constructView(vc, vf);
+		this.paramViews = new ArrayList<ParameterView>(); 
+		this.paramViews.add(this.constructView(vc, vf));
 	}
 	
 	public ParamViewAdapter(ParameterControler paramControler,ViewFactory vf){
@@ -39,6 +44,16 @@ public abstract class ParamViewAdapter {
 	
 	protected abstract ParameterView constructView(ViewConfiguration vc,ViewFactory vf);
 
+	/**
+	 * Update the main.java.view with parameter value
+	 * @paramControler time
+	 */
+	public void updateViewAndRepaint(){
+		this.updateView();
+		for(ParameterView pv : paramViews){
+			pv.repaint();
+		}
+	}
 	/**
 	 * Update the main.java.view with parameter value
 	 * @paramControler time
@@ -54,7 +69,21 @@ public abstract class ParamViewAdapter {
 	 * @return the paramView
 	 */
 	public ParameterView getParamView() {
-		return paramView;
+		return paramViews.get(0);
+	}
+
+	public void addView(ParameterView pv) {
+		paramViews.add(pv);
+		
+	}
+
+	/**
+	 * Remove last view ( maybe use a llinked list
+	 * TODO maybe use a best managment of views
+	 */
+	public void removeLastView() {
+		paramViews.remove(paramViews.size()-1);
+		
 	}
 
 

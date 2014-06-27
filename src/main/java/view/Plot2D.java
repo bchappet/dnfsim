@@ -127,7 +127,7 @@ public class Plot2D extends ViewPanel {
 				int dy = (int) (dim.height*1);
 				
 				g.setColor(Color.WHITE);
-				g.fillRect(0, 0, dx, dy);
+				g.fillRect(0, 0, dim.width, dim.height);
 				g.setColor(Color.BLACK);
 //				System.out.println("dx : " + dx);	
 

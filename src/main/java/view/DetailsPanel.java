@@ -1,6 +1,5 @@
 package main.java.view;
 
-
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -12,9 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
 
-
-
-
 public class DetailsPanel extends ViewPanel {
 
 	/**
@@ -23,7 +19,8 @@ public class DetailsPanel extends ViewPanel {
 	private static final long serialVersionUID = 2038731760531048035L;
 
 	/**Displayed name of the panel**/
-	protected String title;
+	private String title;
+	private ParameterControler lastDisplayed;
 
 	public DetailsPanel(String name,ViewFactory vf)
 	{
@@ -31,6 +28,7 @@ public class DetailsPanel extends ViewPanel {
 		setLayout(new BoxLayout(this,BoxLayout.PAGE_AXIS));
 		title = new String("Please select a component in the tree");
 		setBorder(BorderFactory.createTitledBorder(title));
+		this.lastDisplayed = null;
 	}
 
 
@@ -38,14 +36,22 @@ public class DetailsPanel extends ViewPanel {
 
 	public void setDisplayedParam(String title,ParameterControler disp) {
 		
+		if(this.lastDisplayed != null){
+			this.lastDisplayed.removeView();
+		}
+		
 		((TitledBorder) this.getBorder()).setTitle(title);
 		
 		JScrollPane headerScroll = new JScrollPane(new ParamHeaderPanel(disp));
 		JScrollPane paramScroll = new JScrollPane(this.getParamPanel(disp));
 		
-		ParameterView pv = disp.getParamView();
-		if(pv == null){
+		ParameterView pv1 = disp.getParamView();
+		ParameterView pv; 
+		if(pv1 == null){
 			pv = getViewFactory().constructView(disp);
+		}else{
+			pv = pv1.clone();
+			disp.addParamView(pv);
 		}
 		
 		JScrollPane quickScroll = new JScrollPane((Component) pv);
@@ -64,6 +70,8 @@ public class DetailsPanel extends ViewPanel {
 		this.add(quickScroll);
 		this.revalidate();
 		this.repaint();
+		
+		this.lastDisplayed = disp;
 		
 	}
 	

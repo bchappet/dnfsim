@@ -27,6 +27,19 @@ public class ParameterViewPanel extends JPanel implements ParameterView {
 		}
 		return borderPanel;
 	}
+	
+	public  ParameterViewPanel clone(){
+		 ParameterViewPanel clone = null;
+		try {
+			 clone = ( ParameterViewPanel)super.clone();
+		} catch (CloneNotSupportedException e) {
+			//Supported
+			e.printStackTrace();System.exit(0);
+		}
+		
+		return clone;
+		
+	}
 
 
 	public ParameterViewPanel(LayoutManager arg0) {

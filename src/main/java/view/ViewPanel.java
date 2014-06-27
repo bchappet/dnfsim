@@ -48,6 +48,19 @@ public abstract class ViewPanel extends JPanel implements ParameterView {
 		return name;
 	}
 	
+	public  ViewPanel clone(){
+		ViewPanel clone = null;
+		try {
+			 clone = ( ViewPanel)super.clone();
+		} catch (CloneNotSupportedException e) {
+			//Supported
+			e.printStackTrace();System.exit(0);
+		}
+		
+		return clone;
+		
+	}
+	
 	
 
 

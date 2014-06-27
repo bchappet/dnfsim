@@ -44,11 +44,11 @@ public class GlobalView extends JPanel {
 	private ViewConfiguration viewConfiguration;
 	
 	
-	public GlobalView(Dimension dim , Runner runner) throws IOException{
-		this(new ViewConfiguration(GUI_CONF_FOLDER+"GlobalView.gui"),dim,runner);
+	public GlobalView(Dimension dim ,Runner runner,String modelName) throws IOException{
+		this(new ViewConfiguration(GUI_CONF_FOLDER+"GlobalView.gui"),dim,runner,modelName);
 	}
 
-	public GlobalView( ViewConfiguration vc,Dimension dim,Runner runner) {
+	public GlobalView( ViewConfiguration vc,Dimension dim,Runner runner,String modelName) {
 		this.viewConfiguration = vc;
 		this.dim = dim;
 		this.runner = runner;
@@ -58,7 +58,7 @@ public class GlobalView extends JPanel {
 		String[] options = this.viewConfiguration.getOptions("GlobalView");//get the list of model
 		//String[] modelNames = Models.nameList();
 		combo = new JComboBox(options);
-		
+		combo.setSelectedItem(modelName);
 		combo.addActionListener(new ActionListener() {
 			
 			@Override

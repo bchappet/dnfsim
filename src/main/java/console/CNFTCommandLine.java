@@ -89,56 +89,46 @@ public class CNFTCommandLine extends CommandLine{
 	public static final String FILTRE_CXI = "filtre_cxi";
 	public static final String FILTRE_CYI = "filtre_cyi";
 
-
-
-
-	
-
-
-	
-
-
-
 	
 
 
 
 	protected  String defaultScript()
 	{
-		return ""
-				+ACCERROR+"=0.12;"			+ALPHA+"=10,0,20,0.1;"
-				+STAB_TIME+"=1;" 			+IA+"=1.25,-10,10,0.01;"
-				+IA2+"=1;"
-				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70,-10,10,0.01;"
+		return super.defaultScript() 
+				+ACCERROR+"=0.12;"			+ALPHA+"=10.,0.,20.,0.1;"
+				+STAB_TIME+"=1.;" 			+IA+"=1.25.,-10.,10.,0.01;"
+				+IA2+"=1.;"
+				+ACT_THRESHOLD+"=0.75;" 	+IB+"=-0.70,-10.,10.,0.01;"
 				+SHAPE_FACTOR+"=2.0;" 		+WA+"=0.10,0,10,0.01;"
 				+NB_DISTRACTERS+"=0,0,40,1;"		+WB+"=1.00,0,10,0.01;"
 				+NB_TRACKS+"=2,0,40,1;"
 				+NOISE_AMP+"=0.00,0,10,0.01;"			+TAU+"=0.75,0,10,0.01;"
-				+TRACK_INTENSITY+"=1,0,10,0.1;"		+N+"=10,0,100,1;"
+				+TRACK_INTENSITY+"=1.,0,10,0.1;"		+N+"=10,0,100,1;"
 				+TRACK_WIDTH+"=0.1,0,1,0.1;"		+RESOLUTION+"=49,1,200,2;"
-				+TRACK_DT+"=0.1,0,100,0.1;"  			+WRAP+"=T;"
-				+DISTR_DT+"=0.1,0,10,0.1;"           +THRESHOLD+"=0.75,0,10,0.01;" 
+				+TRACK_DT+"=bd0.1,0,100,0.1;"  			+WRAP+"=T;"
+				+DISTR_DT+"=bd0.1,0,10,0.1;"           +THRESHOLD+"=0.75,0,10,0.01;" 
 				+THRESHOLD_INHIBITORY+"=0.74;"
-				+DISTR_INTENSITY+"=1,0,10,0.1;"     +RESTING_POTENTIAL+"=0;"
-				+DISTR_WIDTH+"=0.1,0,1,0.1;"		+DT+"=0.1,0,10,0.1;"
-				+NOISE_DT+"=0.1,0,10,0.1;"			+HARD_DT+"=0.01,0,10,0.01;"
-				+INPUT_DT+"=0.1,0,10,0.1;"			
+				+DISTR_INTENSITY+"=1.,0,10,0.1;"     +RESTING_POTENTIAL+"=0;"
+				+DISTR_WIDTH+"=0.1,0,1,0.1;"		+DT+"=bd0.1,0,10,0.1;"
+				+NOISE_DT+"=bd0.1,0,10,0.1;"			+HARD_DT+"=bd0.01,0,10,0.01;"
+				+INPUT_DT+"=bd0.1,0,10,0.1;"			
 				+BUFF_WIDTH+"=6;"			
 				+COMPUTE_CLK+"=10;"			
-				+INH_CST+"=-1;"				+TAU_DT+"=6.3999999999999995;"
+				+INH_CST+"=-1.;"				+TAU_DT+"=bd6.3999999999999995;"
 				+INPUT_FILES+"=src/tests/files/main.java.input;"
 				+PROBA_FRAC+"=7,1,30,1;"			+FRAC+"=8,1,30,1;"
 				+DT_DNF+"=0.01,0,100,0.0001;"			+LEARNING_RATE+"=0.1,0,1,0.001;"
-				+STAT_DT+"=0.1,0,100,0.0001;"	+FILE_DT+"=0.1,0,100,0.0001;"
-				+ANGLE+"=0,-180,180,0.1;"		+TCK_SPEED+"=0.5,0,1,0.01;"
-				+FILTRE_IE+"=1,0,10,0.01;"		+SIMULATION_STEP+"=0.1,0,100,0.0001;"
+				+STAT_DT+"=bd0.1,0,100,0.0001;"	+FILE_DT+"=bd0.1,0,100,0.0001;"
+				+ANGLE+"=0.,-180,180,0.1;"		+TCK_SPEED+"=0.5,0,1,0.01;"
+				+FILTRE_IE+"=1.,0,10,0.01;"		+SIMULATION_STEP+"=0.1,0,100,0.0001;"
 				+FILTRE_WE+"=0.1,0,10,0.01;"	+TRACK_CENTER+"=0.0,-10,10,0.001;"
-				+FILTRE_CXE+"=0,0,10,0.01;"		+TRACK_RADIUS+"=0.3,0,20,0.01;"
-				+FILTRE_CYE+"=0,0,10,0.01;"		+TRACK_PERIOD+"=36,0,10000,1;"
-				+FILTRE_II+"=-1,0,10,0.01;"
+				+FILTRE_CXE+"=0.,0,10,0.01;"		+TRACK_RADIUS+"=0.3,0,20,0.01;"
+				+FILTRE_CYE+"=0.,0,10,0.01;"		+TRACK_PERIOD+"=36,0,10000,1;"
+				+FILTRE_II+"=-1.,0,10,0.01;"
 				+FILTRE_WI+"=0.1,0,10,0.01;"
-				+FILTRE_CXI+"=0,0,10,0.01;"
-				+FILTRE_CYI+"=0,0,10,0.01;"
+				+FILTRE_CXI+"=0.,0,10,0.01;"
+				+FILTRE_CYI+"=0.,0,10,0.01;"
 				;
 	}
 

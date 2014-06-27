@@ -4,10 +4,10 @@ ESN
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
-		input
+		input:MapCurve2DAdapter
 		reservoir
-		output
-		target_output
+		output:MapCurve2DAdapter
+		target_output:MapCurve2DAdapter
 		WeightsIR
 		WeightsRR
 		WeightsRO

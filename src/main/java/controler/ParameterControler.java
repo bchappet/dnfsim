@@ -122,6 +122,24 @@ public abstract class ParameterControler {
 		return this.param.getIndex(0);
 	}
 
+
+
+	/**
+	 * Add a view to the parameter controler
+	 * @param pv
+	 */
+	public void addParamView(ParameterView pv) {
+		this.getParamViewAdapter().addView(pv);
+		
+	}
+
+
+
+	public void removeView() {
+		this.getParamViewAdapter().removeLastView();
+		
+	}
+
 	
 	
 	

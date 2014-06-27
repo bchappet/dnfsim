@@ -135,10 +135,7 @@ public abstract class NetworkModel extends Model implements Computable {
 
     }
 
-    @Override
-    public String getDefaultDisplayedStatistic() {
-        return NetworkStatistics.BUFF_MAX_LOAD;
-    }
+   
 
     @Override
     protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
@@ -146,11 +143,7 @@ public abstract class NetworkModel extends Model implements Computable {
         this.root = spreadingGraph;
     }
 
-    @Override
-    public String[] getDefaultDisplayedParameter() {
-        // todo
-        return new String[0];
-    }
+   
 
     @Override
     public void modifyModel() throws CommandLineFormatException, NullCoordinateException {

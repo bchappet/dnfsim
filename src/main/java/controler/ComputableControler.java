@@ -37,8 +37,8 @@ public abstract class ComputableControler extends ParameterControler {
 //				
 				//TODO also delay to reduce display frequency
 				LOGGER.info("******************update view : " + this.getName());
-				pva.updateView();
-				((JPanel) this.getParamView()).repaint();
+				pva.updateViewAndRepaint();
+				
 			}
 	}
 

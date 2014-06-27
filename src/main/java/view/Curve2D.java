@@ -98,7 +98,7 @@ public class Curve2D extends ParameterViewDB{
 		int dx = (int) (dim.width*margin);
 		int dy = (int) (dim.height*margin);
 		g.setColor(Color.WHITE);
-		g.fillRect(0, 0, dx, dy);
+		g.fillRect(0, 0, dim.width, dim.height);
 		g.setColor(Color.BLACK);
 		int offsetX = (int) ((dim.width - dx)/2d);
 		int offsetY = (int) ((dim.height - dy)/2d);
@@ -121,6 +121,12 @@ public class Curve2D extends ParameterViewDB{
 		for(int i = 0 ; i < blackBorder ; i++)
 			g.drawRect(offsetX-i, offsetY-i, dx+2*i, dy+2*i);
 
+		
+	}
+	
+	public Curve2D clone(){
+		Curve2D  clone = (Curve2D)super.clone();
+		return clone;
 		
 	}
 

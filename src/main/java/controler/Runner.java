@@ -46,6 +46,7 @@ public class Runner extends JFrame implements Runnable {
 	private String runningScript;
 
 	private GlobalView view;
+	
 
 	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui) throws Exception{
 		this.gui = gui;
@@ -53,7 +54,7 @@ public class Runner extends JFrame implements Runnable {
 		this.runningScript = runningScript;
 		if(gui){
 			Dimension dim = new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight());
-			view = new GlobalView(dim,this);
+			view = new GlobalView(dim,this,modelName);
 						
 		}
 		this.loadModel(modelName,initScript);
@@ -122,9 +123,7 @@ public class Runner extends JFrame implements Runnable {
 	 * @throws CommandLineFormatException
 	 */
 	public String interpret(String command) throws NumberFormatException, NullCoordinateException, CommandLineFormatException{
-
 		return cl.parseCommand(command);
-
 	}
 
 	@Override
@@ -170,6 +169,8 @@ public class Runner extends JFrame implements Runnable {
 	public static int GetScreenWorkingHeight() {
 		return java.awt.GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds().height;
 	}
+
+	
 
 
 

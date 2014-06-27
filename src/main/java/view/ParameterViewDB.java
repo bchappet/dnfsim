@@ -28,6 +28,19 @@ private JPanel borderPanel;
 		}
 		return borderPanel;
 	}
+	
+	public ParameterViewDB clone(){
+		ParameterViewDB clone = null;
+		try {
+			 clone = (ParameterViewDB)super.clone();
+		} catch (CloneNotSupportedException e) {
+			//Supported
+			e.printStackTrace();System.exit(0);
+		}
+		
+		return clone;
+		
+	}
 
 	
 

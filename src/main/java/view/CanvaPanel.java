@@ -106,14 +106,14 @@ public class CanvaPanel extends ViewPanel {
 			}
 			else if(nbRow == nbCol)
 			{
-				nbCol ++;
+				nbCol++;
 			}
 			else
 			{
 				throw new IllegalArgumentException("Impossible");
 			}
 			
-			this.setLayout(new GridLayout(nbRow,nbCol));
+			this.setLayout(new GridLayout(nbCol,nbRow));
 		}
 		else
 		{
@@ -124,7 +124,7 @@ public class CanvaPanel extends ViewPanel {
 				if(size == ((nbRow -1) * nbCol))
 				{
 					nbRow --;
-					this.setLayout(new GridLayout(nbRow,nbCol));
+					this.setLayout(new GridLayout(nbCol,nbRow));
 				}
 				else
 				{
@@ -137,7 +137,7 @@ public class CanvaPanel extends ViewPanel {
 				if(size == ((nbCol -1) * nbRow))
 				{
 					nbCol --;
-					this.setLayout(new GridLayout(nbRow,nbCol));
+					this.setLayout(new GridLayout(nbCol,nbRow));
 				}
 				else
 				{

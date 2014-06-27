@@ -49,8 +49,8 @@ public class StatisticsCNFT extends Statistics{
 
 
 
-	public StatisticsCNFT(String name, Var dt, Space space,StatMap... trajectoryUnitMap) {
-		super(name,dt,space,trajectoryUnitMap);
+	public StatisticsCNFT(String name,	Var<BigDecimal> dt,Parameter... parameter) {
+		super(name,dt,parameter);
 	}
 
 

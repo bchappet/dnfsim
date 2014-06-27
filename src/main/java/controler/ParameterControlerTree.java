@@ -70,11 +70,15 @@ public class ParameterControlerTree implements TreeModel {
 	private List<HasChildren> alreadySeen = new LinkedList<HasChildren>(); //save the already registered map to avoid recursivity
 	private void contructTree(HasChildren node,ParameterControler rootPc){
 		this.alreadySeen.add(node);
+//		System.err.println("11111111111111111 In " + node.getName() + " nb param " + node.getParameters().size());
 		for(int i  = 0 ; i < node.getParameters().size() ; i++){
 			
 			Parameter p = (Parameter) node.getParameters().get(i);
 			if(p == null){
-				throw new Error("Parameter null in " + rootPc.getName() + " index " + i);
+//				System.err.println(i + " => param " + "ERROR");
+				throw new Error("Parameter null in " + node.getName() + " index " + i);
+			}else{
+//				System.err.println(i + " => param " + p.getName());
 			}
 			ParameterControler pc = ParameterControlerFactory.getControler(p);
 			
