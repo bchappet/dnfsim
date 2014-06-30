@@ -26,7 +26,7 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	/**
 	 * N Dimension of the main.java.space (if fixed should be indexed with constants) 
 	 */
-	private Coord<SingleValueParam<Integer>> dimensions; //TODO change to coord
+	private Coord<SingleValueParam<Integer>> dimensions; 
 
 	
 	/**
@@ -41,6 +41,10 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	public Space(Coord<SingleValueParam<Integer>> dimensions){
 		this.dimensions = dimensions;
 		
+	}
+	
+	public int getDimension(){
+		return this.dimensions.getSize();
 	}
 	
 	/**

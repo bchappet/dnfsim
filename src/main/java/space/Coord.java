@@ -29,6 +29,14 @@ public class Coord<T> implements Parameter<T> {
 		this(null,values);
 		
 	}
+	/**
+	 * Create an empty vector of the same size as the given coord
+	 * @param coord
+	 */
+	public Coord(Coord coord) {
+		this.values = new ArrayList<T>(coord.getSize());
+		this.name = null;
+	}
 	
 	public void setSpace(Space space){
 		this.space = space;
@@ -53,6 +61,7 @@ public class Coord<T> implements Parameter<T> {
 		this(list);
 		this.setSpace(doubleSpace);
 	}
+	
 	/**
 	 * Return coordinate on specific axis
 	 * @param index

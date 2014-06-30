@@ -1,9 +1,20 @@
 package main.java.space;
 
+import java.util.Arrays;
 import java.util.Random;
 
+import coordinates.NullCoordinateException;
 import main.java.maps.Var;
 
+
+/**
+ * The refSpace currently used : 
+ * -0.5 -0.3 -0.1 0.1 0.3 0.5  : continous coord                                 
+ *   [---------------------[
+ *     0  |  1 | 2 | 3 | 4     : discretes coord
+ * @author bchappet
+ *
+ */
 public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 	
 	
@@ -16,6 +27,7 @@ public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 			Var<Double> lengthX,Var<Double> lengthY,Var<Integer> resolution) {
 		this(new Coord<Var<Double>>(originX,originY),new Coord<Var<Double>>(lengthX,lengthY),resolution);
 	}
+	
 	
 	@Override
 	public Coord2D<Double> indexToCoord(int index) {
@@ -72,6 +84,15 @@ public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 		return new Coord2D<Integer>(index % dimX,index/dimX);
 		
 	}
+
+	
+
+	@Override
+	public int coordToIndex(Coord<Double> coord) {
+		Coord<Integer> coordInt = toIntCoord(coord);
+		return this.coordIntToIndex(coordInt);
+	}
+	
 	@Override
 	public int coordIntToIndex(Coord<Integer> coord){
 		int dimX = this.getDimX();
