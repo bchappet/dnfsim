@@ -82,10 +82,16 @@ public class ParameterControlerTree implements TreeModel {
 			}
 			ParameterControler pc = ParameterControlerFactory.getControler(p);
 			
-			rootPc.addChild(pc);
-			if(p instanceof HasChildren && !this.alreadySeen.contains((HasChildren)p)){
+			if(p instanceof HasChildren  && !this.alreadySeen.contains((HasChildren)p)){
+				rootPc.addChild(pc);
 				contructTree((HasChildren) p,pc);
+			}else if(!(p instanceof HasChildren)){
+				rootPc.addChild(pc);
+			}else{
+				//Already seen
 			}
+			
+			
 			
 		}
 		

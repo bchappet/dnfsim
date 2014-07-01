@@ -18,6 +18,12 @@ public class WrappableDouble2DSpace extends DoubleSpace2D implements WrappedSpac
 		super(originX, originY, lengthX, lengthY, resolution);
 	}
 
+	@Override
+	public Coord<Double> wrap(Coord<Double> coord) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 
 
 
