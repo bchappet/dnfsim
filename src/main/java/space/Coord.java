@@ -31,10 +31,14 @@ public class Coord<T> implements Parameter<T> {
 	}
 	/**
 	 * Create an empty vector of the same size as the given coord
+	 * and fill it zith zero
 	 * @param coord
 	 */
-	public Coord(Coord coord) {
+	public Coord(Coord coord,T zero) {
 		this.values = new ArrayList<T>(coord.getSize());
+		for(int i =0 ; i < coord.getSize() ; i++){
+			this.values.add(zero);
+		}
 		this.name = null;
 	}
 	

@@ -205,7 +205,7 @@ public class ModelESN extends Model {
 		
 
 
-		stats = new StatisticsESN(Statistics.NAME,StatisticsESN.ERROR_DIST,stat_dt,error,targetOutput,output);
+		stats = new StatisticsESN(Statistics.NAME,stat_dt,error,targetOutput,output);
 
 
 	}
@@ -234,12 +234,7 @@ public class ModelESN extends Model {
 
 
 
-	@Override
-	public String[] getDefaultDisplayedParameter() {
-		String[] ret = {INPUT,RESERVOIR,OUTPUT,TARGET_OUTPUT,WEIGHTS_IR,WEIGHTS_RR,WEIGHTS_RO};
-		System.out.println(Arrays.toString(ret));
-		return ret;
-	}
+	
 
 	@Override
 	public void modifyModel() throws CommandLineFormatException,
@@ -249,10 +244,6 @@ public class ModelESN extends Model {
 	}
 
 
-	@Override
-	public String getDefaultDisplayedStatistic() {
-		return StatisticsESN.ERROR_DIST;
-	}
 	
 	public String getText() {
 		return "Basic ESN main.java.model with tanh activation function in reservoir neurons, one main.java.input and one output.";

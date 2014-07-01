@@ -1,6 +1,6 @@
 package test.java.unitModel;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.*;
 
 import java.math.BigDecimal;
 
@@ -32,9 +32,44 @@ public class GaussianNDTest {
 	}
 
 	@Test
-	public void test() {
-		System.out.println(umMap.getValues().size());
+	public void testInit() {
+		assertEquals("The size should be 9 " ,9,umMap.getValues().size());
 		System.out.println(umMap);
 	}
+	
+	@Test
+	public void testCompute() {
+		umMap.compute();
+		System.out.println("UMAP");
+		System.out.println(umMap);
+	}
+	
+	@Test
+	public void testWA() {
+		uut = new GaussianND(0.);
+		Space<Double> space = new DoubleSpace2D(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
+				new Var<Double>("SizeX",1.),new Var<Double>("SizeY",1.),new Var<Integer>(3));
+//		Space space = new Space2D(3,3);
+		umMap = new UnitMap<Double,Double>( "umMap", new Var<BigDecimal>(new BigDecimal("0.1")),
+				space, uut, space,new Var(-0.7),new Var(1.), new Var(0.),new Var(0.));
+		umMap.compute();
+		System.out.println("WB");
+		System.out.println(umMap);
+	}
+	
+	@Test
+	public void testWB() {
+		uut = new GaussianND(0.);
+		Space<Double> space = new DoubleSpace2D(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
+				new Var<Double>("SizeX",1.),new Var<Double>("SizeY",1.),new Var<Integer>(3));
+//		Space space = new Space2D(3,3);
+		umMap = new UnitMap<Double,Double>( "umMap", new Var<BigDecimal>(new BigDecimal("0.1")),
+				space, uut, space,new Var(1.25),new Var(0.10), new Var(0.),new Var(0.));
+		umMap.compute();
+		System.out.println("WA");
+		System.out.println(umMap);
+	}
+	
+	
 
 }

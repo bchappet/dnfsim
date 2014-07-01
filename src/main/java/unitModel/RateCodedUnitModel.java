@@ -28,16 +28,21 @@ public class RateCodedUnitModel extends UnitModel<Double> {
 	
 	
 	protected double computation2(double potential,double tau, double input,double cnft,double h ,double dt) {
-		//System.out.println(potential +"+" +dt.get()+"/"+tau+"*(-"+potential +"+" +main.java.input +"+"+cnft +"+"+ h +")" );
+//		System.out.println(potential +"+" +dt+"/"+tau+"*(-"+potential +"+" +input +"+"+cnft +"+"+ h +")" );
 		return Math.max(0, potential + dt/tau*(-potential + input +cnft + h  ));
+//		if(input > 0.2)
+//			System.out.println(input  + " dt " + dt);
+		//double ret =  Math.max(0, input );
+//		System.out.println(ret);
+	//	return ret;
 	}
 
 	@Override
 	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
-		return computation2((Double)params.get(POTENTIAL).getIndex(index), 
-				(Double)params.get(TAU).getIndex(index), (Double)params.get(INPUT).getIndex(index),
-				(Double)params.get(CNFT).getIndex(index), (Double)params.get(H).getIndex(index),
-				(Double)params.get(DT).getIndex(index));
+		return computation2(((Number)params.get(POTENTIAL).getIndex(index)).doubleValue(), 
+				((Number)params.get(TAU).getIndex(index)).doubleValue(), ((Number)params.get(INPUT).getIndex(index)).doubleValue(),
+				((Number)params.get(CNFT).getIndex(index)).doubleValue(), ((Number)params.get(H).getIndex(index)).doubleValue(),
+				((Number)params.get(DT).getIndex(index)).doubleValue());
 	}
 
 }

@@ -32,14 +32,15 @@ public class GaussianND extends UnitModel<Double> implements Track{
 	@Override
 	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
 		
-		
 		Space space = (Space) params.get(SPACE);
 		//Translate the coor in the center centered refSpace
-		Double[] translation = new Double[params.size()-COORDS];//Translated main.java.coordinates
-		Coord<Double> coord = ((WrappableDouble2DSpace) space).indexToCoord(index);//TODO more generic
-		for(int i = 0 ; i < translation.length; i++){
+		
+		Coord<Double> coord = space.indexToCoord(index);//TODO more generic
+		Coord<Double> translation = new Coord<Double>(coord,0d);//Translated coord
+		
+		for(int i = 0 ; i < translation.getSize(); i++){
 //			System.out.println("coor : " + i + " = " + coord[i]);
-			translation[i] = abs(coord.getIndex(i)-(Double)params.get(COORDS+i).getIndex(index));
+			translation.set(i,abs(coord.getIndex(i)-((Number)params.get(COORDS+i).getIndex(index)).doubleValue()));
 		}
 		
 		//Wrap the coor if needed
@@ -48,10 +49,9 @@ public class GaussianND extends UnitModel<Double> implements Track{
 		
 		//Compute sum of squares x²+y²+z²+...
 		double sumOfSquare = 0;
-		for(int i = 0 ; i < translation.length ; i++){
-				sumOfSquare += translation[i]*translation[i];
+		for(int i = 0 ; i < translation.getSize() ; i++){
+				sumOfSquare += Math.pow(translation.getIndex(i),2);
 		}
-
 		double res = (Double)params.get(INTENSITY).getIndex(index)*exp(
 				-(sumOfSquare)/(
 						Math.pow((Double) params.get(WIDTH).getIndex(index),2)));

@@ -1,9 +1,7 @@
 package main.java.space;
 
-import java.util.Arrays;
 import java.util.Random;
 
-import coordinates.NullCoordinateException;
 import main.java.maps.Var;
 
 
@@ -36,7 +34,7 @@ public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 	
 	
 	@Override
-	protected Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
+	public Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
 		return new Coord2D<Double>(super.toTypeCoord(intCoord),this);
 	}
 	

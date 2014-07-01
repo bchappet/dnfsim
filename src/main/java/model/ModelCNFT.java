@@ -15,6 +15,7 @@ import main.java.maps.ConvolutionMatrix2D;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
+import main.java.maps.Substract;
 import main.java.maps.Trajectory;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
@@ -40,6 +41,7 @@ import main.java.statistics.StatisticsCNFT;
 import main.java.unitModel.ComputeUM;
 import main.java.unitModel.CosTraj;
 import main.java.unitModel.GaussianND;
+import main.java.unitModel.Minus;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.RateCodedUnitModel;
 import main.java.unitModel.Sum;
@@ -170,8 +172,8 @@ public class ModelCNFT extends Model{
 	public Map getLateralWeights(String name,Var<BigDecimal> dt,Space space,
 			Parameter ia,Parameter wa,Parameter ib,Parameter wb) throws CommandLineFormatException 
 			{
-		Map cnfta = new UnitMap(name + "_A",dt, space,new GaussianND(0d), ia, wa, new Var(0),new Var(0));
-		Map cnftb = new UnitMap(name + "_B",dt, space,new GaussianND(0d), ib, wb, new Var(0),new Var(0));
+		Map cnfta = new UnitMap(name + "_A",dt, space,new GaussianND(0d),space, ia, wa, new Var(0),new Var(0));
+		Map cnftb = new UnitMap(name + "_B",dt, space,new GaussianND(0d),space, ib, wb, new Var(0),new Var(0));
 		Map sum = new UnitMap(name,new InfiniteDt(),space,new Sum(0d),cnfta,cnftb);
 		return sum;
 			}
@@ -194,7 +196,7 @@ public class ModelCNFT extends Model{
 		pb = command.get(CNFTCommandLine.WB);
 		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
 		//wa = wa_/(res^2)*40^2/alpha 
-		Var<String> equationWeights = new Var<String>("$1/($2*$2)*(40*40)/$3");
+		Var<String> equationWeights = new Var<String>("Equation Weights","$1/($2*$2)*(40*40)/$3");
 		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),
 				equationWeights,pa,space.getResolution(),alphaP);
 		hpB = new Trajectory<Double>("B_hidden",new InfiniteDt(),new ComputeUM(0d),
@@ -214,15 +216,16 @@ public class ModelCNFT extends Model{
 		initLateralWeights();
 		cnft = new ConvolutionMatrix2D(CNFT,dt,space);
 		potential = new UnitMap<Double, Double>(POTENTIAL,dt,space,new RateCodedUnitModel(0.));
-
 		potential.addParameters(potential,command.get(CNFTCommandLine.TAU),
-				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL));
+				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL),dt);
 		cnft.addParameters(cnftW,potential);
 		this.root = potential;
 	}
 
 	protected void initLateralWeights() throws  CommandLineFormatException {
-		this.cnftW =  getLateralWeights(CNFTW, command.get(CNFTCommandLine.DT), space, hpA, pa, hpB, pb);
+		Parameter ia = command.get(CNFTCommandLine.IA);
+		Parameter ib = command.get(CNFTCommandLine.IB);
+		this.cnftW =  getLateralWeights(CNFTW, new InfiniteDt(), space, ia,hpA, ib, hpB);
 	}
 	/**
 	 * init the default main.java.input 
@@ -262,6 +265,7 @@ public class ModelCNFT extends Model{
 				new Var(0),new Var(0.5));
 
 		Map mDistr = new UnitMap(name,command.get(CNFTCommandLine.DISTR_DT),space,new GaussianND(0.),
+				space,
 				command.get(CNFTCommandLine.DISTR_INTENSITY), 
 				command.get(CNFTCommandLine.DISTR_WIDTH), 
 				cx2,cy2);
@@ -293,6 +297,7 @@ public class ModelCNFT extends Model{
 				command.get(CNFTCommandLine.TRACK_PERIOD),
 				new Var("tck_phase",num/(double)nbTrack + 0.25));
 		Map ret = new UnitMap(name,command.get(CNFTCommandLine.TRACK_DT),space,new GaussianND(0.),
+				space,
 				command.get(CNFTCommandLine.TRACK_INTENSITY), 
 				command.get(CNFTCommandLine.TRACK_WIDTH), 
 				cx,cy);
@@ -316,7 +321,7 @@ public class ModelCNFT extends Model{
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 		Var<BigDecimal> stat_dt = command.get(CNFTCommandLine.STAT_DT);
-		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt, space);
+		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt);
 
 //		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
 //

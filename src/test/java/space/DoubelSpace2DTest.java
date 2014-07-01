@@ -1,4 +1,5 @@
 package test.java.space;
+import test.resources.toolsForJunitTests.ToolsJunitTests;
 
 import static org.junit.Assert.assertEquals;
 import main.java.maps.Var;
@@ -45,9 +46,19 @@ public class DoubelSpace2DTest {
 	}
 	
 	@Test
-	public void testCoordTransDouble(){
-//		System.out.println(uut.coordToIndex(new Coord<Double>(0d,0d)));
-		assertEquals("TestCoord : ",0,uut.coordToIndex(new Coord<Double>(0d,0d)));
-		assertEquals("TestCoord : ",0,uut.coordToIndex(new Coord<Double>(0d,0d)));
+	public void testToTypeCoord(){
+		ToolsJunitTests.assertEqualsRough("TestCoord : ",new Coord<Double>(-0.33333333333333337d,-0.33333333333333337d),uut.toTypeCoord(new Coord<Integer>(0,0)));
+		ToolsJunitTests.assertEqualsRough("TestCoord : ",new Coord<Double>(0d,0d),uut.toTypeCoord(new Coord<Integer>(1,1)));
+		ToolsJunitTests.assertEqualsRough("TestCoord : ",new Coord<Double>(0.33333333333333337d,0.33333333333333337d),uut.toTypeCoord(new Coord<Integer>(2,2)));
 	}
+	
+	@Test
+	public void testcoordToIndexDouble(){
+//		System.out.println(uut.coordToIndex(new Coord<Double>(0d,0d)));
+		assertEquals("TestCoord : ",4,uut.coordToIndex(new Coord<Double>(0d,0d)));
+		assertEquals("TestCoord : ",0,uut.coordToIndex(new Coord<Double>(-0.5d,-0.5d)));
+		assertEquals("TestCoord : ",8,uut.coordToIndex(new Coord<Double>(0.49d,0.49d)));
+	}
+	
+
 }

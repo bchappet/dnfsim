@@ -7,6 +7,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 import main.java.neigborhood.WrappedSpace;
+import main.java.space.ISpace2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
 import Jama.Matrix;
@@ -34,14 +35,14 @@ public class ConvolutionMatrix2D extends MatrixDouble2D {
 	{
 		/**Kernel size**/
 		
-		int kx = ((Space2D) ((Map) getParam(KERNEL)).getSpace()).getDimX();
-		int ky = ((Space2D) ((Map) getParam(KERNEL)).getSpace()).getDimY();
+		int kx = ((ISpace2D) ((Map) getParam(KERNEL)).getSpace()).getDimX();
+		int ky = ((ISpace2D) ((Map) getParam(KERNEL)).getSpace()).getDimY();
 		/**Input size**/
 		
-		int vx = ((Space2D) ((Map) getParam(INPUT)).getSpace()).getDimX();
-		int vy = ((Space2D) ((Map) getParam(INPUT)).getSpace()).getDimY();
+		int vx = ((ISpace2D) ((Map) getParam(INPUT)).getSpace()).getDimX();
+		int vy = ((ISpace2D) ((Map) getParam(INPUT)).getSpace()).getDimY();
 		/**This size**/
-		int width = (this.getSpace()).getDimX();
+		int width = ((ISpace2D)(this.getSpace())).getDimX();
 
 		////////////////////////////////////////////////////////////////////
 

@@ -120,8 +120,8 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 		return new ArrayList<Double>(Arrays.asList(ArrayUtils.toPrimitive(this.jamat.getRowPackedCopy())));
 	}
 	
-	public Space2D getSpace(){
-		return (Space2D) super.getSpace();
+	public Space getSpace(){
+		return  super.getSpace();
 	}
 	
 

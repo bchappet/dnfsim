@@ -59,7 +59,7 @@ public class ComputeUM<T extends Number> extends UnitModel<T> {
 		} catch (EvalError e) {
 			e.printStackTrace();
 		}
-
+//		System.out.println("Result = : " + result);
 		return result;
 
 

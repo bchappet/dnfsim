@@ -24,11 +24,13 @@ public class Sum extends UnitModel<Double> {
 	@Override
 	protected Double compute(BigDecimal time, int index, List<Parameter> params) {
 		double ret = 0;
-		//System.out.println("params : " + params);
+//		System.out.println("params : " + params);
 		for(Parameter p : params)
-		{//System.out.print( "; " + ret +" += " +p.get(coord));
+		{
+//			System.out.print( "; " + ret +" += " +p.getIndex(index));
 			ret += ((Number)p.getIndex(index)).doubleValue();
 		}
+//		System.out.println();
                
         return ret;
 	}

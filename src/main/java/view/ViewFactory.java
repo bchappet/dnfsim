@@ -98,9 +98,11 @@ public class ViewFactory {
 	}
 
 	public ParameterView constructView(String name){
+		System.out.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
+			System.out.println("parameter controler " + pc );
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
 				//we assume that it is a panel

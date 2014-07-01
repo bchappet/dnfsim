@@ -40,16 +40,22 @@ public class  ParameterModifierPanel extends JPanel {
 	public ParameterModifierPanel(VarControler var) {
 		formater = new DecimalFormat("####.####");
 		this.var = var;
-		amount = computeAmount(var);
-		initRunnerGUI();
+		if(var.get() instanceof Number){
+			amount = computeAmount(var);
+			initRunnerGUI();
+		}
+		
 	}
 	
 	public void update()
 	{
-		txt.setText(formater.format(getValue(var)));
+		if(var.get() instanceof Number){
+			txt.setText(formater.format(getValue(var)));
+		}
 	}
 	
 	private static double getValue(VarControler param){
+//		System.out.println("getVal : " + param.getName());
 		return ((Number)param.get()).doubleValue();
 	}
 	

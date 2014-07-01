@@ -108,7 +108,7 @@ public class DoubleSpace extends Space<Double> {
 	 */
 
 	protected Coord<Integer> toIntCoord(Coord<Double> typeCoord) {
-		Coord<Integer> ret = new Coord<Integer>(typeCoord);
+		Coord<Integer> ret = new Coord<Integer>(typeCoord,0);
 		for(int i = 0 ; i < ret.getSize() ; i++)
 		{
 			double fact = this.length.getIndex(i).get()/this.getIndex(i).get();
@@ -126,8 +126,8 @@ public class DoubleSpace extends Space<Double> {
 	 * @param intCoord
 	 * @return
 	 */
-	protected Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
-		Coord<Double> ret = new Coord<Double>(intCoord);
+	public Coord<Double> toTypeCoord(Coord<Integer> intCoord) {
+		Coord<Double> ret = new Coord<Double>(intCoord,0d);
 		for(int i = 0 ; i < ret.getSize() ; i++)
 		{
 			double fact = this.length.getIndex(i).get()/this.getIndex(i).get();
@@ -141,8 +141,10 @@ public class DoubleSpace extends Space<Double> {
 
 	@Override
 	public int coordIntToIndex(Coord<Integer> coord) {
-		
+		// TODO Auto-generated method stub
+		return 0;
 	}
+	
 
 	@Override
 	public int coordToIndex(Coord<Double> coord) {
@@ -167,5 +169,6 @@ public class DoubleSpace extends Space<Double> {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
 
 }

@@ -104,7 +104,7 @@ public class CNFTCommandLine extends CommandLine{
 				+NB_DISTRACTERS+"=0,0,40,1;"		+WB+"=1.00,0,10,0.01;"
 				+NB_TRACKS+"=2,0,40,1;"
 				+NOISE_AMP+"=0.00,0,10,0.01;"			+TAU+"=0.75,0,10,0.01;"
-				+TRACK_INTENSITY+"=1.,0,10,0.1;"		+N+"=10,0,100,1;"
+				+TRACK_INTENSITY+"=1.0,0,10,0.1;"		+N+"=10,0,100,1;"
 				+TRACK_WIDTH+"=0.1,0,1,0.1;"		+RESOLUTION+"=49,1,200,2;"
 				+TRACK_DT+"=bd0.1,0,100,0.1;"  			+WRAP+"=T;"
 				+DISTR_DT+"=bd0.1,0,10,0.1;"           +THRESHOLD+"=0.75,0,10,0.01;" 

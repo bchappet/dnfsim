@@ -179,7 +179,7 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 			if(value instanceof Number){
 				ret.add((Number)value);
 			}else{
-				throw new Error("You should implement a behaviour for value of type " + value.getClass());
+				throw new Error("You should implement a behaviour for value of type " + value.getClass() + " name : " + paramNodes.get(i).getName());
 			}
 			//			System.out.print(paramNodes.get(i).getName()+",");
 			i++;
