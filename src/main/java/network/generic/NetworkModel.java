@@ -12,6 +12,7 @@ import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.model.Model;
+import main.java.plot.Trace;
 import main.java.statistics.Statistics;
 import main.java.unitModel.UnitModel;
 
@@ -21,7 +22,7 @@ import main.java.unitModel.UnitModel;
  *
  * @author CARRARA Nicolas
  */
-public abstract class NetworkModel extends Model implements Computable {
+public abstract class NetworkModel extends Model /* implements Computable */ {
 
     private SpreadingGraph spreadingGraph;
 
@@ -74,7 +75,6 @@ public abstract class NetworkModel extends Model implements Computable {
 
         stats = new NetworkStatistics(
                 Statistics.NAME,
-                NetworkStatistics.BUFF_MAX_LOAD,
                 stat_dt,
                 maximumLoad,
                 loadRemaining,
@@ -87,32 +87,20 @@ public abstract class NetworkModel extends Model implements Computable {
         System.out.println("Initializing characteristic");
         // main charac here is the maximum load of buffers
         Trajectory maximumLoad = new Trajectory(
-                NetworkCharacteristics.BUFF_MAX_LOAD,
+                NetworkStatistics.BUFF_MAX_LOAD,
                 new InfiniteDt(),
                 new UnitModel<Double>(0d) {
                     @Override
                     public Double compute(BigDecimal time, int index, List<Parameter> params) {
-                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
-                        Double maxLoad = (double) spreadingGraph.getMostLoadedNode().getLoad();
+                        NetworkStatistics stats = (NetworkStatistics) params.get(0);
+                        Trace trace = stats.getTrace(NetworkStatistics.BUFF_MAX_LOAD);
+                        double maxLoad = trace.getMax();
                         System.out.println("charac maxLoad : " + maxLoad);
                         return maxLoad;
                     }
-                }, spreadingGraph);
+                }, stats);
 
-        // load remaining
-        Trajectory loadRemaining = new Trajectory(
-                NetworkCharacteristics.LOAD_REMAINING,
-                new InfiniteDt(),
-                new UnitModel<Double>(0d) {
-                    @Override
-                    public Double compute(BigDecimal time, int index, List<Parameter> params) {
-                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
-                        Double loadRemaining = (double) spreadingGraph.getLoadRemaining();
-                        System.out.println("charac loadRemaining : " + loadRemaining);
-                        return loadRemaining;
-                    }
-                }, spreadingGraph);
-
+        // load remaining => todo ? pas de sens pour les characs non ?
         // transmission time
         Trajectory transmissionTime = new Trajectory(
                 NetworkCharacteristics.TRANSMISSION_TIME_BEFORE_CONGESTION,
@@ -120,17 +108,18 @@ public abstract class NetworkModel extends Model implements Computable {
                 new UnitModel<Double>(0d) {
                     @Override
                     public Double compute(BigDecimal time, int index, List<Parameter> params) {
-                        //todo
-//                SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
-//                Double loadRemaining = (double) spreadingGraph.getLoadRemaining();
-//                System.out.println("charac loadRemaining : " + loadRemaining);
-                        return 0.0;//loadRemaining;
+                        SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
+                        int computations = spreadingGraph.getComputations();
+                        BigDecimal dt = ((Var<BigDecimal>) spreadingGraph.getDt()).get();
+                        double transmissionTime = computations * dt.doubleValue(); // todo => ok ça ?
+                        System.out.println("Charac transmissionTime : " + transmissionTime);
+                        return transmissionTime;
                     }
                 }, spreadingGraph);
 
         charac = new NetworkCharacteristics(
                 maximumLoad,
-                loadRemaining,
+                /*loadRemaining,*/
                 transmissionTime);
 
     }
@@ -150,41 +139,40 @@ public abstract class NetworkModel extends Model implements Computable {
     }
 
     /*---------------------- computable --------------------------------------*/
-    @Override
-    public void compute() {
-        try {
-            int imax = ((Var<Integer>) getCommandLine().get(NetworkCommandLine.STOP_CONDITION_ITERATE_VALUE)).get();
-            compute(imax);
-        } catch (CommandLineFormatException ex) {
-            Logger.getLogger(NetworkModel.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
-
-    public void compute(int imax) {
-        int i = 0;
-        while (!computeStopCondition() && (i < imax)) {
-            computeAtomique();
-            i++;
-        }
-    }
-
-    public void computeAtomique() {
-        spreadingGraph.compute();
-    }
-
-    protected abstract boolean computeStopCondition();
-
-    @Override
-    public Var<BigDecimal> getDt() {
-        // todo
-        return null;
-    }
-
-    @Override
-    public void setTime(BigDecimal currentTime) {
-        // todo
-    }
-
+//    @Override
+//    public void compute() {
+//        try {
+//            int imax = ((Var<Integer>) getCommandLine().get(NetworkCommandLine.STOP_CONDITION_ITERATE_VALUE)).get();
+//            compute(imax);
+//        } catch (CommandLineFormatException ex) {
+//            Logger.getLogger(NetworkModel.class.getName()).log(Level.SEVERE, null, ex);
+//        }
+//    }
+//
+//    public void compute(int imax) {
+//        int i = 0;
+//        while (!computeStopCondition() && (i < imax)) {
+//            computeAtomique();
+//            i++;
+//        }
+//    }
+//
+//    public void computeAtomique() {
+//        spreadingGraph.compute();
+//    }
+//
+//    protected abstract boolean computeStopCondition();
+//
+//    @Override
+//    public Var<BigDecimal> getDt() {
+//        // todo
+//        return null;
+//    }
+//
+//    @Override
+//    public void setTime(BigDecimal currentTime) {
+//        // todo
+//    }
     //-----------------------  getteur/setteur ---------------------------------
     /**
      * @return the spreadingGraph

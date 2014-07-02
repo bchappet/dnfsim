@@ -20,7 +20,20 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
 
     private final List<E> edges;
 
-    public SpreadingGraph() {
+    private int computations = 0;
+
+    /**
+     * Update time for this map*
+     */
+    private final Var<BigDecimal> dt;
+    /**
+     * Current time for this map*
+     */
+    private BigDecimal time;
+
+    public SpreadingGraph(Var<BigDecimal> dt) {
+        this.dt = dt;
+        this.time = new BigDecimal("0");
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
     }
@@ -31,17 +44,17 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
     }
 
     /**
-     * 
+     *
      * @return le nombre de paquet restant sur le reseau
      */
-    public final int getLoadRemaining(){
+    public final int getLoadRemaining() {
         int loadRemaining = 0;
-        for(N n: getNodes()){
+        for (N n : getNodes()) {
             loadRemaining += n.getLoad();
         }
         return loadRemaining;
     }
-    
+
     /**
      *
      * @return the node with the maximum load, null if nodes is empty
@@ -73,7 +86,7 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
     }
 
     /**
-     * 
+     *
      * @return the transition matrix of this spreading graph
      */
     public double[][] extractAdjacentMatrix() {
@@ -90,7 +103,6 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
     }
 
     //-------------------------computable---------------------------------------
-    
     /**
      * todo ?
      *
@@ -117,20 +129,17 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
 
     @Override
     public BigDecimal getTime() {
-        //todo
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.time;
     }
 
     @Override
     public Var<BigDecimal> getDt() {
-        //todo
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return this.dt;
     }
 
     @Override
     public void setTime(BigDecimal currentTime) {
-        //todo
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        this.time = currentTime;
     }
 
     //-------------------------parameter----------------------------------------
@@ -156,6 +165,20 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
 
     public List<E> getEdges() {
         return edges;
+    }
+
+    /**
+     * @return the computations
+     */
+    public int getComputations() {
+        return computations;
+    }
+
+    /**
+     * @param computations the computations to set
+     */
+    public void setComputations(int computations) {
+        this.computations = computations;
     }
 
 }

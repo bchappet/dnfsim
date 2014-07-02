@@ -17,8 +17,12 @@ import main.java.network.generic.NetworkStatistics;
  */
 public class RSDNFStatistics extends NetworkStatistics{
 
-    public RSDNFStatistics(String name, String defaultDisplayedParameter, Var<BigDecimal> dt, Parameter... parameter) {
-        super(name, defaultDisplayedParameter, dt, parameter);
+    public RSDNFStatistics(String name, Var<BigDecimal> dt, Parameter... parameter) {
+        super(name, dt, parameter);
     }
+
+//    public RSDNFStatistics(String name, String defaultDisplayedParameter, Var<BigDecimal> dt, Parameter... parameter) {
+//        super(name, defaultDisplayedParameter, dt, parameter);
+//    }
     
 }

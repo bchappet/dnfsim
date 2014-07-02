@@ -1,6 +1,7 @@
 package main.java.network.generic;
 
 import java.io.File;
+import java.math.BigDecimal;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;
@@ -62,7 +63,7 @@ public class SpreadingGraphFactory {
         switch (typeGraph) {
             case RSDNF:
                 RSDNFCommandLine crsdnf = (RSDNFCommandLine)commandLine;
-                res = new RSDNFSpreadingGraph();
+                res = new RSDNFSpreadingGraph((Var<BigDecimal>) crsdnf.get(RSDNFCommandLine.DT));
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new RSDNFTransmitter(((Var<Double>)crsdnf.get(RSDNFCommandLine.WEIGTH)).get()));
                 }
