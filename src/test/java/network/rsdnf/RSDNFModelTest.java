@@ -73,7 +73,7 @@ public class RSDNFModelTest {
                 rsdnf.getCommandLine());
         rsdnf.setSpreadingGraph(spreadingGraph);
         ((RSDNFTransmitter) spreadingGraph.getIndex(0)).addToFIFO(new Spike());
-        rsdnf.computeAtomique();
+        spreadingGraph.compute();
         int[] packetsTheory = {0, 0, 1};
         assertArrayEquals(spreadingGraph.extractCurrentPackets(), packetsTheory);
     }
@@ -93,8 +93,8 @@ public class RSDNFModelTest {
             System.out.println("depart  : " + Arrays.toString(spreadingGraph.extractCurrentPackets()));
         }
         for (int i = 0; i < nbComputation; i++) {
-            rsdnf.computeAtomique();
-            if (sout) {
+        	spreadingGraph.compute();
+        	if (sout) {
                 System.out.println("etape " + i + " : " + Arrays.toString(spreadingGraph.extractCurrentPackets()));
             }
         }
