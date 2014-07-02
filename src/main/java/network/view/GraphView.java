@@ -8,13 +8,12 @@ package main.java.network.view;
 import java.awt.LayoutManager;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.swing.JFrame;
+
 import main.java.console.CommandLine;
-import main.java.console.CommandLineFormatException;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
-import main.java.network.rsdnf.RSDNFCommandLine;
-import static main.java.network.rsdnf.RSDNFCommandLine.WEIGTH;
 import main.java.network.rsdnf.RSDNFModel;
 import main.java.view.ViewConfiguration;
 import main.java.view.ViewFactory;
@@ -34,12 +33,12 @@ public class GraphView extends ViewPanel {
             CommandLine cl = rsdnf.constructCommandLine();
             cl.setContext("");
             rsdnf.initialize(cl);
-//            System.out.println(""+rsdnf.getParameters());
-//            ModelControler mc = new ModelControler(rsdnf);
-//            cl.setCurentModelControler(mc);
-//            ComputationControler cc = new ComputationControler(mc.getTree());
+            System.out.println(""+rsdnf.getParameters());
+            ModelControler mc = new ModelControler(rsdnf);
+            cl.setCurentModelControler(mc);
+            ComputationControler cc = new ComputationControler(mc.getTree());
 //            
-//            ViewFactory vf = new ViewFactory(new ViewConfiguration("src/main/java/network/view/GraphViewPanel.gui"), mc.getTree());
+            ViewFactory vf = new ViewFactory(new ViewConfiguration("src/main/java/network/view/GraphViewPanel.gui"), mc.getTree());
 //            
 //            SpreadingGraphRepresentation sgr = new SpreadingGraphRepresentation();
 //            

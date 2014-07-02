@@ -30,7 +30,7 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
      * Current time for this map*
      */
     private BigDecimal time;
-
+    
     public SpreadingGraph(Var<BigDecimal> dt) {
         this.dt = dt;
         this.time = new BigDecimal("0");
@@ -43,6 +43,16 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
         return nodes + "";
     }
 
+    /**
+     * rajoute un packet packet au noeud à la position indexNode de ce graphe
+     * @param indexNode la position du noeud dans le graphe.
+     * @param packet le packet à rajouter en file d'attente du noeud.
+     */
+    public void addToFIFO(int indexNode, Packet packet){
+    	nodes.get(indexNode).addToFIFO(packet);
+    }
+    
+    
     /**
      *
      * @return le nombre de paquet restant sur le reseau
@@ -119,6 +129,7 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
      */
     @Override
     public final void compute() {
+    	System.out.println("computing "+this+" ...");
         for (N n : getNodes()) {
             n.prepareBeforeSendParallele();
         }
