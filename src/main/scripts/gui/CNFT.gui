@@ -11,4 +11,6 @@ CNFT
 	stats
 		Plot2D
 			Time
-			Time
+			ActivitySum
+			CenterX
+			CenterY

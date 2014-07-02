@@ -1,5 +1,6 @@
 package main.java.space;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,7 +21,7 @@ import main.java.maps.SingleValueParam;
  * @author bchappet
  *
  */
-public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
+public abstract class Space<T> implements Parameter< Integer>{
 	
 	
 	/**
@@ -76,14 +77,9 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	
 	
 	
-	/**
-	 * Wrap main.java.coordinates to stay within the main.java.space
-	 * @param coord
-	 * @return wrapped main.java.coordinates
-	 */
-	public abstract Coord<T> wrapCoord(Coord<T> coord);
 	
-	public abstract Coord<Integer> wrapCoordInt(Coord<Integer> coord);
+	
+//	public abstract Coord<Integer> wrapCoordInt(Coord<Integer> coord);
 	
 	public Coord<SingleValueParam<Integer>> getDimensions(){
 		return dimensions;
@@ -139,13 +135,17 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 	}
 
 	@Override
-	public SingleValueParam<Integer> getIndex(int index) {
-		return this.dimensions.getIndex(index);
+	public Integer getIndex(int index) {
+		return this.dimensions.getIndex(index).get();
 	}
 
 	@Override
-	public List<SingleValueParam<Integer>> getValues() {
-		return dimensions.getValues();
+	public List<Integer> getValues() {
+		List<Integer> list = new ArrayList<Integer>();
+		for(int i = 0 ; i < this.getDimension() ; i++){
+			list.add(dimensions.getIndex(i).get());
+		}
+		return list;
 	}
 
 	@Override
@@ -172,6 +172,16 @@ public abstract class Space<T> implements Parameter< SingleValueParam<Integer>>{
 		return inside;
 		
 	}
+
+	/**
+	 * Project on 1 axis
+	 * @param val
+	 * @param axis
+	 * @return
+	 */
+	public abstract T typeAxisProj(Integer val, int axis);
+
+	
 
 	
 

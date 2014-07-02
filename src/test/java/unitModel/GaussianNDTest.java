@@ -9,6 +9,7 @@ import main.java.maps.Var;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
+import main.java.space.WrappableDouble2DSpace;
 import main.java.unitModel.GaussianND;
 
 import org.junit.Before;
@@ -68,6 +69,20 @@ public class GaussianNDTest {
 		umMap.compute();
 		System.out.println("WA");
 		System.out.println(umMap);
+	}
+	
+	@Test
+	public void testWrap() {
+		Space<Double> space = new WrappableDouble2DSpace(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
+				new Var<Double>("SizeX",1.),new Var<Double>("SizeY",1.),new Var<Integer>(3));
+//		Space space = new Space2D(3,3);
+		umMap = new UnitMap<Double,Double>( "umMap", new Var<BigDecimal>(new BigDecimal("0.1")),
+				space, uut, space,new Var(1),new Var(1.), new Var(-0.5),new Var(-0.5));
+		umMap.compute();
+		
+		System.out.println("Wrap");
+		System.out.println(umMap);
+		
 	}
 	
 	

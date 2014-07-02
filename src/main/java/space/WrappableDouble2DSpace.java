@@ -20,8 +20,31 @@ public class WrappableDouble2DSpace extends DoubleSpace2D implements WrappedSpac
 
 	@Override
 	public Coord<Double> wrap(Coord<Double> coord) {
-		// TODO Auto-generated method stub
-		return null;
+		Coord<Double> res = new Coord<Double>(coord,0d);
+
+		for(int i = 0 ; i < res.getSize() ; i++)
+		{
+			Double x = coord.getIndex(i);
+			double oriX = this.getOrigin(i);
+			double sizeX =  this.getLenght(i);
+			double endX = oriX + sizeX;
+
+			//System.out.println(" avant " + Arrays.toString(coord));
+
+			if( x < oriX || x > endX )
+			{
+				//We are outside the frame bounds
+					x = x - oriX;
+					x = x % sizeX;
+					if(x < 0){
+						x += sizeX;
+					}
+					x = x + oriX;
+			}
+			res.set(i, x);
+		}
+		//System.out.println(" apres " + Arrays.toString(res));
+		return res;
 	}
 
 

@@ -3,10 +3,8 @@ package test.java.unitModel;
 import static org.junit.Assert.*;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Trajectory;
-import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.space.DoubleSpace2D;
-import main.java.space.NoDimSpace;
 import main.java.space.Space;
 import main.java.unitModel.ComputeUM;
 

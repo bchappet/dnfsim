@@ -58,11 +58,13 @@ public class Space2D extends Space<Integer> implements ISpace2D {
 		return getDimX() * getDimY();
 		
 	}
-	@Override
-	public Coord2D<Integer> wrapCoord(Coord<Integer> coord){
-		return new Coord2D<Integer>(coord.getIndex(X)%this.getDimX(),coord.getIndex(Y)%this.getDimY());
-		
-	}
+	
+	
+//	@Override
+//	public Coord2D<Integer> wrapCoord(Coord<Integer> coord){
+//		return new Coord2D<Integer>(coord.getIndex(X)%this.getDimX(),coord.getIndex(Y)%this.getDimY());
+//		
+//	}
 	
 	
 	
@@ -82,9 +84,6 @@ public class Space2D extends Space<Integer> implements ISpace2D {
 		return coordIntToIndex(coord);
 	}
 
-	@Override
-	public Coord<Integer> wrapCoordInt(Coord<Integer> coord) {
-		return wrapCoord(coord);
-	}
+	
 
 }

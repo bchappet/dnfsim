@@ -43,7 +43,9 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 	public UnitMap(String name,Var<BigDecimal> dt,Space<C> space,UnitModel<T> unitModel, Parameter... params) {
 		super(name,dt,space,params);
 		this.units = new ArrayList<Unit<T>>(space.getVolume());
-		this.initMemory(unitModel);
+		if(unitModel != null){ 
+			this.initMemory(unitModel);
+		}
 	}
 	
 	/**

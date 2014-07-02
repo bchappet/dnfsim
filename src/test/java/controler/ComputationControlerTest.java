@@ -23,37 +23,37 @@ public class ComputationControlerTest {
 	private ComputationControler uut;
 	private ModelControler mc;
 	private ModelESN model;
-	@Before
-	public void setUp() throws Exception {
-		
-		Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
-	    logger.setLevel(Level.INFO);
-	    FileHandler fileTxt = new FileHandler("Logging.txt");
-	    SimpleFormatter formatterTxt = new SimpleFormatter();
-	    fileTxt.setFormatter(formatterTxt);
-	    logger.addHandler(fileTxt);
-
-		
-		ESNCommandLine cl = new ESNCommandLine();
-		model = new ModelESN("test_esn");
-		cl.setContext("");
-		model.initialize(cl);
-		
-		mc = new ModelControler(model);
-		cl.setCurentModelControler(mc);
-		uut = new ComputationControler(mc.getTree());
-		
-		
-	}
-
-	@Test
-	public void testCompute() throws IOException {
-		
-		System.out.println(mc.getTree());
-		
-		uut.compute(new BigDecimal("0.39"));
-		
-	}
+//	@Before
+//	public void setUp() throws Exception {
+//		
+//		Logger logger = Logger.getLogger(Logger.GLOBAL_LOGGER_NAME);
+//	    logger.setLevel(Level.INFO);
+//	    FileHandler fileTxt = new FileHandler("Logging.txt");
+//	    SimpleFormatter formatterTxt = new SimpleFormatter();
+//	    fileTxt.setFormatter(formatterTxt);
+//	    logger.addHandler(fileTxt);
+//
+//		
+//		ESNCommandLine cl = new ESNCommandLine();
+//		model = new ModelESN("test_esn");
+//		cl.setContext("");
+//		model.initialize(cl);
+//		
+//		mc = new ModelControler(model);
+//		cl.setCurentModelControler(mc);
+//		uut = new ComputationControler(mc.getTree());
+//		
+//		
+//	}
+//
+//	@Test
+//	public void testCompute() throws IOException {
+//		
+//		System.out.println(mc.getTree());
+//		
+//		uut.compute(new BigDecimal("0.39"));
+//		
+//	}
 	
 	@Test
 	public void testComputeCNFT() throws IOException, CommandLineFormatException {

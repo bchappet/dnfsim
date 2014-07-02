@@ -38,6 +38,13 @@ public class DoubleSpace extends Space<Double> {
 	public SingleValueParam<Integer> getResolution() {
 		return this.getDimensions().getIndex(0);
 	}
+	
+	
+	public Double typeAxisProj(Integer val, int axis) {
+		double fact = this.length.getIndex(axis).get()/this.getIndex(axis);
+		double ret = origin.getIndex(axis).get() + fact/2 + fact*val;
+		return ret;
+	}
 
 
 
@@ -111,7 +118,7 @@ public class DoubleSpace extends Space<Double> {
 		Coord<Integer> ret = new Coord<Integer>(typeCoord,0);
 		for(int i = 0 ; i < ret.getSize() ; i++)
 		{
-			double fact = this.length.getIndex(i).get()/this.getIndex(i).get();
+			double fact = this.length.getIndex(i).get()/this.getIndex(i);
 			//The problem is that without the rounding 
 			//we have for instance 0.6/0.2 that gives 2.9999999999 which will be casted in 2
 			//But we should have 3. => that is why we have to use a precision rounding
@@ -130,8 +137,7 @@ public class DoubleSpace extends Space<Double> {
 		Coord<Double> ret = new Coord<Double>(intCoord,0d);
 		for(int i = 0 ; i < ret.getSize() ; i++)
 		{
-			double fact = this.length.getIndex(i).get()/this.getIndex(i).get();
-			double val = origin.getIndex(i).get() + fact/2 + fact*intCoord.getIndex(i);
+			double val = typeAxisProj(intCoord.getIndex(i),i);
 			ret.set(i, val); 
 		}
 
@@ -158,17 +164,13 @@ public class DoubleSpace extends Space<Double> {
 		return 0;
 	}
 
-	@Override
-	public Coord<Double> wrapCoord(Coord<Double> coord) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	
 
-	@Override
-	public Coord<Integer> wrapCoordInt(Coord<Integer> coord) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+//	@Override
+//	public Coord<Integer> wrapCoordInt(Coord<Integer> coord) {
+//		// TODO Auto-generated method stub
+//		return null;
+//	}
 
 
 }

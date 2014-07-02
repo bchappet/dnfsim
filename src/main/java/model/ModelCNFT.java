@@ -1,7 +1,6 @@
 package main.java.model;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -15,37 +14,29 @@ import main.java.maps.ConvolutionMatrix2D;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
-import main.java.maps.Substract;
+import main.java.maps.SingleValueParam;
+import main.java.maps.Track;
 import main.java.maps.Trajectory;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
+import main.java.space.Coord;
+import main.java.space.Coord2D;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
-import main.java.statistics.Charac;
-import main.java.statistics.CharacAccError;
-import main.java.statistics.CharacClosestTrack;
-import main.java.statistics.CharacConvergence;
-import main.java.statistics.CharacMaxMax;
-import main.java.statistics.CharacMaxSum;
-import main.java.statistics.CharacMeanCompTime;
-import main.java.statistics.CharacMeanError;
-import main.java.statistics.CharacNoFocus;
-import main.java.statistics.CharacObstinacy;
-import main.java.statistics.CharacTestConvergence;
+import main.java.space.Space2D;
+import main.java.space.WrappableDouble2DSpace;
 import main.java.statistics.Characteristics;
-import main.java.statistics.CharacteristicsCNFT;
 import main.java.statistics.StatCNFT;
+import main.java.statistics.StatMap;
 import main.java.statistics.StatMapCNFT;
 import main.java.statistics.Statistics;
 import main.java.statistics.StatisticsCNFT;
 import main.java.unitModel.ComputeUM;
 import main.java.unitModel.CosTraj;
 import main.java.unitModel.GaussianND;
-import main.java.unitModel.Minus;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.RateCodedUnitModel;
 import main.java.unitModel.Sum;
-import main.java.unitModel.UnitModel;
 
 
 /**
@@ -136,7 +127,7 @@ public class ModelCNFT extends Model{
 
 		
 		res = command.get(CNFTCommandLine.RESOLUTION);
-		space = new DoubleSpace2D(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
+		space = new WrappableDouble2DSpace(new Var<Double>("OriX",-0.5),new Var<Double>("OriY",-0.5),
 				new Var<Double>("SizeX",1.),new Var<Double>("SizeY",1.),res);
 
 		//Displayed parameter
@@ -192,11 +183,11 @@ public class ModelCNFT extends Model{
 			throws CommandLineFormatException
 			{
 		
-		pa = command.get(CNFTCommandLine.WA);
-		pb = command.get(CNFTCommandLine.WB);
+		pa = command.get(CNFTCommandLine.IA);
+		pb = command.get(CNFTCommandLine.IB);
 		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
 		//wa = wa_/(res^2)*40^2/alpha 
-		Var<String> equationWeights = new Var<String>("Equation Weights","$1/($2*$2)*(40*40)/$3");
+		Var<String> equationWeights = new Var<String>("Equation Weights","($1/($2*$2))*((40*40)/$3)");
 		hpA = new Trajectory<Double>("A_hidden",new InfiniteDt(),new ComputeUM(0d),
 				equationWeights,pa,space.getResolution(),alphaP);
 		hpB = new Trajectory<Double>("B_hidden",new InfiniteDt(),new ComputeUM(0d),
@@ -223,9 +214,9 @@ public class ModelCNFT extends Model{
 	}
 
 	protected void initLateralWeights() throws  CommandLineFormatException {
-		Parameter ia = command.get(CNFTCommandLine.IA);
-		Parameter ib = command.get(CNFTCommandLine.IB);
-		this.cnftW =  getLateralWeights(CNFTW, new InfiniteDt(), space, ia,hpA, ib, hpB);
+		Parameter wa = command.get(CNFTCommandLine.WA);
+		Parameter wb = command.get(CNFTCommandLine.WB);
+		this.cnftW =  getLateralWeights(CNFTW, new InfiniteDt(), space, hpA,wa, hpB,wb);
 	}
 	/**
 	 * init the default main.java.input 
@@ -259,9 +250,9 @@ public class ModelCNFT extends Model{
 	 */
 	protected Map constructDistracter(String name) throws NullCoordinateException, CommandLineFormatException{
 		//Construct distracters map
-		Map cx2 = new UnitMap("CenterX",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
+		Map cx2 = new UnitMap("CX",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
 				new Var(0),new Var(0.5));
-		Map cy2 = new UnitMap("CenterY",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
+		Map cy2 = new UnitMap("CY",command.get(CNFTCommandLine.DT),space,new RandTrajUnitModel(0.),
 				new Var(0),new Var(0.5));
 
 		Map mDistr = new UnitMap(name,command.get(CNFTCommandLine.DISTR_DT),space,new GaussianND(0.),
@@ -285,13 +276,13 @@ public class ModelCNFT extends Model{
 	protected Map constructTrack(String name, int num, int nbTrack) throws NullCoordinateException, CommandLineFormatException{
 		
 		
-		Map cx = new UnitMap("CenterX",command.get(CNFTCommandLine.TRACK_DT),space,new CosTraj(0.),
+		Map cx = new UnitMap("CX",command.get(CNFTCommandLine.TRACK_DT),space,new CosTraj(0.),
 				command.get(CNFTCommandLine.TRACK_CENTER),
 				command.get(CNFTCommandLine.TRACK_RADIUS),
 				command.get(CNFTCommandLine.TRACK_PERIOD),
 				new Var<Double>("tck_phase",num/(double)nbTrack+0)
 				);
-		Map cy = new UnitMap("CenterY_"+num,command.get(CNFTCommandLine.TRACK_DT),space,new CosTraj(0.),
+		Map cy = new UnitMap("CY_"+num,command.get(CNFTCommandLine.TRACK_DT),space,new CosTraj(0.),
 				command.get(CNFTCommandLine.TRACK_CENTER),
 				command.get(CNFTCommandLine.TRACK_RADIUS),
 				command.get(CNFTCommandLine.TRACK_PERIOD),
@@ -321,18 +312,29 @@ public class ModelCNFT extends Model{
 	protected void initializeStatistics() throws CommandLineFormatException 
 	{
 		Var<BigDecimal> stat_dt = command.get(CNFTCommandLine.STAT_DT);
-		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt);
+//		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt);
 
-//		Var stat_dt = command.get(CNFTCommandLine.STAT_DT);
 //
-//		StatCNFT stat = new StatCNFT(stat_dt,this);
+		StatCNFT stat = new StatCNFT(stat_dt,this);
 //
-//		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(new Leaf(potential), trackable);
-//		statMaps.add(stat.getTestConvergence(new Leaf(potential)));
-//		statMaps.add(stat.getLyapunov(new Leaf(potential), new Leaf(cnft), new Leaf(input)));
-//		statMaps.add(stat.getMax(new Leaf(potential)));
-//		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
-//		stats = new StatisticsCNFT("Stats",stat_dt,noDimSpace,array);
+		List<StatMapCNFT> statMaps = stat.getDefaultStatistics(potential, trackable);
+//		statMaps.add(stat.getTestConvergence(potential));
+//		statMaps.add(stat.getLyapunov(potential, cnft, input));
+//		statMaps.add(stat.getMax(potential));
+		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
+		
+		
+		
+		StatMapCNFT<Track> closestTrack = new StatMapCNFT<Track>(name, stat_dt, null, trackable) {
+
+			@Override
+			public Track computeStatistic(BigDecimal time, int index,
+					List params) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+		};
+		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt,array);
 
 	}
 

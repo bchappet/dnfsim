@@ -1,34 +1,37 @@
 package main.java.statistics;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
-import main.java.maps.AbstractMap;
-import main.java.maps.Map;
 import main.java.maps.Parameter;
+import main.java.maps.Trajectory;
+import main.java.maps.UnitMap;
 import main.java.maps.Var;
+import main.java.space.Space;
 import main.java.unitModel.UnitModel;
 
-public abstract class StatMap extends Map {
+public abstract class StatMap<T> extends Trajectory<T> {
 	
 	
-	public StatMap(String theName,Parameter dt, Space space, Parameter... maps)
+	public StatMap(String theName,Var<BigDecimal> dt,T initData, Parameter... maps)
 	{
-		super(theName,null,dt,space,maps);
-		this.unitModel = new UnitModel(this){
+		super(theName,dt, null,maps);
+		
+		this.initMemory(new UnitModel<T>(initData){
 			@Override
-			public double compute(){
-				return computeStatistic();
+			protected Object compute(BigDecimal time, int index, List params) {
+				return computeStatistic(time,index,params);
 			}
-		};
+		});
+		
 	}
 	
-	public void reset(){
-		super.reset();
-		this.time.set(0);
-		//one need to reset here the state of the statMap if any
-	}
+//	public void reset(){
+//		super.reset();
+//		this.time.set(0);
+//		//one need to reset here the state of the statMap if any
+//	}
 	
 	/**
 	 * Compute activity knowing the values of parameters at specific coord
@@ -36,6 +39,6 @@ public abstract class StatMap extends Map {
 	 * @return
 	 * @throws NullCoordinateException
 	 */
-	public abstract double computeStatistic();
+	public abstract  T computeStatistic(BigDecimal time, int index, List<Parameter> params);
 
 }
