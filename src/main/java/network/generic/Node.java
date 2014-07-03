@@ -117,7 +117,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 */
 	protected void prepareBeforeSendParallele(){
 		// on met à zero le compteur du nombre de packet recu
-		setLastPacketReceivedCounter(0);
+//		setLastPacketReceivedCounter(0);
 		// on reconstruit le noeud temporaire
 		Node<P, E> tmp = constructTemporary();
 		tmp.setBufferPacket((LinkedList<P>) getBufferPacket().clone());

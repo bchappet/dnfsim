@@ -69,17 +69,6 @@ public class Curve2D extends ParameterViewDB{
 	}
 
 
-	@Override
-	public void interact(EventObject event) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void interactRelease(EventObject event) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 	/**
 	 * Transform this value into an int to plot in a graph

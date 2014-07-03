@@ -130,7 +130,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
      * Chaque noeud procède à un envoi et se met à jour.
      */
     @Override
-    public final void compute() {
+    public  void compute() {
     	System.out.println("computing "+this+" ...");
         for (N n : getNodes()) {
             n.prepareBeforeSendParallele();

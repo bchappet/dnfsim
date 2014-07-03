@@ -12,5 +12,4 @@ CNFT
 		Plot2D
 			Time
 			ActivitySum
-			CenterX
-			CenterY
+		CoordBubble:Coord2DSingleValueParamPlotCoord2DAdapter

@@ -11,11 +11,10 @@ import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Computable;
 import main.java.maps.HasChildren;
 import main.java.maps.Parameter;
-import main.java.maps.SingleValueParam;
-import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.plot.Trace;
 import main.java.plot.WTrace;
+import main.java.space.Coord2D;
 
 
 /**
@@ -178,6 +177,12 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 			Object value = ( paramNodes.get(i)).getIndex(0);
 			if(value instanceof Number){
 				ret.add((Number)value);
+			}else if(value instanceof Coord2D){
+				Number x = (Number) ((Coord2D)value).x;
+				Number y = (Number) ((Coord2D)value).y;
+				
+				ret.add(x);
+				ret.add(y);
 			}else{
 				throw new Error("You should implement a behaviour for value of type " + value.getClass() + " name : " + paramNodes.get(i).getName());
 			}

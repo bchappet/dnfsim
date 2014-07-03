@@ -1,6 +1,7 @@
 package main.java.view;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Arrays;
@@ -19,10 +20,10 @@ import javax.swing.JPanel;
  */
 public class StatisticPanel extends ViewPanel {
 
-	/**The stat will be displayed in this panel**/
-	protected Plot2D plot2D;
 	/**To choose the view to display**/
 	private JComboBox<String> comboBox;
+	
+	private JPanel view;
 
 	public StatisticPanel(String name,ViewFactory vf) {
 		super(name,vf);
@@ -35,7 +36,11 @@ public class StatisticPanel extends ViewPanel {
 			public void actionPerformed(ActionEvent e) {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String name = (String)cb.getSelectedItem();
-				add(getViewFactory().constructViewPanel(name),BorderLayout.CENTER);
+				if(view != null)
+					remove(view);
+				view = (JPanel) getViewFactory().constructView(name);
+				System.out.println("View : " + view);
+				add(view ,BorderLayout.CENTER);
 			}
 		});
 		this.setLayout(new BorderLayout());

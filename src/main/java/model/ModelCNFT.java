@@ -324,16 +324,6 @@ public class ModelCNFT extends Model{
 		StatMapCNFT[] array = statMaps.toArray(new StatMapCNFT[]{});
 		
 		
-		
-		StatMapCNFT<Track> closestTrack = new StatMapCNFT<Track>(name, stat_dt, null, trackable) {
-
-			@Override
-			public Track computeStatistic(BigDecimal time, int index,
-					List params) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
 		this.stats = new StatisticsCNFT(Statistics.NAME,stat_dt,array);
 
 	}

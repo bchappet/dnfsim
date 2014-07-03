@@ -4,6 +4,7 @@ import java.io.File;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.coordinates.NullCoordinateException;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.NetworkModel;
 import main.java.network.generic.TypeGraph;
@@ -20,6 +21,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	public CommandLine constructCommandLine() {
 		return new PFCommandLine();
 	}
+	
 	
 	@Override
 	protected void constructGraph(File matrixTransitionFile) {

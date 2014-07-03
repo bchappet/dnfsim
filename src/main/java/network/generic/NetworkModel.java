@@ -74,6 +74,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
+		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");

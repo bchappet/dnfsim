@@ -82,8 +82,9 @@ public class ViewFactory {
 	}
 	
 	public ParameterView constructView(ParameterControler pc){
-		System.out.println("constructing : " + pc.getName() + " pc type : " + pc.getClass());
+		System.err.println("constructing : " + pc.getName() + " pc type : " + pc.getClass());
 		String pvaName = viewConfiguration.getViewAdapter(pc.getName());
+		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		if(pvaName == null){
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
@@ -98,8 +99,9 @@ public class ViewFactory {
 	}
 
 	public ParameterView constructView(String name){
-		System.out.println("construct view of " + name);
+		System.err.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
+		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
 			System.out.println("parameter controler " + pc );

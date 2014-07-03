@@ -70,7 +70,8 @@ public class StatCNFT {
 		List<StatMapCNFT> list = new LinkedList<StatMapCNFT>();
 
 		StatMapCNFT wsum = getWsum(p);
-		List<StatMapCNFT> coorBubble = getCoorBubble(p,wsum);
+		StatMapCNFT coorBubble = getCoorBubble(p,wsum);
+//		List<StatMapCNFT> coorBubble2 = getCoorBubble2(p,wsum);
 //		StatMapCNFT closestTrack = getClosestTrack(coorBubble);
 //		List<StatMapCNFT> coorTrack = getCoorTrack(closestTrack);
 //
@@ -85,7 +86,8 @@ public class StatCNFT {
 
 
 		list.add(wsum);
-		list.addAll(coorBubble);
+		list.add(coorBubble);
+//		list.addAll(coorBubble2);
 //		list.add(closestTrack);
 //		list.addAll(coorTrack);
 //		list.add(error);
@@ -785,12 +787,13 @@ public class StatCNFT {
 	 * @param wsum
 	 * @return
 	 */
-	private StatMapCNFT getCoorBubble(Parameter p,StatMapCNFT wsum) {
+	private StatMapCNFT<Coord<Double>> getCoorBubble(Parameter p,StatMapCNFT wsum) {
 		StatMapCNFT<Coord<Double>> coorBubble = new StatMapCNFT<Coord<Double>>(StatisticsCNFT.COORD_BUBBLE, dt, null, tracks,p,wsum) {
 			@Override
 			public Coord<Double> computeStatistic(BigDecimal time, int index,
 					List params) {
 				Map pot = (Map) this.getParam(0);
+				System.out.println("Name   " + pot.getName());
 				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
 				if(wsum != 0){
 					double sumX = 0;
@@ -804,14 +807,28 @@ public class StatCNFT {
 							double val = (Double)pot.getIndex(i + j * dx);
 							sumX += val * i;
 							sumY += val * j;
+//							if(val > 0.1 ){
+//							System.out.println("val: " + val);
+//								System.out.println("i: " + i + " sumX " + sumX);
+//								System.out.println("j: " + j + " sumY " + sumY);
+//							}
 						}
+//						System.out.println("end : "  );
+//						System.out.println(" sumX " + sumX);
+//						System.out.println(" sumY " + sumY);
 					}
+//					System.out.println("very end : "  );
+					System.out.println(" sumX " + sumX);
+					System.out.println(" sumY " + sumY);
+					
+					
 					// Normalize the center main.java.coordinates (div by wsum)
 					sumX = sumX/(double)wsum;
 					//project to have the good continuous main.java.coordinates
 					sumX = (double) pot.getSpace().typeAxisProj((int) sumX, Space2D.X);
 					sumY = sumY/(double)wsum;
 					sumY = (double) pot.getSpace().typeAxisProj((int) sumY, Space2D.Y);
+//					System.out.println("SumX : " + sumX + " " + "SumY : " + sumY );
 					return new Coord2D<Double>(sumX,sumY);
 				}else{
 					return new Coord2D<Double>((double) StatisticsCNFT.ERROR,(double) StatisticsCNFT.ERROR);
@@ -823,12 +840,14 @@ public class StatCNFT {
 		return coorBubble;
 		
 	}
+	
+//	private List<StatMapCNFT> getCoorBubble2(Parameter p,StatMapCNFT wsum) {
 //		List<StatMapCNFT> ret = new ArrayList<StatMapCNFT>(2);
 //		//TODO Warning : if the focus bubble is wrapped it does not work! 
 //		StatMapCNFT<Double> centerX = new StatMapCNFT(StatisticsCNFT.CENTER_X,dt,0d,tracks,p,wsum) {
 //
 //			@Override
-//			public double computeStatistic(BigDecimal time, int index, List params) {
+//			public Double computeStatistic(BigDecimal time, int index, List params) {
 //				Map pot = (Map) this.getParam(0);
 //				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
 //				if(wsum != 0){
@@ -842,13 +861,14 @@ public class StatCNFT {
 //							sumX += (Double)pot.getIndex(i + j * dx) * i;
 //						}
 //					}
+//					System.out.println(" sumX2 " + sumX);
 //					// Normalize the center main.java.coordinates (div by wsum)
 //					sumX = sumX/(Double)((StatMapCNFT) this.getParam(1)).get();
 //					//project to have the good continuous main.java.coordinates
 //					sumX = (double) pot.getSpace().typeAxisProj((int) sumX, Space2D.X);
 //					return sumX;
 //				}else{
-//					return StatisticsCNFT.ERROR;
+//					return (double) StatisticsCNFT.ERROR;
 //				}
 //
 //			}
@@ -857,7 +877,7 @@ public class StatCNFT {
 //		StatMapCNFT<Double> centerY = new StatMapCNFT(StatisticsCNFT.CENTER_Y,dt,0d,tracks,p,wsum) {
 //
 //			@Override
-//			public double computeStatistic(BigDecimal time, int index, List params) {
+//			public Double computeStatistic(BigDecimal time, int index, List params) {
 //				Map pot =   (Map) this.getParam(0);
 //				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
 //				if(wsum != 0){
@@ -871,12 +891,13 @@ public class StatCNFT {
 //							sumY += (Double)pot.getIndex(i + j * dx) * j;
 //						}
 //					}
+//					System.out.println(" sumY2 " + sumY);
 //					// Normalize the center main.java.coordinates
 //					sumY = sumY/(Double)((StatMapCNFT) this.getParam(1)).get();
 //					sumY = (double) pot.getSpace().typeAxisProj((int) sumY, Space2D.Y);
 //					return sumY;
 //				}else{
-//					return StatisticsCNFT.ERROR;
+//					return (double) StatisticsCNFT.ERROR;
 //				}
 //			}
 //		};
@@ -885,7 +906,8 @@ public class StatCNFT {
 //		ret.add(centerY);
 //
 //		return ret;
-	
+//	}
+//	
 
 	/**
 	 * Return the function with the sum  of activity of the target memory
@@ -927,7 +949,7 @@ public class StatCNFT {
 		StatMapCNFT wsum = new StatMapCNFT(StatisticsCNFT.MSE_SOM,dt,noDimSpace,tracks,map){
 
 			@Override
-			public double computeStatistic(BigDecimal time, int index, List params) {
+			public Double computeStatistic(BigDecimal time, int index, List params) {
 				NeighborhoodMap map =   (NeighborhoodMap) this.getParam(0);
 				Space spaceMap = map.getSpace();
 				Neighborhood neigh = (Neighborhood) map.getNeighborhoods().get(0);
