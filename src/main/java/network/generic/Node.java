@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import main.java.network.generic.packet.Packet;
+
 /**
  * Un noeud du reseau. Envoie et reçoit des paquets.
  *
@@ -36,6 +38,8 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	private Class clazzOfEdges;
 
 	private int maxSize = Integer.MAX_VALUE;
+	
+	private int lastPacketReceivedCounter = 0;
 
 	public Node(Class clazzOfEdge,Node<P, E>... neigthbours) {
 		this.clazzOfEdges = clazzOfEdge;
@@ -75,6 +79,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * ses voisins. Se decharge de ce paquet
 	 */
 	public /* abstract */void send(){
+		System.out.println("send de node");
 		if (isEnabled()) {
 			P p = pollPacket();
 			if (p != null) {
@@ -89,7 +94,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * Fait un envoi de manière parallele.prepareBeforeSendParrallele doit être appellé
 	 * avant de faire sendParallele.
 	 */
-	public /*abstract*/final void sendParallele(){
+	public /*abstract*//*final*/ void sendParallele(){
 		getTemporary().send();
 	}
 
@@ -111,7 +116,9 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * un super.prepareBeforeSendParalle() avant toutes choses.
 	 */
 	protected void prepareBeforeSendParallele(){
-		//		RSDNFTransmitter tmp = new RSDNFTransmitter(this.weight);
+		// on met à zero le compteur du nombre de packet recu
+		setLastPacketReceivedCounter(0);
+		// on reconstruit le noeud temporaire
 		Node<P, E> tmp = constructTemporary();
 		tmp.setBufferPacket((LinkedList<P>) getBufferPacket().clone());
 		tmp.setEdges(this.getEdges());
@@ -133,7 +140,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * @return
 	 */
 	public  E getInstance(Node<P, E> n, Node<P, E> neightbor){
-		Class clazzOfThis = getClass();
+		Class/*<? extends Node>*/ clazzOfThis = getClass();
 		//		if(clazzOfThis.equals(Node.class)){
 		//			return (E) new DirectedEdge(n,neightbor);
 		//		}else{
@@ -147,11 +154,25 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 			 * que la class passé en paramètre correspondent à la class générique.
 			 */
 			Class<E> clazzOfE = clazzOfEdges;//(Class<E>) ts[1];
-
-			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
+//			System.out.println(clazzOfE);
+//			System.out.println(clazzOfThis);
+//			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
+//			clazzOfE.getConstructors()
+//			Constructor c = clazzOfE.getDeclaredConstructor(clazzOfThis, clazzOfThis);
+			Constructor c = clazzOfE.getConstructors()[0];//getDeclaredConstructor(clazzOfThis, clazzOfThis); 
+			/*
+			 * TODO : faire en sorte de récupérer le bon constructeur avec les bon arguments
+			 * et pas le 1er de la liste.
+			 * 
+			 * En spécifiant les arguments du constructeurs ça fonctionne seulement si l'edge possède 
+			 * une classe codé en dure. Ca pose cela dit problème si par exemple on veut recupérer
+			 * le constructeur de DirectedEdge en stipulant que les arguments sont de type PFNode => run time 
+			 * error NoSuchMethodeFound
+			 */
+			
 			return (E) c.newInstance(n, neightbor);
 		} catch (InstantiationException | IllegalAccessException |
-				NoSuchMethodException | SecurityException |
+				/*NoSuchMethodException | */SecurityException |
 				IllegalArgumentException | InvocationTargetException ex) {
 			Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
 		}
@@ -207,6 +228,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * @param packet
 	 */
 	public void receive(P packet) {
+		setLastPacketReceivedCounter(getLastPacketReceivedCounter() + 1);
 		addToFIFO(packet);
 	}
 
@@ -303,6 +325,14 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 */
 	public int getMaxSize() {
 		return maxSize;
+	}
+
+	public int getLastPacketReceivedCounter() {
+		return lastPacketReceivedCounter;
+	}
+
+	public void setLastPacketReceivedCounter(int lastPacketReceivedCounter) {
+		this.lastPacketReceivedCounter = lastPacketReceivedCounter;
 	}
 
 }

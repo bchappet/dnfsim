@@ -1,5 +1,8 @@
 package main.java.network.generic;
 
+import main.java.network.generic.packet.Packet;
+import main.java.network.probalisticFlooding.PFNode;
+
 /**
  * 
  * @author CARRARA Nicolas
@@ -22,6 +25,11 @@ public class DirectedEdge<P extends Packet,N extends Node<P,?>> {
         this.sender = sender;
         this.receiver = receiver;
     }
+    
+//    public DirectedEdge(PFNode sender, PFNode receiver){
+//        this.sender = sender;
+//        this.receiver = receiver;
+//    }
     
     public void transfer(P p) {
         getReceiver().receive(p);

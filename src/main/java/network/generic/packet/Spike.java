@@ -1,6 +1,5 @@
-package main.java.network.rsdnf;
+package main.java.network.generic.packet;
 
-import main.java.network.generic.Packet;
 
 /**
  *

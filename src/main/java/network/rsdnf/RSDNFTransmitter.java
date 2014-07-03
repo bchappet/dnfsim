@@ -2,6 +2,7 @@ package main.java.network.rsdnf;
 
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.Node;
+import main.java.network.generic.packet.Spike;
 
 /**
  *
@@ -54,27 +55,6 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
     public Node<Spike, SpikeEdge> constructTemporary(){
     	return new RSDNFTransmitter(weight);
     }
-
-//    @Override
-//    public void prepareBeforeSendParallele() {
-//        RSDNFTransmitter tmp = new RSDNFTransmitter(this.weight);
-//        tmp.setBufferPacket((LinkedList<Spike>) getBufferPacket().clone());
-//        tmp.setEdges(this.getEdges());
-//        tmp.setNeighbors(this.getNeighbors());
-//        tmp.setEnabled(this.isEnabled());
-//        setTemporary(tmp);
-//        /**
-//         * on retire un packet de la liste (celui envoyé) car c'est temporary
-//         * qui va send et pas this.
-//         */
-//        pollPacket();
-//    }
-
-//    @Override
-//    public void sendParallele() {
-//        getTemporary().send();
-//    }
-
     
     /**
      * @return the inhibitoryWeight

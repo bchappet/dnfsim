@@ -3,9 +3,11 @@ package main.java.network.generic;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 import main.java.maps.Computable;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
+import main.java.network.generic.packet.Packet;
 
 /**
  * Reseau permettant la propagation de paquet via des noeuds et des arêtes.
@@ -156,7 +158,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
     //-------------------------parameter----------------------------------------
     @Override
     public String getName() {
-        return "Spreading Graph";
+        return " SpreadingGraph";
     }
 
     @Override

@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;
+import main.java.network.probalisticFlooding.PFCommandLine;
+import main.java.network.probalisticFlooding.PFNode;
+import main.java.network.probalisticFlooding.PFSpreadingGraph;
 import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.network.rsdnf.RSDNFSpreadingGraph;
 import main.java.network.rsdnf.RSDNFTransmitter;
@@ -84,6 +87,22 @@ public class SpreadingGraphFactory {
                     for (int c = 0; c < matrice[l].length; c++) {
                         if (matrice[l][c] == 1) {
                             ((Node)res.getNodes().get(l)).link((Node)res.getNodes().get(c));
+                        }
+                    }
+                }
+                return res;
+                
+            case PROBABILISTIC_FLOODING:
+            	PFCommandLine pfcl = (PFCommandLine)commandLine;
+                res = new PFSpreadingGraph((Var<BigDecimal>) pfcl.get(PFCommandLine.NETWORK_DT));
+                System.out.println("poids : "+((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get());
+                for (int i = 0; i < matrice.length; i++) {
+                    res.getNodes().add(new PFNode(((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get()));
+                }
+                for (int l = 0; l < matrice.length; l++) {
+                    for (int c = 0; c < matrice[l].length; c++) {
+                        if (matrice[l][c] == 1) {
+                            ((PFNode)res.getNodes().get(l)).link((PFNode)res.getNodes().get(c));
                         }
                     }
                 }

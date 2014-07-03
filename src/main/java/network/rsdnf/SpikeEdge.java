@@ -1,6 +1,7 @@
 package main.java.network.rsdnf;
 
 import main.java.network.generic.DirectedEdge;
+import main.java.network.generic.packet.Spike;
 
 /**
  * 

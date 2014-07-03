@@ -1,4 +1,4 @@
-package main.java.network.generic;
+package main.java.network.generic.packet;
 
 /**
  * 

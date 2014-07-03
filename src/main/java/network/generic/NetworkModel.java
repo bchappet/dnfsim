@@ -12,6 +12,7 @@ import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.model.Model;
+import main.java.network.generic.packet.Packet;
 import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.plot.Trace;
 import main.java.statistics.Statistics;
@@ -23,7 +24,7 @@ import main.java.unitModel.UnitModel;
  *
  * @author CARRARA Nicolas
  */
-public /*abstract*/ class NetworkModel<N extends Node<?, ?>,P extends Packet,E extends DirectedEdge<?, ?>> extends Model /* implements Computable */ {
+public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E extends DirectedEdge<P, N>> extends Model /* implements Computable */ {
 
 	private SpreadingGraph<N,E> spreadingGraph;
 
@@ -56,6 +57,10 @@ public /*abstract*/ class NetworkModel<N extends Node<?, ?>,P extends Packet,E e
 	public void addToFIFO(int indexNode,P packet){
 		spreadingGraph.addToFIFO(indexNode, packet);
 	}
+	
+	public N getNode(int index){
+		return spreadingGraph.getNodes().get(index);
+	}
 
 
 
@@ -76,6 +81,14 @@ public /*abstract*/ class NetworkModel<N extends Node<?, ?>,P extends Packet,E e
 			constructGraph(f);
 		}
 		this.root = spreadingGraph;
+		
+		
+		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(NetworkCommandLine.NETWORK_DT);
+		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
+		
+		
+		ReceivePacketUnitMap receivePacketUnitMap = new ReceivePacketUnitMap(spreadingGraph, dt, size);
+		addParameters(receivePacketUnitMap);
 	}
 
 
