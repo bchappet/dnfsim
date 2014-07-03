@@ -16,10 +16,10 @@ import main.java.console.CommandLineFormatException;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.TypeGraph;
+import main.java.network.generic.packet.Spike;
 import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.network.rsdnf.RSDNFModel;
 import main.java.network.rsdnf.RSDNFTransmitter;
-import main.java.network.rsdnf.Spike;
 
 import org.junit.After;
 import org.junit.AfterClass;

@@ -6,10 +6,14 @@
 
 package test.java.network.rsdnf;
 
+import main.java.network.generic.packet.Spike;
 import main.java.network.rsdnf.*;
+
 import org.junit.After;
 import org.junit.AfterClass;
+
 import static org.junit.Assert.assertEquals;
+
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
