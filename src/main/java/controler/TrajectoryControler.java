@@ -8,6 +8,7 @@ public class TrajectoryControler extends MapControler implements SingleValueCont
 
 	public TrajectoryControler(Parameter param) {
 		super((Map) param);
+//		System.err.println("construct trajControler for param : " + param.getName());
 	}
 
 	public Object get() {

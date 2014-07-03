@@ -52,7 +52,7 @@ public class GaussianND extends UnitModel<Double> implements Track{
 		for(int i = 0 ; i < translation.getSize() ; i++){
 				sumOfSquare += Math.pow(translation.getIndex(i),2);
 		}
-		double res = (Double)params.get(INTENSITY).getIndex(index)*exp(
+		double res = ((Number)params.get(INTENSITY).getIndex(index)).doubleValue()*exp(
 				-(sumOfSquare)/(
 						Math.pow((Double) params.get(WIDTH).getIndex(index),2)));
 		return res;

@@ -60,7 +60,6 @@ public class ComputationControler {
 			if(pc instanceof ComputableControler){
 				initOrderedMap( pc);
 				this.orderedMap.add( (ComputableControler) pc);
-
 			}
 		}
 	}

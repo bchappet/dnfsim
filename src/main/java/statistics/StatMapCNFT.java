@@ -1,40 +1,25 @@
 package main.java.statistics;
 
+import java.math.BigDecimal;
 import java.util.List;
 
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
 import main.java.maps.AbstractMap;
-import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
-import main.java.unitModel.UnitModel;
 
-public abstract class StatMapCNFT extends StatMap {
+public abstract class StatMapCNFT<T> extends StatMap<T> {
 	
 	/**List of the trackable objects**/
 	protected List<AbstractMap> tracks;
 	
-	public StatMapCNFT(String theName,Parameter dt, Space space,List<AbstractMap> tracks, Parameter... maps)
+	public StatMapCNFT(String theName,Var<BigDecimal> dt, T initData, List<AbstractMap> tracks, Parameter... maps)
 	{
-		super(theName,dt,space,maps);
+		super(theName,dt,initData,maps);
 		this.tracks = tracks;
-		this.unitModel = new UnitModel(this){
-			@Override
-			public double compute(){
-				return computeStatistic();
-			}
-		};
 	}
 	
 	
 	
-	/**
-	 * Compute activity knowing the values of parameters at specific coord
-	 * @param param
-	 * @return
-	 * @throws NullCoordinateException
-	 */
-	public abstract double computeStatistic();
+	
 
 }

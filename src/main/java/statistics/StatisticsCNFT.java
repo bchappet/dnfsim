@@ -45,6 +45,7 @@ public class StatisticsCNFT extends Statistics{
 	public static final String TEST_CONV = "TestConv";
 	public static final String LYAPUNOV = "Lyapunov";
 	public static final String MSE_SOM = "MeanSquareError SOM";
+	public static final String COORD_BUBBLE = "CoordBubble";
 
 
 

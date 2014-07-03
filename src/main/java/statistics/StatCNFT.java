@@ -1,24 +1,29 @@
 package main.java.statistics;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
 import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLineFormatException;
-import main.java.coordinates.NoDimSpace;
-import main.java.coordinates.Space;
+import main.java.space.NoDimSpace;
 import main.java.maps.AbstractMap;
 import main.java.maps.FramedSpaceIterator;
 import main.java.maps.Map;
 import main.java.maps.NeighborhoodMap;
 import main.java.maps.Parameter;
+import main.java.maps.SingleValueParam;
 import main.java.maps.Track;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.model.Model;
 import main.java.model.ModelCNFT;
 import main.java.neigborhood.Neighborhood;
+import main.java.space.Coord;
+import main.java.space.Coord2D;
+import main.java.space.Space;
+import main.java.space.Space2D;
 import main.java.unitModel.SomUM;
 
 public class StatCNFT {
@@ -26,18 +31,17 @@ public class StatCNFT {
 	public static final int X = 0;
 	public static final int Y = 1;
 
-	protected Var dt;
-	protected Space noDimSpace;
+	protected Var<BigDecimal> dt;
+	protected Space<Integer> noDimSpace;
 	protected Model model;
 	protected List<AbstractMap> tracks;
 
-	public StatCNFT( Var dt,Model model, Parameter... maps) {
+	public StatCNFT( Var<BigDecimal> dt,Model model, Parameter... maps) {
 		//		System.out.println("MEM:"+"construct:"+this.getClass());
 		//		System.out.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 		this.model = model;
 		this.dt = dt;
 		noDimSpace = new NoDimSpace(); //Space with "0" dimension for single value map
-		noDimSpace.setDimension(new int[]{0,0});
 	}
 
 	protected Var getCommand(String param)
@@ -59,37 +63,37 @@ public class StatCNFT {
 	 * @return the list of statistic function
 	 * @throws CommandLineFormatException 
 	 */
-	public List<StatMapCNFT> getDefaultStatistics(Leaf leaf,
+	public List<StatMapCNFT> getDefaultStatistics(Parameter p,
 			List<AbstractMap> tracks) throws CommandLineFormatException
 			{
 		this.tracks = tracks;
 		List<StatMapCNFT> list = new LinkedList<StatMapCNFT>();
 
-		StatMapCNFT wsum = getWsum(leaf);
-		List<StatMapCNFT> coorBubble = getCoorBubble(leaf,wsum);
-		StatMapCNFT closestTrack = getClosestTrack(coorBubble);
-		List<StatMapCNFT> coorTrack = getCoorTrack(closestTrack);
-
-		StatMapCNFT error = getError(coorBubble,coorTrack);
-
-		StatMapCNFT sizeBubbleH = getSizeBubbleHeight(leaf,wsum,getCommand(CNFTCommandLine.ACT_THRESHOLD));
-		StatMapCNFT sizeBubbleW = getSizeBubbleWidth(leaf,wsum,getCommand(CNFTCommandLine.ACT_THRESHOLD));
-
-		StatMapCNFT convergence = getGoodTracking(leaf, closestTrack, sizeBubbleW, sizeBubbleH,error);
-
-		StatMapCNFT trueError = getTrueError(leaf,convergence,closestTrack,coorBubble);
+		StatMapCNFT wsum = getWsum(p);
+		List<StatMapCNFT> coorBubble = getCoorBubble(p,wsum);
+//		StatMapCNFT closestTrack = getClosestTrack(coorBubble);
+//		List<StatMapCNFT> coorTrack = getCoorTrack(closestTrack);
+//
+//		StatMapCNFT error = getError(coorBubble,coorTrack);
+//
+//		StatMapCNFT sizeBubbleH = getSizeBubbleHeight(p,wsum,getCommand(CNFTCommandLine.ACT_THRESHOLD));
+//		StatMapCNFT sizeBubbleW = getSizeBubbleWidth(p,wsum,getCommand(CNFTCommandLine.ACT_THRESHOLD));
+//
+//		StatMapCNFT convergence = getGoodTracking(p, closestTrack, sizeBubbleW, sizeBubbleH,error);
+//
+//		StatMapCNFT trueError = getTrueError(p,convergence,closestTrack,coorBubble);
 
 
 		list.add(wsum);
 		list.addAll(coorBubble);
-		list.add(closestTrack);
-		list.addAll(coorTrack);
-		list.add(error);
-		list.add(sizeBubbleW);
-		list.add(sizeBubbleH);
-		list.add(convergence);
-		list.add(trueError);
-		list.add(getAccError(leaf, convergence, trueError));
+//		list.add(closestTrack);
+//		list.addAll(coorTrack);
+//		list.add(error);
+//		list.add(sizeBubbleW);
+//		list.add(sizeBubbleH);
+//		list.add(convergence);
+//		list.add(trueError);
+//		list.add(getAccError(p, convergence, trueError));
 
 
 
@@ -142,7 +146,7 @@ public class StatCNFT {
 	 * @param leaf
 	 * @return
 	 */
-	public StatMapCNFT getTestConvergence(Leaf leaf) {
+	public StatMapCNFT getTestConvergence(Parameter param) {
 		StatMapCNFT wsum = new StatMapCNFT(StatisticsCNFT.TEST_CONV,dt,noDimSpace,tracks,leaf){
 
 			@Override
@@ -171,7 +175,7 @@ public class StatCNFT {
 	}
 
 
-	public StatMapCNFT getMax(Leaf leaf) {
+	public StatMapCNFT getMax(Parameter param) {
 		StatMapCNFT max = new StatMapCNFT(StatisticsCNFT.MAX,dt,noDimSpace,tracks,leaf){
 
 			@Override
@@ -191,7 +195,7 @@ public class StatCNFT {
 		return max;
 	}
 
-	private StatMapCNFT getTrueError(Leaf leaf, StatMapCNFT conv,
+	private StatMapCNFT getTrueError(Parameter param, StatMapCNFT conv,
 			StatMapCNFT closestTrack, List<StatMapCNFT> coorBubble) {
 
 
@@ -253,7 +257,7 @@ public class StatCNFT {
 
 	}
 
-	protected StatMapCNFT getAccError(Leaf leaf,StatMapCNFT conv,StatMapCNFT error){
+	protected StatMapCNFT getAccError(Parameter param,StatMapCNFT conv,StatMapCNFT error){
 		StatMapCNFT accError = new StatMapCNFT(StatisticsCNFT.ACC_ERROR,dt,noDimSpace,tracks,leaf,conv,error){
 
 
@@ -313,7 +317,7 @@ public class StatCNFT {
 	 * @param error
 	 * @return
 	 */
-	protected StatMapCNFT getGoodTracking(Leaf leaf,StatMapCNFT closestTrack,StatMapCNFT width,StatMapCNFT height,StatMapCNFT error){
+	protected StatMapCNFT getGoodTracking(Parameter param,StatMapCNFT closestTrack,StatMapCNFT width,StatMapCNFT height,StatMapCNFT error){
 		StatMapCNFT goodTracking = new StatMapCNFT(StatisticsCNFT.CONVERGENCE,dt,noDimSpace,tracks,leaf,closestTrack,width,height,error){
 
 			int trackedStimulis = StatisticsCNFT.ERROR;
@@ -443,7 +447,7 @@ public class StatCNFT {
 	}
 
 
-	public StatMapCNFT getSizeBubbleHeight(Leaf leaf, StatMapCNFT wsum,Var threshold) {
+	public StatMapCNFT getSizeBubbleHeight(Parameter param, StatMapCNFT wsum,Var threshold) {
 
 		StatMapCNFT height = new StatMapCNFT(StatisticsCNFT.HEIGHT,dt,noDimSpace,tracks,leaf,wsum,threshold) {
 
@@ -499,7 +503,7 @@ public class StatCNFT {
 
 		return height;
 	}
-	public StatMapCNFT getSizeBubbleWidth(Leaf leaf, StatMapCNFT wsum,Var threshold) {
+	public StatMapCNFT getSizeBubbleWidth(Parameter param, StatMapCNFT wsum,Var threshold) {
 		StatMapCNFT width = new StatMapCNFT(StatisticsCNFT.WIDTH,dt,noDimSpace,tracks,leaf,wsum,threshold) {
 
 			@Override
@@ -669,38 +673,22 @@ public class StatCNFT {
 	 * @param tracks
 	 * @return
 	 */
-	protected StatMapCNFT getClosestTrack(List<StatMapCNFT> coorBubble) {
-		StatMapCNFT centerX = coorBubble.get(Space.X);
-		StatMapCNFT centerY = coorBubble.get(Space.Y);
-		AbstractMap[] params = new Map[2];
-		params[Space.X] = centerX;
-		params[Space.Y] = centerY;
-
-		/**
-		 * Params : centerX,centerY, tracks...
-		 */
-		StatMapCNFT closestTrack = new StatMapCNFT(StatisticsCNFT.CLOSEST_TRACK,
-				dt,noDimSpace,tracks,params) {
-
+	protected StatMapCNFT<Track> getClosestTrack(StatMapCNFT<Coord<Double>> coorBubble) {
+		
+		
+		StatMapCNFT<Track> closestTrack = new StatMapCNFT<Track>(StatisticsCNFT.CLOSEST_TRACK, dt, null, tracks,coorBubble) {
 			@Override
-			public double computeStatistic()  
-			{
-				double ret =  StatisticsCNFT.ERROR;
-				AbstractMap closest = null;
-				double minD = Double.MAX_VALUE;
-				AbstractMap centerX = (AbstractMap) this.getParam(0);
-				AbstractMap centerY = (AbstractMap) this.getParam(1);
-				//System.out.println("CenterX: " + centerX.get());
-				//System.out.println("CenterY: " + centerY.get());
-				Double[] center = new Double[]{centerX.get(),centerY.get()};
-
+			public Track computeStatistic(BigDecimal time, int index,List<Parameter> params) {
+		
+				Coord<Double> bubble = (Coord<Double>) params.get(0).getIndex(0);
+				
 				if(!isError(center)){
-
-					if(!(center[Space.X].isNaN() || center[Space.X].isInfinite() ))
+		
+					if(!(center[Space2D.X].isNaN() || center[Space2D.X].isInfinite() ))
 					{
 						for(int i = 0 ; i < tracks.size() ; i++)
 						{
-							AbstractMap p = (AbstractMap) tracks.get(i);
+							UnitMap p = (UnitMap) tracks.get(i);
 							//System.out.println("Track : " + p.getName() + " @"+ p.hashCode());
 							double d = Space.distance(
 									((Track) ((UnitMap)p).getUnitModel()).getCenter(),
@@ -716,14 +704,68 @@ public class StatCNFT {
 						}
 						ret = closest.hashCode();
 					}
-
+		
 				}
-				//System.out.println("error : " + ret);
-				return ret;
 			}
 		};
-		return closestTrack;
+		
+		return null;
+		
 	}
+//		StatMapCNFT centerX = coorBubble.get(Space.X);
+//		StatMapCNFT centerY = coorBubble.get(Space.Y);
+//		AbstractMap[] params = new Map[2];
+//		params[Space.X] = centerX;
+//		params[Space.Y] = centerY;
+//
+//		/**
+//		 * Params : centerX,centerY, tracks...
+//		 */
+//		StatMapCNFT closestTrack = new StatMapCNFT(StatisticsCNFT.CLOSEST_TRACK,
+//				dt,noDimSpace,tracks,params) {
+//
+//			@Override
+//			public double computeStatistic(BigDecimal time, int index, List params) {
+//			{
+//				double ret =  StatisticsCNFT.ERROR;
+//				UnitMap closest = null;
+//				double minD = Double.MAX_VALUE;
+//				Map centerX = (Map) this.getParam(0);
+//				Map centerY = (Map) this.getParam(1);
+//				//System.out.println("CenterX: " + centerX.get());
+//				//System.out.println("CenterY: " + centerY.get());
+//				Double[] center = new Double[]{(Double) centerX.getIndex(0),(Double) centerY.getIndex(0)};
+//
+//				if(!isError(center)){
+//
+//					if(!(center[Space2D.X].isNaN() || center[Space2D.X].isInfinite() ))
+//					{
+//						for(int i = 0 ; i < tracks.size() ; i++)
+//						{
+//							UnitMap p = (UnitMap) tracks.get(i);
+//							//System.out.println("Track : " + p.getName() + " @"+ p.hashCode());
+//							double d = Space.distance(
+//									((Track) ((UnitMap)p).getUnitModel()).getCenter(),
+//									center);
+//							//System.out.println("focus : " + Arrays.toString(center));
+//							//System.out.println("Distance : " +Arrays.toString(((Track) ((AbstractUnitMap)p).getUnitModel()).getCenter()) + " and " + Arrays.toString(center) );
+//							//System.out.println("d:"+d + ", minD : " + minD);
+//							if(d < minD)
+//							{
+//								minD = d;
+//								closest = p;
+//							}
+//						}
+//						ret = closest.hashCode();
+//					}
+//
+//				}
+//				//System.out.println("error : " + ret);
+//				return ret;
+//			}
+//		};
+//		return closestTrack;
+	
 
 	public static  boolean isError(Double... vect) {
 		boolean ret = true;
@@ -743,100 +785,132 @@ public class StatCNFT {
 	 * @param wsum
 	 * @return
 	 */
-	private List<StatMapCNFT> getCoorBubble(Leaf leaf,StatMapCNFT wsum) {
-		List<StatMapCNFT> ret = new ArrayList<StatMapCNFT>(2);
-		//TODO Warning : if the focus bubble is wrapped it does not work! 
-		StatMapCNFT centerX = new StatMapCNFT(StatisticsCNFT.CENTER_X,dt,noDimSpace,tracks,leaf,wsum) {
-
+	private StatMapCNFT getCoorBubble(Parameter p,StatMapCNFT wsum) {
+		StatMapCNFT<Coord<Double>> coorBubble = new StatMapCNFT<Coord<Double>>(StatisticsCNFT.COORD_BUBBLE, dt, null, tracks,p,wsum) {
 			@Override
-			public double computeStatistic()    {
-				Parameter pot =  this.getParam(0);
-				int wsum = (int) this.getParam(1).get();
+			public Coord<Double> computeStatistic(BigDecimal time, int index,
+					List params) {
+				Map pot = (Map) this.getParam(0);
+				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
 				if(wsum != 0){
-					pot.constructMemory();
 					double sumX = 0;
-					int dx = pot.getSpace().getDiscreteSize()[Space.X];
-					int dy = pot.getSpace().getDiscreteSize()[Space.Y];
+					double sumY = 0;
+					int dx = pot.getSpace().getIndex(Space2D.X);
+					int dy = pot.getSpace().getIndex(Space2D.Y);
 					for(int i = 0 ; i< dx ; i++)
 					{
 						for(int j = 0 ; j < dy ; j++)
 						{
-							sumX += pot.getIndex(i + j * dx) * i;
+							double val = (Double)pot.getIndex(i + j * dx);
+							sumX += val * i;
+							sumY += val * j;
 						}
 					}
 					// Normalize the center main.java.coordinates (div by wsum)
-					sumX = sumX/((StatMapCNFT) this.getParam(1)).get();
+					sumX = sumX/(double)wsum;
 					//project to have the good continuous main.java.coordinates
-					sumX = pot.getSpace().continusousProj(sumX, Space.X);
-					return sumX;
+					sumX = (double) pot.getSpace().typeAxisProj((int) sumX, Space2D.X);
+					sumY = sumY/(double)wsum;
+					sumY = (double) pot.getSpace().typeAxisProj((int) sumY, Space2D.Y);
+					return new Coord2D<Double>(sumX,sumY);
 				}else{
-					return StatisticsCNFT.ERROR;
-				}
-
-			}
-		};
-
-		StatMapCNFT centerY = new StatMapCNFT(StatisticsCNFT.CENTER_Y,dt,noDimSpace,tracks,leaf,wsum) {
-
-			@Override
-			public double computeStatistic()  {
-				Parameter pot =   this.getParam(0);
-				int wsum = (int) this.getParam(1).get();
-				if(wsum != 0){
-					pot.constructMemory();
-					double sumY = 0;
-					int dx = pot.getSpace().getDiscreteSize()[Space.X];
-					int dy = pot.getSpace().getDiscreteSize()[Space.Y];
-					for(int i = 0 ; i< dx ; i++)
-					{
-						for(int j = 0 ; j < dy ; j++)
-						{
-							sumY += pot.getIndex(i + j * dx) * j;
-						}
-					}
-					// Normalize the center main.java.coordinates
-					sumY = sumY/((StatMapCNFT) this.getParam(1)).get();
-					sumY = pot.getSpace().continusousProj(sumY, Space.Y);
-					return sumY;
-				}else{
-					return StatisticsCNFT.ERROR;
+					return new Coord2D<Double>((double) StatisticsCNFT.ERROR,(double) StatisticsCNFT.ERROR);
 				}
 			}
+			
 		};
-
-		ret.add(centerX);
-		ret.add(centerY);
-
-		return ret;
+		
+		return coorBubble;
+		
 	}
+//		List<StatMapCNFT> ret = new ArrayList<StatMapCNFT>(2);
+//		//TODO Warning : if the focus bubble is wrapped it does not work! 
+//		StatMapCNFT<Double> centerX = new StatMapCNFT(StatisticsCNFT.CENTER_X,dt,0d,tracks,p,wsum) {
+//
+//			@Override
+//			public double computeStatistic(BigDecimal time, int index, List params) {
+//				Map pot = (Map) this.getParam(0);
+//				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
+//				if(wsum != 0){
+//					double sumX = 0;
+//					int dx = pot.getSpace().getIndex(Space2D.X);
+//					int dy = pot.getSpace().getIndex(Space2D.Y);
+//					for(int i = 0 ; i< dx ; i++)
+//					{
+//						for(int j = 0 ; j < dy ; j++)
+//						{
+//							sumX += (Double)pot.getIndex(i + j * dx) * i;
+//						}
+//					}
+//					// Normalize the center main.java.coordinates (div by wsum)
+//					sumX = sumX/(Double)((StatMapCNFT) this.getParam(1)).get();
+//					//project to have the good continuous main.java.coordinates
+//					sumX = (double) pot.getSpace().typeAxisProj((int) sumX, Space2D.X);
+//					return sumX;
+//				}else{
+//					return StatisticsCNFT.ERROR;
+//				}
+//
+//			}
+//		};
+//
+//		StatMapCNFT<Double> centerY = new StatMapCNFT(StatisticsCNFT.CENTER_Y,dt,0d,tracks,p,wsum) {
+//
+//			@Override
+//			public double computeStatistic(BigDecimal time, int index, List params) {
+//				Map pot =   (Map) this.getParam(0);
+//				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
+//				if(wsum != 0){
+//					double sumY = 0;
+//					int dx = pot.getSpace().getIndex(Space2D.X);
+//					int dy = pot.getSpace().getIndex(Space2D.Y);
+//					for(int i = 0 ; i< dx ; i++)
+//					{
+//						for(int j = 0 ; j < dy ; j++)
+//						{
+//							sumY += (Double)pot.getIndex(i + j * dx) * j;
+//						}
+//					}
+//					// Normalize the center main.java.coordinates
+//					sumY = sumY/(Double)((StatMapCNFT) this.getParam(1)).get();
+//					sumY = (double) pot.getSpace().typeAxisProj((int) sumY, Space2D.Y);
+//					return sumY;
+//				}else{
+//					return StatisticsCNFT.ERROR;
+//				}
+//			}
+//		};
+//
+//		ret.add(centerX);
+//		ret.add(centerY);
+//
+//		return ret;
+	
 
 	/**
 	 * Return the function with the sum  of activity of the target memory
 	 * @param leaf
 	 * @return
 	 */
-	public StatMapCNFT getWsum(Leaf leaf) {
-		StatMapCNFT wsum = new StatMapCNFT(StatisticsCNFT.ACT_SUM,dt,noDimSpace,tracks,leaf){
+	public StatMapCNFT getWsum(Parameter p) {
+		StatMapCNFT<Double> wsum = new StatMapCNFT(StatisticsCNFT.ACT_SUM,dt,0d,tracks,p){
 
 			@Override
-			public double computeStatistic() {
-				Parameter map =   this.getParam(0);
-				map.constructMemory();
-				int dx = map.getSpace().getDiscreteSize()[Space.X];
-				int dy = map.getSpace().getDiscreteSize()[Space.Y];
+			public Double computeStatistic(BigDecimal time, int index, List params) {
+				Map map =   (Map) this.getParam(0);
+				int dx = map.getSpace().getIndex(Space2D.X);
+				int dy = map.getSpace().getIndex(Space2D.Y);
 				double sum = 0;
 				for(int i = 0 ; i< dx ; i++)
 				{
 					for(int j = 0 ; j < dy ; j++)
 					{
-						sum += map.getIndex(i + j * dx) ;
+						sum += ((Number)map.getIndex(i + j * dx)).doubleValue() ;
 					}
 				}
 				return sum;
-
 			}
 		};
-
 		return wsum;
 	}
 
@@ -846,17 +920,17 @@ public class StatCNFT {
 	 * @param leaf
 	 * @return
 	 */
-	public StatMapCNFT getMeanSquareSOM(Leaf leaf) {
+	public StatMapCNFT getMeanSquareSOM(Parameter p) {
 
-		Map map = (Map) leaf.getMap();
+		Map map = (Map) p;
 
 		StatMapCNFT wsum = new StatMapCNFT(StatisticsCNFT.MSE_SOM,dt,noDimSpace,tracks,map){
 
 			@Override
-			public double computeStatistic() {
+			public double computeStatistic(BigDecimal time, int index, List params) {
 				NeighborhoodMap map =   (NeighborhoodMap) this.getParam(0);
 				Space spaceMap = map.getSpace();
-				Neighborhood neigh = map.getNeighborhoods().get(0);
+				Neighborhood neigh = (Neighborhood) map.getNeighborhoods().get(0);
 
 				double add = 0;
 				double nb = 0;
