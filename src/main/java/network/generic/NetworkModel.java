@@ -1,10 +1,10 @@
 package main.java.network.generic;
 
 import java.io.File;
-import java.lang.reflect.ParameterizedType;
 import java.math.BigDecimal;
 import java.util.List;
 
+import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.InfiniteDt;
@@ -12,6 +12,7 @@ import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.model.Model;
+import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.plot.Trace;
 import main.java.statistics.Statistics;
 import main.java.unitModel.UnitModel;
@@ -22,7 +23,7 @@ import main.java.unitModel.UnitModel;
  *
  * @author CARRARA Nicolas
  */
-public abstract class NetworkModel<N extends Node,P extends Packet,E extends DirectedEdge> extends Model /* implements Computable */ {
+public /*abstract*/ class NetworkModel<N extends Node<?, ?>,P extends Packet,E extends DirectedEdge<?, ?>> extends Model /* implements Computable */ {
 
 	private SpreadingGraph<N,E> spreadingGraph;
 
@@ -36,9 +37,16 @@ public abstract class NetworkModel<N extends Node,P extends Packet,E extends Dir
 
 
 	/**
-	 * Doit initilialiser spreadingGraph
+	 * Doit intialiser le graph avec une matrice de transition.
+	 * Intialise le graphe par default. Peut (et doit) être override
+	 * @param matrixNetworkFile le fichier répresentant la matrice de transition
+	 * @throws CommandLineFormatException 
 	 */
-	protected abstract void constructGraph();
+	protected /*abstract*/ void constructGraph(File matrixNetworkFile) throws CommandLineFormatException{
+		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
+		File f = new File(pathMatrixTransitionFile);
+		setSpreadingGraph(getSpreadingGraphFactory().constructGraph(f, TypeGraph.DEFAULT_GRAPH, command));
+	}
 	
 	/**
 	 * rajoute un packet packet au noeud à la position indexNode du spreadingGraphe de ce model
@@ -54,12 +62,18 @@ public abstract class NetworkModel<N extends Node,P extends Packet,E extends Dir
 	/*--------------------------- model --------------------------------------*/
 
 	@Override
-	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException {
-		
-		if(false/* tester si il existe un fichier de transition dans la commandLine*/){
-			// construire le graphe avec ce fichier avec une configuration par defaut
+	public CommandLine constructCommandLine() {
+		return new NetworkCommandLine();
+	}
+	
+	@Override
+	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
+		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
+		File f = new File(pathMatrixTransitionFile);
+		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
+			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
 		}else{
-			constructGraph();
+			constructGraph(f);
 		}
 		this.root = spreadingGraph;
 	}

@@ -6,7 +6,7 @@ package main.java.network.generic;
  * @param <P>
  * @param <N> 
  */
-public class DirectedEdge<P extends Packet,N extends Node> {
+public class DirectedEdge<P extends Packet,N extends Node<P,?>> {
 
 //    private DirectedEdge<P,N> previous;
     
@@ -23,8 +23,8 @@ public class DirectedEdge<P extends Packet,N extends Node> {
         this.receiver = receiver;
     }
     
-    public void transfer(P packet) {
-        getReceiver().receive(packet);
+    public void transfer(P p) {
+        getReceiver().receive(p);
     }
 
 //    /**

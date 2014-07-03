@@ -5,20 +5,23 @@
  */
 package test.java.network.rsdnf;
 
-import main.java.network.rsdnf.*;
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
-import java.util.Arrays;
+
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
+import main.java.network.generic.TypeGraph;
 import main.java.network.generic.Utils;
-import static main.java.network.rsdnf.RSDNFCommandLine.WEIGTH;
+import main.java.network.rsdnf.RSDNFCommandLine;
+import main.java.network.rsdnf.RSDNFModel;
+
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -65,7 +68,7 @@ public class RSDNFSpreadingGraphTest {
         System.out.println("finalTest");
         File result = rsdnf.writeRSDNFNetworkFile();
         double[][] matrixA = Utils.parseCSVFile(result);
-        SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(result, SpreadingGraphFactory.TypeGraph.RSDNF, rsdnf.getCommandLine());
+        SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(result, TypeGraph.RSDNF, rsdnf.getCommandLine());
         double[][] matrixB = spreadingGraph.extractAdjacentMatrix();
         assertArrayEquals(matrixA, matrixB);
     }

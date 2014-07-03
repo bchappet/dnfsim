@@ -3,14 +3,12 @@ package main.java.network.generic;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-
-import main.java.network.rsdnf.RSDNFTransmitter;
-import main.java.network.rsdnf.Spike;
 
 /**
  * Un noeud du reseau. Envoie et reçoit des paquets.
@@ -23,7 +21,7 @@ import main.java.network.rsdnf.Spike;
  * @param <P>
  * @param <E>
  */
-public class Node<P extends Packet, E extends DirectedEdge> {
+public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 
 	private Node<P, E> temporary;
 
@@ -38,14 +36,14 @@ public class Node<P extends Packet, E extends DirectedEdge> {
 	private int maxSize = Integer.MAX_VALUE;
 
 	public Node(Node<P, E>... neigthbours) {
-		bufferPacket = new LinkedList();
+		bufferPacket = new LinkedList<P>();
 		edges = new ArrayList<>();
 		neighbors = new ArrayList<>();
 		constructNeigthborhood(neigthbours);
 	}
 
 	public Node() {
-		bufferPacket = new LinkedList();
+		bufferPacket = new LinkedList<P>();
 		edges = new ArrayList<>();
 		neighbors = new ArrayList<>();
 	}
@@ -76,7 +74,7 @@ public class Node<P extends Packet, E extends DirectedEdge> {
 		if (isEnabled()) {
 			P p = pollPacket();
 			if (p != null) {
-				for (DirectedEdge e : getEdges()) {
+				for (DirectedEdge<P, ?> e : getEdges()) {
 					e.transfer(p);
 				}
 			}
@@ -102,14 +100,14 @@ public class Node<P extends Packet, E extends DirectedEdge> {
 	protected Node<P,E> constructTemporary(){
 		return new Node<P, E>();
 	}
-	
+
 	/**
 	 * Fait un ensemble d'opérations qui prépare le noeud a
 	 * appeller sendParallele(). Peut etre override à condition de faire 
 	 * un super.prepareBeforeSendParalle() avant toutes choses.
 	 */
 	protected void prepareBeforeSendParallele(){
-//		RSDNFTransmitter tmp = new RSDNFTransmitter(this.weight);
+		//		RSDNFTransmitter tmp = new RSDNFTransmitter(this.weight);
 		Node<P, E> tmp = constructTemporary();
 		tmp.setBufferPacket((LinkedList<P>) getBufferPacket().clone());
 		tmp.setEdges(this.getEdges());
@@ -132,8 +130,11 @@ public class Node<P extends Packet, E extends DirectedEdge> {
 	 */
 	public final E getInstance(Node<P, E> n, Node<P, E> neightbor) {
 		try {
-			Class<E> clazzOfE = (Class<E>) ((ParameterizedType) getClass().getGenericSuperclass())
-					.getActualTypeArguments()[1];
+			ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+			Type ts[] = type.getActualTypeArguments();
+			Class<E> clazzOfE = (Class<E>) ts[1];/*((ParameterizedType) getClass().getGenericSuperclass())
+					.getActualTypeArguments()[1];*/
+
 			Class clazzOfThis = getClass();
 			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
 			return (E) c.newInstance(n, neightbor);

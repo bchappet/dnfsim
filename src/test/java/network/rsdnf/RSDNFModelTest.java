@@ -5,22 +5,27 @@
  */
 package test.java.network.rsdnf;
 
-import main.java.network.rsdnf.*;
-import java.io.File;
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
+
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
-import static main.java.network.rsdnf.RSDNFCommandLine.WEIGTH;
+import main.java.network.generic.TypeGraph;
+import main.java.network.rsdnf.RSDNFCommandLine;
+import main.java.network.rsdnf.RSDNFModel;
+import main.java.network.rsdnf.RSDNFTransmitter;
+import main.java.network.rsdnf.Spike;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-import static org.junit.Assert.*;
 
 /**
  *
@@ -69,7 +74,7 @@ public class RSDNFModelTest {
             {0, 0, 0}};
         SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(
                 transitionMatrix,
-                SpreadingGraphFactory.TypeGraph.RSDNF,
+                TypeGraph.RSDNF,
                 rsdnf.getCommandLine());
         rsdnf.setSpreadingGraph(spreadingGraph);
         ((RSDNFTransmitter) spreadingGraph.getIndex(0)).addToFIFO(new Spike());
@@ -81,7 +86,7 @@ public class RSDNFModelTest {
     private void coreTest(boolean sout, double[][] transitionMatrix, int[] addToFIFO, int[] packetTheory, int nbComputation) throws CommandLineFormatException {
         SpreadingGraph spreadingGraph = SpreadingGraphFactory.getInstance().constructGraph(
                 transitionMatrix,
-                SpreadingGraphFactory.TypeGraph.RSDNF,
+                TypeGraph.RSDNF,
                 rsdnf.getCommandLine());
         rsdnf.setSpreadingGraph(spreadingGraph);
         for (int i = 0; i < addToFIFO.length; i++) {

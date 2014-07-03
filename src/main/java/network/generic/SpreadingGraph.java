@@ -14,7 +14,7 @@ import main.java.maps.Var;
  * @param <N> Sous classe des noeuds
  * @param <E> Sous classe des arêtes
  */
-public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> implements Parameter<N>, Computable {
+public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements Parameter<N>, Computable {
 
     private final List<N> nodes;
 
@@ -86,7 +86,7 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
      *
      * @return an array with the number of packet in each node
      */
-    public int[] extractCurrentPackets() {
+    public final int[] extractCurrentPackets() {
         int[] packets = new int[nodes.size()];
         for (int i = 0; i < packets.length; i++) {
             packets[i] = nodes.get(i).getBufferPacket().size();
@@ -99,7 +99,7 @@ public abstract class SpreadingGraph<N extends Node, E extends DirectedEdge> imp
      *
      * @return the transition matrix of this spreading graph
      */
-    public double[][] extractAdjacentMatrix() {
+    public final double[][] extractAdjacentMatrix() {
         int n = nodes.size();
         double[][] matrix = new double[n][n];
         for (int l = 0; l < n; l++) {

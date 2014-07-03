@@ -2,6 +2,7 @@ package main.java.network.generic;
 
 import java.io.File;
 import java.math.BigDecimal;
+
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;
@@ -17,10 +18,7 @@ public class SpreadingGraphFactory {
 
     private static SpreadingGraphFactory instance = null;
 
-    public enum TypeGraph {
-
-        RSDNF
-    }
+    
 
     private SpreadingGraphFactory() {
 
@@ -63,7 +61,7 @@ public class SpreadingGraphFactory {
         switch (typeGraph) {
             case RSDNF:
                 RSDNFCommandLine crsdnf = (RSDNFCommandLine)commandLine;
-                res = new RSDNFSpreadingGraph((Var<BigDecimal>) crsdnf.get(RSDNFCommandLine.DT));
+                res = new RSDNFSpreadingGraph((Var<BigDecimal>) crsdnf.get(RSDNFCommandLine.NETWORK_DT));
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new RSDNFTransmitter(((Var<Double>)crsdnf.get(RSDNFCommandLine.WEIGTH)).get()));
                 }
@@ -71,6 +69,21 @@ public class SpreadingGraphFactory {
                     for (int c = 0; c < matrice[l].length; c++) {
                         if (matrice[l][c] == 1) {
                             ((RSDNFTransmitter)res.getNodes().get(l)).link((RSDNFTransmitter)res.getNodes().get(c));
+                        }
+                    }
+                }
+                return res;
+                
+            case DEFAULT_GRAPH:
+                NetworkCommandLine nwcl = (NetworkCommandLine)commandLine;
+                res = new SpreadingGraph((Var<BigDecimal>) nwcl.get(NetworkCommandLine.NETWORK_DT));
+                for (int i = 0; i < matrice.length; i++) {
+                    res.getNodes().add(new Node());
+                }
+                for (int l = 0; l < matrice.length; l++) {
+                    for (int c = 0; c < matrice[l].length; c++) {
+                        if (matrice[l][c] == 1) {
+                            ((Node)res.getNodes().get(l)).link((Node)res.getNodes().get(c));
                         }
                     }
                 }
