@@ -33,28 +33,32 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 
 	private List<Node<P, E>> neighbors;
 
+	private Class clazzOfEdges;
+
 	private int maxSize = Integer.MAX_VALUE;
 
-	public Node(Node<P, E>... neigthbours) {
+	public Node(Class clazzOfEdge,Node<P, E>... neigthbours) {
+		this.clazzOfEdges = clazzOfEdge;
 		bufferPacket = new LinkedList<P>();
 		edges = new ArrayList<>();
 		neighbors = new ArrayList<>();
 		constructNeigthborhood(neigthbours);
 	}
 
-	public Node() {
+	public Node(Class clazzOfEdge) {
+		this.clazzOfEdges = clazzOfEdge;
 		bufferPacket = new LinkedList<P>();
 		edges = new ArrayList<>();
 		neighbors = new ArrayList<>();
 	}
 
-	public Node(int maxSize) {
-		this();
+	public Node(Class clazzOfEdge,int maxSize) {
+		this(clazzOfEdge);
 		this.maxSize = maxSize;
 	}
 
-	public Node(int maxSize, Node<P, E>... neigthbours) {
-		this(neigthbours);
+	public Node(Class clazzOfEdge,int maxSize, Node<P, E>... neigthbours) {
+		this(clazzOfEdge,neigthbours);
 		this.maxSize = maxSize;
 	}
 
@@ -98,7 +102,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * @return
 	 */
 	protected Node<P,E> constructTemporary(){
-		return new Node<P, E>();
+		return new Node<P, E>(clazzOfEdges);
 	}
 
 	/**
@@ -128,14 +132,22 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * @param neightbor
 	 * @return
 	 */
-	public final E getInstance(Node<P, E> n, Node<P, E> neightbor) {
+	public  E getInstance(Node<P, E> n, Node<P, E> neightbor){
+		Class clazzOfThis = getClass();
+		//		if(clazzOfThis.equals(Node.class)){
+		//			return (E) new DirectedEdge(n,neightbor);
+		//		}else{
 		try {
-			ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
-			Type ts[] = type.getActualTypeArguments();
-			Class<E> clazzOfE = (Class<E>) ts[1];/*((ParameterizedType) getClass().getGenericSuperclass())
-					.getActualTypeArguments()[1];*/
+			//				ParameterizedType type = (ParameterizedType) this.getClass().getGenericSuperclass();
+			//				Type ts[] = type.getActualTypeArguments();
+			/* malheuresement impossible d'utiliser le workaround du dessus pour récuperer au runtime la classe
+			 * des arêtes. Ce workaround ne fonctionne que pour les sous class de Node mais ne fonctionne pas
+			 * pour Node. Dans la mesure où Node est instanciable on doit trouver une autre solution. Ici
+			 * on opte pour le passage en paramètre de la class des arêtes. Seul truc bancale ici, il faut
+			 * que la class passé en paramètre correspondent à la class générique.
+			 */
+			Class<E> clazzOfE = clazzOfEdges;//(Class<E>) ts[1];
 
-			Class clazzOfThis = getClass();
 			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
 			return (E) c.newInstance(n, neightbor);
 		} catch (InstantiationException | IllegalAccessException |
@@ -143,6 +155,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 				IllegalArgumentException | InvocationTargetException ex) {
 			Logger.getLogger(Node.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		//		}
 		return null;
 	}
 

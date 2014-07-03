@@ -78,7 +78,7 @@ public class SpreadingGraphFactory {
                 NetworkCommandLine nwcl = (NetworkCommandLine)commandLine;
                 res = new SpreadingGraph((Var<BigDecimal>) nwcl.get(NetworkCommandLine.NETWORK_DT));
                 for (int i = 0; i < matrice.length; i++) {
-                    res.getNodes().add(new Node());
+                    res.getNodes().add(new Node(DirectedEdge.class));
                 }
                 for (int l = 0; l < matrice.length; l++) {
                     for (int c = 0; c < matrice[l].length; c++) {

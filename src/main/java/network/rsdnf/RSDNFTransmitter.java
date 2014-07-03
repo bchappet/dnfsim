@@ -12,22 +12,22 @@ public class RSDNFTransmitter extends Node<Spike, SpikeEdge> {
     private final double weight;
 
     public RSDNFTransmitter(double weight) {
-        super();
+        super(SpikeEdge.class);
         this.weight = weight;
     }
 
     public RSDNFTransmitter(double weight, RSDNFTransmitter... neightbors) {
-        super(neightbors);
+        super(SpikeEdge.class,neightbors);
         this.weight = weight;
     }
     public RSDNFTransmitter(int sizeMax,double weight) {
-        super(sizeMax);
+        super(SpikeEdge.class,sizeMax);
         this.weight = weight;
     }
 
 
     public RSDNFTransmitter(int sizeMax,double weight, RSDNFTransmitter... neightbors) {
-        super(sizeMax,neightbors);
+        super(SpikeEdge.class,sizeMax,neightbors);
         this.weight = weight;
     }
 
