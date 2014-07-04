@@ -7,11 +7,11 @@ import main.java.maps.Parameter;
 import main.java.unitModel.UnitModel;
 
 
-public class ReceivePacketUnitModel extends UnitModel<Integer>{
+public class ConcentrationPacketUnitModel extends UnitModel<Integer>{
 
 	private SpreadingGraph sg;
 
-	public ReceivePacketUnitModel(SpreadingGraph sg) {
+	public ConcentrationPacketUnitModel(SpreadingGraph sg) {
 		super(0);
 		this.sg = sg;
 	}
@@ -19,8 +19,8 @@ public class ReceivePacketUnitModel extends UnitModel<Integer>{
 	@Override
 	protected Integer compute(BigDecimal time, int index,
 			List<Parameter> params) {
-		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getLastPacketReceivedCounter());
-		return sg.getIndex(index).getLastPacketReceivedCounter();
+//		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getTotalPacketReceived());
+		return sg.getIndex(index).getLastPacketReceiveNumber();
 	}
 
 }
