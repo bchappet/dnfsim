@@ -1,10 +1,10 @@
 colormap=AdaptiveAndEquilibratedColorMap
 ---------------------------------------------
-RSDNFNetwork
+RSDNFNetworkModel
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
-		RSDNF Spreading Graph:main.java.network.view.GraphGraphViewAdapter
+		NeuralMap
 	stats
 		Plot2D
 			current_packet

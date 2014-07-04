@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import main.java.initRecherche.ModelCNFTPredictive;
 import main.java.modelCMSVA.ModelCMSVA;
 import main.java.network.probalisticFlooding.PFModel;
+import main.java.network.rsdnf.RSDNFNetworkModel;
 import main.java.reservoirComputing.ModelESN;
 
 
@@ -40,7 +41,7 @@ public enum Models{
 	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
-//	RSDNFModel("RSDNFNetwork",RSDNFNetworkModel.class,false),
+	RSDNFNetworkModel("RSDNFNetworkModel",RSDNFNetworkModel.class,false),
 	PFModel("PFModel",PFModel.class,false)
 	;
 	

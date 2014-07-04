@@ -29,7 +29,8 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	private SpreadingGraph<N,E> spreadingGraph;
 
 	private final SpreadingGraphFactory spreadingGraphFactory;
-
+	
+	protected ReceivePacketUnitMap receivePacketUnitMap;
 
 	public NetworkModel(String name) {
 		super(name);
@@ -74,7 +75,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
-		System.out.println("file : " +pathMatrixTransitionFile);
+//		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
@@ -88,7 +89,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
 		
 		
-		ReceivePacketUnitMap receivePacketUnitMap = new ReceivePacketUnitMap(spreadingGraph, dt, size);
+		receivePacketUnitMap = new ReceivePacketUnitMap(spreadingGraph, dt, size);
 		addParameters(receivePacketUnitMap);
 	}
 

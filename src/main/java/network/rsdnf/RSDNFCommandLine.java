@@ -20,7 +20,7 @@ public class RSDNFCommandLine extends NetworkCommandLine {
                 TRANSMITTER_BY_NEURON + "=4;"+
                 WIDTH_NEURON_MAP + "=10;"+
         		/* NetworkCommandLine */
-                TRANSITION_MATRIX_FILE + "=RSDNFNetworkTransitionMatrix.rsdnf;" + 
+                TRANSITION_MATRIX_FILE + "=src/main/java/network/ressource/RSDNFNetworkTransitionMatrix.pf;" + 
                 NETWORK_DT + "=bd0.1,0.01,1,0.01;";
     }
 
