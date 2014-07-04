@@ -14,8 +14,11 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 
 	private boolean isFirstComputatution = true;
 	
-	public PFSpreadingGraph(Var<BigDecimal> dt) {
+	/*private final String initialisation;*/
+	
+	public PFSpreadingGraph(Var<BigDecimal> dt/*, String intialisation*/) {
 		super(dt);
+		/*this.initialisation = intialisation;*/
 	}
 	
 	
@@ -30,15 +33,35 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 	}
 	
 	public void firstComputation(){
+//		switch(initialisation){
+//		case PFCommandLine.DEFAULT_INITAILISATION :
+//			break;
+//		case PFCommandLine.TWO_CORNER :
+//			break;
+//		case PFCommandLine.FOUR_CORNER :
+//			break;
+//		case PFCommandLine.FOUR_CORNER_WITH_PROBA:
+//			break;
+//		}
+//		for (int i = 0; i < 10; i++) {
+//			
+//			this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
+//		}
+		
+		
+		
 		for (int i = 0; i < 10; i++) {
 			
 			this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
+			this.getIndex(0+8).addToFIFO(new IPv4Datagramme("first"));
+			this.getIndex(9*8).addToFIFO(new IPv4Datagramme("first"));
+			this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
 		}
 	}
 
     @Override
     public String getName() {
-        return "Probilistic flooding" + super.getName();
+        return "Probabilistic flooding" + super.getName();
     }
 
 }
