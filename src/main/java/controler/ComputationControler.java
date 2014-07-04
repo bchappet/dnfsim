@@ -1,11 +1,15 @@
 package main.java.controler;
 
+import java.io.File;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
+import main.java.maps.Parameter;
+import main.java.network.generic.Utils;
 import main.java.view.ComputationControlerView;
+import main.resources.utils.ArrayUtils;
 
 /**
  * The {@link ComputationControler} will control the computation of main.java.model and will warn the main.java.view for changes
@@ -32,12 +36,17 @@ public class ComputationControler {
 
 	/**Will handle pause step and delaying if there is a gui (Optional)**/
 	private ComputationControlerView view;
+	
+	private int iterationId;
+	
+	private ParameterControlerTree tree;
 
 
-	public ComputationControler(ParameterControlerTree tree) {
+	public ComputationControler(ParameterControlerTree tree,int iterationId) {
 		this.time = new BigDecimal("0");
+		this.iterationId = iterationId;
 		this.orderedMap = new ArrayList<ComputableControler>();
-
+		this.tree = tree;
 		initOrderedMap( tree.getRoot());
 		LOGGER.info("this.orderedMap initiated.");
 		LOGGER.info("this.orderedMap="+this.orderedMap);
@@ -143,6 +152,27 @@ public class ComputationControler {
 
 	public BigDecimal getTime() {
 		return this.time;
+	}
+
+	public void saveMap(String[] mapsToSaveArray,String path) {
+		for(String mapName : mapsToSaveArray){
+			this.saveMap(mapName,path);
+		}
+		
+	}
+
+	private void saveMap(String mapName,String path) {
+		
+		String fileName = path + mapName + "_" + this.iterationId +"_"+this.time + ".csv";
+		
+		ParameterControler map = tree.getControler(mapName);
+		if(map instanceof MapControler){
+			System.out.println("iciiiiiiiiiiiii");
+			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray());
+			
+		}
+		
+		
 	}
 
 	

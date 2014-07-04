@@ -35,7 +35,9 @@ public abstract class ParameterControler {
 		LOGGER.info("Contruct parameterControler: " + "paramType : " + param.getClass().getName() + " name : " + param.getName());
 	}
 	
-	
+	public List getValues(){
+		return param.getValues();
+	}
 	
 	public void addChild(ParameterControler child){
 		this.children.add(child);
@@ -47,7 +49,7 @@ public abstract class ParameterControler {
 	
 	@Override
 	public String toString() {
-		return this.getName();
+		return this.getName();// " @" + System.identityHashCode(this) + " param @ " + System.identityHashCode(param);
 	}
 	
 	

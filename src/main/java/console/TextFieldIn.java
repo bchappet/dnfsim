@@ -41,7 +41,7 @@ public class TextFieldIn extends JTextField
 
 		public void moveDot(int dot)
 		{
-			System.out.println("here..1");
+//			System.out.println("here..1");
 			if(dot > 0)
 				super.moveDot(dot);
 			
@@ -49,7 +49,7 @@ public class TextFieldIn extends JTextField
 		
 		public void setDot(int dot)
 		{
-			System.out.println("here..2");
+//			System.out.println("here..2");
 			if(dot > 0)
 				super.setDot(dot);
 			

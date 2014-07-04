@@ -46,35 +46,35 @@ public class CanvaPanelTest extends JFrame {
 
 	@Test
 	public void test() throws InterruptedException {
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 		
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		Thread.sleep(1000);
+		Thread.sleep(1000000);
 		
 		assertTrue("visual test ",true);
 	}
 	
-	@Test
-	public void testRemove() throws InterruptedException {
-		uut.removeView("WeightsRR");
-		this.repaint();
-		Thread.sleep(1000);
-		assertTrue("visual test remove ",true);
-	}
-	
-	@Test
-	public void testAdd() throws InterruptedException {
-		uut.addView("WeightsRR");
-		this.repaint();
-		Thread.sleep(1000);
-		assertTrue("visual test add ",true);
-	}
+//	@Test
+//	public void testRemove() throws InterruptedException {
+//		uut.removeView("WeightsRR");
+//		this.repaint();
+//		Thread.sleep(1000);
+//		assertTrue("visual test remove ",true);
+//	}
+//	
+//	@Test
+//	public void testAdd() throws InterruptedException {
+//		uut.addView("WeightsRR");
+//		this.repaint();
+//		Thread.sleep(1000);
+//		assertTrue("visual test add ",true);
+//	}
 
 }

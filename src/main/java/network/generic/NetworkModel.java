@@ -76,8 +76,8 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
-		System.out.println("file : " +pathMatrixTransitionFile);
-		System.out.println("file : " +pathMatrixTransitionFile);
+//		System.out.println("file : " +pathMatrixTransitionFile);
+//		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
@@ -94,7 +94,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 
 	@Override
 	protected void initializeStatistics() throws CommandLineFormatException {
-		System.out.println("Initializing statistics");
+//		System.out.println("Initializing statistics");
 		Var<BigDecimal> stat_dt = command.get(NetworkCommandLine.STAT_DT);
 
 		// main statistic here is the maximum load of buffers
@@ -106,7 +106,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 					public Double compute(BigDecimal time, int index, List<Parameter> params) {
 						SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
 						Double maxLoad = (double) spreadingGraph.getMostLoadedNode().getLoad();
-						System.out.println("maxLoad : " + maxLoad);
+//						System.out.println("maxLoad : " + maxLoad);
 						return maxLoad;
 					}
 				}, spreadingGraph);
@@ -120,7 +120,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 					public Integer compute(BigDecimal time, int index, List<Parameter> params) {
 						SpreadingGraph spreadingGraph = (SpreadingGraph) params.get(0);
 						Integer loadRemaining =  spreadingGraph.getLoadRemaining();
-						System.out.println("loadRemaining : " + loadRemaining);
+//						System.out.println("loadRemaining : " + loadRemaining);
 						return loadRemaining;
 					}
 				}, spreadingGraph);
@@ -136,7 +136,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 
 	@Override
 	protected void initializeCharacteristics() {
-		System.out.println("Initializing characteristic");
+//		System.out.println("Initializing characteristic");
 		// main charac here is the maximum load of buffers
 		Trajectory maximumLoad = new Trajectory(
 				NetworkStatistics.BUFF_MAX_LOAD,
@@ -147,7 +147,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 						NetworkStatistics stats = (NetworkStatistics) params.get(0);
 						Trace trace = stats.getTrace(NetworkStatistics.BUFF_MAX_LOAD);
 						double maxLoad = trace.getMax();
-						System.out.println("charac maxLoad : " + maxLoad);
+//						System.out.println("charac maxLoad : " + maxLoad);
 						return maxLoad;
 					}
 				}, stats);
@@ -164,7 +164,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 						int computations = spreadingGraph.getComputations();
 						BigDecimal dt = ((Var<BigDecimal>) spreadingGraph.getDt()).get();
 						double transmissionTime = computations * dt.doubleValue(); // todo => ok ça ?
-						System.out.println("Charac transmissionTime : " + transmissionTime);
+//						System.out.println("Charac transmissionTime : " + transmissionTime);
 						return transmissionTime;
 					}
 				}, spreadingGraph);

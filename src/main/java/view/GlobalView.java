@@ -112,7 +112,7 @@ public class GlobalView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					System.out.println(" playyyyy");
+//					System.out.println(" playyyyy");
 					cl.parseCommand("play;");
 				} catch (NumberFormatException | NullCoordinateException
 						| CommandLineFormatException e) {
@@ -127,7 +127,7 @@ public class GlobalView extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					System.out.println(" stepppppppp");
+//					System.out.println(" stepppppppp");
 					cl.parseCommand("step;");
 				} catch (NumberFormatException | NullCoordinateException
 						| CommandLineFormatException e) {

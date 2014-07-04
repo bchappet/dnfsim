@@ -41,7 +41,7 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(NetworkCommandLine.NETWORK_DT);
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(RSDNFCommandLine.WIDTH_NEURON_MAP); 
 		
-		System.out.println("Size : " + size.get());
+//		System.out.println("Size : " + size.get());
 		Space2D space = new Space2D(size, size);
 
 		//Compute the nb of received spike per neuron
@@ -61,7 +61,7 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 				return sum;
 			}
 		}, this.getSpreadingGraph());
-		this.addParameters(neuralMap);
+		this.root = neuralMap;
 	}
 
 	/**
@@ -73,11 +73,11 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 	public File writeRSDNFNetworkFile() throws CommandLineFormatException {
 		int width_neuron_map = ((Var<Integer>)command.get(RSDNFCommandLine.WIDTH_NEURON_MAP)).get();
 		width_neuron_map = width_neuron_map * width_neuron_map;
-		System.out.println("widht neuron map = " + width_neuron_map);
+//		System.out.println("widht neuron map = " + width_neuron_map);
 		int transmitter_by_neuron = ((Var<Integer>)command.get(RSDNFCommandLine.TRANSMITTER_BY_NEURON)).get();
-		System.out.println("transmitter_by_neuron = " + transmitter_by_neuron);
+//		System.out.println("transmitter_by_neuron = " + transmitter_by_neuron);
 		double[][] matrice = matToFlat(generateAdjMatrix(width_neuron_map, transmitter_by_neuron), width_neuron_map, transmitter_by_neuron);
-		System.out.println(command.get(RSDNFCommandLine.TRANSITION_MATRIX_FILE).get());
+//		System.out.println(command.get(RSDNFCommandLine.TRANSITION_MATRIX_FILE).get());
 		File f = new File(((Var<String>) command.get(RSDNFCommandLine.TRANSITION_MATRIX_FILE)).get());
 		Utils.writeCSVFile(f, matrice);
 		return f;
@@ -135,7 +135,7 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 
 	public static double[][] matToFlat(double[][][][] m, int n, int t) {
 		//flatMat = np.zeros((n*t,n*t),dtype=np.float) #adjacent matric of the graph
-		System.out.println(" flat mat dim  = " + n * t);
+//		System.out.println(" flat mat dim  = " + n * t);
 		double[][] flatMat = new double[n * t][n * t];
 		//for i in range(m.shape[0]):
 		for (int i = 0; i < m.length; i++) {

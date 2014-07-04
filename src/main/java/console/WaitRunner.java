@@ -17,17 +17,22 @@ public  class WaitRunner  implements Runnable{
 	private Var<Double> timeSpeedRatio;
 	
 	private BigDecimal time; //simulation time
+	private Var<String> mapToSave;
+	private Var<String> pathToSave;
 	
 	
 	
 	public WaitRunner(ComputationControler cc,Var<Boolean> play,Var<BigDecimal> timeToReach,Var<BigDecimal> timeMax,
-			Var<Double> timeSpeedRatio){
+			Var<Double> timeSpeedRatio,Var<String> mapToSave,Var<String> pathToSave){
 		this.play = play;
 		this.timeToReach = timeToReach;
 		this.timeMax = timeMax;
 		this.computationControler = cc;
 		this.timeSpeedRatio = timeSpeedRatio;
 		this.time = BigDecimal.ZERO;
+		this.mapToSave = mapToSave;
+		this.pathToSave = pathToSave;
+				
 	}
 
 	@Override
@@ -40,6 +45,13 @@ public  class WaitRunner  implements Runnable{
 				
 				while((this.time.compareTo(timeToReach.get()) < 0) && (this.time.compareTo(timeMax.get()) < 0)){
 					if((Boolean) play.get()){
+						String maps = this.mapToSave.get();
+						if(!maps.isEmpty()){
+							
+							String[] mapsToSaveArray = maps.split(",");
+							computationControler.saveMap(mapsToSaveArray,pathToSave.get());
+						}
+						
 						computationControler.compute();
 						time = computationControler.getTime();
 						this.delayComputationSpeed(time);
@@ -48,7 +60,7 @@ public  class WaitRunner  implements Runnable{
 					}
 				}
 				this.play.set(false);
-				System.out.println("print end of run");
+//				System.out.println("print end of run");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 				System.exit(-1);

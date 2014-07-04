@@ -5,6 +5,7 @@ import java.awt.Color;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import main.java.maps.Var;
 import main.java.view.AdaptiveAndEquilibratedColorMap;
 import main.java.view.ColorMap;
 import main.java.view.View2D;
@@ -19,9 +20,10 @@ public class View2DTest extends JFrame{
 	
 	@Before
 	public void setUp() throws Exception {
-		ColorMap cm = new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED});
+		Var<ColorMap> cm = new Var(new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED}));
+		Var<Boolean> grid = new Var(Boolean.TRUE);
 		uut = new View2D("uut",new double[][]{{-1,-2,-3},
-										{10,5,1}},cm);
+										{10,5,1}},cm,grid);
 		
 			borderPanel = uut.getBorderPane();
 			this.add(borderPanel);
@@ -46,7 +48,7 @@ public class View2DTest extends JFrame{
 		Thread.sleep(500);
 		uut.update(new double[][]{{-1,-2,-3},{-4,-5,-6}});
 		this.repaint();
-		Thread.sleep(500);
+		Thread.sleep(50000000);
 	}
 
 }

@@ -72,7 +72,7 @@ public class WrappedGlobalNeigborhood extends Neighborhood {
 	private static void printCoor(List<Double[]> list)
 	{
 		for(Double[] d : list)
-			System.out.println(Arrays.toString(d)+",");
+//			System.out.println(Arrays.toString(d)+",");
 	}
 
 }

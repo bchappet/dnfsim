@@ -80,7 +80,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	private void writePFAdjacentMatrix() throws IOException, CommandLineFormatException {
 		
 		Var<String> path = command.get(PFCommandLine.TRANSITION_MATRIX_FILE);
-		System.out.println("path pfmodel : " + path.get());
+//		System.out.println("path pfmodel : " + path.get());
 		FileWriter fw = new FileWriter(path.get(),false);
 		PrintWriter pw = new PrintWriter(fw);
 		

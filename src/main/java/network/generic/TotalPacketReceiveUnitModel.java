@@ -19,7 +19,7 @@ public class TotalPacketReceiveUnitModel extends UnitModel<Integer>{
 	@Override
 	protected Integer compute(BigDecimal time, int index,
 			List<Parameter> params) {
-		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getTotalPacketReceived());
+//		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getTotalPacketReceived());
 		return sg.getIndex(index).getTotalPacketReceived();
 	}
 

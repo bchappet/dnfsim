@@ -33,7 +33,7 @@ public class GraphView extends ViewPanel {
             CommandLine cl = rsdnf.constructCommandLine();
             cl.setContext("");
             rsdnf.initialize(cl);
-            System.out.println(""+rsdnf.getParameters());
+//            System.out.println(""+rsdnf.getParameters());
             ModelControler mc = new ModelControler(rsdnf);
             cl.setCurentModelControler(mc);
             ComputationControler cc = new ComputationControler(mc.getTree());

@@ -11,14 +11,15 @@ import java.io.FileNotFoundException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 
-import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.controler.ComputationControler;
+import main.java.controler.ModelControler;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.packet.Spike;
 import main.java.network.rsdnf.RSDNFCommandLine;
-import main.java.network.rsdnf.RSDNFModel;
+import main.java.network.rsdnf.RSDNFNetworkModel;
 import main.java.network.rsdnf.RSDNFTransmitter;
 
 import org.junit.After;
@@ -31,11 +32,12 @@ import org.junit.Test;
  *
  * @author CARRARA Nicolas
  */
-public class RSDNFModelTest {
+public class RSDNFNetworkModelTest {
 
-    private RSDNFModel rsdnf;
+    private RSDNFNetworkModel rsdnf;
+    ComputationControler cc;
 
-    public RSDNFModelTest() {
+    public RSDNFNetworkModelTest() {
     }
 
     @BeforeClass
@@ -48,15 +50,18 @@ public class RSDNFModelTest {
 
     @Before
     public void setUp() throws CommandLineFormatException, FileNotFoundException, MalformedURLException {
-        rsdnf = new RSDNFModel("testRSDNF");
-        CommandLine cl = new RSDNFCommandLine() {
-            @Override
-            public String defaultScript() {
-                return super.defaultScript() + WEIGTH + "=0.0;";
-            }
-        };//rsdnf.constructCommandLine();
-        cl.setContext("");
-        rsdnf.initialize(cl);
+        rsdnf = new RSDNFNetworkModel("testRSDNF");
+        
+		RSDNFCommandLine cl = (RSDNFCommandLine) rsdnf.constructCommandLine();
+		cl.setContext("w_rsdnf=0.0;");
+		rsdnf.initialize(cl);
+		ModelControler mc = new ModelControler(rsdnf);
+		cl.setCurentModelControler(mc);
+		cc = new ComputationControler(mc.getTree());
+        
+        System.out.println(mc.getTree());
+       
+      
     }
 
     @After

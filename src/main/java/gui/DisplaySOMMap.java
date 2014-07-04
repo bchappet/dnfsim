@@ -113,7 +113,7 @@ public class DisplaySOMMap extends DisplaySampleMap {
 			double z = a * Math.sin(v);
 			
 //			System.out.println("u : " + u + " v : " + v );
-			System.out.println(" x : " + x + " y : " + y + " z : " + z);
+//			System.out.println(" x : " + x + " y : " + y + " z : " + z);
 			
 //			return weights.clone();
 			return new double[]{z,y};

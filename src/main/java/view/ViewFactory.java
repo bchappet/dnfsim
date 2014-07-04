@@ -2,6 +2,7 @@ package main.java.view;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Arrays;
 
 import main.java.controler.MapControler;
 import main.java.controler.ParameterControler;
@@ -105,12 +106,12 @@ public class ViewFactory {
 	}
 
 	public ParameterView constructView(String name){
-		System.err.println("construct view of " + name);
+//		System.err.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
-		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
+//		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
-			System.out.println("parameter controler " + pc );
+//			System.out.println("parameter controler " + pc );
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
 				//we assume that it is a panel
@@ -156,6 +157,7 @@ public class ViewFactory {
 		ParameterControler pc = this.getParameterControler(parameter);
 		if(pc == null){
 			System.err.println("pc null for : " + parameter + " view adapter : " + viewAdapterName);
+			System.err.println(Arrays.toString(Thread.currentThread().getStackTrace()));
 			System.exit(0);
 		}
 		ParamViewAdapter pva = constructParamViewAdapter(pc, viewAdapterName);

@@ -81,7 +81,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * ses voisins. Se decharge de ce paquet
 	 */
 	public /* abstract */void send(){
-		System.out.println("send de node");
+//		System.out.println("send de node");
 		if (isEnabled()) {
 			P p = pollPacket();
 			if (p != null) {

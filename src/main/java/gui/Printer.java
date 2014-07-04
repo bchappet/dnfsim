@@ -71,9 +71,12 @@ public class Printer{
 			String context = System.getProperty(CONTEXT);
 			String savemapStr = System.getProperty(SAVE_MAP);
 			boolean savemap = false;
-			if(savemapStr != null && savemapStr.equals("true")){
+			if(savemapStr != null ){
 				savemap = true;
 			}
+			
+			
+			
 			String model = System.getProperty(MODEL);
 			if(model == null){
 				System.err.println("The main.java.model should be precised. For instance " +
@@ -118,8 +121,8 @@ public class Printer{
 				if(iterations[i] > 0){
 
 					runners[i] = new Runner(printer,model,contextScript,scenario,showGui);
-					runners[i].setIteration(iterations[i]);
-					//runners[i].setSavemap(savemap,i); //TODO
+					runners[i].setIterationCore(iterations[i]);
+//					runners[i].setSavemap(savemap,i); //TODO
 
 					threads[i] = new Thread(runners[i]);
 					threads[i].start();

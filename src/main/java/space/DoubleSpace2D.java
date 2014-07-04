@@ -105,7 +105,7 @@ public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 		double oriY = this.getOriY();
 		double cx = widthX/2d - oriX;
 		double cy = widthY/2d - oriY;
-		System.out.println(rand.nextGaussian());
+//		System.out.println(rand.nextGaussian());
 		double x = (rand.nextGaussian()*widthX/6d)+cx;  //TODO
 		double y = (rand.nextGaussian()*widthY/6d)+cy; //TODO test
 	//	System.out.println("("+x+","+y+")");

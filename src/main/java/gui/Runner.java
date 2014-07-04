@@ -131,7 +131,7 @@ public class Runner  implements Runnable{
 		time = time.add(gStep);
 		try {
 			while( time.compareTo( timeToReach) <= 0){
-				System.out.println(" ==> update " + time);
+//				System.out.println(" ==> update " + time);
 				this.update(time);
 				this.saveMaps("save/save_"+time);
 				time = time.add(gStep);

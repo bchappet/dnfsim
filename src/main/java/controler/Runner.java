@@ -23,8 +23,8 @@ import main.resources.utils.FluxUtils;
  * 
  * MultiTrhead compatible : one Runner per thread, one GUI par thread (if needeed ) 
  * but a Printer to print them all.
- * Each runner output is preceded by the thread number and the model iteration number.
- * Because to avoid rebuilding the whole model tree at each iteration, we keep the Thread, reset the model and restart the computation
+ * Each runner output is preceded by the thread number and the model iterationCore number.
+ * Because to avoid rebuilding the whole model tree at each iterationCore, we keep the Thread, reset the model and restart the computation
  * TODO check and double check that the first computation is the same that the second in every case!!!
  * @author benoit
  * @version 11/05/2014
@@ -39,13 +39,16 @@ public class Runner extends JFrame implements Runnable {
 	private Printer printer;
 
 	/**
-	 * iteration of whole script computation
+	 * iterationCore of whole script computation
 	 */
-	private int iteration;
+	private int iterationCore;
+	
+	private int iterationId;
 
 	private String runningScript;
 
 	private GlobalView view;
+	
 	
 
 	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui) throws Exception{
@@ -70,6 +73,13 @@ public class Runner extends JFrame implements Runnable {
 
 	}
 	
+	public void setIterationId(int i ){
+		this.iterationId = i;
+	}
+	
+	public int getIterationId(){
+		return this.iterationId;
+	}
 	
 
 	public GlobalView getGlobalView(){
@@ -99,15 +109,15 @@ public class Runner extends JFrame implements Runnable {
 			model.initialize(cl);
 			ModelControler mc = new ModelControler(model);
 			cl.setCurentModelControler(mc);
-			ComputationControler computationControler = new ComputationControler(mc.getTree());
+			ComputationControler computationControler = new ComputationControler(mc.getTree(),getIterationId());
 			cl.setComputationControler(computationControler);
 			CharacteristicsControler characContrl = (CharacteristicsControler) mc.getTree().getControler(Characteristics.NAME);
 			cl.setCharacControler(characContrl);
 			if(gui){
-				
 				this.view.loadModelView(name,mc,computationControler,cl);
 				this.view.setVisible(true);
 			}
+			
 		}
 		catch(Exception e){
 			e.printStackTrace();
@@ -133,7 +143,7 @@ public class Runner extends JFrame implements Runnable {
 	public void run() {
 		try{
 			if(runningScript != null){
-				for(int i = 0 ; i < iteration ; i++){
+				for(int i = 0 ; i < iterationCore ; i++){
 					String[] commands = runningScript.split("[\n|;]+");
 					for(int j = 0 ; j < commands.length ; j++){
 						this.printer.print( this.interpret(commands[j]));
@@ -144,7 +154,7 @@ public class Runner extends JFrame implements Runnable {
 //				this.printer.print(this.interpret("wait=10;"));
 				Scanner sc = new Scanner(System.in);//TODO one input for each thread
 				while(true){
-					System.out.println("wait for command");
+//					System.out.println("wait for command");
 					String line = sc.nextLine();
 					this.printer.print(this.interpret(line));
 				}
@@ -159,8 +169,8 @@ public class Runner extends JFrame implements Runnable {
 	 * Number of repetirion of the same scenario
 	 * @param i
 	 */
-	public void setIteration(int i) {
-		this.iteration = i;
+	public void setIterationCore(int i) {
+		this.iterationCore = i;
 
 	}
 

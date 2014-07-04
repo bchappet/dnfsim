@@ -26,7 +26,7 @@ public class V4Neighborhood2DTest {
 	@Test
 	public void testGetNeighborhood() {
 		int[] res = neigh.getNeighborhood(2);
-		System.out.println(Arrays.toString(res));
+//		System.out.println(Arrays.toString(res));
 	}
 
 }

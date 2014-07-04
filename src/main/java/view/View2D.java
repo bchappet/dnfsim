@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.util.EventObject;
 
+import main.java.maps.Var;
+
 /**
  * Respect the minimum knowledge paradigm
  * Can display wathever double matrix
@@ -23,12 +25,16 @@ public class View2D extends ParameterViewDB{
 	private int blackBorder = 1; 
 	
 	/**Color map**/
-	private ColorMap colorMap;
+	private Var<ColorMap> colorMap;
+	
+	private Var<Boolean> grid;
 
-	public View2D(String name,double[][] initialState,ColorMap colorMap) {
+	public View2D(String name,double[][] initialState,
+			Var<ColorMap> colorMap,Var<Boolean> grid) {
 		super(name);
 		this.buffer = initialState;
 		this.colorMap = colorMap;
+		this.grid = grid;
 		
 	}
 	
@@ -50,19 +56,32 @@ public class View2D extends ParameterViewDB{
 
 		Image img = createImage(buffer[0].length,buffer.length);
 		Graphics tmp = img.getGraphics();
-		for(int i = 0 ; i < buffer[0].length ; i++)
-		{
-			for( int j = 0 ; j <buffer.length ; j ++)
-			{
-//				System.out.println("i:"+i+" j:"+j);
-//				System.out.println(buffer[j][i]);
-				tmp.setColor(colorMap.getColor(getValue(i,j)));
+		for(int i = 0 ; i < buffer[0].length ; i++){
+			for( int j = 0 ; j <buffer.length ; j ++){
+				tmp.setColor(colorMap.get().getColor(getValue(i,j)));
 				tmp.fillRect(i,j,1,1);
 			}
 		}
 		Image scaled = img.getScaledInstance(dx, dy, Image.SCALE_FAST);
 		//System.out.println(dx+","+dy);
 		g.drawImage(scaled,offsetX,offsetY,dx,dy,null);
+		if(grid.get()){
+			//draw the grid
+			for (int i = 0; i < buffer[0].length; i++) { //X
+				int x = i * (dx/buffer[0].length);
+				x += offsetX;
+				g.drawLine(x, offsetY, x, dy+offsetY);
+			}
+			
+			for (int j = 0; j < buffer.length; j++) { //Y
+				int y = j * (dy/buffer.length);
+				y += offsetY;
+				g.drawLine(0, y, dx, y);
+			}
+			
+		}
+		
+		
 		for(int i = 0 ; i < blackBorder ; i++)
 			g.drawRect(offsetX-i, offsetY-i, dx+2*i, dy+2*i);
 

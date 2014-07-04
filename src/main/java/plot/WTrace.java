@@ -165,7 +165,7 @@ public class WTrace {
 		//System.out.println(this);
 		if (state.length != coords_nb) {
 			//throw new Exception();
-			System.out.println("coord_nb : " + coords_nb);
+//			System.out.println("coord_nb : " + coords_nb);
 			System.err.println("Non matching dimensions : state["
 					+ state.length + "], trace[" + coords_nb + "]" + Arrays.toString(Thread.currentThread().getStackTrace()));
 			System.err.println(state.length + " : " +Arrays.toString(state));

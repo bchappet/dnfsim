@@ -48,16 +48,18 @@ public class GraphControler extends ComputableControler {
 
 	public double[][] getArray() {
 		SpreadingGraph param = (SpreadingGraph) this.getParam();
+//		System.out.println(ArrayUtils.toString(param.extractAdjacentMatrix()));
 		double[][] ret;
 			List<Node> listN = param.getValues(); 
 		
 			List<Double> list = new ArrayList<Double>(listN.size()); //TODO optimize
-			for (int i = 0; i < list.size(); i++) {
+			for (int i = 0; i < listN.size(); i++) {
 				list.add((double) listN.get(i).getTotalPacketReceived());
-				System.out.println(list);
+				
 			}
 			
 			Var<Integer> width = new Var<Integer>((int)Math.sqrt(list.size()));
+//			System.out.println("Node    jj " + listN.get(0));
 			Coord<SingleValueParam<Integer>> dim =  new Coord2D(width,width);
 			ret = ArrayUtils.toPrimitiveDoubleArray(list, dim.getIndex(0).get(), dim.getIndex(1).get());
 		return ret;

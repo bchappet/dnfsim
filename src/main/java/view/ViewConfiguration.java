@@ -6,7 +6,10 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
+import java.util.Map;
 
+import main.java.maps.Var;
 import main.resources.utils.TreeNode;
 
 /**
@@ -17,6 +20,8 @@ import main.resources.utils.TreeNode;
  *
  */
 public class ViewConfiguration {
+	
+	
 	
 	private class ViewConfNode{
 		private String name;
@@ -41,12 +46,16 @@ public class ViewConfiguration {
 			return name;
 		}
 	}
-	/**ColorMap for the view**/
-	private ColorMap cm;
-
+//	/**ColorMap for the view**/
+//	private ColorMap cm;
+	
+	public static final String GRID = "grid";
+	public static final String COLORMAP = "colormap";
+	private Map<String,Var> map;
 	private TreeNode<ViewConfNode> tree;
 
 	public ViewConfiguration(String fileName) throws IOException{
+		map = new HashMap<String, Var>();
 		FileReader fr = new FileReader(fileName);
 		BufferedReader br = new BufferedReader(fr);
 
@@ -73,9 +82,15 @@ public class ViewConfiguration {
 					Color[] colors = {Color.BLUE,Color.WHITE,Color.RED};
 					Class<?> clazz = Class.forName("main.java.view."+keyval[1]);
 					Constructor<?> constructor = clazz.getConstructor(Color[].class);
-					this.cm = (ColorMap) constructor.newInstance((Object)colors);
+					this.map.put(keyval[0], new Var<>(keyval[0],(ColorMap) constructor.newInstance((Object)colors))) ;
 					break;
-				default:throw new IllegalArgumentException("The val " + keyval[1] + " for the key " + keyval[0] + " was not recognized");
+				default:
+					if(keyval[1].contains("true") || keyval[1].contains("false")){
+						Var<Boolean> bool = new Var<Boolean>(keyval[0],Boolean.parseBoolean(keyval[1]));
+						this.map.put(keyval[0], bool);
+					}else{
+						throw new IllegalArgumentException("The val " + keyval[1] + " for the key " + keyval[0] + " was not recognized");
+					}
 				}
 			}catch ( ClassNotFoundException | InstantiationException | IllegalAccessException | 
 					 InvocationTargetException |
@@ -182,12 +197,23 @@ public String getViewAdapter(String param){
 	return node.getData().getViewAdapterName();
 }
 
-public ColorMap getColorMap() {
-	return cm;
-}
+
 
 public TreeNode<ViewConfNode> getTree() {
 	return this.tree;
+}
+/**
+ * Return a given parameter
+ * @param grid2
+ * @return
+ */
+public Var get(String id) {
+	Var ret =  map.get(id);
+	if(ret == null){
+		throw new IllegalArgumentException("The var "+ id + " was not found");
+	}else{
+		return ret;
+	}
 }
 
 }

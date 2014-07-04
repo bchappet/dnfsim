@@ -68,8 +68,8 @@ public class SpreadingGraphFactory {
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new RSDNFTransmitter(((Var<Double>)crsdnf.get(RSDNFCommandLine.WEIGTH)).get()));
                 }
-                System.out.println("Matrix size  x" + matrice.length);
-                System.out.println("Matrix size  y" + matrice[0].length);
+//                System.out.println("Matrix size  x" + matrice.length);
+//                System.out.println("Matrix size  y" + matrice[0].length);
                 for (int l = 0; l < matrice.length; l++) {
                     for (int c = 0; c < matrice[l].length; c++) {
                         if (matrice[l][c] == 1) {
@@ -97,7 +97,7 @@ public class SpreadingGraphFactory {
             case PROBABILISTIC_FLOODING:
             	PFCommandLine pfcl = (PFCommandLine)commandLine;
                 res = new PFSpreadingGraph((Var<BigDecimal>) pfcl.get(PFCommandLine.NETWORK_DT));
-                System.out.println("poids : "+((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get());
+//                System.out.println("poids : "+((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get());
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new PFNode(((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get()));
                 }

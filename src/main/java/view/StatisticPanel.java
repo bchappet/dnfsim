@@ -39,7 +39,7 @@ public class StatisticPanel extends ViewPanel {
 				if(view != null)
 					remove(view);
 				view = (JPanel) getViewFactory().constructView(name);
-				System.out.println("View : " + view);
+//				System.out.println("View : " + view);
 				add(view ,BorderLayout.CENTER);
 			}
 		});

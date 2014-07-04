@@ -793,7 +793,7 @@ public class StatCNFT {
 			public Coord<Double> computeStatistic(BigDecimal time, int index,
 					List params) {
 				Map pot = (Map) this.getParam(0);
-				System.out.println("Name   " + pot.getName());
+//				System.out.println("Name   " + pot.getName());
 				int wsum = ((Double) ((SingleValueParam)this.getParam(1)).get()).intValue();
 				if(wsum != 0){
 					double sumX = 0;
@@ -818,8 +818,8 @@ public class StatCNFT {
 //						System.out.println(" sumY " + sumY);
 					}
 //					System.out.println("very end : "  );
-					System.out.println(" sumX " + sumX);
-					System.out.println(" sumY " + sumY);
+//					System.out.println(" sumX " + sumX);
+//					System.out.println(" sumY " + sumY);
 					
 					
 					// Normalize the center main.java.coordinates (div by wsum)

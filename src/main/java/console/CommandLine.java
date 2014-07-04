@@ -50,6 +50,10 @@ public class CommandLine  {
 	public static final String TIME_TO_REACH = "time_to_reach"; //time to reach
 	public static final String TIME_MAX = "time_max"; //time to reach at max
 
+	private static final String MAP_TO_SAVE = "mapToSave"; //separator = ,
+
+	private static final String PATH_TO_SAVE = "pathToSave";
+
 	protected String initScript;
 	/**Associate a parameter name with its var**/
 	protected Map<String, Var> map;
@@ -92,6 +96,7 @@ public class CommandLine  {
 		return ""
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
 				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
+				+ MAP_TO_SAVE+"=null;" + PATH_TO_SAVE+"=src/;"
 				;
 	}
 
@@ -177,12 +182,13 @@ public class CommandLine  {
 							//We have to determine the type of the object
 							if(obj.matches("[T|F]"))//Boolean
 							{
-								int val;
+								
+								boolean val;
 
 								if( obj.equals("T"))
-									val = 1;
+									val = true;
 								else 
-									val = 0;
+									val = false;
 
 								var.set(val);
 							}
@@ -317,16 +323,16 @@ public class CommandLine  {
 		else if(command.equals("wait"))
 		{
 			get(TIME_TO_REACH).set(new BigDecimal(value));
-			Runnable toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+//			System.out.println(get(TIME_TO_REACH).get());
+			Runnable toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
 			Thread th = new Thread(toRun);
 			th.start();
 		}
-		//		else if(command.equals("waitNsave"))
-		//		{
-		//			System.out.println("here");
-		//			BigDecimal time =  new BigDecimal(value) ; //second 
-		//			currentModelControler.simulateNSave(time);
-		//		}
+//		else if(command.equals("waitNsave"))
+//		{
+//			BigDecimal time =  new BigDecimal(value) ; //second 
+////			currentModelControler.simulateNSave(time);
+//		}
 		else if(command.equals("print")){
 			String split[] = value.split(",");
 			this.characControler.compute(this.computationControler.getTime());
@@ -483,8 +489,8 @@ public class CommandLine  {
 		else if(command.equals("step"))
 		{
 			BigDecimal smalestNextTime = computationControler.getSmallestNextTime();
-			System.out.println(" time " + getTime());
-			System.out.println(" smalestNextTime " + smalestNextTime);
+//			System.out.println(" time " + getTime());
+//			System.out.println(" smalestNextTime " + smalestNextTime);
 			get(TIME_TO_REACH).set(smalestNextTime);
 			this.get(this.PLAY).set(true);
 			run();
@@ -507,15 +513,15 @@ public class CommandLine  {
 	private void run() throws CommandLineFormatException{
 		
 		if(toRun == null && threadRun == null ){
-			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
 			threadRun = new Thread(toRun);
 			threadRun.start();
 		}else if(threadRun != null && !threadRun.isAlive() ){
-			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
 			threadRun = new Thread(toRun);
 			threadRun.start();
 		}else{
-			System.out.println("to run already init");
+//			System.out.println("to run already init");
 		}
 	}
 
@@ -531,7 +537,7 @@ public class CommandLine  {
 				String key =  split[0];
 				if(split.length == 1)
 				{
-					throw new CommandLineFormatException(key + " invalid" + " in " + s);
+					throw new CommandLineFormatException(key + " invalid" + " in " + command);
 				}
 				else
 				{

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.maps.Computable;
+import main.java.maps.HasChildren;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
 import main.java.network.generic.packet.Packet;
@@ -16,7 +17,7 @@ import main.java.network.generic.packet.Packet;
  * @param <N> Sous classe des noeuds
  * @param <E> Sous classe des arêtes
  */
-public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements Parameter<N>, Computable {
+public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements Parameter<N>, HasChildren<N>,Computable {
 
     private final List<N> nodes;
 
@@ -131,7 +132,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
      */
     @Override
     public  void compute() {
-    	System.out.println("computing "+this+" ...");
+//    	System.out.println("computing "+this+" ...");
         for (N n : getNodes()) {
             n.prepareBeforeSendParallele();
         }
@@ -193,5 +194,10 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
     public void setComputations(int computations) {
         this.computations = computations;
     }
+
+	@Override
+	public List<Parameter> getParameters() {
+		return new ArrayList<>();
+	}
 
 }
