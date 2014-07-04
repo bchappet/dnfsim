@@ -2,6 +2,8 @@ package main.java.network.probalisticFlooding;
 
 import java.math.BigDecimal;
 
+import main.java.console.CommandLineFormatException;
+import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.SpreadingGraph;
@@ -15,6 +17,8 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 	public PFSpreadingGraph(Var<BigDecimal> dt) {
 		super(dt);
 	}
+	
+	
 	
 	public void compute(){
 		if(this.isFirstComputatution){

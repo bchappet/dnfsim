@@ -8,4 +8,5 @@ PFModel
 	stats
 		Plot2D
 			Time
-			Time
+			current_packet
+			buff_max_load

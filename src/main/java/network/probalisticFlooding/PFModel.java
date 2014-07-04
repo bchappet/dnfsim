@@ -1,22 +1,84 @@
 package main.java.network.probalisticFlooding;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.util.Arrays;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
+import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.NetworkModel;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.packet.Packet;
+import main.resources.utils.ArrayUtils;
 
 public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNode>>{
 
-	public PFModel(String name) {
+	public PFModel(String name) throws IOException, CommandLineFormatException {
 		super(name);
-		// TODO Auto-generated constructor stub
+		
 	}
 	
+	@Override
+	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
+		try {
+			this.writePFAdjacentMatrix();
+		} catch (IOException e) {
+			e.printStackTrace();
+			System.exit(-1);
+		}
+		super.initializeParameters();
+	}
+	
+	private double[][] generateAdjacentMatrix() throws CommandLineFormatException{
+		int  size = (int) command.get(PFCommandLine.SIZE).get();
+		
+		double[][] adj = new double[size*size][size*size];
+		
+		
+		//create oriented adjacent matrix for a 4 neigh topology
+		for (int i = 0; i < size*size; i++) {
+			for (int j = 0; j < size*size; j++) {
+				 if( j == (i + 1) && (i + 1) % size != 0 ){ 
+					 // index = i + (j * size**2)
+                     adj[i][j] = 1;
+				 }
+				 else if( j == (i + size) ){
+                     adj[i][j] = 1;
+				 }
+			}
+		}
+		       
+			//	no symetrise it up toward down make the graph unoriented
+			for (int i = 0; i < size*size; i++) {
+				for (int j = 0; j < i; j++) {
+					//for j in range(i):
+		                        adj[i][j] = adj[j][i];
+				}
+			}
+		        return adj;
+	}
+	
+	private void writePFAdjacentMatrix() throws IOException, CommandLineFormatException {
+		
+		Var<String> path = command.get(PFCommandLine.TRANSITION_MATRIX_FILE);
+		
+		FileWriter fw = new FileWriter(path.get(),false);
+		PrintWriter pw = new PrintWriter(fw);
+		
+		double[][] adj  = generateAdjacentMatrix();
+		String str = ArrayUtils.toString(adj);
+		pw.print(str);
+		System.out.println(str);
+		pw.close();
+		
+	}
+
 	@Override
 	public CommandLine constructCommandLine() {
 		return new PFCommandLine();

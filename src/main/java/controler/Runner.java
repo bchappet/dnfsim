@@ -102,7 +102,7 @@ public class Runner extends JFrame implements Runnable {
 			cl.setCharacControler(characContrl);
 			if(gui){
 				
-				this.view.loadModelView(name,mc,computationControler);
+				this.view.loadModelView(name,mc,computationControler,cl);
 				this.view.setVisible(true);
 			}
 		}
@@ -138,7 +138,7 @@ public class Runner extends JFrame implements Runnable {
 				}
 			}
 			if(this.gui){
-				this.printer.print(this.interpret("wait=10;"));
+//				this.printer.print(this.interpret("wait=10;"));
 				Scanner sc = new Scanner(System.in);//TODO one input for each thread
 				while(true){
 					System.out.println("wait for command");

@@ -10,14 +10,11 @@ public class ComputationControlerView {
 	private final transient Logger LOGGER = Logger.getLogger(ComputationControlerView.class.getName());
 
 
-	/**True if the simulation gui is playing**/
-	private boolean play;
 
 	/**Simulation time = realTime * timeSpeedRatio**/
 	private Var<Double> timeSpeedRatio;
 
 	public ComputationControlerView(Var<Double> timeSpeedRatio){
-		this.play = false;
 		this.timeSpeedRatio = timeSpeedRatio;
 	}
 	
@@ -30,10 +27,6 @@ public class ComputationControlerView {
 	 */
 	public void delayComputation(BigDecimal currentSimulationTime){
 		try{
-			while(!play){
-				//LOGGER.info("Pause");
-				Thread.sleep(100);
-			}
 			delayComputationSpeed(currentSimulationTime);
 		}catch(InterruptedException e){
 			e.printStackTrace();
@@ -68,12 +61,7 @@ public class ComputationControlerView {
 
 	}
 
-	/**
-	 * Play pause switcher
-	 */
-	public void playPause(){
-		this.play = !this.play;
-	}
+	
 	
 
 

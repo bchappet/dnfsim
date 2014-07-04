@@ -30,11 +30,11 @@ public class  ParameterModifierPanel extends JPanel {
 	public static final int START = 0;
 	public static final int END = 1;
 
-	private JTextField txt;
-	private NumberFormat formater;
-	private VarControler var;
+	protected JTextField txt;
+	protected NumberFormat formater;
+	protected VarControler var;
 	/**Amount to add or remove when pushing + or - button**/
-	private double amount;
+	protected double amount;
 
 
 	public ParameterModifierPanel(VarControler var) {
@@ -47,6 +47,10 @@ public class  ParameterModifierPanel extends JPanel {
 		
 	}
 	
+	protected VarControler getvVarControler(){
+		return var;
+	}
+	
 	public void update()
 	{
 		if(var.get() instanceof Number){
@@ -54,16 +58,26 @@ public class  ParameterModifierPanel extends JPanel {
 		}
 	}
 	
-	private static double getValue(VarControler param){
+	protected  Number getValue(VarControler param){
 //		System.out.println("getVal : " + param.getName());
-		return ((Number)param.get()).doubleValue();
+		return (Number) (param.get());
 	}
 	
 	private static String getName(VarControler param){
 		return param.toString();
 	}
+	
+	
 
-
+	protected void addToValue() {
+		var.set((getValue(var)).doubleValue() + amount);
+		
+	}
+	
+	protected void subToValue() {
+		var.set((getValue(var)).doubleValue() - amount);
+		
+	}
 
 	protected void initRunnerGUI()
 	{
@@ -82,9 +96,11 @@ public class  ParameterModifierPanel extends JPanel {
 		ActionListener bpAdd = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				var.set(getValue(var) + amount);//TODO only double compliant
+				addToValue();
 				txt.setText(formater.format(getValue(var)));
 			}
+
+			
 		};
 		bp.addMouseListener(new TimerMouseListener( delay, bpAdd));
 		bp.addActionListener(bpAdd);
@@ -94,7 +110,7 @@ public class  ParameterModifierPanel extends JPanel {
 		ActionListener bmAdd = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				var.set(getValue(var) - amount);//TODO only double compliant
+				subToValue();
 				txt.setText(formater.format(getValue(var)));
 			}
 		};
@@ -167,8 +183,8 @@ public class  ParameterModifierPanel extends JPanel {
 	 * @param param
 	 * @return
 	 */
-	public  static double computeAmount(VarControler param) {
-		double val = Math.abs(getValue(param));
+	public  double computeAmount(VarControler param) {
+		double val = Math.abs((getValue(param)).doubleValue());
 		double ret = 0;
 
 		//System.out.print(val + " ==> ");

@@ -64,35 +64,50 @@ public class ComputationControler {
 		}
 	}
 
-
+	public void step() {
+		LOGGER.info("Step" );
+		this.checkFirstComputation();
+		this.actualComputation();
+	}
 
 	/**
 	 * Compute the main.java.model main.java.maps until time == timeLimit
 	 * @param timeLimit
 	 */
-	public void compute(BigDecimal timeLimit){
-		LOGGER.info("Computation until: " + timeLimit );
+	public void compute(){
+		this.actualComputation();
+//		LOGGER.info("Computation until: " + timeLimit );
+//		checkFirstComputation();
+//
+//		while(time.compareTo(timeLimit) < 0){
+//			//Delay if there is a gui
+//			if(this.view != null){
+//				this.view.delayComputation(this.time);
+//			}
+//			
+//			this.actualComputation();
+//
+//		}
+	}
+	
+	public void checkFirstComputation(){
 		if(time.equals(new BigDecimal("0"))){
 			LOGGER.info("First computation");
 			this.firstComputation();
 		}
-
-		while(time.compareTo(timeLimit) < 0){
-			//Delay if there is a gui
-			if(this.view != null){
-				this.view.delayComputation(this.time);
+	}
+	
+	public void actualComputation(){
+		//This is the time for this simulation
+		time = getSmallestNextTime();
+		LOGGER.fine("time = " + time);
+		for(ComputableControler m : orderedMap){
+			if(m.getNextTime().compareTo(time) == 0){
+				LOGGER.fine("compute : " + m);
+				m.compute(this.time);
 			}
-			//This is the time for this simulation
-			time = getSmallestNextTime();
-			LOGGER.fine("time = " + time);
-			for(ComputableControler m : orderedMap){
-				if(m.getNextTime().compareTo(time) == 0){
-					LOGGER.fine("compute : " + m);
-					m.compute(this.time);
-				}
-			}
-
 		}
+		
 	}
 	/**
 	 * Called when time = 0
@@ -114,7 +129,7 @@ public class ComputationControler {
 	 * @param orderedMap2
 	 * @return
 	 */
-	private BigDecimal getSmallestNextTime(){
+	public BigDecimal getSmallestNextTime(){
 		BigDecimal smallestNextTime = new BigDecimal(Double.MAX_VALUE);
 		for(ComputableControler m : this.orderedMap){
 			BigDecimal nextTime = m.getNextTime();
@@ -129,5 +144,7 @@ public class ComputationControler {
 	public BigDecimal getTime() {
 		return this.time;
 	}
+
+	
 
 }

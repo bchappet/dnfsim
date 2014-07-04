@@ -26,9 +26,6 @@ import main.java.coordinates.NullCoordinateException;
  */
 public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListener,MouseListener {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 4334546971336119655L;
 	
 	/**Scroll pane**/
@@ -78,9 +75,6 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 	}
 	
 	
-
-	
-	
 	public void delete()
 	{
 		this.jtree.collapseRow(this.jtree.getRowCount());
@@ -88,14 +82,11 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 	}
 
 
-
 //	public void resize() {
 //		//this.setPreferredSize(this.getParent().getPreferredSize());
 //		Dimension dim = this.getParent().getPreferredSize();
 //		treeView.setPreferredSize(new Dimension(dim.width-margin , (int)(dim.height/2d)-margin ));
 //	}
-
-
 
 	@Override
 	public void valueChanged(TreeSelectionEvent arg0) {
@@ -105,7 +96,6 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 			detailsPanel.setDisplayedParam("Param selected" ,disp);
 		}
 	}
-
 	
 	@Override
 	public void mouseClicked(MouseEvent e) {
@@ -133,7 +123,6 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 //		        popupMenu.show(e.getComponent(), e.getX(), e.getY());
 //		    }
 	}
-
 	@Override
 	public void mouseEntered(MouseEvent e) {
 		
@@ -153,8 +142,6 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 	public void mouseReleased(MouseEvent e) {
 		
 	}
-
-
 
 	public JTree getJTree() {
 		return jtree;

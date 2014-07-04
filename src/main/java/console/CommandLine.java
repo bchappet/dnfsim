@@ -25,7 +25,7 @@ import main.java.space.Coord;
 
 public class CommandLine  {
 
-
+	private  BigDecimal time; //second
 
 	//public static final String DISPLAY_DT = "disp_dt"; //time refresh rate for running simu
 	public static final String SIMULATION_STEP = "simu_dt";
@@ -44,7 +44,11 @@ public class CommandLine  {
 
 	/**For simulation: simlation speed = real time * TIME_SPEED_RATIO**/
 	public static final String TIME_SPEED_RATIO = "time_speed_ratio";
+	private static final String PLAY = "play";
 
+
+	public static final String TIME_TO_REACH = "time_to_reach"; //time to reach
+	public static final String TIME_MAX = "time_max"; //time to reach at max
 
 	protected String initScript;
 	/**Associate a parameter name with its var**/
@@ -55,12 +59,16 @@ public class CommandLine  {
 	private ModelControler currentModelControler;
 	private ComputationControler computationControler;
 	private CharacteristicsControler characControler;
+	
+	private Runnable toRun;
+	private Thread threadRun;
 
 	/**
 	 * Parse the default script and the initScript
 	 * @throws CommandLineFormatException
 	 */
 	public CommandLine() {
+		time =  BigDecimal.ZERO ;
 		this.map = new HashMap<String, Var>();
 		this.definitionSet = new HashMap<String,Coord<?>>();
 	}
@@ -83,10 +91,8 @@ public class CommandLine  {
 	{
 		return ""
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
-				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;";
-		//				+POP_SIZE+"=30;"	+ELITE_RATIO+"=0.4;"
-		//				+REEVALUATE+"=T;"	+PARENT_SIGMA+"=0.5;"
-		//				+MUTATION_PROB+"=0.1;"+GEN_MAX+"=30;"
+				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
+				;
 	}
 
 
@@ -308,11 +314,12 @@ public class CommandLine  {
 		{
 			ret =  execScript(value);
 		}
-
 		else if(command.equals("wait"))
 		{
-			BigDecimal time =  new BigDecimal(value) ; //second 
-			computationControler.compute(computationControler.getTime().add(time));
+			get(TIME_TO_REACH).set(new BigDecimal(value));
+			Runnable toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+			Thread th = new Thread(toRun);
+			th.start();
 		}
 		//		else if(command.equals("waitNsave"))
 		//		{
@@ -456,11 +463,12 @@ public class CommandLine  {
 		//			currentModelControler.play();
 		//		else if(command.equals("init")) //t = 0 computation
 		//			currentModelControler.firstComputation();
-		//		else if(command.equals("pause"))
-		//			currentModelControler.pause();
-		//		else if(command.equals("step"))
-		//			currentModelControler.step();
-		if(command.equals("reset"))
+		if(command.equals("play")){
+					Var<Boolean> play = this.get(this.PLAY);
+					play.set(!play.get());
+					get(TIME_TO_REACH).set(get(TIME_MAX).get());
+					run();
+		}else if(command.equals("reset"))
 			currentModelControler.reset();
 		//		else if(command.equals("compute"))
 		//		{	
@@ -473,6 +481,13 @@ public class CommandLine  {
 				ret += map.get(k).get()+"; ";
 			}
 		}
+		else if(command.equals("step"))
+		{	BigDecimal ttr = getTime().add(computationControler.getSmallestNextTime());
+			System.out.println(" ttr " + ttr);
+			get(TIME_TO_REACH).set(ttr);
+			this.get(this.PLAY).set(true);
+			run();
+		}
 		else if(command.equals("exit"))
 			System.exit(0);
 
@@ -483,6 +498,24 @@ public class CommandLine  {
 
 		return ret;
 
+	}
+	
+	private BigDecimal getTime() {
+		return computationControler.getTime();
+	}
+	private void run() throws CommandLineFormatException{
+		
+		if(toRun == null && threadRun == null ){
+			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+			threadRun = new Thread(toRun);
+			threadRun.start();
+		}else if(threadRun != null && !threadRun.isAlive() ){
+			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO));
+			threadRun = new Thread(toRun);
+			threadRun.start();
+		}else{
+			System.out.println("to run already init");
+		}
 	}
 
 	private void parseInitialCommand(String command) throws CommandLineFormatException

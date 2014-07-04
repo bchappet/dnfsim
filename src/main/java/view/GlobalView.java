@@ -18,6 +18,7 @@ import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.controler.Runner;
 import main.java.controler.VarControler;
+import main.java.coordinates.NullCoordinateException;
 
 /**
  * Init the global frame with a model menu
@@ -95,13 +96,13 @@ public class GlobalView extends JPanel {
 	 * @throws IOException 
 	 * @throws CommandLineFormatException 
 	 */
-	public void loadModelView(String name,ModelControler mc, ComputationControler cc) throws IOException, CommandLineFormatException {
+	public void loadModelView(String name,ModelControler mc, ComputationControler cc,final CommandLine cl) throws IOException, CommandLineFormatException {
 		this.currentModel = name;
 		
 		ViewConfiguration vc = new ViewConfiguration(this.GUI_CONF_FOLDER + name +".gui");
 		ViewFactory vf = new ViewFactory(vc, mc.getTree());
 		ModelView modelView = new ModelView(name,vf,dim );
-		final ComputationControlerView compView = new ComputationControlerView(runner.getCommandLine().get(CommandLine.TIME_SPEED_RATIO));
+		ComputationControlerView compView = new ComputationControlerView(runner.getCommandLine().get(CommandLine.TIME_SPEED_RATIO));
 		cc.setComputationControlerView(compView);
 		
 		//Parameter root = mc.getContr
@@ -110,15 +111,42 @@ public class GlobalView extends JPanel {
 		playPause.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				compView.playPause();
+				try {
+					System.out.println(" playyyyy");
+					cl.parseCommand("play;");
+				} catch (NumberFormatException | NullCoordinateException
+						| CommandLineFormatException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
 			}
 		});
 		
+		JButton step = new JButton("Step");
+		step.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					System.out.println(" stepppppppp");
+					cl.parseCommand("step;");
+				} catch (NumberFormatException | NullCoordinateException
+						| CommandLineFormatException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				}
+			}
+		});
+		
+		menu.add(step);
 		menu.add(playPause);
 		this.add(modelView,BorderLayout.CENTER);
 		
-		ParameterModifierPanel pmp = new ParameterModifierPanel(new VarControler(runner.getCommandLine().get(CommandLine.TIME_SPEED_RATIO)));
+		ParameterModifierPanel pmp = new ParameterModifierPanel(new VarControler(cl.get(CommandLine.TIME_SPEED_RATIO)));
+		ParameterModifierPanel pmp1 = new BigDecimalModifierPanel(new VarControler(cl.get(CommandLine.TIME_TO_REACH)));
+		ParameterModifierPanel pmp2 = new BigDecimalModifierPanel(new VarControler(cl.get(CommandLine.TIME_MAX)));
 		menu.add(pmp);
+		menu.add(pmp1);
+		menu.add(pmp2);
 	
 		
 	}
