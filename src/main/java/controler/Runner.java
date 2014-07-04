@@ -52,6 +52,7 @@ public class Runner extends JFrame implements Runnable {
 		this.gui = gui;
 		this.printer = printer;
 		this.runningScript = runningScript;
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(gui){
 			Dimension dim = new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight());
 			view = new GlobalView(dim,this,modelName);
@@ -68,6 +69,8 @@ public class Runner extends JFrame implements Runnable {
 		
 
 	}
+	
+	
 
 	public GlobalView getGlobalView(){
 		return this.view;

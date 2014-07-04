@@ -138,7 +138,12 @@ private void constructTreeRecursive(TreeNode<ViewConfNode> node,BufferedReader b
  */
 private int parseIncrLevel(String line) {
 	if(!line.contains("\t")){
-		return 0;
+		if(line.startsWith(" ")){
+			line = line.replaceFirst("    ", "");
+			return parseIncrLevel(line) + 1;
+		}else{
+			return 0;
+		}
 	}else{
 		line = line.replaceFirst("\t", "");
 		return parseIncrLevel(line) + 1;

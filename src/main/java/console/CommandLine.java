@@ -404,7 +404,6 @@ public class CommandLine  {
 			if(param instanceof SingleValueParam){
 				ret += ((SingleValueParam) param).get();
 			}else{
-				System.out.println("here");
 				ret += param.displayText();
 			}
 
@@ -482,9 +481,11 @@ public class CommandLine  {
 			}
 		}
 		else if(command.equals("step"))
-		{	BigDecimal ttr = getTime().add(computationControler.getSmallestNextTime());
-			System.out.println(" ttr " + ttr);
-			get(TIME_TO_REACH).set(ttr);
+		{
+			BigDecimal smalestNextTime = computationControler.getSmallestNextTime();
+			System.out.println(" time " + getTime());
+			System.out.println(" smalestNextTime " + smalestNextTime);
+			get(TIME_TO_REACH).set(smalestNextTime);
 			this.get(this.PLAY).set(true);
 			run();
 		}
