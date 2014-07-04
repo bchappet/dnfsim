@@ -158,7 +158,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
     //-------------------------parameter----------------------------------------
     @Override
     public String getName() {
-        return " SpreadingGraph";
+        return "SpreadingGraph";
     }
 
     @Override

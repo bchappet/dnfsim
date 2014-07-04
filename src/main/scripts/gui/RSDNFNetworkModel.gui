@@ -4,6 +4,7 @@ RSDNFNetworkModel
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
+		RSDNF_SpreadingGraph
 		NeuralMap
 	stats
 		Plot2D

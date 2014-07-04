@@ -3,8 +3,12 @@ package main.java.view;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 
-import main.java.controler.*;
-import main.java.maps.SingleValueParam;
+import main.java.controler.MapControler;
+import main.java.controler.ParameterControler;
+import main.java.controler.ParameterControlerTree;
+import main.java.controler.SingleValueControler;
+import main.java.controler.StatisticsControler;
+import main.java.network.view.GraphControler;
 
 /**
  * The view factory will construct the view thanks to a provided ParameterControler
@@ -75,6 +79,8 @@ public class ViewFactory {
 			return "SingleValueParamCurve2DAdapter";
 		}else if(pc instanceof StatisticsControler){
 			return "StatisticsViewAdapter";
+		}else if(pc instanceof GraphControler){
+			return "GraphView2DAdapter";
 		}else{
 			return null;
 		}

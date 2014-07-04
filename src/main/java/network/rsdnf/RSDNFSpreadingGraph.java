@@ -38,7 +38,7 @@ public class RSDNFSpreadingGraph extends SpreadingGraph<RSDNFTransmitter,SpikeEd
 
     @Override
     public String getName() {
-        return "RSDNF " + super.getName();
+        return "RSDNF_" + super.getName();
     }
     
 }

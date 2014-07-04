@@ -68,7 +68,8 @@ public class SpreadingGraphFactory {
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new RSDNFTransmitter(((Var<Double>)crsdnf.get(RSDNFCommandLine.WEIGTH)).get()));
                 }
-                System.out.println("Matrix size " + matrice.length);
+                System.out.println("Matrix size  x" + matrice.length);
+                System.out.println("Matrix size  y" + matrice[0].length);
                 for (int l = 0; l < matrice.length; l++) {
                     for (int c = 0; c < matrice[l].length; c++) {
                         if (matrice[l][c] == 1) {

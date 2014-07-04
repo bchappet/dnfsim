@@ -51,10 +51,11 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 					List<Parameter> params) {
 				//we have to agragate every 4 transmitter nb
 				SpreadingGraph graph = (SpreadingGraph) params.get(0);
+//				System.out.println(graph);
 				int nbTrans = 4;
 				double sum = 0;
 				for (int i = 0; i < nbTrans; i++) {
-					System.out.println("index acces " + index * nbTrans + i);
+//					System.out.println("index acces " + (index * nbTrans + i));
 					sum += graph.getIndex(index * nbTrans + i).getTotalPacketReceived();
 				}
 				return sum;
@@ -71,7 +72,10 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 	 */
 	public File writeRSDNFNetworkFile() throws CommandLineFormatException {
 		int width_neuron_map = ((Var<Integer>)command.get(RSDNFCommandLine.WIDTH_NEURON_MAP)).get();
+		width_neuron_map = width_neuron_map * width_neuron_map;
+		System.out.println("widht neuron map = " + width_neuron_map);
 		int transmitter_by_neuron = ((Var<Integer>)command.get(RSDNFCommandLine.TRANSMITTER_BY_NEURON)).get();
+		System.out.println("transmitter_by_neuron = " + transmitter_by_neuron);
 		double[][] matrice = matToFlat(generateAdjMatrix(width_neuron_map, transmitter_by_neuron), width_neuron_map, transmitter_by_neuron);
 		System.out.println(command.get(RSDNFCommandLine.TRANSITION_MATRIX_FILE).get());
 		File f = new File(((Var<String>) command.get(RSDNFCommandLine.TRANSITION_MATRIX_FILE)).get());
@@ -131,6 +135,7 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 
 	public static double[][] matToFlat(double[][][][] m, int n, int t) {
 		//flatMat = np.zeros((n*t,n*t),dtype=np.float) #adjacent matric of the graph
+		System.out.println(" flat mat dim  = " + n * t);
 		double[][] flatMat = new double[n * t][n * t];
 		//for i in range(m.shape[0]):
 		for (int i = 0; i < m.length; i++) {

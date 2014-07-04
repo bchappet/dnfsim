@@ -5,9 +5,18 @@
  */
 package main.java.network.view;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import main.java.controler.ComputableControler;
 import main.java.maps.Parameter;
+import main.java.maps.SingleValueParam;
+import main.java.maps.Var;
+import main.java.network.generic.Node;
 import main.java.network.generic.SpreadingGraph;
+import main.java.space.Coord;
+import main.java.space.Coord2D;
+import main.resources.utils.ArrayUtils;
 
 /**
  * La en théorie on devrait faire des méthodes pour accéder à des info sur le
@@ -36,5 +45,23 @@ public class GraphControler extends ComputableControler {
         
         return spr;
     }
+
+	public double[][] getArray() {
+		SpreadingGraph param = (SpreadingGraph) this.getParam();
+		double[][] ret;
+			List<Node> listN = param.getValues(); 
+		
+			List<Double> list = new ArrayList<Double>(listN.size()); //TODO optimize
+			for (int i = 0; i < list.size(); i++) {
+				list.add((double) listN.get(i).getTotalPacketReceived());
+				System.out.println(list);
+			}
+			
+			Var<Integer> width = new Var<Integer>((int)Math.sqrt(list.size()));
+			Coord<SingleValueParam<Integer>> dim =  new Coord2D(width,width);
+			ret = ArrayUtils.toPrimitiveDoubleArray(list, dim.getIndex(0).get(), dim.getIndex(1).get());
+		return ret;
+	
+	}
 
 }
