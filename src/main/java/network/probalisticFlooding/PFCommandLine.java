@@ -10,7 +10,8 @@ public class PFCommandLine extends NetworkCommandLine{
     protected String defaultScript() {
         return super.defaultScript() + 
         		/* PFCommandLine */
-                WEIGTH + "=0.0;" ;//+ 
+                WEIGTH + "=0.0;" +  
+        		TRANSITION_MATRIX_FILE + "=src/main/java/network/ressource/1.pf;";
         		/* NetworkCommandLine */
 //                NETWORK_DT + "=bd0.1,0.01,1,0.01;";
     }

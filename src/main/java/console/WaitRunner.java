@@ -47,6 +47,7 @@ public  class WaitRunner  implements Runnable{
 						Thread.sleep(100);
 					}
 				}
+				this.play.set(false);
 				System.out.println("print end of run");
 			} catch (InterruptedException e) {
 				e.printStackTrace();
