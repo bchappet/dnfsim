@@ -87,15 +87,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 		this.root = spreadingGraph;
 		
 		
-		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(NetworkCommandLine.NETWORK_DT);
-		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
-		
-		
-		TotalPacketReceiveUnitMap receivePacketUnitMap = new TotalPacketReceiveUnitMap(spreadingGraph, dt, size);
-		
-		
-//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
-		addParameters(receivePacketUnitMap/*,concentrationMap*/);
+	
 		
 	}
 

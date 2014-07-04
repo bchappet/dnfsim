@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import main.java.console.CommandLine;
@@ -12,7 +13,9 @@ import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
+import main.java.network.generic.NetworkCommandLine;
 import main.java.network.generic.NetworkModel;
+import main.java.network.generic.TotalPacketReceiveUnitMap;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.packet.Packet;
 import main.resources.utils.ArrayUtils;
@@ -33,6 +36,16 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 			System.exit(-1);
 		}
 		super.initializeParameters();
+		
+		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(NetworkCommandLine.NETWORK_DT);
+		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
+		
+		
+		TotalPacketReceiveUnitMap receivePacketUnitMap = new TotalPacketReceiveUnitMap(getSpreadingGraph(), dt, size);
+		
+		
+//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
+		addParameters(receivePacketUnitMap/*,concentrationMap*/);
 	}
 	
 	private double[][] generateAdjacentMatrix() throws CommandLineFormatException{
