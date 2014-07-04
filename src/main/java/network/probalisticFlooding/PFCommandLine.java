@@ -3,7 +3,7 @@ package main.java.network.probalisticFlooding;
 import main.java.network.generic.NetworkCommandLine;
 
 public class PFCommandLine extends NetworkCommandLine{
-	public static String WEIGTH = "w_pf";
+	public static String WEIGTH = "weigth";
 	
 	
 	@Override

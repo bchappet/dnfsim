@@ -10,11 +10,13 @@ import main.java.coordinates.NullCoordinateException;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
+import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.model.Model;
 import main.java.network.generic.packet.Packet;
 import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.plot.Trace;
+import main.java.space.Space2D;
 import main.java.statistics.Statistics;
 import main.java.unitModel.UnitModel;
 
@@ -29,8 +31,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	private SpreadingGraph<N,E> spreadingGraph;
 
 	private final SpreadingGraphFactory spreadingGraphFactory;
-	
-	protected ReceivePacketUnitMap receivePacketUnitMap;
+
 
 	public NetworkModel(String name) {
 		super(name);
@@ -75,7 +76,8 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
-//		System.out.println("file : " +pathMatrixTransitionFile);
+		System.out.println("file : " +pathMatrixTransitionFile);
+		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
@@ -89,8 +91,12 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
 		
 		
-		receivePacketUnitMap = new ReceivePacketUnitMap(spreadingGraph, dt, size);
-		addParameters(receivePacketUnitMap);
+		TotalPacketReceiveUnitMap receivePacketUnitMap = new TotalPacketReceiveUnitMap(spreadingGraph, dt, size);
+		
+		
+//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
+		addParameters(receivePacketUnitMap/*,concentrationMap*/);
+		
 	}
 
 

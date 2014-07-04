@@ -38,8 +38,10 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	private Class clazzOfEdges;
 
 	private int maxSize = Integer.MAX_VALUE;
-	
-	private int lastPacketReceivedCounter = 0;
+
+	private int totalPacketReceive = 0;
+
+	private int lastPacketReceiveNumber = 0;
 
 	public Node(Class clazzOfEdge,Node<P, E>... neigthbours) {
 		this.clazzOfEdges = clazzOfEdge;
@@ -117,7 +119,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 */
 	protected void prepareBeforeSendParallele(){
 		// on met à zero le compteur du nombre de packet recu
-//		setLastPacketReceivedCounter(0);
+		setLastPacketReceiveNumber(0);
 		// on reconstruit le noeud temporaire
 		Node<P, E> tmp = constructTemporary();
 		tmp.setBufferPacket((LinkedList<P>) getBufferPacket().clone());
@@ -154,11 +156,11 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 			 * que la class passé en paramètre correspondent à la class générique.
 			 */
 			Class<E> clazzOfE = clazzOfEdges;//(Class<E>) ts[1];
-//			System.out.println(clazzOfE);
-//			System.out.println(clazzOfThis);
-//			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
-//			clazzOfE.getConstructors()
-//			Constructor c = clazzOfE.getDeclaredConstructor(clazzOfThis, clazzOfThis);
+			//			System.out.println(clazzOfE);
+			//			System.out.println(clazzOfThis);
+			//			Constructor c = clazzOfE.getConstructor(clazzOfThis, clazzOfThis);
+			//			clazzOfE.getConstructors()
+			//			Constructor c = clazzOfE.getDeclaredConstructor(clazzOfThis, clazzOfThis);
 			Constructor c = clazzOfE.getConstructors()[0];//getDeclaredConstructor(clazzOfThis, clazzOfThis); 
 			/*
 			 * TODO : faire en sorte de récupérer le bon constructeur avec les bon arguments
@@ -169,7 +171,7 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 			 * le constructeur de DirectedEdge en stipulant que les arguments sont de type PFNode => run time 
 			 * error NoSuchMethodeFound
 			 */
-			
+
 			return (E) c.newInstance(n, neightbor);
 		} catch (InstantiationException | IllegalAccessException |
 				/*NoSuchMethodException | */SecurityException |
@@ -228,7 +230,8 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 	 * @param packet
 	 */
 	public void receive(P packet) {
-		setLastPacketReceivedCounter(getLastPacketReceivedCounter() + 1);
+		setLastPacketReceiveNumber(getLastPacketReceiveNumber() + 1);
+		setTotalPacketReceived(getTotalPacketReceived()+1);
 		addToFIFO(packet);
 	}
 
@@ -327,12 +330,20 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 		return maxSize;
 	}
 
-	public int getLastPacketReceivedCounter() {
-		return lastPacketReceivedCounter;
+	public int getTotalPacketReceived() {
+		return totalPacketReceive;
 	}
 
-	public void setLastPacketReceivedCounter(int lastPacketReceivedCounter) {
-		this.lastPacketReceivedCounter = lastPacketReceivedCounter;
+	public void setTotalPacketReceived(int totalPacketReceive) {
+		this.totalPacketReceive = totalPacketReceive;
+	}
+
+	public int getLastPacketReceiveNumber() {
+		return lastPacketReceiveNumber;
+	}
+
+	public void setLastPacketReceiveNumber(int lastPacketReceiveNumber) {
+		this.lastPacketReceiveNumber = lastPacketReceiveNumber;
 	}
 
 }

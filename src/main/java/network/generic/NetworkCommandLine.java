@@ -8,12 +8,12 @@ import main.java.console.CommandLine;
 public class NetworkCommandLine extends CommandLine {
 
 //	public static String STOP_CONDITION_ITERATE_VALUE = "v";
-	public static String NETWORK_DT = "network_dt";
-	public static String TRANSITION_MATRIX_FILE = "transition_matrix_file";
-	public static String SIZE = "size";
+	public static final String NETWORK_DT = "network_dt";
+	public static final String TRANSITION_MATRIX_FILE = "transition_matrix_file";
+	public static final String SIZE = "size";
 	
 	
-	public static String NO_TRANSITION_FILE = "noFile";
+	public static final String NO_TRANSITION_FILE = "noFile";
 	
 	@Override
 	protected String defaultScript() {
