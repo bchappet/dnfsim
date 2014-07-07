@@ -6,6 +6,7 @@
 package main.java.network.generic;
 
 import java.math.BigDecimal;
+
 import main.java.maps.Parameter;
 import main.java.maps.Var;
 import main.java.statistics.Statistics;

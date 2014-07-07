@@ -106,10 +106,10 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 
 		time.set(new BigDecimal("0"));
 		wtrace.clear();
-		for(Parameter p : paramNodes){
-			p.reset(); //TODO
-			//			wtrace.addTrace(p.getName());
-		}
+//		for(Parameter p : paramNodes){
+//			p.reset(); //TODO
+//			//wtrace.addTrace(p.getName());
+//		}
 	}
 
 	public int getIndexOf(String ref)

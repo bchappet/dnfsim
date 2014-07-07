@@ -1,9 +1,5 @@
 package main.java.neigborhood;
 
-import static org.junit.Assert.fail;
-
-import java.util.Arrays;
-
 import main.java.maps.Var;
 import main.java.space.DoubleSpace2D;
 

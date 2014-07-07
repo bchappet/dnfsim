@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import main.java.maps.Parameter;
-import main.java.maps.Var;
 import main.java.space.Coord;
 import main.java.unitModel.NeighborhoodUnitModel;
 
@@ -37,7 +36,7 @@ public class LateralWeightsUnitModel extends NeighborhoodUnitModel<Coord<Double>
 	@Override
 	protected Coord<Double> compute(BigDecimal time, int index,
 			List<Parameter> params) {
-		List<Double> values = new ArrayList<Double>(NB_DATA);
+		ArrayList<Double> values = new ArrayList<Double>(NB_DATA);
 		
 		double min = 0.4;
 		double max = 0.4;

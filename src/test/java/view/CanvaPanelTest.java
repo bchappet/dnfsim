@@ -1,9 +1,6 @@
 package test.java.view;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
-
-import java.math.BigDecimal;
 
 import javax.swing.JFrame;
 
@@ -11,7 +8,6 @@ import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.reservoirComputing.ESNCommandLine;
 import main.java.reservoirComputing.ModelESN;
-import main.java.view.StatisticPanel;
 import main.java.view.CanvaPanel;
 import main.java.view.ViewConfiguration;
 import main.java.view.ViewFactory;

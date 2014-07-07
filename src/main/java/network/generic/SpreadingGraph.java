@@ -200,4 +200,14 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
 		return new ArrayList<>();
 	}
 
+	@Override
+	public void reset() {
+		// TODO do it better
+		for(Node n : nodes){
+			n.reset();
+		}
+		this.time = BigDecimal.ZERO;
+		
+	}
+
 }

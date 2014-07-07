@@ -21,7 +21,7 @@ public class Coord2D<T> extends Coord<T> {
 	 * @param y
 	 */
 	public Coord2D(T x,T y){
-		super((ArrayList<T>) null);
+		super((ArrayList<T>) new ArrayList<T>());
 		this.x = x;
 		this.y = y;
 	}
@@ -30,7 +30,7 @@ public class Coord2D<T> extends Coord<T> {
 	 * General constructor
 	 * @param values
 	 */
-	public Coord2D(List<T> values) {
+	public Coord2D(ArrayList<T> values) {
 		super(values);
 		this.x = values.get(Space2D.X);
 		this.y = values.get(Space2D.Y);

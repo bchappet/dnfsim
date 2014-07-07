@@ -2,8 +2,6 @@ package main.java.maps;
 
 import java.util.List;
 
-import main.java.maps.Parameter;
-
 /**
  * Interface for @{Parameter} which can be in the parameter tree
  * @author bchappet

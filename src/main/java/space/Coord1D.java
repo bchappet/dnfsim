@@ -28,7 +28,7 @@ public class Coord1D<T> extends Coord2D<T> {
 	 * General constructor
 	 * @param values
 	 */
-	public Coord1D(List<T> values) {
+	public Coord1D(ArrayList<T> values) {
 		super(values);
 		this.x = values.get(Space2D.X);
 	}

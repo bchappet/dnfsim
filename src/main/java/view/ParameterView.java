@@ -11,6 +11,8 @@ public interface ParameterView  extends Cloneable{
 
 	public void repaint();
 
+	public void reset();
+
 	
 	
 

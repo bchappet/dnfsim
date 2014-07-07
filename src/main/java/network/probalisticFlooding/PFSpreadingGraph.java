@@ -2,8 +2,6 @@ package main.java.network.probalisticFlooding;
 
 import java.math.BigDecimal;
 
-import main.java.console.CommandLineFormatException;
-import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.SpreadingGraph;
@@ -43,20 +41,26 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 //		case PFCommandLine.FOUR_CORNER_WITH_PROBA:
 //			break;
 //		}
-//		for (int i = 0; i < 10; i++) {
-//			
-//			this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
-//		}
-		
-		
-		
 		for (int i = 0; i < 10; i++) {
 			
 			this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
-			this.getIndex(0+8).addToFIFO(new IPv4Datagramme("first"));
-			this.getIndex(9*8).addToFIFO(new IPv4Datagramme("first"));
-			this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
 		}
+		
+		
+		
+		
+//		for (int i = 0; i < 10; i++) {
+//			
+//			this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
+//			this.getIndex(0+8).addToFIFO(new IPv4Datagramme("first"));
+//			this.getIndex(9*8).addToFIFO(new IPv4Datagramme("first"));
+//			this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
+//		}
+	}
+	
+	public void reset(){
+		super.reset();
+		this.isFirstComputatution = true;
 	}
 
     @Override

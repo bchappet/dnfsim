@@ -33,8 +33,6 @@ import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.logging.Logger;
 
-import main.java.view.ParameterView;
-
 public class Plotter extends JPanelDB {
 	
 	private final transient Logger LOGGER = Logger.getLogger(Plotter.class.getName());

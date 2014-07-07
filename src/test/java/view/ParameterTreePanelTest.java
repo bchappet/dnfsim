@@ -46,14 +46,14 @@ public class ParameterTreePanelTest extends JFrame{
 
 	@Test
 	public void testModelView() throws InterruptedException {
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
 		Thread.sleep(10000);

@@ -26,6 +26,7 @@ import Jama.Matrix;
 public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble {
 
 	private Jama.Matrix jamat;
+	private Jama.Matrix initJamat;
 	
 	
 	/**
@@ -46,6 +47,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double[][] values,Parameter<Double>... params){
 		super(name,dt,space,params);
 		this.jamat = new Matrix(values);
+		this.initJamat = (Matrix) this.jamat.clone();
 	}
 	/**
 	 * Construct a matrix with the specified main.java.space and specified value
@@ -56,6 +58,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double cst,Parameter<Double>... params){
 		super(name,dt,space,params);
 		this.jamat = new Matrix(((ISpace2D) space).getDimY(),((ISpace2D) space).getDimX(),cst);
+		this.initJamat = (Matrix) this.jamat.clone();
 	}
 	
 	/**
@@ -146,6 +149,11 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	@Override
 	public double getFastDouble(int x, int y) {
 		return  this.jamat.getArray()[x][y];
+	}
+	@Override
+	public void reset() {
+		this.jamat= (Matrix) this.initJamat.clone();
+		super.reset();
 	}
 	
 //	@Override

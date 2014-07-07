@@ -42,6 +42,11 @@ public interface Parameter<T> extends Cloneable {
 	 */
 	public String getName();
 
+	/**
+	 * Set parameter to its initial value
+	 */
+	public void reset();
+
 
 	
 	

@@ -22,6 +22,10 @@ private JPanel borderPanel;
 		return this.name;
 	}
 	
+	public void reset(){
+		//nothing
+	}
+	
 	public JPanel getBorderPane(){
 		if(borderPanel == null){
 			borderPanel = new JPanel();

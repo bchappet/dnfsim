@@ -4,8 +4,6 @@ import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
-
 import main.java.maps.Var;
 
 public class VarControler extends ParameterControler implements SingleValueControler,Observer{

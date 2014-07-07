@@ -1,9 +1,7 @@
 package test.resources.toolsForJunitTests;
 
-import java.util.logging.Level;
-
-import main.java.space.Coord;
 import static org.junit.Assert.assertTrue;
+import main.java.space.Coord;
 
 public class ToolsJunitTests {
 	

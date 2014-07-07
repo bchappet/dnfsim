@@ -15,7 +15,6 @@ import java.util.List;
 import javax.swing.UIManager;
 
 import main.java.space.Coord;
-import main.java.space.Coord2D;
 import main.java.space.Space2D;
 
 public class PlotCoord2D extends ParameterViewDB {
@@ -69,6 +68,11 @@ public class PlotCoord2D extends ParameterViewDB {
 		curveY.update((Double) coord.getIndex(Space2D.Y));
 	}
 	
+	
+	public void reset(){
+		this.curveX.reset();
+		this.curveY.reset();
+	}
 	
 	@Override
 	public void render(Graphics2D g) {

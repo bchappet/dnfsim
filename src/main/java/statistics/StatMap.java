@@ -6,9 +6,7 @@ import java.util.List;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
-import main.java.maps.UnitMap;
 import main.java.maps.Var;
-import main.java.space.Space;
 import main.java.unitModel.UnitModel;
 
 public abstract class StatMap<T> extends Trajectory<T> {

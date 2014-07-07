@@ -3,13 +3,10 @@ package main.java.controler;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
-import javax.swing.JPanel;
-
 import main.java.maps.Computable;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
 import main.java.view.ParamViewAdapter;
-import main.java.view.View2D;
 
 public abstract class ComputableControler extends ParameterControler {
 	public ComputableControler(Parameter param) {

@@ -5,13 +5,14 @@
  */
 package test.java.network.generic;
 
-import main.java.network.generic.*;
-import test.java.network.generic.*;
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.File;
+
 import main.java.network.generic.Utils;
+
 import org.junit.After;
 import org.junit.AfterClass;
-import static org.junit.Assert.assertArrayEquals;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;

@@ -2,7 +2,6 @@ package main.java.space;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.List;
 
 import main.java.maps.SingleValueParam;
 import main.java.maps.Var;
@@ -27,7 +26,7 @@ public class DoubleSpace extends Space<Double> {
 
 	private static Coord<SingleValueParam<Integer>> getArrayOfResolution(
 			Var<Integer> resolution, int size) {
-		List<SingleValueParam<Integer>> list = new ArrayList<SingleValueParam<Integer>>(size);
+		ArrayList<SingleValueParam<Integer>> list = new ArrayList<SingleValueParam<Integer>>(size);
 		for(int i = 0 ; i < size ; i++){
 			list.add(resolution);
 		}

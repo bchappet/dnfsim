@@ -1,6 +1,7 @@
 package main.java.space;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import main.java.maps.Var;
 
 import org.junit.Before;

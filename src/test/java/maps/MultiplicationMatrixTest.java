@@ -1,6 +1,6 @@
 package test.java.maps;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import main.java.maps.InfiniteDt;
 import main.java.maps.MatrixDouble2D;
 import main.java.maps.MultiplicationMatrix;

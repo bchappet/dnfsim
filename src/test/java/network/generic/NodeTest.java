@@ -6,10 +6,9 @@
 
 package test.java.network.generic;
 
-import main.java.network.generic.*;
-import test.java.network.generic.*;
 import main.java.network.rsdnf.RSDNFTransmitter;
 import main.java.network.rsdnf.SpikeEdge;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;

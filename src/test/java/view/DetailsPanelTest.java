@@ -6,7 +6,6 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.math.BigDecimal;
 
-import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -62,14 +61,14 @@ public class DetailsPanelTest extends JFrame{
 
 	@Test
 	public void testModelView() throws InterruptedException {
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
 		Thread.sleep(10000);

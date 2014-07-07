@@ -1,7 +1,6 @@
 package main.java.network.generic;
 
 import main.java.network.generic.packet.Packet;
-import main.java.network.probalisticFlooding.PFNode;
 
 /**
  * 

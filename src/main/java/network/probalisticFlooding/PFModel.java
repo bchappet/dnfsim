@@ -1,12 +1,10 @@
 package main.java.network.probalisticFlooding;
 
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;

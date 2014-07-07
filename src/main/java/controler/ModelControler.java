@@ -71,11 +71,7 @@ public class ModelControler extends ParameterControler {
 //		}
 	}
 
-	public void reset() {
-		//TODO
-		// TODO Auto-generated method stub
-		
-	}
+
 
 	
 //		Parameter ret = null;

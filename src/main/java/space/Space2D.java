@@ -84,6 +84,12 @@ public class Space2D extends Space<Integer> implements ISpace2D {
 		return coordIntToIndex(coord);
 	}
 
+	@Override
+	public Integer typeAxisProj(Integer val, int axis) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 
 }

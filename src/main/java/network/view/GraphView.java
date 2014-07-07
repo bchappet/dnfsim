@@ -14,11 +14,10 @@ import javax.swing.JFrame;
 import main.java.console.CommandLine;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
-import main.java.network.rsdnf.RSDNFModel;
+import main.java.network.rsdnf.RSDNFNetworkModel;
 import main.java.view.ViewConfiguration;
 import main.java.view.ViewFactory;
 import main.java.view.ViewPanel;
-
 /**
  * La tu fait ce que tu veux
  *
@@ -29,7 +28,7 @@ public class GraphView extends ViewPanel {
     public static void main(String[] args){
         try {
             JFrame jf = new JFrame("mainGraphView");
-            RSDNFModel rsdnf = new RSDNFModel("testRSDNF");
+            RSDNFNetworkModel rsdnf = new RSDNFNetworkModel("testRSDNF");
             CommandLine cl = rsdnf.constructCommandLine();
             cl.setContext("");
             rsdnf.initialize(cl);
@@ -92,5 +91,12 @@ public class GraphView extends ViewPanel {
     public void update(SpreadingGraphRepresentation spreadingGraphRepresentation){
         //todo
     }
+
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

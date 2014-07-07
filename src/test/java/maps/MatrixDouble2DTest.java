@@ -32,7 +32,7 @@ public class MatrixDouble2DTest extends TestCase {
 						"6.0,7.0,8.0\n"+
 						"9.0,10.0,11.0";
 		assertEquals("The matrix should have the values expected",expected,uut.toString());
-		assertEquals("The main.java.space should be of dim 3,4",Arrays.toString(new int[]{3,4}),Arrays.toString(new int[]{uut.getSpace().getDimX(),uut.getSpace().getDimY()}));
+		assertEquals("The main.java.space should be of dim 3,4",Arrays.toString(new int[]{3,4}),Arrays.toString(new int[]{((Space2D) uut.getSpace()).getDimX(),((Space2D) uut.getSpace()).getDimY()}));
 	}
 	
 	@Test

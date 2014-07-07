@@ -1,6 +1,7 @@
 package main.java.model;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -8,26 +9,18 @@ import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.gui.Suscriber;
-import main.java.maps.AbstractMap;
 import main.java.maps.ConvolutionMatrix2D;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
-import main.java.maps.SingleValueParam;
-import main.java.maps.Track;
 import main.java.maps.Trajectory;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
-import main.java.space.Coord;
-import main.java.space.Coord2D;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
-import main.java.space.Space2D;
 import main.java.space.WrappableDouble2DSpace;
 import main.java.statistics.Characteristics;
 import main.java.statistics.StatCNFT;
-import main.java.statistics.StatMap;
 import main.java.statistics.StatMapCNFT;
 import main.java.statistics.Statistics;
 import main.java.statistics.StatisticsCNFT;
@@ -358,10 +351,10 @@ public class ModelCNFT extends Model{
 	 */
 	public void modifyModel() throws CommandLineFormatException, NullCoordinateException {
 		boolean changed = this.changeNbDistr() || this.changeNbTrack();
-		if(changed){
-			for(Suscriber s : suscribers)
-				s.signalTreeChanged();
-		}
+//		if(changed){
+//			for(Suscriber s : suscribers)
+//				s.signalTreeChanged();
+//		}
 
 	}
 

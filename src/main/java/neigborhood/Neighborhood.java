@@ -5,7 +5,6 @@ import main.java.maps.Parameter;
 import main.java.maps.Unit;
 import main.java.maps.UnitParameter;
 import main.java.space.Space;
-import main.java.unitModel.UnitModel;
 import main.resources.utils.Cloneable;
 
 /**

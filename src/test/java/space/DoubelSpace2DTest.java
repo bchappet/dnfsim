@@ -1,6 +1,4 @@
 package test.java.space;
-import test.resources.toolsForJunitTests.ToolsJunitTests;
-
 import static org.junit.Assert.assertEquals;
 import main.java.maps.Var;
 import main.java.space.Coord;
@@ -9,6 +7,8 @@ import main.java.space.DoubleSpace2D;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import test.resources.toolsForJunitTests.ToolsJunitTests;
 
 /**
  * The refSpace currently used : 

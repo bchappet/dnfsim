@@ -17,7 +17,6 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import main.java.controler.VarControler;
-import main.java.maps.Var;
 
 /**
  * Special modifier with button + - //TODO use min max step

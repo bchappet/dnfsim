@@ -7,7 +7,6 @@ import java.util.List;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.maps.MatrixCSVFileReader;
 import main.java.maps.Parameter;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;

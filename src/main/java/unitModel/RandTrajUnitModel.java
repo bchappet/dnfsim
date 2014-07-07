@@ -3,10 +3,7 @@ package main.java.unitModel;
 import java.math.BigDecimal;
 import java.util.List;
 
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
 import main.java.maps.Parameter;
-import main.java.maps.Var;
 /**
  * 
  * @author bchappet

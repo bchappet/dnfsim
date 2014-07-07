@@ -3,8 +3,6 @@ package main.java.maps;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
-import java.util.Observer;
-import java.util.Set;
 
 /**
 	* A Var is an object which has a name and can be modified from the controller
@@ -18,6 +16,7 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 	/**Name (optional) **/
 	private String name;
 	
+	private T initialValue;
 	
 	/**
 	 * 
@@ -26,7 +25,9 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 	public Var(T val)
 	{
 		this.val = val;
+		this.initialValue = val;
 		this.name = null;
+//		System.out.println("init val = " + val + " name " + name);
 	}
 	/**
 	 * 
@@ -36,7 +37,9 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 	public Var(String name,T val)
 	{
 		this.val = val;
+		this.initialValue = val;
 		this.name = name;
+//		System.out.println("init val = " + val + " name " + name);
 	}
 	
 	/**
@@ -58,6 +61,7 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 		this.val = val;
 		this.setChanged();
 		this.notifyObservers(this.val);
+//		System.out.println("set " + name + " new val : " + val);
 
 	}
 
@@ -140,6 +144,11 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 		} else if (!val.equals(other.val))
 			return false;
 		return true;
+	}
+	@Override
+	public void reset() {
+		this.set(this.initialValue);
+		
 	}
 	
 	

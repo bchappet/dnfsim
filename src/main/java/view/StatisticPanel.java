@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
-import javax.swing.JPanel;
 
 /**
  * The statistic panel will contains one Plot2D which plot one 
@@ -23,7 +22,7 @@ public class StatisticPanel extends ViewPanel {
 	/**To choose the view to display**/
 	private JComboBox<String> comboBox;
 	
-	private JPanel view;
+	private ParameterView view;
 
 	public StatisticPanel(String name,ViewFactory vf) {
 		super(name,vf);
@@ -37,15 +36,21 @@ public class StatisticPanel extends ViewPanel {
 				JComboBox<String> cb = (JComboBox<String>)e.getSource();
 				String name = (String)cb.getSelectedItem();
 				if(view != null)
-					remove(view);
-				view = (JPanel) getViewFactory().constructView(name);
+					remove((Component)view);
+				view =  getViewFactory().constructView(name);
 //				System.out.println("View : " + view);
-				add(view ,BorderLayout.CENTER);
+				add((Component) view ,BorderLayout.CENTER);
 			}
 		});
 		this.setLayout(new BorderLayout());
 		this.add(comboBox,BorderLayout.NORTH);
 		comboBox.setSelectedIndex(0);
+	}
+
+	@Override
+	public void reset() {
+		view.reset();
+		
 	}
 	
 	

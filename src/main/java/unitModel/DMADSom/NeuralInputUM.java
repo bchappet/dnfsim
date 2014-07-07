@@ -1,7 +1,6 @@
 package main.java.unitModel.DMADSom;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
 
 import main.java.maps.Parameter;

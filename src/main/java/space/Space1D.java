@@ -27,7 +27,6 @@ public class Space1D extends Space2D {
 		return getDimX();
 		
 	}
-	@Override
 	public Coord1D<Integer> wrapCoord(Coord<Integer> coord){
 		return new Coord1D<Integer>(coord.getIndex(X)%this.getDimX());
 		

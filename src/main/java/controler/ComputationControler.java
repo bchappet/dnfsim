@@ -6,10 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-import main.java.maps.Parameter;
 import main.java.network.generic.Utils;
 import main.java.view.ComputationControlerView;
-import main.resources.utils.ArrayUtils;
 
 /**
  * The {@link ComputationControler} will control the computation of main.java.model and will warn the main.java.view for changes
@@ -42,9 +40,9 @@ public class ComputationControler {
 	private ParameterControlerTree tree;
 
 
-	public ComputationControler(ParameterControlerTree tree,int iterationId) {
+	public ComputationControler(ParameterControlerTree tree) {
 		this.time = new BigDecimal("0");
-		this.iterationId = iterationId;
+		this.iterationId = -99;
 		this.orderedMap = new ArrayList<ComputableControler>();
 		this.tree = tree;
 		initOrderedMap( tree.getRoot());
@@ -164,14 +162,27 @@ public class ComputationControler {
 	private void saveMap(String mapName,String path) {
 		
 		String fileName = path + mapName + "_" + this.iterationId +"_"+this.time + ".csv";
-		
+//		System.out.println(" Save file : " + fileName);
 		ParameterControler map = tree.getControler(mapName);
 		if(map instanceof MapControler){
-			System.out.println("iciiiiiiiiiiiii");
 			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray());
 			
 		}
 		
+		
+	}
+
+	public void setComputationId(int iterationId) {
+		this.iterationId = iterationId;
+		
+	}
+
+	/**
+	 * Reset all map on original state
+	 */
+	public void reset() {
+		this.time = new BigDecimal("0");
+		tree.reset();
 		
 	}
 

@@ -4,7 +4,6 @@
  */
 package test.java.lucasKanade;
 
-import main.java.lucasKanade.FiltreLucasKanade;
 
 /**
  * 

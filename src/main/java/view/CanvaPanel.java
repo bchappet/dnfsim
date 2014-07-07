@@ -153,6 +153,14 @@ public class CanvaPanel extends ViewPanel {
 	}
 
 
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 	
 
 	

@@ -171,8 +171,8 @@ public class ToolsMAP {
      * @return 
      */
     public static double[][] getTab(Parameter map) {
-        double[] tab1D = map.getValues();
-        int resoltution2D = (int) map.getSpace().getResolution();
+        double[] tab1D = null;//map.getValues();
+        int resoltution2D =0;// (int) map.getSpace().getResolution();
         double[][] tab2D = new double[resoltution2D][resoltution2D];
         int x = 0;
         int y = 0;

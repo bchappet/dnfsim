@@ -1,13 +1,9 @@
 package main.java.unitModel;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import main.java.coordinates.Space;
-import main.java.maps.Parameter;
 import main.java.maps.Unit;
-import main.java.maps.Var;
 
 /**
  * A {@link NeighborhoodUnitModel} can directly acces the Unit of another map : he has a List of array of Unit

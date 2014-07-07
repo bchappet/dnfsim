@@ -1,14 +1,6 @@
 package main.java.view;
 
 
-import java.awt.BasicStroke;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics2D;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
-import java.util.List;
-
 import main.java.controler.ParameterControler;
 import main.java.controler.SingleValueControler;
 import main.java.space.Coord2D;

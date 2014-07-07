@@ -4,15 +4,14 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
-import main.java.coordinates.Space;
 import main.java.maps.Var;
 import main.java.neigborhood.Neighborhood;
 import main.java.space.Coord;
 import main.java.space.Coord2D;
+import main.java.space.Space;
 
 public class Vector2DMapSOMView extends DisplaySampleMap2D {
 

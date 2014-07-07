@@ -4,12 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
 
-
-
-
-
-
-
 import main.java.controler.ParameterControler;
 
 public abstract class ParamViewAdapter {
@@ -58,7 +52,7 @@ public abstract class ParamViewAdapter {
 	 * Update the main.java.view with parameter value
 	 * @paramControler time
 	 */
-	public abstract void updateView();
+	protected abstract void updateView();
 		
 	
 	protected ParameterControler getParameterControler(){
@@ -83,6 +77,13 @@ public abstract class ParamViewAdapter {
 	 */
 	public void removeLastView() {
 		paramViews.remove(paramViews.size()-1);
+		
+	}
+
+	public void reset() {
+		for(ParameterView pv : paramViews){
+			pv.reset();
+		}
 		
 	}
 

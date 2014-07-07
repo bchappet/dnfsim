@@ -1,11 +1,11 @@
 package main.java.space;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
+import main.resources.utils.ArrayUtils;
 
 /**
  * N-dimensional discrete main.java.space.
@@ -35,7 +35,7 @@ public abstract class Space<T> implements Parameter< Integer>{
 	 * @param dimensions (will be copied)
 	 */
 	public Space(SingleValueParam<Integer>... dimensions){
-		this.dimensions = new Coord<SingleValueParam<Integer>>(Arrays.asList(dimensions));
+		this.dimensions = new Coord<SingleValueParam<Integer>>(ArrayUtils.asList(dimensions));
 		
 	}
 	
@@ -182,7 +182,9 @@ public abstract class Space<T> implements Parameter< Integer>{
 	public abstract T typeAxisProj(Integer val, int axis);
 
 	
-
+	public void reset(){
+		//TODO
+	}
 	
 
 	

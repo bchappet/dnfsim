@@ -4,19 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
-import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import main.java.controler.ParameterControler;
-import main.java.controler.VarControler;
-import main.java.coordinates.NullCoordinateException;
 
 /**
  * Define the TreePanel view and The DetailsPanel feeding. Maybe we should separate the two
@@ -149,6 +143,12 @@ public class ParameterTreePanel extends ViewPanel  implements TreeSelectionListe
 
 	public void setDetailsPanel(DetailsPanel detailsPanel2) {
 		this.detailsPanel = detailsPanel2;
+		
+	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
 		
 	}
 

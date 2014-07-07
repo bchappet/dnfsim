@@ -3,13 +3,14 @@ package main.java.view;
 import java.awt.Component;
 import java.awt.Dimension;
 
-import main.java.controler.*;
-
 import javax.swing.BorderFactory;
 import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.border.TitledBorder;
+
+import main.java.controler.ParameterControler;
+import main.java.controler.VarControler;
 
 public class DetailsPanel extends ViewPanel {
 
@@ -90,6 +91,15 @@ public class DetailsPanel extends ViewPanel {
 			}
 		}
 		return ret;
+	}
+
+
+
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
 	}
 
 //	/**

@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.io.InputStream;
 
-import main.java.gui.RunnerGUI;
-
 public class TextIn extends InputStream implements ActionListener{
 
 	protected TextFieldIn txt;
@@ -57,8 +55,8 @@ public class TextIn extends InputStream implements ActionListener{
 	@Override
 	public synchronized void actionPerformed(ActionEvent e) {
 		TextFieldIn ori = (TextFieldIn) e.getSource();
-		currentString += ori.getText().replace(RunnerGUI.INVITE, "") + "\n" ;
-		ori.setText(RunnerGUI.INVITE);
+//		currentString += ori.getText().replace(RunnerGUI.INVITE, "") + "\n" ;
+//		ori.setText(RunnerGUI.INVITE);
 		//this.newInput = true;
 		this.notifyAll();
 	}

@@ -3,6 +3,7 @@ package main.java.model;
 import java.math.BigDecimal;
 import java.util.List;
 
+import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.NeighborhoodMap;
@@ -127,7 +128,7 @@ public class ModelDMADSom extends Model {
 	@Override
 	protected void initializeStatistics() throws CommandLineFormatException {
 		Var<BigDecimal> dt = command.get(DMADSomCommandLine.DT_GLOBAL);
-		this.stats = new Statistics(Statistics.NAME, Statistics.TIME, dt);
+		this.stats = new Statistics(Statistics.NAME, dt);
 
 	}
 
@@ -138,11 +139,11 @@ public class ModelDMADSom extends Model {
 
 	}
 
-	@Override
-	public String[] getDefaultDisplayedParameter() {
-		return new String[]{INPUT,AFFERENT_WEIGHTS,"neural_input",POTENTIAL,"modulation_map"};//AFFERENT_WEIGHTS,LATERAL_WEIGHTS};
-//		return new String[]{INPUT,POTENTIAL};
-	}
+//	@Override
+//	public String[] getDefaultDisplayedParameter() {
+//		return new String[]{INPUT,AFFERENT_WEIGHTS,"neural_input",POTENTIAL,"modulation_map"};//AFFERENT_WEIGHTS,LATERAL_WEIGHTS};
+////		return new String[]{INPUT,POTENTIAL};
+//	}
 
 	@Override
 	public void modifyModel() throws CommandLineFormatException,
@@ -151,9 +152,15 @@ public class ModelDMADSom extends Model {
 
 	}
 
+//	@Override
+//	public String getDefaultDisplayedStatistic() {
+//		return Statistics.TIME;
+//	}
+
 	@Override
-	public String getDefaultDisplayedStatistic() {
-		return Statistics.TIME;
+	public CommandLine constructCommandLine() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

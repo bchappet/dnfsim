@@ -40,6 +40,10 @@ public class ParameterViewPanel extends JPanel implements ParameterView {
 		return clone;
 		
 	}
+	
+	public void reset(){
+		//nothing
+	}
 
 
 	public ParameterViewPanel(LayoutManager arg0) {

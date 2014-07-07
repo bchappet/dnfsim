@@ -1,9 +1,9 @@
 package main.java.statistics;
 
 import java.math.BigDecimal;
+import java.util.AbstractMap;
 import java.util.List;
 
-import main.java.maps.AbstractMap;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
 

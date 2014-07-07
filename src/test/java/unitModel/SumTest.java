@@ -1,7 +1,5 @@
 package test.java.unitModel;
 
-import static org.junit.Assert.*;
-
 import java.math.BigDecimal;
 
 import main.java.maps.Map;

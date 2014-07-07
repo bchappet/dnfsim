@@ -40,13 +40,13 @@ public class CharacteristicsAndStatisticsTest {
 		sg.addToFIFO(0, new Spike());
 		sg.addToFIFO(0, new Spike());
 		sg.addToFIFO(0, new Spike());
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 		Thread.sleep(100);
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
-		cc.compute(new BigDecimal("0.4"));
+		cc.compute();
 //		cc.compute(new BigDecimal("0.2"));
 //		Thread.sleep(100);
 //		cc.compute(new BigDecimal("0.3"));

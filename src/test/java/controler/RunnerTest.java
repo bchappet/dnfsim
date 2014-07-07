@@ -1,12 +1,14 @@
 package test.java.controler;
 
-import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.JFrame;
+
+import main.java.controler.*;
+
 import javax.swing.JPanel;
 
 import main.java.controler.Runner;
-import main.java.gui.Printer;
 import main.java.view.GlobalView;
 
 import org.junit.Before;
@@ -21,7 +23,7 @@ public class RunnerTest extends JFrame {
 	public void setUp() throws Exception {
 		
 		Printer printer = new Printer(0);
-		uut = new Runner(printer,"ESN",null,null,true);
+		uut = new Runner(printer,"ESN",null,null,true,new ArrayList<Integer>());
 		JPanel pan = uut.getGlobalView();
 		pan.setVisible(true);
 		

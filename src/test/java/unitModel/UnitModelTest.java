@@ -1,6 +1,8 @@
 package test.java.unitModel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 import main.java.maps.Var;
 import main.java.unitModel.UMWrapper;
 import main.java.unitModel.UnitModel;
@@ -16,6 +18,14 @@ public class UnitModelTest {
 	public void setUp() throws Exception {
 		uut = new UMWrapper<Double>(0d);
 		
+	}
+	
+	@Test
+	public void testReset(){
+		uut.set(90d);
+		assertEquals("New activity is expected",new Double(90d),uut.get());
+		uut.reset();
+		assertEquals("Initial activity is expected",new Double(0d),uut.get());
 	}
 	
 	@Test

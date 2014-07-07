@@ -1,20 +1,18 @@
 package test.java.view;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 
-import main.java.view.*;
-
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-
-
 
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.reservoirComputing.ESNCommandLine;
 import main.java.reservoirComputing.ModelESN;
+import main.java.view.Plot2D;
+import main.java.view.ViewConfiguration;
+import main.java.view.ViewFactory;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,14 +44,14 @@ public class Plot2DTest extends JFrame{
 
 	@Test
 	public void testRender() throws InterruptedException {
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 		
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
 		Thread.sleep(10000);

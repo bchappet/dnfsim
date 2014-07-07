@@ -1,28 +1,13 @@
 package main.java.view;
 
-import java.awt.BasicStroke;
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics2D;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.awt.geom.Path2D;
-import java.text.DecimalFormat;
 import java.util.Arrays;
-import java.util.EventObject;
-import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-
-import main.java.plot.JPanelDB;
 
 /**
  * from JC Quinton
@@ -111,6 +96,14 @@ public class Plot2D extends ViewPanel {
 	private Curve2D constructView(String name,ViewFactory vf){
 		ParameterView pw = vf.constructView(name, SingleValueParamCurve2DAdapter.class.getSimpleName());
 		return (Curve2D) pw;
+	}
+
+
+
+	@Override
+	public void reset() {
+		dispPanel.reset();
+		
 	}
 
 

@@ -7,6 +7,7 @@ import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import main.java.maps.Var;
 import main.java.view.AdaptiveAndEquilibratedColorMap;
 import main.java.view.ColorMap;
 import main.java.view.View1D;
@@ -22,7 +23,7 @@ public class View1DTest extends JFrame{
 	@Before
 	public void setUp() throws Exception {
 		ColorMap cm = new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED});
-		uut = new View1D("uut",new double[]{-1,-2,-3},cm);
+		uut = new View1D("uut",new double[]{-1,-2,-3},new Var<>(cm),new Var<Boolean>(true));
 		
 			borderPanel = new JPanel();
 			borderPanel.setLayout(new BoxLayout(borderPanel, BoxLayout.PAGE_AXIS));

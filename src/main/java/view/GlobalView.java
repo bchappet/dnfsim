@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import javax.swing.JButton;
@@ -115,7 +116,23 @@ public class GlobalView extends JPanel {
 //					System.out.println(" playyyyy");
 					cl.parseCommand("play;");
 				} catch (NumberFormatException | NullCoordinateException
-						| CommandLineFormatException e) {
+						| CommandLineFormatException | FileNotFoundException e) {
+					e.printStackTrace();
+					System.exit(-1);
+				
+				}
+			}
+		});
+		
+		JButton reset = new JButton("Reset");
+		reset.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+//					System.out.println(" playyyyy");
+					cl.parseCommand("reset;");
+				} catch (NumberFormatException | NullCoordinateException
+						| CommandLineFormatException | FileNotFoundException e) {
 					e.printStackTrace();
 					System.exit(-1);
 				}
@@ -130,13 +147,14 @@ public class GlobalView extends JPanel {
 //					System.out.println(" stepppppppp");
 					cl.parseCommand("step;");
 				} catch (NumberFormatException | NullCoordinateException
-						| CommandLineFormatException e) {
+						| CommandLineFormatException | FileNotFoundException e) {
 					e.printStackTrace();
 					System.exit(-1);
 				}
 			}
 		});
 		
+		menu.add(reset);
 		menu.add(step);
 		menu.add(playPause);
 		this.add(modelView,BorderLayout.CENTER);

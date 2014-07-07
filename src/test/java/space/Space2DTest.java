@@ -57,15 +57,15 @@ public class Space2DTest {
 		assertEquals("The dimension shoulbe 3,4",Arrays.toString(new int[]{3,4}),Arrays.toString(new int[]{uut.getDimX(),uut.getDimY()}));
 	}
 	
-	@Test
-	public void testWrap(){
-		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(0,4)));
-		assertEquals("The wrapping should be good",new Coord<Integer>(2,0),uut.wrapCoord(new Coord<Integer>(2,4)));
-		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(3,0)));
-		assertEquals("The wrapping should be good",new Coord<Integer>(0,2),uut.wrapCoord(new Coord<Integer>(3,2)));
-		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(3,4)));
-
-	}
+//	@Test
+//	public void testWrap(){
+//		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(0,4)));
+//		assertEquals("The wrapping should be good",new Coord<Integer>(2,0),uut.wrapCoord(new Coord<Integer>(2,4)));
+//		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(3,0)));
+//		assertEquals("The wrapping should be good",new Coord<Integer>(0,2),uut.wrapCoord(new Coord<Integer>(3,2)));
+//		assertEquals("The wrapping should be good",new Coord<Integer>(0,0),uut.wrapCoord(new Coord<Integer>(3,4)));
+//
+//	}
 	
 	@Test
 	public void testClone(){

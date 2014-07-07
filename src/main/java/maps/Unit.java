@@ -247,4 +247,12 @@ public class Unit<T> implements Cloneable {
 		this.getUnitModel().set(val);
 	}
 
+	public void reset() {
+		current = 0;
+		for(UnitModel<T> um : memories){
+			um.reset();
+		}
+		
+	}
+
 }

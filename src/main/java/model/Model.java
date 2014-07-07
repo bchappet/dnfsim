@@ -1,19 +1,15 @@
 package main.java.model;
 
-import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
+import java.util.AbstractMap;
 import java.util.LinkedList;
 import java.util.List;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.gui.Suscriber;
-import main.java.maps.AbstractMap;
 import main.java.maps.HasChildren;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
@@ -33,7 +29,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	protected List<Parameter> parameters;
 	
 	/** List of every suscribers to all events **/
-	protected List<Suscriber> suscribers;
+//	protected List<Suscriber> suscribers;
 
 	protected Statistics stats;
 	protected Characteristics charac;
@@ -63,10 +59,13 @@ public abstract class Model implements HasChildren<Parameter> {
 	 */
 	public Model(String name) {
 		this.name = name;
-		this.suscribers = new LinkedList<Suscriber>();
+//		this.suscribers = new LinkedList<Suscriber>();
 		parameters = new LinkedList<Parameter>();
 	}
 
+	
+	
+	
 	/**
 	 * construct the model specific command line
 	 * @return
@@ -210,9 +209,11 @@ public abstract class Model implements HasChildren<Parameter> {
 
 	public void reset() {
 		this.time = BigDecimal.ZERO;
-		stats.reset();
-		charac.reset();
-		//root.reset();
+		
+//		for (Parameter p : parameters) {
+//			System.out.println(" reset " + p);
+//			p.reset();
+//		}
 	}
 
 	/**
@@ -288,9 +289,9 @@ public abstract class Model implements HasChildren<Parameter> {
 
 	
 
-	public void addSuscriber(Suscriber s) {
-		this.suscribers.add(s);
-	}
+//	public void addSuscriber(Suscriber s) {
+//		this.suscribers.add(s);
+//	}
 
 	
 
@@ -301,34 +302,7 @@ public abstract class Model implements HasChildren<Parameter> {
 	
 
 	
-	/**
-	 * Save the params
-	 * 
-	 * @param file
-	 * @param parameters
-	 *            : parameters to save
-	 * @return the prameter name as a string
-	 * @throws IOException
-	 * @throws NullCoordinateException
-	 */
-	public  String save(String file,List<Parameter> toSave) throws IOException, NullCoordinateException
-	{
-
-		FileWriter fw = null;
-		String ret = "[";
-
-		for(Parameter p : toSave)
-		{
-			String fileName = file+"_"+p.getName()+".csv";
-			ret += fileName + ",";
-			fw= new FileWriter(file+"_"+p.getName()+".csv",false);
-			BufferedWriter out = new BufferedWriter(fw);
-			out.write(((AbstractMap)p).displayMemory());
-			out.close();
-		}
-		return ret.subSequence(0, ret.length()-1)+"]";
-	}
-
+	
 
 
 

@@ -6,7 +6,6 @@ import static org.junit.Assert.assertNotEquals;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import main.java.coordinates.Coor;
 import main.java.space.Coord;
 
 import org.junit.Before;
@@ -28,7 +27,7 @@ public class CoordTest {
 	
 	@Test
 	public void testConstructionWithList() {
-		uut = new Coord<Integer>(Arrays.asList(new Integer[]{1,2,3}));
+		uut = new Coord<Integer>(new ArrayList(Arrays.asList(new Integer[]{1,2,3})));
 		assertEquals("Les coordonées doivent être construte correctement","1,2,3",uut.toString());
 		assertEquals("The value list should be correct",new ArrayList<Integer>(Arrays.asList(new Integer[]{1,2,3})),uut.getValues());
 	}

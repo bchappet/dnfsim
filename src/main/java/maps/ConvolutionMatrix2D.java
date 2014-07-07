@@ -9,7 +9,6 @@ import java.util.List;
 import main.java.neigborhood.WrappedSpace;
 import main.java.space.ISpace2D;
 import main.java.space.Space;
-import main.java.space.Space2D;
 import Jama.Matrix;
 
 public class ConvolutionMatrix2D extends MatrixDouble2D {

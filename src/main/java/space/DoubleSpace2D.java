@@ -118,13 +118,11 @@ public class DoubleSpace2D extends DoubleSpace implements ISpace2D{
 		return this.getDimX() * this.getDimY();
 	}
 
-	@Override
 	public Coord<Double> wrapCoord(Coord<Double> coord) {
 		
 		return null;
 	}
 
-	@Override
 	public Coord<Integer> wrapCoordInt(Coord<Integer> coord) {
 		// TODO Auto-generated method stub
 		return null;

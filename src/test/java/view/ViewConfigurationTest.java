@@ -1,5 +1,6 @@
 package test.java.view;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import main.java.view.AdaptiveAndEquilibratedColorMap;
 import main.java.view.ViewConfiguration;
 
@@ -18,7 +19,7 @@ public class ViewConfigurationTest {
 	@Test 
 	public void testFirstParameters(){
 		assertEquals("The color map type should be AdaptativeAndEquilibratedMap",
-				AdaptiveAndEquilibratedColorMap.class,uut.getColorMap().getClass());
+				AdaptiveAndEquilibratedColorMap.class,uut.get(ViewConfiguration.COLORMAP).get().getClass());
 	}
 
 	@Test

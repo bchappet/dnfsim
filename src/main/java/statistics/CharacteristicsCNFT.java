@@ -1,15 +1,6 @@
 package main.java.statistics;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
-import main.java.maps.AbstractMap;
 import main.java.maps.Parameter;
-import main.java.maps.TrajectoryUnitMap;
-import main.java.plot.WTrace;
 
 /**
  * This Node handle the characteristic computation of the main.java.model

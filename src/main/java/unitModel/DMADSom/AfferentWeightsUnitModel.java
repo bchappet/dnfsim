@@ -33,7 +33,7 @@ public class AfferentWeightsUnitModel extends UnitModel<Coord2D<Double>> {
 			double deltaW = learnrate * modulation * (input - previous);
 			res.add(previous+deltaW);
 		}
-		return new Coord2D<Double>(res);
+		return new Coord2D<Double>((ArrayList<Double>) res);
 	}
 
 }

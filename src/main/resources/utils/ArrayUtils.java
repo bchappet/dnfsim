@@ -1,11 +1,11 @@
 package main.resources.utils;
 
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import main.java.maps.Parameter;
-import main.java.neuronBuffer.Buffer;
 
 
 public class ArrayUtils {
@@ -66,12 +66,12 @@ public class ArrayUtils {
 	 * @param coord
 	 * @return
 	 */
-	public static double[] getValues(List<Parameter> params, Double[] coord) {
+	public static double[] getValues(List<Parameter> params, int index) {
 		double[] values = new double[params.size()];
 		for(int i = 0 ; i < values.length ; i++){
 //			System.out.println("Param : " + params.get(i));
 			//try{
-			values[i] = params.get(i).getIndex(coord);
+			values[i] = (double) params.get(i).getIndex(index);
 			//}catch (NullCoordinateException e) {
 		//		values[i] = null;//the currently accessed parameter has different dimension than the accesing map
 		//	}
@@ -79,21 +79,21 @@ public class ArrayUtils {
 		return values;
 	}
 
-	/**
-	 * Deep copy of charge
-	 * @param bufs
-	 * @return
-	 */
-	public static Buffer[] deepCopy(Buffer[] bufs) {
-		Buffer[] ret = new Buffer[bufs.length];
-		
-		for(int i = 0 ; i < ret.length ; i++)
-		{
-			ret[i] = bufs[i].clone();
-		}
-		
-		return ret;
-	}
+//	/**
+//	 * Deep copy of charge
+//	 * @param bufs
+//	 * @return
+//	 */
+//	public static Buffer[] deepCopy(Buffer[] bufs) {
+//		Buffer[] ret = new Buffer[bufs.length];
+//		
+//		for(int i = 0 ; i < ret.length ; i++)
+//		{
+//			ret[i] = (Buffer) bufs[i].clone();
+//		}
+//		
+//		return ret;
+//	}
 
 	public static Parameter[] asArray(List<Parameter> params) {
 		Parameter[] array = new Parameter[params.size()];
@@ -295,6 +295,14 @@ public class ArrayUtils {
 		}
 		ret += values.get((height-1)*width+ width -1);
 		
+		return ret;
+	}
+
+	public static <T> ArrayList<T> asList(T[] tab) {
+		ArrayList<T> ret = new ArrayList<T>(tab.length);
+		for (int i = 0; i < tab.length; i++) {
+			ret.add(tab[i]);
+		}
 		return ret;
 	}
 

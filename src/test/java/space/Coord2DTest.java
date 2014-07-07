@@ -29,7 +29,7 @@ public class Coord2DTest {
 	
 	@Test
 	public void testConstructionWithList() {
-		uut = new Coord2D<Integer>(Arrays.asList(new Integer[]{1,2}));
+		uut = new Coord2D<Integer>(new ArrayList(Arrays.asList(new Integer[]{1,2})));
 		assertEquals("Les coordonées doivent être construte correctement","1,2",uut.toString());
 		assertEquals("The value list should be correct",new ArrayList<Integer>(Arrays.asList(new Integer[]{1,2})),uut.getValues());
 	}

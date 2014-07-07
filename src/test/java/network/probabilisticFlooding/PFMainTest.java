@@ -1,10 +1,5 @@
 package test.java.network.probabilisticFlooding;
 
-import static org.junit.Assert.*;
-
-import java.math.BigDecimal;
-import java.util.LinkedList;
-
 import main.java.console.CommandLine;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
@@ -61,19 +56,19 @@ public class PFMainTest {
 //		}
 		
 		
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 		Thread.sleep(100);
 		for (int i = 0; i < 7; i++) {
 			System.out.println(i+" : "+pfm.getNode(i).getBufferPacket());
 		}
 		
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		for (int i = 0; i < 7; i++) {
 			System.out.println(i+" : "+pfm.getNode(i).getBufferPacket());
 		}
 		
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		for (int i = 0; i < 7; i++) {
 			System.out.println(i+" : "+pfm.getNode(i).getBufferPacket());

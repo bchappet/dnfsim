@@ -10,8 +10,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.space.Space;
-import main.java.space.Space2D;
-import main.resources.utils.ArrayUtils;
 
 /**
  * File format is fileName_$iteration$.??
@@ -91,6 +89,12 @@ public class MatrixFileReader extends Map<Double,Integer> {
 	public void setIndex(int i, double val) {
 		this.values[i] = val;
 		
+	}
+
+	@Override
+	public void reset() {
+		this.iteration = 0;
+		super.reset();
 	}
 	
 	

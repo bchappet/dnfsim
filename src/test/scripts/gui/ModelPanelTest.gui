@@ -1,4 +1,5 @@
 colormap=AdaptiveAndEquilibratedColorMap
+grid=true
 ---------------------------------------------
 uut
 	ParameterTreePanel

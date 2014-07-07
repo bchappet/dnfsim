@@ -1,15 +1,11 @@
 package main.java.maps;
 
 import java.math.BigDecimal;
-import java.util.AbstractList;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
-import main.java.space.Coord2D;
 import main.java.space.Space;
 import main.java.unitModel.UnitModel;
-import main.resources.utils.Cloneable;
 
 /**
  * A unit map is a {@link Map} containing a list of {@link UnitModel}
@@ -29,6 +25,7 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 
 	/**Collection of units**/
 	private List<Unit<T>> units;
+	
 	
 
 	/**
@@ -173,6 +170,16 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 
 	public void set(int index, T val) {
 		this.units.get(index).set(val);
+		
+	}
+
+	@Override
+	public void reset() {
+		for(int i = 0 ; i < this.getSpace().getVolume() ; i++){
+			
+			this.units.get(i).reset();
+		}
+		super.reset();
 		
 	}
 

@@ -1,6 +1,6 @@
 package test.java.unitModel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 import java.math.BigDecimal;
 
@@ -8,7 +8,6 @@ import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
-import main.java.space.Space2D;
 import main.java.space.WrappableDouble2DSpace;
 import main.java.unitModel.GaussianND;
 

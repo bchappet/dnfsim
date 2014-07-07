@@ -1,14 +1,11 @@
 package test.java.maps;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.MatrixDouble2D;
 import main.java.maps.MatrixDouble2DWrapper;
-import main.java.maps.UnitMap;
-import main.java.maps.Var;
 import main.java.space.Space2D;
-import main.java.unitModel.UMWrapper;
 import main.resources.utils.ArrayUtils;
 
 import org.junit.Before;

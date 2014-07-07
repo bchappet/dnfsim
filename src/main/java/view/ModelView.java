@@ -92,4 +92,10 @@ public class ModelView extends ViewPanel {
 		this.add(this.detailsPanel, BorderLayout.LINE_END);
 		this.add(this.canvaView, BorderLayout.CENTER);
 	}
+
+	@Override
+	public void reset() {
+		// TODO Auto-generated method stub
+		
+	}
 }

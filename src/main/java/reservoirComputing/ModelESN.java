@@ -1,7 +1,6 @@
 package main.java.reservoirComputing;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
 
 import main.java.console.CNFTCommandLine;
@@ -14,7 +13,6 @@ import main.java.maps.MatrixCSVFileReader;
 import main.java.maps.MatrixDouble2DWrapper;
 import main.java.maps.MultiplicationMatrix;
 import main.java.maps.Parameter;
-import main.java.maps.SingleValueParam;
 import main.java.maps.Trajectory;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;

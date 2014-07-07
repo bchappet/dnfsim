@@ -1,11 +1,12 @@
 package test.java.maps;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertSame;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import main.java.maps.Trajectory;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.space.Space2D;
@@ -28,7 +29,17 @@ public class UnitMapTest {
 		Var<BigDecimal> dt = new Var<BigDecimal>("dt", new BigDecimal("0.1"));
 		uut = new UnitMap<Double, Integer>("uut",dt, space, um, var);
 	}
-
+	
+	
+	@Test
+	public void testReset() {
+		uut.compute();
+		assertEquals("Values should be equals to var",
+				Arrays.asList(new Double[]{2d,2d,2d,2d,2d,2d,2d,2d,2d,2d,2d,2d}),uut.getValues());
+		uut.reset();
+		assertEquals("Values should be equals to init state",
+				Arrays.asList(new Double[]{-1d,-1d,-1d,-1d,-1d,-1d,-1d,-1d,-1d,-1d,-1d,-1d}),uut.getValues());
+	}
 	
 
 	@Test

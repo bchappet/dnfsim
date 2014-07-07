@@ -1,7 +1,6 @@
 package test.java.controler;
 
-import static org.junit.Assert.*;
-import main.java.controler.ComputationControler;
+import static org.junit.Assert.assertEquals;
 import main.java.controler.ModelControler;
 import main.java.maps.Map;
 import main.java.reservoirComputing.ESNCommandLine;
@@ -64,10 +63,6 @@ public class ModelControlerTest {
 		assertEquals("The tree should be good ",expected,uut.getTree().toString());
 	}
 	
-	@Test
-	public void testFindParameter() {
-		assertEquals("We should find the good controler","test_esn",""+uut.getControler("test_esn").getName());
-		assertEquals("We should find the good controler","conv_WRR_R",""+uut.getControler("conv_WRR_R").getName());
-	}
+	
 
 }

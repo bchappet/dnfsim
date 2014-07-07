@@ -1,10 +1,6 @@
 package main.java.reservoirComputing;
 
-import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
-import main.java.console.CommandLineFormatException;
-import main.java.controler.ModelControler;
-import main.java.model.Model;
 
 public class ESNCommandLine extends CommandLine {
 

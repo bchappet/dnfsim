@@ -45,10 +45,13 @@ public abstract class UnitModel<T>  implements Cloneable  {
 
 	/**Activity of the unit**/
 	private T activity;
+	/**Init of the unit**/
+	private T initActivity;
 
 
 	public UnitModel(T initActivity) {
 		this.activity = initActivity;
+		this.initActivity = initActivity;
 	}
 
 	/**
@@ -62,6 +65,7 @@ public abstract class UnitModel<T>  implements Cloneable  {
 			o = (UnitModel<T>) super.clone();
 			if(this.activity instanceof Cloneable){
 				o.activity = (T) ((Cloneable)this.activity).clone();
+				o.initActivity = (T) ((Cloneable)this.initActivity).clone();
 			}else{
 				//o.activity = (T) this.activity.getClass().newInstance();
 			}
@@ -112,6 +116,11 @@ public abstract class UnitModel<T>  implements Cloneable  {
 	public void set(T act)
 	{
 		this.activity = act;
+	}
+
+	public void reset() {
+		this.activity = initActivity;
+		
 	}
 
 	

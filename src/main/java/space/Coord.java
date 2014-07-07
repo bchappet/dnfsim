@@ -14,6 +14,7 @@ import main.java.maps.Parameter;
  */
 public class Coord<T> implements Parameter<T> {
 	private List<T> values;
+	private List<T> initValues;
 	private String name;
 	/**Optional **/
 	private Space space; 
@@ -39,32 +40,36 @@ public class Coord<T> implements Parameter<T> {
 		for(int i =0 ; i < coord.getSize() ; i++){
 			this.values.add(zero);
 		}
+		this.initValues = (List<T>) ((ArrayList<T>)this.values).clone();
 		this.name = null;
+	}
+	
+
+	public Coord(String name,T... values){
+		this.values = new ArrayList<T>(values.length);
+		this.values.addAll(Arrays.asList(values));
+		this.initValues = (List<T>) ((ArrayList<T>)this.values).clone();
+		this.name = name;
+	}
+	
+	/**
+	 * Constructor with a list
+	 * @param values
+	 */
+	public Coord(ArrayList<T> values){
+		this.values = values;
+		this.initValues = (List<T>) ((ArrayList<T>)this.values).clone();
+	}
+	
+	public Coord(ArrayList<T> list, DoubleSpace doubleSpace) {
+		this(list);
+		this.setSpace(doubleSpace);
 	}
 	
 	public void setSpace(Space space){
 		this.space = space;
 	}
 	
-	public Coord(String name,T... values){
-		this.values = new ArrayList<T>(values.length);
-		this.values.addAll(Arrays.asList(values));
-		this.name = name;
-	}
-	
-	
-	/**
-	 * Constructor with a list
-	 * @param values
-	 */
-	public Coord(List<T> values){
-		this.values = values;
-	}
-	
-	public Coord(List<T> list, DoubleSpace doubleSpace) {
-		this(list);
-		this.setSpace(doubleSpace);
-	}
 	
 	/**
 	 * Return coordinate on specific axis
@@ -179,5 +184,10 @@ public class Coord<T> implements Parameter<T> {
 	@Override
 	public String getName() {
 		return name;
+	}
+	@Override
+	public void reset() {
+		this.values = (List<T>) ((ArrayList<T>)this.initValues).clone();
+		
 	}
 }

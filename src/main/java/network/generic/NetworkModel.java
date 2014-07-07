@@ -10,13 +10,10 @@ import main.java.coordinates.NullCoordinateException;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
-import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.model.Model;
 import main.java.network.generic.packet.Packet;
-import main.java.network.rsdnf.RSDNFCommandLine;
 import main.java.plot.Trace;
-import main.java.space.Space2D;
 import main.java.statistics.Statistics;
 import main.java.unitModel.UnitModel;
 

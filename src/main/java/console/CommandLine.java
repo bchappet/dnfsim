@@ -6,7 +6,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,16 +15,12 @@ import main.java.controler.ModelControler;
 import main.java.controler.ParameterControler;
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.BadPathException;
-import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
 import main.java.maps.Var;
-import main.java.model.Model;
-import main.java.plot.Trace;
 import main.java.space.Coord;
 
 public class CommandLine  {
 
-	private  BigDecimal time; //second
 
 	//public static final String DISPLAY_DT = "disp_dt"; //time refresh rate for running simu
 	public static final String SIMULATION_STEP = "simu_dt";
@@ -64,7 +59,7 @@ public class CommandLine  {
 	private ComputationControler computationControler;
 	private CharacteristicsControler characControler;
 	
-	private Runnable toRun;
+	private WaitRunner toRun;
 	private Thread threadRun;
 
 	/**
@@ -72,7 +67,6 @@ public class CommandLine  {
 	 * @throws CommandLineFormatException
 	 */
 	public CommandLine() {
-		time =  BigDecimal.ZERO ;
 		this.map = new HashMap<String, Var>();
 		this.definitionSet = new HashMap<String,Coord<?>>();
 	}
@@ -86,6 +80,8 @@ public class CommandLine  {
 		this.initScript = context;
 		parseInitialCommand(defaultScript());
 		parseInitialCommand(context);
+		
+		
 	}
 
 
@@ -116,8 +112,9 @@ public class CommandLine  {
 		return ret;
 	}
 
-	public void setCurentModelControler(ModelControler mc) {
+	public void setCurentModelControler(ModelControler mc) throws CommandLineFormatException {
 		this.currentModelControler= mc;
+		
 
 	}
 
@@ -130,8 +127,9 @@ public class CommandLine  {
 	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException 
 	 * @throws NumberFormatException 
+	 * @throws FileNotFoundException 
 	 */
-	public String parseCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException
+	public String parseCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException, FileNotFoundException
 	{
 
 		command = command.replaceAll("\\s+", "");
@@ -192,8 +190,26 @@ public class CommandLine  {
 
 								var.set(val);
 							}
-							//TODO separate integer from double
-							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer or double with definition set
+							else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?,.*") )//Integer with definition set
+							{
+								try{
+									String[] numbers = obj.split(",");
+//									System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+									Integer inte = Integer.parseInt(numbers[0]);
+									Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
+									var.set(inte);
+									this.definitionSet.put(key, defSet);
+								}catch(NumberFormatException e){
+									throw new CommandLineFormatException("There was an error trying to parse the var: " + key + " " + obj,e);
+								}
+							}
+							else if(obj.matches("[-+]?[0-9]*[0-9]+([eE][-+]?[0-9]+)?") )//Integer 
+							{
+								//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+								Integer inte = Integer.parseInt(obj);
+								var.set(inte);
+							}
+							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?,.*") )//double with definition set
 							{
 								String[] numbers = obj.split(",");
 								var.set(Double.parseDouble(numbers[0]));
@@ -201,9 +217,27 @@ public class CommandLine  {
 								defSet.set(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
 
 							}
-							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )//Integer or double
+							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )// double
 							{
 								var.set(Double.parseDouble(obj));
+							}
+							else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// Big Decimal with definition set
+							{
+								String[] numbers = obj.split(",");
+								//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+								BigDecimal bd = new BigDecimal(numbers[0].substring(2));
+								Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
+								var.set(bd);
+								this.definitionSet.put(key, defSet);
+							}
+							else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )//Big Decimal
+							{
+//								System.out.println(obj);
+								String[] numbers = obj.split(",");
+//								System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0].substring(2))  + " reste : " +  Arrays.toString(numbers));
+								BigDecimal bd = new BigDecimal(numbers[0].substring(2));
+								var.set(bd);
+
 							}
 							else if(obj.contains("+") || obj.contains("-") || obj.contains("*") ){ //TODO || obj.contains("/")){
 								//http://stackoverflow.com/questions/5085524/regular-expression-for-simple-arithmetic-string
@@ -223,6 +257,7 @@ public class CommandLine  {
 							}
 							else//String by default
 							{
+//								System.out.println("String : " + obj + " key : "+key);
 								//System.out.println(obj);
 								((Var<String>) var).set(obj);
 							}
@@ -323,10 +358,10 @@ public class CommandLine  {
 		else if(command.equals("wait"))
 		{
 			get(TIME_TO_REACH).set(new BigDecimal(value));
-//			System.out.println(get(TIME_TO_REACH).get());
-			Runnable toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
-			Thread th = new Thread(toRun);
-			th.start();
+			this.get(this.PLAY).set(true);
+			toRun.execute();
+//			System.out.println("time to reach "  +get(TIME_TO_REACH).get());
+			
 		}
 //		else if(command.equals("waitNsave"))
 //		{
@@ -460,9 +495,11 @@ public class CommandLine  {
 	 * Execute a initScript 
 	 * @param initScript
 	 * @return true if the initScript was correct
+	 * @throws FileNotFoundException 
+	 * @throws NumberFormatException 
 	 * @throws NullCoordinateException 
 	 */
-	private String execCommand(String command) throws CommandLineFormatException {
+	private String execCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException, FileNotFoundException {
 		String ret = "";
 		//		if(command.equals("play"))
 		//			currentModelControler.play();
@@ -472,9 +509,12 @@ public class CommandLine  {
 					Var<Boolean> play = this.get(this.PLAY);
 					play.set(!play.get());
 					get(TIME_TO_REACH).set(get(TIME_MAX).get());
-					run();
+					if(play.get()){
+						threadRun = new Thread(toRun);
+						threadRun.start();
+					}
 		}else if(command.equals("reset"))
-			currentModelControler.reset();
+			this.reinitialize();
 		//		else if(command.equals("compute"))
 		//		{	
 		//			currentModelControler.getCharac().compute();
@@ -493,7 +533,7 @@ public class CommandLine  {
 //			System.out.println(" smalestNextTime " + smalestNextTime);
 			get(TIME_TO_REACH).set(smalestNextTime);
 			this.get(this.PLAY).set(true);
-			run();
+			toRun.execute();
 		}
 		else if(command.equals("exit"))
 			System.exit(0);
@@ -507,23 +547,7 @@ public class CommandLine  {
 
 	}
 	
-	private BigDecimal getTime() {
-		return computationControler.getTime();
-	}
-	private void run() throws CommandLineFormatException{
-		
-		if(toRun == null && threadRun == null ){
-			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
-			threadRun = new Thread(toRun);
-			threadRun.start();
-		}else if(threadRun != null && !threadRun.isAlive() ){
-			toRun = new WaitRunner(computationControler,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
-			threadRun = new Thread(toRun);
-			threadRun.start();
-		}else{
-//			System.out.println("to run already init");
-		}
-	}
+	
 
 	private void parseInitialCommand(String command) throws CommandLineFormatException
 	{
@@ -610,6 +634,7 @@ public class CommandLine  {
 
 					else//String by default
 					{
+//						System.out.println("String in it : " + obj + " key : "+key);
 						map.put(key, new Var<String>(key,obj));
 					}
 				}
@@ -625,10 +650,10 @@ public class CommandLine  {
 	 * @throws NumberFormatException 
 	 */
 	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, NumberFormatException, NullCoordinateException {
-		//Reinitialize map
+		toRun.reset();
+		computationControler.reset();
 		parseCommand(defaultScript());
 		parseCommand(initScript);
-		//Reinitialize main.java.model
 	}
 
 
@@ -645,8 +670,11 @@ public class CommandLine  {
 
 
 	public void setComputationControler(
-			ComputationControler computationControler) {
+			ComputationControler computationControler,boolean maxSpeed) throws CommandLineFormatException {
 		this.computationControler = computationControler;
+		toRun = new WaitRunner(computationControler,maxSpeed,get(PLAY),get(TIME_TO_REACH),get(TIME_MAX),get(TIME_SPEED_RATIO),get(MAP_TO_SAVE),get(PATH_TO_SAVE));
+//		threadRun = new Thread(toRun);
+//		threadRun.start();
 
 	}
 

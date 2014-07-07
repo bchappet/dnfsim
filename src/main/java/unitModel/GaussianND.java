@@ -11,7 +11,6 @@ import main.java.maps.Track;
 import main.java.neigborhood.WrappedSpace;
 import main.java.space.Coord;
 import main.java.space.Space;
-import main.java.space.WrappableDouble2DSpace;
 
 /**
  * Use continuous main.java.coordinates

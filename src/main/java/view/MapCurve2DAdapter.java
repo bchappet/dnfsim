@@ -3,7 +3,6 @@ package main.java.view;
 
 import main.java.controler.MapControler;
 import main.java.controler.ParameterControler;
-import main.java.controler.SingleValueControler;
 
 public class MapCurve2DAdapter extends ParamViewAdapter {
 

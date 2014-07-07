@@ -1,9 +1,8 @@
 package test.java.maps;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 
 import main.java.maps.ConvolutionMatrix2D;
 import main.java.maps.MatrixDouble2D;

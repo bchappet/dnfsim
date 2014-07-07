@@ -2,8 +2,6 @@ package main.java.network.generic;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -344,6 +342,14 @@ public class Node<P extends Packet, E extends DirectedEdge<P, ?>> {
 
 	public void setLastPacketReceiveNumber(int lastPacketReceiveNumber) {
 		this.lastPacketReceiveNumber = lastPacketReceiveNumber;
+	}
+
+	public void reset() {
+		totalPacketReceive = 0;
+		lastPacketReceiveNumber = 0;
+		enabled = true;
+		bufferPacket.clear();
+
 	}
 
 }

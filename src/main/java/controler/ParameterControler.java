@@ -142,6 +142,18 @@ public abstract class ParameterControler {
 		
 	}
 
+	public void reset() {
+		param.reset();
+		for (ParameterControler pc : this.children) {
+			pc.reset();
+		}
+		if(this.paraView != null){
+			paraView.reset();
+			paraView.updateViewAndRepaint();
+		}
+		
+	}
+
 	
 	
 	

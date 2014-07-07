@@ -174,5 +174,10 @@ public class ParameterControlerTree implements TreeModel {
 		// TODO Auto-generated method stub
 
 	}
+	public void reset() {
+		
+		root.reset();
+		
+	}
 
 }

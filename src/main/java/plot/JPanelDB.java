@@ -41,8 +41,6 @@ import java.util.EventObject;
 
 import javax.swing.JPanel;
 
-import main.java.view.ParameterView;
-
 abstract public class JPanelDB extends JPanel {
 
 	/** Double charge on VRAM handling */

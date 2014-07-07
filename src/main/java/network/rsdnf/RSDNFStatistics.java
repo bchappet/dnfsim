@@ -7,6 +7,7 @@
 package main.java.network.rsdnf;
 
 import java.math.BigDecimal;
+
 import main.java.maps.Parameter;
 import main.java.maps.Var;
 import main.java.network.generic.NetworkStatistics;

@@ -6,6 +6,7 @@
 package test.java.network.rsdnf;
 
 import static org.junit.Assert.assertArrayEquals;
+import main.java.network.rsdnf.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -18,7 +19,6 @@ import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.Utils;
 import main.java.network.rsdnf.RSDNFCommandLine;
-import main.java.network.rsdnf.RSDNFModel;
 
 import org.junit.After;
 import org.junit.AfterClass;
@@ -32,7 +32,7 @@ import org.junit.Test;
  */
 public class RSDNFSpreadingGraphTest {
 
-    RSDNFModel rsdnf;
+    RSDNFNetworkModel rsdnf;
 
     public RSDNFSpreadingGraphTest() {
     }
@@ -47,7 +47,7 @@ public class RSDNFSpreadingGraphTest {
 
     @Before
     public void setUp() throws CommandLineFormatException, FileNotFoundException, MalformedURLException {
-        rsdnf = new RSDNFModel("testRSDNF");
+        rsdnf = new RSDNFNetworkModel("testRSDNF");
         CommandLine cl = new RSDNFCommandLine() {
             @Override
             public String defaultScript() {

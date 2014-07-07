@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import main.java.space.Coord2D;
 import main.java.space.Space;
 import main.java.space.Space2D;
 import main.resources.utils.ArrayUtils;
@@ -49,6 +48,10 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	 * 
 	 */
 	public abstract void compute();
+	
+	public void reset(){
+		this.time = BigDecimal.ZERO;
+	}
 	
 	
 	@Override

@@ -1,6 +1,6 @@
 package test.java.unitModel;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;

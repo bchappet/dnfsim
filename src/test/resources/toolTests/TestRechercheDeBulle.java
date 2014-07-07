@@ -4,10 +4,8 @@
  */
 package test.resources.toolTests;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import main.resources.tool.Bubble;
 import main.resources.tool.PointContinu;
 import main.resources.tool.ToolsMAP;
 

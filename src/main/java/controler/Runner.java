@@ -2,7 +2,9 @@ package main.java.controler;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.List;
 import java.util.Scanner;
 
 import javax.swing.JFrame;
@@ -10,7 +12,6 @@ import javax.swing.JFrame;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.gui.Printer;
 import main.java.model.Model;
 import main.java.model.Models;
 import main.java.statistics.Characteristics;
@@ -43,18 +44,25 @@ public class Runner extends JFrame implements Runnable {
 	 */
 	private int iterationCore;
 	
-	private int iterationId;
+	private List<Integer> iterationIds;
 
 	private String runningScript;
 
 	private GlobalView view;
 	
+	private ComputationControler computationControler;
+	
 	
 
-	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui) throws Exception{
+	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui,List<Integer> iterationIds) throws Exception{
 		this.gui = gui;
+		System.out.println(" construct Runner" + iterationIds);
 		this.printer = printer;
 		this.runningScript = runningScript;
+		this.iterationIds = iterationIds;
+		if(this.iterationIds.isEmpty()){
+			this.iterationIds.add(0);
+		}
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		if(gui){
 			Dimension dim = new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight());
@@ -73,13 +81,8 @@ public class Runner extends JFrame implements Runnable {
 
 	}
 	
-	public void setIterationId(int i ){
-		this.iterationId = i;
-	}
 	
-	public int getIterationId(){
-		return this.iterationId;
-	}
+	
 	
 
 	public GlobalView getGlobalView(){
@@ -109,8 +112,8 @@ public class Runner extends JFrame implements Runnable {
 			model.initialize(cl);
 			ModelControler mc = new ModelControler(model);
 			cl.setCurentModelControler(mc);
-			ComputationControler computationControler = new ComputationControler(mc.getTree(),getIterationId());
-			cl.setComputationControler(computationControler);
+			computationControler = new ComputationControler(mc.getTree());
+			cl.setComputationControler(computationControler,!gui);
 			CharacteristicsControler characContrl = (CharacteristicsControler) mc.getTree().getControler(Characteristics.NAME);
 			cl.setCharacControler(characContrl);
 			if(gui){
@@ -134,8 +137,9 @@ public class Runner extends JFrame implements Runnable {
 	 * @throws NumberFormatException
 	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
+	 * @throws FileNotFoundException 
 	 */
-	public String interpret(String command) throws NumberFormatException, NullCoordinateException, CommandLineFormatException{
+	public String interpret(String command) throws NumberFormatException, NullCoordinateException, CommandLineFormatException, FileNotFoundException{
 		return cl.parseCommand(command);
 	}
 
@@ -144,10 +148,14 @@ public class Runner extends JFrame implements Runnable {
 		try{
 			if(runningScript != null){
 				for(int i = 0 ; i < iterationCore ; i++){
+//					System.out.println("Iteration : " + i);
+					computationControler.setComputationId(iterationIds.get(i));
 					String[] commands = runningScript.split("[\n|;]+");
 					for(int j = 0 ; j < commands.length ; j++){
-						this.printer.print( this.interpret(commands[j]));
+						this.printer.print( this.interpret(commands[j]),iterationIds.get(i));
 					}
+					
+					cl.reinitialize();
 				}
 			}
 			if(this.gui){
@@ -156,7 +164,8 @@ public class Runner extends JFrame implements Runnable {
 				while(true){
 //					System.out.println("wait for command");
 					String line = sc.nextLine();
-					this.printer.print(this.interpret(line));
+					
+					this.printer.print(this.interpret(line),iterationIds.get(iterationIds.size()-1));
 				}
 			}
 		}catch(Exception e){

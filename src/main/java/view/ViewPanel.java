@@ -1,6 +1,5 @@
 package main.java.view;
 
-import java.awt.GridLayout;
 import java.awt.LayoutManager;
 
 import javax.swing.JPanel;

@@ -1,7 +1,6 @@
 package test.java.view;
 
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.math.BigDecimal;
 import java.util.List;

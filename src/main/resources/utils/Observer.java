@@ -8,6 +8,6 @@ public interface Observer {
 	/**
 	 * Action on when the subject change
 	 */
-	public void notify();
+//	public void notify();
 
 }

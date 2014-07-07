@@ -6,20 +6,13 @@ import java.awt.Dimension;
 import java.math.BigDecimal;
 
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import main.java.controler.ComputationControler;
-import main.java.controler.MapControler;
 import main.java.controler.ModelControler;
-import main.java.controler.StatisticsControler;
 import main.java.model.Model;
 import main.java.reservoirComputing.ESNCommandLine;
 import main.java.reservoirComputing.ModelESN;
-import main.java.statistics.Statistics;
-import main.java.view.CanvaPanel;
 import main.java.view.ModelView;
-import main.java.view.ParameterView;
-import main.java.view.StatisticPanel;
 import main.java.view.ViewConfiguration;
 import main.java.view.ViewFactory;
 
@@ -56,14 +49,14 @@ public class ModelViewTest extends JFrame{
 	
 	@Test
 	public void test() throws InterruptedException {
-		cc.compute(new BigDecimal("0.1"));
+		cc.compute();
 		
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.2"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
-		cc.compute(new BigDecimal("0.3"));
+		cc.compute();
 		Thread.sleep(100);
 		this.repaint();
 		Thread.sleep(100000);

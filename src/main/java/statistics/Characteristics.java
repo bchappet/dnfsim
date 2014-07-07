@@ -6,16 +6,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
-import main.java.maps.AbstractMap;
 import main.java.maps.Computable;
 import main.java.maps.HasChildren;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.maps.SingleValueParam;
-import main.java.maps.Trajectory;
-import main.java.maps.TrajectoryUnitMap;
 import main.java.maps.Var;
 import main.java.plot.WTrace;
 
@@ -85,6 +81,11 @@ public class Characteristics implements HasChildren<Parameter>,Computable {
 	public void reset()
 	{
 		wtrace.clear();
+		this.time = BigDecimal.ZERO;
+//		for (Parameter p : params) {
+//			
+//			p.reset();
+//		}
 	}
 	
 	public String[] getTrajectoryUnitMapsName() {

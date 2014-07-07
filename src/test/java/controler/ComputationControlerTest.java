@@ -2,20 +2,14 @@ package test.java.controler;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 
 import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.model.ModelCNFT;
-import main.java.reservoirComputing.ESNCommandLine;
 import main.java.reservoirComputing.ModelESN;
 
-import org.junit.Before;
 import org.junit.Test;
 
 public class ComputationControlerTest {
@@ -69,7 +63,7 @@ public class ComputationControlerTest {
 		
 		System.out.println(mc.getTree());
 		
-		uut.compute(new BigDecimal("0.39"));
+		uut.compute();
 		
 	}
 	

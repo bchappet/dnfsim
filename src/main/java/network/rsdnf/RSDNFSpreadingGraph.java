@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 
 import main.java.maps.Var;
 import main.java.network.generic.SpreadingGraph;
-import main.java.network.generic.packet.IPv4Datagramme;
 import main.java.network.generic.packet.Spike;
 
 /**

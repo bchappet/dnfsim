@@ -1,20 +1,9 @@
 package main.java.statistics;
 
-import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
-import main.java.coordinates.NullCoordinateException;
-import main.java.coordinates.Space;
-import main.java.maps.AbstractMap;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
-import main.java.model.Model;
-import main.java.plot.Trace;
-import main.java.plot.WTrace;
 
 
 /**
