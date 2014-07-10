@@ -3,6 +3,7 @@ package main.java.controler;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.LogManager;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -56,6 +57,8 @@ public class Printer{
 
 	/** Main function to start the program **/
 	public static void main(String args[]) {
+		
+		LogManager.getLogManager().reset();
 
 		try {
 
