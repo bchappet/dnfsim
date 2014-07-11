@@ -5,15 +5,39 @@ def writeDir(path):
 		os.mkdir(path)
 
 writeDir("./data")
+
+iteration = '100'
 	
 for packet_initialisation in ['a_send']:
 	writeDir("./data/" + packet_initialisation)
 	for tailleGrille in ['9']: 
 		writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille)
-
-
-
-	#os.system("java")
+		for time in [ '1']:
+			writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time)
+			for weigth in ['0.69']:
+				writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth)
+				#definir ici la firest 
+				firstIteration = '0'
+				os.system("java "+
+					"-cp ../bin:../src "+
+					"main.java.controler.Printer " +
+					"-Duser.dir ~/Work/Loria2014/dnfsim2 "+
+					"firstIteration="+ firstIteration + " "
+					"model=PFModel "+
+					"show=false "+
+					"context=\""+
+						"packet_initialisation="+ packet_initialisation+ ";"+
+						"weigth="+ weigth +";"+
+						"size="+ tailleGrille+ ";"+
+						"mapToSave=ReceiveMap;"+
+						"pathToSave=./data/"+packet_initialisation+"/size"+tailleGrille+"/time"+time+"/weigth"+weigth+"/"+
+					"\" " +
+					"it="+ iteration + " "
+					"scenario=\""+
+						"wait="+ time+";"+
+					"\" "+
+					"core=2")
+#os.system("java")
 
 
 # set iteration = 5
