@@ -12,20 +12,20 @@ parser.add_argument('--packet_initialisation',
                             type=str,
                             default=['a_send','b_send','ab_send'],
                             help='comment initialiser le graphe')
-parser.add_argument('--time',
+parser.add_argument('--times',
                             nargs='*',
                             type=str,
                             default=['5'],
                             help='nombre de seconde pendant lesquelles le model est lance')
-parser.add_argument('--tailleGrille',
+parser.add_argument('--tailles_grilles',
                             nargs='*',
                             type=str,
                             default=['9'],
                             help='taille du graphe')
-parser.add_argument('--iteration', 
+parser.add_argument('--iterations', 
 							default='100',
 							type=int,
-							help='valeur de l\'iteration maximale a compute')
+							help='le nombre d\'iterations que l\'on veut voir apparaitre dans les sous dossiers)')
 
 args = parser.parse_args()
 
@@ -45,23 +45,21 @@ def getLastComputation(path):
 
 writeDir("./data")
 
-iteration = int(args.iteration)
-time = args.time
-packet_initialisation = args.packet_initialisation
-weigth = args.weigths
+
 	
-for packet_initialisation in ['a_send']:
+for packet_initialisation in args.packet_initialisation:
 	writeDir("./data/" + packet_initialisation)
-	for tailleGrille in ['9']: 
+	for tailleGrille in args.tailles_grilles: 
 		writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille)
-		for time in [ '1']:
+		for time in args.times:
 			writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time)
-			for weigth in ['0.69']:
+			for weigth in args.weigths:
+				iteration = int(args.iterations)
 				path = "./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth
 				writeDir(path)
 				# on recupere la valeur de la computation la plus elevee pour ne pas tout refaire.
 				c = getLastComputation(path)
-				print(
+				print("\n\n"+
 					"initialisation : "+packet_initialisation + 
 					" tailleGrille : "+ tailleGrille + 
 					" time : " + time + 
@@ -71,7 +69,7 @@ for packet_initialisation in ['a_send']:
 					firstIteration = c + 1
 					iteration = iteration - firstIteration
 					if iteration > 0 :
-						print("firstIteration : "+str(firstIteration)+" iteration a effectuer : "+str(iteration))
+						print("-> firstIteration : "+str(firstIteration)+" iteration a effectuer : "+str(iteration))
 						os.system(
 							"java "+
 							"-cp ../bin:../src "+
@@ -95,6 +93,6 @@ for packet_initialisation in ['a_send']:
 							"core=2"
 						)
 					else :
-						print("-> pas de computation a effectuer, il y a extactement le nombre de computations demandees dans ce dossier")
+						print("-> pas de computation a effectuer, il y a exactement le nombre de computations demandees dans ce dossier")
 				else :
 					print("-> pas de computation a effectuer, il y a deja plus de computations dans ce dossier que necessaire")
