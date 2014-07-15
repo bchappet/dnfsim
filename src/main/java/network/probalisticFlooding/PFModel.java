@@ -29,7 +29,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		Var<String> write = (Var<String>)((PFCommandLine)command).get(PFCommandLine.WRITE_TRANSITION_MATRIX_FILE);
-		if("true".equals(write.get())){
+		if("True".equals(write.get())){
 			System.out.println("ecriture du fichier ...");
 			try {
 				this.writePFAdjacentMatrix();
@@ -90,11 +90,12 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	}
 
 	private void writePFAdjacentMatrix() throws IOException, CommandLineFormatException {
-
+		
 		Var<String> path = command.get(PFCommandLine.TRANSITION_MATRIX_FILE);
 		//		System.out.println(path.get());
 		//		System.out.println("path pfmodel : " + path.get());
-		FileWriter fw = new FileWriter(path.get()+(int) command.get(PFCommandLine.SIZE).get(),false);
+		//System.out.println("salut salut :"+path.get());
+		FileWriter fw = new FileWriter(path.get(),false);
 		PrintWriter pw = new PrintWriter(fw);
 
 		double[][] adj  = generateAdjacentMatrix();
@@ -114,7 +115,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	@Override
 	protected void constructGraph(File matrixTransitionFile) {
 		try {
-			setSpreadingGraph(getSpreadingGraphFactory().constructGraph(new File(matrixTransitionFile.getPath()+(int) command.get(PFCommandLine.SIZE).get()), TypeGraph.PROBABILISTIC_FLOODING, command));
+			setSpreadingGraph(getSpreadingGraphFactory().constructGraph(matrixTransitionFile, TypeGraph.PROBABILISTIC_FLOODING, command));
 		} catch (CommandLineFormatException e) {
 			e.printStackTrace();
 		}

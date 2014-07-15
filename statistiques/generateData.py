@@ -70,6 +70,8 @@ for packet_initialisation in args.packet_initialisation:
 					iteration = iteration - firstIteration
 					if iteration > 0 :
 						print("-> firstIteration : "+str(firstIteration)+" iteration a effectuer : "+str(iteration))
+						transitionFile = "../PFTransitionMatrixFile"+tailleGrille
+						writeFile = not(os.path.isfile(transitionFile))
 						os.system(
 							"java "+
 							"-cp ../bin:../src "+
@@ -84,8 +86,8 @@ for packet_initialisation in args.packet_initialisation:
 								"size="+ tailleGrille+ ";"+
 								"mapToSave=ReceiveMap;"+
 								"pathToSave="+path+"/;"+
-								"transition_matrix_file="+"/home/nikolai/Work/Loria2014/dnfsim2/src/main/java/network/ressource/1.pf;"+
-								"write_transition_matrix_file="+"false;"+
+								"transition_matrix_file="+transitionFile+";"+
+								"write_transition_matrix_file="+str(writeFile)+";"+
 							"\" " +
 							"it="+ str(iteration) + " "+
 							"scenario=\""+

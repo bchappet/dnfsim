@@ -18,7 +18,7 @@ public class PFCommandLine extends NetworkCommandLine{
 				WEIGTH + "=0.0;" +  
 				TRANSITION_MATRIX_FILE + "=PFTransitionMatrixFile;"+
 				PACKET_INTIALISATION+ "=" + AB_SEND + ";"+
-				WRITE_TRANSITION_MATRIX_FILE + "="+true+";";
+				WRITE_TRANSITION_MATRIX_FILE + "="+"true;";
 		/* NetworkCommandLine */
 		//                NETWORK_DT + "=bd0.1,0.01,1,0.01;";
 	}
