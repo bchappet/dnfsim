@@ -91,16 +91,10 @@ public class Utils {
                     writer.write(matrice[l][c] + SEP);
                 }
                 writer.write(matrice[l][matrice[l].length - 1] + "\n");
+                writer.close();
             }
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
-        } finally {
-            try {
-                writer.close();
-            } catch (IOException ex) {
-                Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-        
+        } 
     }
 }

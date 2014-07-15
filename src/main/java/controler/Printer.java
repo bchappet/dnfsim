@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 
 import javax.swing.UIManager;
 
+import main.java.console.CommandLine;
 import main.java.statistics.Statistics;
 
 
@@ -110,6 +111,12 @@ public class Printer{
 			int iteration = 1;
 			if(iterationS != null)
 				iteration = Integer.parseInt(iterationS);
+			
+			
+			String firstIterationS = System.getProperty(CommandLine.FIRST_ITERATION);
+			int firstIteration = 0;
+			if(firstIterationS != null)
+				firstIteration= Integer.parseInt(firstIterationS);
 
 
 
@@ -121,7 +128,7 @@ public class Printer{
 			Runner[] runners = new Runner[nbCore];
 			Thread[] threads = new Thread[nbCore];
 			int[] iterations = computeNbThreadIteration(iteration, nbCore);
-			List<List<Integer>> iterationIds = getIterationIds(iterations);
+			List<List<Integer>> iterationIds = getIterationIds(iterations,firstIteration);
 
 			for(int i = 0 ; i < nbCore ; i++){
 				if(iterations[i] > 0){
@@ -148,9 +155,9 @@ public class Printer{
 
 	}
 
-	private static List<List<Integer>> getIterationIds(int[] iterations) {
+	private static List<List<Integer>> getIterationIds(int[] iterations,int firstIteration) {
 		List<List<Integer>> ret = new ArrayList<List<Integer>>(iterations.length);
-		int k = 0;
+		int k = firstIteration; //0;
 		for(int i = 0 ; i < iterations.length ; i++){
 			ret.add(new ArrayList<Integer>(iterations[i]));
 			for (int j = 0; j < iterations[i]; j++) {
@@ -158,7 +165,7 @@ public class Printer{
 				k++;
 			}
 		}
-		System.out.println("ret :" + ret);
+		//System.out.println("ret :" + ret);
 		return ret;
 	}
 

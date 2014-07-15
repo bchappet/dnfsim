@@ -56,7 +56,7 @@ public class Runner extends JFrame implements Runnable {
 
 	public  Runner(Printer printer,String modelName,String initScript,String runningScript,boolean gui,List<Integer> iterationIds) throws Exception{
 		this.gui = gui;
-		System.out.println(" construct Runner" + iterationIds);
+//		System.out.println(" construct Runner" + iterationIds);
 		this.printer = printer;
 		this.runningScript = runningScript;
 		this.iterationIds = iterationIds;

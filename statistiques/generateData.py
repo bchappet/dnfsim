@@ -85,6 +85,7 @@ for packet_initialisation in args.packet_initialisation:
 								"mapToSave=ReceiveMap;"+
 								"pathToSave="+path+"/;"+
 								"transition_matrix_file="+"/home/nikolai/Work/Loria2014/dnfsim2/src/main/java/network/ressource/1.pf;"+
+								"write_transition_matrix_file="+"false;"+
 							"\" " +
 							"it="+ str(iteration) + " "+
 							"scenario=\""+
