@@ -48,6 +48,9 @@ public class CommandLine  {
 	private static final String MAP_TO_SAVE = "mapToSave"; //separator = ,
 
 	private static final String PATH_TO_SAVE = "pathToSave";
+	
+	/* le numero de la première itération */
+	public static final String FIRST_ITERATION = "firstIteration";
 
 	protected String initScript;
 	/**Associate a parameter name with its var**/
@@ -93,6 +96,7 @@ public class CommandLine  {
 				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
 				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
 				+ MAP_TO_SAVE+"=null;" + PATH_TO_SAVE+"=src/;"
+				+ FIRST_ITERATION+"=0;"
 				;
 	}
 
