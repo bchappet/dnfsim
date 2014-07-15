@@ -1,0 +1,11 @@
+computeA
+time=0.1
+computeA
+time=0.2
+computeB
+computeA
+time=0.3
+computeC
+time=0.35
+computeA
+time=0.4

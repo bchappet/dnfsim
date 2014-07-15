@@ -1,0 +1,13 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=true
+---------------------------------------------
+PFModel
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		ReceiveMap
+	stats
+		Plot2D
+			Time
+			current_packet
+			buff_max_load

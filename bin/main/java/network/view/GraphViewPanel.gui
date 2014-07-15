@@ -1,0 +1,11 @@
+---------------------------------------------
+Model
+    CanvaPanel
+        graph:GraphGraphViewAdaptater
+    StatisticPanel
+        Plot2D
+            Time
+            error_dist
+            target_output
+            output
+            CompTime

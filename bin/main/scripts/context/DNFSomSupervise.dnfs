@@ -1,0 +1,11 @@
+resolution=9;
+n=20;
+ia=2.33;
+wa=0.1;
+tau=0.7;
+threshold=0.5;
+alpha=10.0;
+dt_dnf=0.1;
+dt=0.1;
+learn_rate=0.011;
+wrap=F;

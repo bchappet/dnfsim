@@ -1,0 +1,8 @@
+resolution=19;
+ia=1.25;
+ib=-0.70;
+wa=0.10;
+wb=1.00;
+tau=0.75;
+alpha=10.0;
+wrap=T;
