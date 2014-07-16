@@ -15,7 +15,6 @@ import main.java.network.generic.NetworkCommandLine;
 import main.java.network.generic.NetworkModel;
 import main.java.network.generic.TotalPacketReceiveUnitMap;
 import main.java.network.generic.TypeGraph;
-import main.java.network.generic.packet.IPv4Datagramme;
 import main.java.network.generic.packet.Packet;
 import main.resources.utils.ArrayUtils;
 
@@ -30,7 +29,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		Var<String> write = (Var<String>)((PFCommandLine)command).get(PFCommandLine.WRITE_TRANSITION_MATRIX_FILE);
 		if("True".equals(write.get())){
-			System.out.println("ecriture du fichier ...");
+			System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
 			try {
 				this.writePFAdjacentMatrix();
 			} catch (IOException e) {
