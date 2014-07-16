@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -82,19 +83,32 @@ public class Utils {
      * @param matrice
      */
     public final static void writeCSVFile(File file, double[][] matrice) {
+//    	System.out.println("csv file matrix size : "+matrice.length+"x"+matrice[0].length);
+//    	System.out.println(Arrays.deepToString(matrice));
+//    	System.out.println("file : "+file);
         Writer writer = null;
+        int i = 0;
         try {
             writer = new BufferedWriter(new OutputStreamWriter(
                     new FileOutputStream(file), "utf-8"));
+//            System.out.println("matrice.length : "+matrice .length);
             for (int l = 0; l < matrice.length; l++) {
+//            	System.out.println("matrice["+l+"].length : "+matrice[l].length);
                 for (int c = 0; c < matrice[l].length - 1; c++) {
+//                	System.out.print(matrice[l][c] + ",");
                     writer.write(matrice[l][c] + SEP);
+                    i++;
+                    
                 }
+//                System.out.print(matrice[l][matrice[l].length - 1] + "\n");
                 writer.write(matrice[l][matrice[l].length - 1] + "\n");
-                writer.close();
+                i++;
             }
+            writer.close();
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
         } 
+       
+//        System.out.println("\nNombre de case écrite  : "+i);
     }
 }

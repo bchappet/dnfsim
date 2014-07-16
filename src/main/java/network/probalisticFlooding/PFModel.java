@@ -5,6 +5,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Arrays;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
@@ -85,6 +86,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 				adj[i][j] = adj[j][i];
 			}
 		}
+		//System.out.println(Arrays.toString(adj));
 		return adj;
 	}
 
