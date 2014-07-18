@@ -1,7 +1,7 @@
 colormap=AdaptiveAndEquilibratedColorMap
 grid=true
 ---------------------------------------------
-RSDNFNetworkModel
+RSDNFNetwork
 	ParameterTreePanel
 	DetailsPanel
 	CanvaPanel
