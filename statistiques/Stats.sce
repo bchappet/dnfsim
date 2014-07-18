@@ -13,7 +13,7 @@ function[SOMMES]=computeAverageMatrix(initialisation_packet,taille,time,weigth,m
                 sweigth = string(weigth);
             end
         end
-        M = read_csv("~/Work/Loria2014/dnfsim2/statistiques/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
+        M = read_csv("~/Loria2014/dnfsim2/statistiques/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
         M = strtod(M);
         SOMMES = SOMMES + M;
     end;
@@ -51,7 +51,7 @@ function[diagonal]=computeAverageDiagonal(initialisation_packet,taille,time,weig
                 sweigth = string(weigth);
             end
         end
-        M = read_csv("data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
+        M = read_csv("~/Loria2014/dnfsim2/statistiques/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
         diag_M = diag(strtod(M));
         diagonal = diag_M + diagonal;
     end;
@@ -118,7 +118,7 @@ endfunction
 
 dt = 0.1;
 tailles = [9];//[9,10,19,20,29,30,39,40,49,50]
-weigths = linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+weigths = [0.0,0.7];//linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
 times = [1];//[1,2,3,4,5,6,7,8,9,10]
 epsilon = 0.000000001;
 
@@ -128,17 +128,18 @@ for taille=tailles
        disp('ploting '+string(i)+' ...');    
        subplot(size(tailles,'*'),size(times,'*'),i);
        f10 = computeAllFitness(time,taille,weigths,10,dt);
-       f100 = computeAllFitness(time,taille,weigths,100,dt);
-       f500 = computeAllFitness(time,taille,weigths,500,dt);
-       f1000 = computeAllFitness(time,taille,weigths,1000,dt);
-       f5000 = computeAllFitness(time,taille,weigths,5000,dt);
+//       f100 = computeAllFitness(time,taille,weigths,100,dt);
+//       f500 = computeAllFitness(time,taille,weigths,500,dt);
+//       f1000 = computeAllFitness(time,taille,weigths,1000,dt);
+//       f5000 = computeAllFitness(time,taille,weigths,5000,dt);
        xtitle('Critère d additivité sur l ensemble du graphe'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
        plot(weigths,f10,'b');
-       plot(weigths,f100,'r');
-       plot(weigths,f500,'c');
-       plot(weigths,f1000,'black');
-       plot(weigths,f5000,'g');
-       legend(['10 iterations','100 itérations','500 itérations','1000 itérations','5000 itérations']);
+//       plot(weigths,f100,'r');
+//       plot(weigths,f500,'c');
+//       plot(weigths,f1000,'black');
+//       plot(weigths,f5000,'g');
+//       legend(['10 iterations','100 itérations','500 itérations','1000 itérations','5000 itérations']);
+        legend(['10 iterations']);
        i=i+1;
    end
 end
