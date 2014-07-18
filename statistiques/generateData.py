@@ -1,5 +1,6 @@
 import os
 import argparse
+import multiprocessing
 
 parser = argparse.ArgumentParser(description='Generateur de fichier pour le test de PFModel')
 parser.add_argument('--weigths',
@@ -53,8 +54,11 @@ def getLastComputation(path):
 writeDir("./data")
 
 forcerewrite = bool(args.forcerewrite)
-print(args.forcerewrite)
-print(forcerewrite)
+
+
+nbCores = str(multiprocessing.cpu_count())
+
+print(nbCores)
 	
 for packet_initialisation in args.packet_initialisation:
 	writeDir("./data/" + packet_initialisation)
@@ -106,7 +110,7 @@ for packet_initialisation in args.packet_initialisation:
 							"scenario=\""+
 								"wait="+ time+";"+
 							"\" "+
-							"core=2"
+							"core="+nbCores
 						)
 					else :
 						print("-> pas de computation a effectuer, il y a exactement le nombre de computations demandees dans ce dossier")
