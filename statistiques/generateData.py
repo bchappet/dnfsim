@@ -27,6 +27,13 @@ parser.add_argument('--iterations',
 							type=int,
 							help='le nombre d\'iterations que l\'on veut voir apparaitre dans les sous dossiers)')
 
+parser.add_argument('--forcerewrite',
+                   help='Force this script to generate a file even if this one exists (default : False',
+                   action='store_true')
+
+
+
+
 args = parser.parse_args()
 
 def writeDir(path):
@@ -45,7 +52,9 @@ def getLastComputation(path):
 
 writeDir("./data")
 
-
+forcerewrite = bool(args.forcerewrite)
+print(args.forcerewrite)
+print(forcerewrite)
 	
 for packet_initialisation in args.packet_initialisation:
 	writeDir("./data/" + packet_initialisation)
@@ -57,21 +66,25 @@ for packet_initialisation in args.packet_initialisation:
 				iteration = int(args.iterations)
 				path = "./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth
 				writeDir(path)
-				# on recupere la valeur de la computation la plus elevee pour ne pas tout refaire.
-				c = getLastComputation(path)
+				if not forcerewrite :
+					# on recupere la valeur de la computation la plus elevee pour ne pas tout refaire.
+					c = getLastComputation(path)
 				print("\n\n"+
 					"initialisation : "+packet_initialisation + 
 					" tailleGrille : "+ tailleGrille + 
 					" time : " + time + 
 					" weigth : " + weigth
 				)
-				if c < iteration : 
-					firstIteration = c + 1
+				if forcerewrite  or c < iteration : 
+					if not forcerewrite :
+						firstIteration = c + 1
+					else  : 
+						firstIteration = 0
 					iteration = iteration - firstIteration
-					if iteration > 0 :
+					if iteration > 0 or forcerewrite :
 						print("-> firstIteration : "+str(firstIteration)+" iteration a effectuer : "+str(iteration))
 						transitionFile = "../PFTransitionMatrixFile"+tailleGrille
-						writeFile = not(os.path.isfile(transitionFile))
+						writeTransitionMatrixFile = not(os.path.isfile(transitionFile))
 						os.system(
 							"java "+
 							"-cp ../bin:../src "+
@@ -87,7 +100,7 @@ for packet_initialisation in args.packet_initialisation:
 								"mapToSave=ReceiveMap;"+
 								"pathToSave="+path+"/;"+
 								"transition_matrix_file="+transitionFile+";"+
-								"write_transition_matrix_file="+str(writeFile)+";"+
+								"write_transition_matrix_file="+str(writeTransitionMatrixFile)+";"+
 							"\" " +
 							"it="+ str(iteration) + " "+
 							"scenario=\""+
