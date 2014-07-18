@@ -1,0 +1,15 @@
+colormap=AdaptiveAndEquilibratedColorMap
+---------------------------------------------
+CNFT
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		Inputs
+		CNFT_Weights
+		CNFT_Convolution
+		Potential
+	stats
+		Plot2D
+			Time
+			ActivitySum
+		CoordBubble:Coord2DSingleValueParamPlotCoord2DAdapter

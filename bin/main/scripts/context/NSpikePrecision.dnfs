@@ -1,0 +1,17 @@
+n=20;
+wrap=F;
+ia=2.33;
+ib=-1.59;
+wa=0.0043;
+wb=0.17;
+tau=0.64;
+threshold=0.75;
+alpha=10.00;
+proba_frac=8;
+frac=10;
+dt=0.08;
+input_dt=0.08;
+noise_dt=0.08;
+distr_dt=0.08;
+tck_dt=0.08;
+disp_dt=0.08;

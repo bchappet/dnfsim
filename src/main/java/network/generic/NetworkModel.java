@@ -48,6 +48,13 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 		setSpreadingGraph(getSpreadingGraphFactory().constructGraph(f, TypeGraph.DEFAULT_GRAPH, command));
 	}
 	
+//	/**
+//	 * A override
+//	 */
+//	protected void intializeGraph(){
+//		// on rajoute des spikes à des noeuds au début
+//	}
+	
 	/**
 	 * rajoute un packet packet au noeud à la position indexNode du spreadingGraphe de ce model
 	 * @param indexNode
@@ -72,7 +79,8 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 	
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
-		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
+		String pathMatrixTransitionFile = 
+				((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
 //		System.out.println("file : " +pathMatrixTransitionFile);
 //		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
@@ -80,6 +88,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
 		}else{
 			constructGraph(f);
+//			intializeGraph();
 		}
 		this.root = spreadingGraph;
 		

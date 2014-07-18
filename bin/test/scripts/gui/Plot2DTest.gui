@@ -1,0 +1,9 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=true
+---------------------------------------------
+uut
+	Time
+	error_dist
+	target_output
+	output
+	CompTime

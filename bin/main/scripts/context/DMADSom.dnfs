@@ -1,0 +1,7 @@
+resolution=10;
+dt_global=bd0.1;
+lateral_weights_init=0.2,0.,0.4,0.01;
+lateral_alpha=0.6;
+lateral_learning_rate=0.3;
+afferent_learning_rate=0.1;
+sigma=0.1,0.1,0.1,0.01;

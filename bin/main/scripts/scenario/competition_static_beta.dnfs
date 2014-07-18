@@ -1,0 +1,9 @@
+tck_nb=2;
+tck_period=1E-5;
+beta=0.0001;
+track_0.tck_i.clone=tck_i0;
+tck_i0=tck_i*beta+tck_i;
+init;
+wait=10;
+print=all,ClosestTrack,track_0;
+track_0.tck_i0.share=tck_i;

@@ -96,7 +96,8 @@ public class SpreadingGraphFactory {
                 
             case PROBABILISTIC_FLOODING:
             	PFCommandLine pfcl = (PFCommandLine)commandLine;
-                res = new PFSpreadingGraph((Var<BigDecimal>) pfcl.get(PFCommandLine.NETWORK_DT));
+            	Var<String> init = pfcl.get(PFCommandLine.PACKET_INTIALISATION);
+                res = new PFSpreadingGraph((Var<BigDecimal>) pfcl.get(PFCommandLine.NETWORK_DT),init);
 //                System.out.println("poids : "+((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get());
                 for (int i = 0; i < matrice.length; i++) {
                     res.getNodes().add(new PFNode(((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get()));
