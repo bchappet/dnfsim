@@ -121,22 +121,25 @@ disp(x);
 
 dt = 0.1;
 tailles = [9];//[9,10,19,20,29,30,39,40,49,50]
-weigths = linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-times = [1,3,5];//[1,2,3,4,5,6,7,8,9,10]
+weigths = [0.0,0.1];//linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
+times = [1,2];//[1,3,5];//[1,2,3,4,5,6,7,8,9,10]
 epsilon = 0.000000001;
 
 //pilote= driver("PDF")
 //xinit("plot.pdf")
 i = 1;
+j = 1;
+x = 2;//5;
+CSV_M = zeros(size(x*weigths*size(times)*size(taille),5);
 for taille=tailles
     for time=times
        disp('ploting '+string(i)+' ...');    
        subplot(size(tailles,'*'),size(times,'*'),i);
        f10 = computeAllFitness(time,taille,weigths,10,dt);
        f100 = computeAllFitness(time,taille,weigths,100,dt);
-       f500 = computeAllFitness(time,taille,weigths,500,dt);
-       f1000 = computeAllFitness(time,taille,weigths,1000,dt);
-       f5000 = computeAllFitness(time,taille,weigths,5000,dt);
+       //f500 = computeAllFitness(time,taille,weigths,500,dt);
+       //f1000 = computeAllFitness(time,taille,weigths,1000,dt);
+       //f5000 = computeAllFitness(time,taille,weigths,5000,dt);
        xtitle('Critère d additivité sur l ensemble du graphe'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
        plot(weigths,f10,'b');
        plot(weigths,f100,'r');
@@ -145,9 +148,23 @@ for taille=tailles
        plot(weigths,f5000,'g');
        legend(['10 iterations','100 itérations','500 itérations','1000 itérations','5000 itérations']);
        i=i+1;
+       for w=1:size(weights) :
+          // iteration poid times taille fitness 
+          CSV_M(j,:)=["10",string(weights(w)),string(time),string(taille),f10(w)];
+          j = j + 1;
+          CSV_M(j,:)=["100",string(weights(w)),string(time),string(taille),f10(w)];
+          j = j + 1;
+          //CSV_M(j,:)=["500",string(weights(w)),string(time),string(taille),f10(w)];
+          //j = j + 1;
+          //CSV_M(j,:)=["1000",string(weights(w)),string(time),string(taille),f10(w)];
+          //j = j + 1;
+          //CSV_M(j,:)=["5000",string(weights(w)),string(time),string(taille),f10(w)];
+          //j = j + 1;
+       end
    end
 end
 
+write_csv(CSV_M,"csv_stats.csv",",",".");
 //xend()
 
 //driver(pilote)
