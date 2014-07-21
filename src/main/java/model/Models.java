@@ -39,7 +39,7 @@ public enum Models{
 //	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
-	RSDNFNetworkModel("RSDNFNetworkModel",RSDNFNetworkModel.class,false),
+	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
 	PFModel("PFModel",PFModel.class,false)
 	;
 	
