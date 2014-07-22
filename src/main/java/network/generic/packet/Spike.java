@@ -7,7 +7,8 @@ package main.java.network.generic.packet;
  */
 public final class Spike extends Packet {
 
-    public Spike() {
+    public Spike(Object ... params) {
+    	//super((Object[])null);
         setSize(1);
     }
 

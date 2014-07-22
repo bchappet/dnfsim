@@ -2,6 +2,7 @@ package main.java.network.generic;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import main.java.maps.Computable;
@@ -17,13 +18,17 @@ import main.java.network.generic.packet.Packet;
  * @param <N> Sous classe des noeuds
  * @param <E> Sous classe des arêtes
  */
-public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements Parameter<N>, HasChildren<N>,Computable {
+public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Packet> implements Parameter<N>, HasChildren<N>,Computable {
 
     private final List<N> nodes;
 
     private final List<E> edges;
 
     private int computations = 0;
+    
+    private ArrayList<Parameter> params;
+    
+    public static final int STIMULIS_MAP = 0;
 
     /**
      * Update time for this map*
@@ -34,11 +39,14 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
      */
     private BigDecimal time;
     
-    public SpreadingGraph(Var<BigDecimal> dt) {
+    public SpreadingGraph(Var<BigDecimal> dt,StimulisMap sm,Parameter ... params) {
+    	super();
         this.dt = dt;
         this.time = new BigDecimal("0");
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
+        this.params = new ArrayList(Arrays.asList(params));
+        this.params.add(STIMULIS_MAP,sm);
     }
 
     @Override
@@ -51,7 +59,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
      * @param indexNode la position du noeud dans le graphe.
      * @param packet le packet à rajouter en file d'attente du noeud.
      */
-    public void addToFIFO(int indexNode, Packet packet){
+    public void addToFIFO(int indexNode, P packet){
     	nodes.get(indexNode).addToFIFO(packet);
     }
     
@@ -131,9 +139,14 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
      * Chaque noeud procède à un envoi et se met à jour.
      */
     @Override
-    public  void compute() {
-//    	System.out.println("computing "+this+" ...");
-        for (N n : getNodes()) {
+    public void compute() {
+    	// on récupère ma map des stimulis
+    	StimulisMap<P> sm = (StimulisMap<P>)getParameters().get(STIMULIS_MAP);
+    	for(Ajout<P> l: sm.getValues()){
+    		addToFIFO(l.indice,l.packet);
+    	}
+    	
+    	for (N n : getNodes()) {
             n.prepareBeforeSendParallele();
         }
         for (N n : getNodes()) {
@@ -195,9 +208,9 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge> implements P
         this.computations = computations;
     }
 
-	@Override
+    @Override
 	public List<Parameter> getParameters() {
-		return new ArrayList<>();
+		return params;
 	}
 
 	@Override
