@@ -12,6 +12,7 @@ import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.Var;
 import main.java.model.Model;
+import main.java.network.generic.packet.IPv4Datagramme;
 import main.java.network.generic.packet.Packet;
 import main.java.plot.Trace;
 import main.java.statistics.Statistics;
@@ -25,7 +26,7 @@ import main.java.unitModel.UnitModel;
  */
 public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E extends DirectedEdge<P, N>> extends Model /* implements Computable */ {
 
-	private SpreadingGraph<N,E> spreadingGraph;
+	private SpreadingGraph<N,E,P> spreadingGraph;
 
 	private final SpreadingGraphFactory spreadingGraphFactory;
 
@@ -38,22 +39,24 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 
 	/**
 	 * Doit intialiser le graph avec une matrice de transition.
-	 * Intialise le graphe par default. Peut (et doit) être override
+	 * Intialise le graphe par defaut. Peut (et doit) être override
 	 * @param matrixNetworkFile le fichier répresentant la matrice de transition
 	 * @throws CommandLineFormatException 
+	 * @throws NetworkException 
 	 */
-	protected /*abstract*/ void constructGraph(File matrixNetworkFile) throws CommandLineFormatException{
+	protected /*abstract*/ void constructGraph(File matrixNetworkFile) throws CommandLineFormatException, NetworkException{
 		String pathMatrixTransitionFile = ((Var<String>)command.get(NetworkCommandLine.TRANSITION_MATRIX_FILE)).get();
 		File f = new File(pathMatrixTransitionFile);
 		setSpreadingGraph(getSpreadingGraphFactory().constructGraph(f, TypeGraph.DEFAULT_GRAPH, command));
 	}
 	
-//	/**
-//	 * A override
-//	 */
-//	protected void intializeGraph(){
-//		// on rajoute des spikes à des noeuds au début
-//	}
+	/**
+	 * A override
+	 * @throws CommandLineFormatException 
+	 */
+	protected void intializeGraph() throws CommandLineFormatException{
+//		 spreadingGraph.addToFIFO(0, new IPv4Datagramme("coucou"));
+	}
 	
 	/**
 	 * rajoute un packet packet au noeud à la position indexNode du spreadingGraphe de ce model
@@ -87,8 +90,13 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
 			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
 		}else{
-			constructGraph(f);
-//			intializeGraph();
+			try {
+				constructGraph(f);
+			} catch (NetworkException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			intializeGraph();
 		}
 		this.root = spreadingGraph;
 		
