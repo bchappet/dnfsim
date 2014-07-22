@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<programation class="main.java.network.generic.packet.IPv4Datagramme">
+	<time t="0.0">
+		<add indice="0">
+			<params> A </params>
+			<params> yes </params>
+			<params> ca fonctionne ! </params>
+		</add>
+	</time>
+	<time t="0.1">
+		<add indice="80">
+			<params> B </params>
+			<params> yes </params>
+			<params> ca fonctionne ! </params>
+		</add>
+	</time>
+</programation>

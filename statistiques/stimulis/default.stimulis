@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<programation class="main.java.network.generic.packet.Spike">
+	<time t="0.0">
+		<add indice="0"/>
+		<add indice="1"/>
+	</time>
+	<time t="0.1">
+		<add indice="0"/>
+		<add indice="3"/>
+	</time>
+	<time t="0.3">
+		<add indice="80"/>
+		<add indice="20"/>
+	</time>
+</programation>
