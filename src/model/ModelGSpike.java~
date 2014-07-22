@@ -41,6 +41,8 @@ public class ModelGSpike extends ModelCNFT {
 	{
 		Var vdt = command.get(CNFTCommandLine.DT);
 
+		
+
 		cnft = new ConvolutionMatrix2D(CNFT,vdt,extendedComputationSpace);
 
 		potential = new Map(POTENTIAL,new SpikingPotentialUM(),vdt,extendedComputationSpace);
