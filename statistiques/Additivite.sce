@@ -1,10 +1,10 @@
-
 here = pwd();
 
 function[SOMMES]=computeAverageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt)
     SOMMES = zeros(taille,taille);
     // on lit le dernier fichier de chaque iteration (time-dt), on sommme les valeurs et on 
     // moyenne à la fin, one xtrait la courbe à la toute fin
+    //disp(maxiteration)
     for iteration = 0:maxiteration-1
         if weigth == 0.0 then
             sweigth = "0.0";
@@ -61,7 +61,6 @@ function[diagonal]=computeAverageDiagonal(initialisation_packet,taille,time,weig
     return double(diagonal);
 endfunction
 
-//function[fitness] = computeAllDiagonalFitness(times,tailles,weigths,maxiteration,dt)
 function[fitness] = computeAllDiagonalFitness(time,taille,weigths,maxiteration,dt)
     disp("time : "+string(time)+" taille : "+string(taille)+' maxiteration : '+string(maxiteration));
     fitness = zeros(size(weigths));
@@ -85,90 +84,82 @@ function[fitness] = computeFitness(A,B,ABe)
     fitness = sum(M) / length(A);
     return fitness;
 endfunction
-x = pwd();
-disp(x);
 
-//dt = 0.1;
-//tailles = [9];//[9,10,19,20,29,30,39,40,49,50]
-//weigths = linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-//times = [1];//[1,2,3,4,5,6,7,8,9,10]
-//epsilon = 0.000000001;
-f10 = computeAllDiagonalFitness(1,9,weigths,10,dt);
-//// plot(weigths,f10);
-////
-//disp(size(tailles,'*'))
-//disp(size(times,'*'));
-//i = 1;
-//for taille=tailles
-//    for time=times
-//       disp('ploting '+string(i)+' ...');    
-//       subplot(size(tailles,'*'),size(times,'*'),i);
-//       f10 = computeAllDiagonalFitness(time,taille,weigths,10,dt);
-//       f100 = computeAllDiagonalFitness(time,taille,weigths,100,dt);
-//       f500 = computeAllDiagonalFitness(time,taille,weigths,500,dt);
-//       f1000 = computeAllDiagonalFitness(time,taille,weigths,1000,dt);
-//       f5000 = computeAllDiagonalFitness(time,taille,weigths,5000,dt);
-//       xtitle('Critère d additivité sur diagonale'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
-//       plot(weigths,f10,'b');
-//       plot(weigths,f100,'r');
-//       plot(weigths,f500,'c');
-//       plot(weigths,f1000,'black');
-//       plot(weigths,f5000,'g');
-//       legend(['10 iterations','100 itérations','500 itérations','1000 itérations','5000 itérations']);
-//       i=i+1;
-//   end
-//end
+
+// tailles times weigths iterations
+args = sciargs();
+tailles = tokens(args(6),' ');
+tailles = strtod(tailles)';
+times = tokens(args(7),' ');
+times= strtod(times)';
+weigths = tokens(args(8),' ');
+weigths = strtod(weigths)';
+iterations = tokens(args(9),' ');
+iterations = strtod(iterations);
+
+//disp('tailles : '+string(tailles));
+//disp('times : '+string(times));
+//disp('weigths : '+string(weigths));
+//disp('iterations : '+string(iterations));
 
 dt = 0.1;
-tailles = [9];//[9,10,19,20,29,30,39,40,49,50]
-weigths = linspace(0.0,1.0,21);//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9];//[0.0,0.1,0.2,0.3,0.4,0.5,0.6,0.7,0.8,0.9]
-times = [1,3,5];//[1,3,5];//[1,2,3,4,5,6,7,8,9,10]
 epsilon = 0.000000001;
 
-//pilote= driver("PDF")
-//xinit("plot.pdf")
 i = 1;
 j = 1;
-x = 5;
-disp(size(weigths));
-CSV_M = string(zeros(x*size(weigths,'*')*size(times,'*')*size(tailles,'*'),5));
+
+
+
+
+
+cmap = autumncolormap(32);
+
+maxIteration = max(iterations);
+disp(size(iterations,'*'));
+
+CSV_M = string(zeros(size(iterations,'*')*size(weigths,'*')*size(times,'*')*size(tailles,'*'),5));
 for taille=tailles
     for time=times
-       disp('ploting '+string(i)+' ...');    
-       subplot(size(tailles,'*'),size(times,'*'),i);
-       f10 = computeAllFitness(time,taille,weigths,10,dt);
-       f100 = computeAllFitness(time,taille,weigths,100,dt);
-       f500 = computeAllFitness(time,taille,weigths,500,dt);
-       f1000 = computeAllFitness(time,taille,weigths,1000,dt);
-       f5000 = computeAllFitness(time,taille,weigths,5000,dt);
-       xtitle('Critère d additivité sur l ensemble du graphe'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
-       plot(weigths,f10,'b');
-       plot(weigths,f100,'r');
-       plot(weigths,f500,'c');
-       plot(weigths,f1000,'black');
-       plot(weigths,f5000,'g');
-       legend(['10 iterations','100 itérations','500 itérations','1000 itérations','5000 itérations']);
-       i=i+1;
-       for w=1:size(weigths,'*')
-          // iteration poid times taille fitness 
-          CSV_M(j,:)=["10",string(weigths(w)),string(time),string(taille),string(f10(w))];
-          j = j + 1;
-          CSV_M(j,:)=["100",string(weigths(w)),string(time),string(taille),string(f100(w))];
-          j = j + 1;
-          CSV_M(j,:)=["500",string(weigths(w)),string(time),string(taille),string(f500(w))];
-          j = j + 1;
-          CSV_M(j,:)=["1000",string(weigths(w)),string(time),string(taille),string(f1000(w))];
-          j = j + 1;
-          CSV_M(j,:)=["5000",string(weigths(w)),string(time),string(taille),string(f5000(w))];
-          j = j + 1;
-       end
-   end
+        subplot(size(tailles,'*'),size(times,'*'),i);
+        xtitle('Critère d additivité sur l ensemble du graphe'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
+        nbMaxIterations = size(iterations,'*');
+        fitnesses = zeros(nbMaxIterations,size(weigths,'*')); 
+        //disp(fitnesses(2));
+        for k=1:nbMaxIterations
+            iteration = iterations(k);
+            //disp(computeAllFitness(time,taille,weigths,iteration,dt));
+            fitnesses(k,:) = computeAllFitness(time,taille,weigths,iteration,dt);
+            index = int(size(cmap,'r') * (k/size(iterations,'*')));
+            plot2d(weigths,fitnesses(k,:),style=[color(cmap(index,1)*255,cmap(index,2)*255,cmap(index,3)*255)]);
+        end
+
+        legend([string(iterations)]+' iterations');
+        i=i+1;
+        for w=1:size(weigths,'*')
+            for k=1:nbMaxIterations
+                // iteration poid times taille fitness 
+                CSV_M(j,:)=[string(iterations(k)),string(weigths(w)),string(time),string(taille),string(fitnesses(k,w))];
+                j = j + 1;
+            end
+            // iteration poid times taille fitness 
+            //          CSV_M(j,:)=["10",string(weigths(w)),string(time),string(taille),string(f10(w))];
+            //          j = j + 1;
+            //          CSV_M(j,:)=["100",string(weigths(w)),string(time),string(taille),string(f100(w))];
+            //          j = j + 1;
+            //          CSV_M(j,:)=["500",string(weigths(w)),string(time),string(taille),string(f500(w))];
+            //          j = j + 1;
+            //          CSV_M(j,:)=["1000",string(weigths(w)),string(time),string(taille),string(f1000(w))];
+            //          j = j + 1;
+            //          CSV_M(j,:)=["5000",string(weigths(w)),string(time),string(taille),string(f5000(w))];
+            //          j = j + 1;
+        end
+    end
 end
 
-write_csv(CSV_M,"csv_stats.csv",",",".");
-//xend()
-exit
-//driver(pilote)
+arg = strsubst('tailles_'+args(6)+'_times_'+args(7)+'_weigths_'+args(8)+'_iterations_'+args(9),' ',',');
+
+write_csv(CSV_M,'csv_stats/additiviteFitness_'+arg+'.csv',",",".");
+//exit
 
 
 

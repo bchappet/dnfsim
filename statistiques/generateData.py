@@ -29,7 +29,7 @@ parser.add_argument('--iterations',
 							help='le nombre d\'iterations que l\'on veut voir apparaitre dans les sous dossiers)')
 
 parser.add_argument('--forcerewrite',
-                   help='Force this script to generate a file even if this one exists (default : False',
+                   help='Force this script to generate a file even if this one exists (default : False)',
                    action='store_true')
 
 
@@ -91,14 +91,14 @@ for packet_initialisation in args.packet_initialisation:
 						writeTransitionMatrixFile = not(os.path.isfile(transitionFile))
 						os.system(
 							"java "+
-							"-cp ../bin:../src "+
-							"main.java.controler.Printer " +
+							"-jar "+#"-cp ../bin:../src "+
+							"../dnfSim2.jar "+#main.java.controler.Printer " +
 							#"-Duser.dir ~/Work/Loria2014/dnfsim2 "+
 							"firstIteration="+ str(firstIteration) + " " +
 							"model=PFModel "+
 							"show=false "+
 							"context=\""+
-								"packet_initialisation="+ packet_initialisation+ ";"+
+								"stimulis_file="+ "stimulis/"+packet_initialisation+".stimulis;"+
 								"weigth="+ weigth +";"+
 								"size="+ tailleGrille+ ";"+
 								"mapToSave=ReceiveMap;"+
