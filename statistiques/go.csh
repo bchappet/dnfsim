@@ -2,9 +2,11 @@
 
 # pour tester Stat.sce
 
-python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 --times 1 2 --iterations 100 --tailles_grilles 9 #--forcerewrite
-scilab -nw -f Additivite.sce -args '9' '1 2' '0.0 0.1 0.2 0.3 0.4' '5 100'
+#python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 --times 1 2 --packet_initialisation a_send b_send ab_send --iterations 100 --tailles_grilles 9 #--forcerewrite
+#scilab -nw -f Additivite.sce -args '9' '1 2' '0.0 0.1 0.2 0.3 0.4' '5 20 50 75 100' 'a_send b_send' ab_send 0
 
+python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 --times 1 2 --packet_initialisation twoa twob twoab --iterations 100 --tailles_grilles 9 #--forcerewrite
+scilab -nw -f Additivite.sce -args '9' '1 2' '0.0 0.1 0.2 0.3 0.4' '5 20 50 75 100' 'twoa twob' twoab 0
 
 
 
