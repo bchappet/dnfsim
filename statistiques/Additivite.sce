@@ -191,7 +191,7 @@ ss = args(11);
 testing = strtod(args(12));
 
 if testing == 0 then
-    cmap = autumncolormap(32);
+    cmap = rainbowcolormap(32);//autumncolormap(32);
     CSV_M = string(zeros(size(iterations,'*')*size(weigths,'*')*size(times,'*')*size(tailles,'*'),5));
     for taille=tailles
         for time=times
