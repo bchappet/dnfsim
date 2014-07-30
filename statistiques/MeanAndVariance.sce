@@ -131,23 +131,28 @@ endfunction
 
 //write_csv([linspace(1,9,9)',vard],"vardiag.csv",",",".");
 
+ECART_TYPE = 0;
+MOYENNE = 1;
+VARIANCE = 2;
+ECART_TYPE_AND_MOYENNE = 3;
 
-
-function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,doVar,doEcartype)
+function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,stats,ouputDir)
     clf();
     x = linspace(1,taille,taille);
     y = linspace(1,taille,taille);
     label ='';
-    if doVar ==1 then
-        label = 'variance';
-    else
-        if doEcartype == 1 then
-            label = 'ecart type';
-        else
-            label='moyenne';
-        end
+    label2 = '';
+    select stats
+    case MOYENNE then
+        label = 'Moyenne';
+    case ECART_TYPE then
+        label = 'Ecart_type';
+    case VARIANCE then
+        label = 'Variance';
+    case ECART_TYPE_AND_MOYENNE then
+        label = 'Ecart_type';
+        label2 = 'Moyenne'
     end
-
 
     i = 1;
     for weigth=weigths
@@ -158,33 +163,53 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
                 subplot(size(weigths,'*'),size(times,'*'),i);
             end
             if doDiag==1 then
-                xtitle(label+' sender : '+sender+' taille : '+string(taille)+' time : '+string(time)+ ' weigth : '+string(weigth), 'x', label+' des spikes reçus');
-                z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
-                if doVar==1 then
+                xtitle(label+label2+' sender : '+sender+' taille : '+string(taille)+' time : '+string(time)+ ' weigth : '+string(weigth), 'x', label+label2+' des spikes reçus');
+                select stats
+                case MOYENNE then
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    plot2d(x,z);
+                case VARIANCE then
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
                     z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
-                end
-                if doEcartype == 1 then
-                   z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    plot2d(x,z);
+                case ECART_TYPE then
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
                     z = sqrt(z);
-                end
-                //disp(size(z,'*'));
-                plot2d(x,z);
-
+                    plot2d(x,z);
+                case ECART_TYPE_AND_MOYENNE then                    
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    plot2d(x,z,style=[color('red')]);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = sqrt(z);     
+                    plot2d(x,z);
+                    legend(label2,label);               
+                end                
             else
-                xtitle(label+' sender : '+sender+' taille : '+string(taille)+' time : '+string(time)+ ' weigth : '+string(weigth), 'x', 'y',label+' des spikes reçus');
+                xtitle(label+label2+' sender : '+sender+' taille : '+string(taille)+' time : '+string(time)+ ' weigth : '+string(weigth), 'x', 'y',label+label2+' des spikes reçus');
                 set(gcf(), "color_map", jetcolormap(64));
-                z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
-                if doVar==1 then
+                select stats
+                case MOYENNE then
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
+                case VARIANCE then
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
                     z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt);
-                end
-                if doEcartype == 1 then
+                case ECART_TYPE then
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
                     z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = sqrt(z);
+                case ECART_TYPE_AND_MOYENNE then
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    plot3d1(x, y, z);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
                     z = sqrt(z);
                 end
                 plot3d1(x, y, z);
             end
+
+
             if doSingleView==1 then
-                t = 'rapport/images/spike_data'+'_diag'+string(doDiag)+'_'+label+'_init'+sender+'_taille'+string(taille)+'_time'+string(time)+'_weigth'+string(weigth);
+                t = outputDir+'/spike_data'+'_diag'+string(doDiag)+'_'+label+label2+'_init'+sender+'_taille'+string(taille)+'_time'+string(time)+'_weigth'+string(weigth);
                 xs2ps(0,t +'.ps');
                 xs2png(0,t +'.png');
                 xs2pdf(0,t +'.pdf');
@@ -196,7 +221,7 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
     end
     if doSingleView==1 then
     else
-        t = 'rapport/images/global_spike_data'+'_diag'+string(doDiag)+'_'+label+'_init'+sender+'_taille'+string(taille);
+        t = outputDir+'/global_spike_data'+'_diag'+string(doDiag)+'_'+label+label2+'_init'+sender+'_taille'+string(taille);
         xs2ps(0,t+'.ps');
         xs2png(0,t+'.png');
         xs2pdf(0,t+'.pdf'); 
@@ -204,22 +229,28 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
 
 endfunction
 
+
+// 'tailles' 'times' 'weigths' maxiteration sender outputDir
+args = sciargs();
+taille = strtod(args(6))';
+times = tokens(args(7),' ');
+times= strtod(times)';
+weigths = tokens(args(8),' ');
+weigths = strtod(weigths)';
+maxiteration = strtod(args(9));
+sender = args(10);
+outputDir = args(11);
+
+
 b =   [1,0];
-taille = 9;
-times = [1,3,5];
-weigths = [0.0,0.3,0.5,0.7,0.9];
 dt = 0.1;
-maxiteration = 1000;
-sender = 'a_send';
-
-for doDiag=b 
-    for doSingleView=b
-        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,0,0);
-        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,1,0);
-        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,0,1);
-
+for doSingleView=b
+    for doDiag=b 
+        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,ECART_TYPE,outputDir);
+        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,VARIANCE,outputDir);
+        goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDiag,MOYENNE,outputDir);
     end
+    goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,1,ECART_TYPE_AND_MOYENNE,outputDir);
 end
 
-
-//goGirl(sender,taille,times,weigths,maxiteration,dt,0,0,0);
+exit;
