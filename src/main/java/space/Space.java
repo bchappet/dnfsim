@@ -164,23 +164,16 @@ public abstract class Space<T> implements Parameter< Integer>{
 			int coor = coord.getIndex(i);
 			inside &= (coor >= 0 && coor < dimensions.getIndex(i).get()); 
 		}
-		if(!inside){
-			Integer[] ret = new Integer[coord.getSize()];
-			for(int i = 0 ; i < ret.length ; i++)
-				coord.set(i, ret[i]);
-		}
+//		if(!inside){
+////			Integer[] ret = new Integer[coord.getSize()];
+////			for(int i = 0 ; i < ret.length ; i++)
+////				coord.set(i, ret[i]);
+//		}
 		return inside;
 		
 	}
 
-	/**
-	 * Project on 1 axis
-	 * @param val
-	 * @param axis
-	 * @return
-	 */
-	public abstract T typeAxisProj(Integer val, int axis);
-
+	
 	
 	public void reset(){
 		//TODO

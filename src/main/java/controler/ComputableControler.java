@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 import main.java.maps.Computable;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Parameter;
+import main.java.maps.Precomputation;
 import main.java.view.ParamViewAdapter;
 
 public abstract class ComputableControler extends ParameterControler {
@@ -24,7 +25,9 @@ public abstract class ComputableControler extends ParameterControler {
 		Computable map = ((Computable)getParam());
 			map.setTime(currentTime);
 			ParamViewAdapter pva = this.getParamViewAdapter();
-			LOGGER.info("compute "+ this.getName() + "@"+System.identityHashCode(this) +" : current time = " + currentTime + " class : " + this.getClass() + " pva = " + pva);
+			LOGGER.info("compute "+ this.getName() + "@"+System.identityHashCode(this) +" : current time = " 
+			+ currentTime + " class : " + this.getClass() + " pva = " + pva);
+			
 			map.compute();
 			
 			if(pva != null){

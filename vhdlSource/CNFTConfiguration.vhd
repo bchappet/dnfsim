@@ -9,7 +9,13 @@ package CNFTConfiguration is
 	5
 	--@END;
 	; --width of the bus identifying each neuron
-	
+
+	--Width of the bus between neurons to transmit spike in LSS
+	constant TRANS_OUT_WIDTH :  natural  := 
+	--@getTRANS_OUT_WIDTH;
+	2
+	--@END;
+	;
 	constant RES :  natural := 
 	--@getRes;
 	3

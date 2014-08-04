@@ -47,19 +47,19 @@ public class NeighborhoodMap<T,C> extends UnitMap<T, C> {
 	/**
 	 * Called when we finnish to set neighboors
 	 */
-	public void initNeighboorhood()
+	protected void initNeighboorhood()
 	{
 		//Construct as much main.java.unitModel as necessary
 		//with the correct coordinate
 
-		//System.out.println(name +" =>Constructing neighborhood");
+//		System.out.println(getName() +" =>Constructing neighborhood");
 		for(Neighborhood neigh : neighborhood)
 		{
 			for(int i = 0 ; i < getUnits().size() ; i++)
 			{
 				Unit<T> unit = getUnits().get(i);
-				//System.out.println(i);
 				Unit<T>[] unitArray = ((Neighborhood) neigh).getNeighborhoodUnits(i);
+//				System.out.println("north : " + "@"+System.identityHashCode(unitArray[0].getUnitModel()));
 				((NeighborhoodUnitModel) unit.getUnitModel()).addNeighborhoods(unitArray);
 			}
 
@@ -120,6 +120,8 @@ public class NeighborhoodMap<T,C> extends UnitMap<T, C> {
 		//Add neigboorhood map as parameter
 		for(Neighborhood nei : neighborhood)
 			addParameters(nei.getMap());
+		
+		this.initNeighboorhood();
 	}
 
 	public List<Neighborhood> getNeighborhoods() {

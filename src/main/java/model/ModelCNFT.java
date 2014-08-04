@@ -19,7 +19,10 @@ import main.java.maps.Var;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
 import main.java.space.WrappableDouble2DSpace;
+import main.java.statistics.Charac;
+import main.java.statistics.CharacMaxPi;
 import main.java.statistics.Characteristics;
+import main.java.statistics.CharacteristicsCNFT;
 import main.java.statistics.StatCNFT;
 import main.java.statistics.StatMapCNFT;
 import main.java.statistics.Statistics;
@@ -65,7 +68,7 @@ public class ModelCNFT extends Model{
 	protected Parameter hpA;
 	protected Parameter hpB;
 	
-	private DoubleSpace2D space;
+	protected DoubleSpace2D space;
 	private Var<Integer> res;
 
 	protected List<AbstractMap> trackable;
@@ -175,7 +178,7 @@ public class ModelCNFT extends Model{
 	protected void initLateralWeightParams() 
 			throws CommandLineFormatException
 			{
-		
+		pTau = command.get(CNFTCommandLine.TAU);
 		pa = command.get(CNFTCommandLine.IA);
 		pb = command.get(CNFTCommandLine.IB);
 		Parameter alphaP = command.get(CNFTCommandLine.ALPHA);
@@ -200,7 +203,7 @@ public class ModelCNFT extends Model{
 		initLateralWeights();
 		cnft = new ConvolutionMatrix2D(CNFT,dt,space);
 		potential = new UnitMap<Double, Double>(POTENTIAL,dt,space,new RateCodedUnitModel(0.));
-		potential.addParameters(potential,command.get(CNFTCommandLine.TAU),
+		potential.addParameters(potential,pTau,
 				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL),dt);
 		cnft.addParameters(cnftW,potential);
 		this.root = potential;
@@ -323,7 +326,18 @@ public class ModelCNFT extends Model{
 
 	protected  void initializeCharacteristics() throws CommandLineFormatException
 	{
-		this.charac = new Characteristics();
+		Parameter shapeFactor = command.get(CNFTCommandLine.SHAPE_FACTOR);
+		Parameter track_width = command.get(CNFTCommandLine.TRACK_WIDTH);
+		
+		
+		Charac maxPi = new CharacMaxPi(CharacteristicsCNFT.MAX_PI,stats,this,shapeFactor,track_width,space);
+		
+		
+		this.charac = new CharacteristicsCNFT(maxPi);
+		
+		
+		
+		
 //		Charac conv = new CharacConvergence(CharacteristicsCNFT.CONVERGENCE,stats, noDimSpace, this);
 //		Charac meanError = new CharacMeanError(CharacteristicsCNFT.MEAN_ERROR,stats, noDimSpace, this,conv);
 //		Charac obstinacy = new CharacObstinacy(CharacteristicsCNFT.OBSTINACY,stats, noDimSpace, this, conv);

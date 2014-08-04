@@ -33,6 +33,7 @@ public class CharacteristicsCNFT extends Characteristics{
 	public static final String MAX_MAX = "MaxPotential";
 	public static final String TEST_CONV = "Test_Conv";
 	public static final String CLOSEST_TRACK = "Closest_track"; //closest track on average
+	public static final String MAX_PI = "MaxPi";//Pi is the number of spike in a square
 	
 	
 	

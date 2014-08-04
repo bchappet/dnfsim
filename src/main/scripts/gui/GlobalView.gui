@@ -2,5 +2,9 @@
 GlobalView
 	ESN
 	CNFT
+	GSpike
+	ESpike
 	RSDNFNetwork
 	PFModel
+	NSpike
+	NSpikeTransientFault

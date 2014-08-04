@@ -76,14 +76,14 @@ public class MatrixFileReader extends Map<Double,Integer> {
 		iteration ++;
 	}
 
-	@Override
-	public Double getIndex(int index) {
-		return this.values[index];
-	}
 
 	@Override
 	public List<Double> getValues() {
 		return new ArrayList<Double>(Arrays.asList(this.values));
+	}
+	@Override
+	public Double getIndex(int index) {
+		return this.values[index];
 	}
 
 	public void setIndex(int i, double val) {

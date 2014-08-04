@@ -1,5 +1,7 @@
 package main.java.neigborhood;
 
+import java.util.Arrays;
+
 import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Parameter;
 import main.java.maps.Unit;
@@ -56,15 +58,19 @@ public abstract class Neighborhood<C> implements Cloneable {
 	 */
 	public Unit[] getNeighborhoodUnits(int index ) throws NullCoordinateException
 	{
+//		System.out.println(map.getValues());
+//		System.out.println("index : " + index); 
 		int[] neighCoords = this.getNeighborhood(index);
+//		System.out.println("neighCoords : " + Arrays.toString(neighCoords));
 		Unit[] ret = new Unit[neighCoords.length];
-
 		for(int i = 0 ; i < ret.length ; i++){
 			try{
-				ret[i] = map.getUnit(neighCoords[neighCoords[i]]);
+//				System.out.println("i: " + i + " neigh " + neighCoords[i]);
+				ret[i] = map.getUnit(neighCoords[i]);
 			}catch (ArrayIndexOutOfBoundsException e) {
 				//Out of bounds
-				//System.out.println("Out of bound, constructing a null unit");
+//				e.printStackTrace();
+//				System.out.println("Out of bound, constructing a null unit" );
 				ret[i] = new NullUnit(map.getUnit(0));
 			}
 		}

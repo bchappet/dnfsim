@@ -47,6 +47,9 @@ public abstract class UnitModel<T>  implements Cloneable  {
 	private T activity;
 	/**Init of the unit**/
 	private T initActivity;
+	
+	/**Index of this UM**/
+	protected int index;
 
 
 	public UnitModel(T initActivity) {
@@ -120,6 +123,11 @@ public abstract class UnitModel<T>  implements Cloneable  {
 
 	public void reset() {
 		this.activity = initActivity;
+		
+	}
+
+	public void setIndex(int index) {
+		this.index = index;
 		
 	}
 

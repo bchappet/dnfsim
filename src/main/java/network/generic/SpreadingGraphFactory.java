@@ -3,8 +3,6 @@ package main.java.network.generic;
 import java.io.File;
 import java.math.BigDecimal;
 
-import org.jdom2.DataConversionException;
-
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;

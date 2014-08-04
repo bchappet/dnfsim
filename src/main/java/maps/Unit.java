@@ -175,11 +175,15 @@ public class Unit<T> implements Cloneable {
 	public String toString(){
 //		Space main.java.space = this.getUnitModel().getSpace();
 //		return "Unit of " + this.getUnitModel() + " at " + Arrays.toString(main.java.space.discreteProj(getCoord())) + " @"+hashCode();
-		String ret = "curent : " + current +"\n";
+		String ret = "@" + System.identityHashCode(this) + " um @"+System.identityHashCode(this.getUnitModel()); 
+		ret += "curent : " + current +"\n";
 		ret += "charge size : " + memories.size() + "\n";
 		for(int i = 0 ; i < memories.size() ; i++)
+			try{
 			ret += i+":"+memories.get(i).get() + "\n";
-
+			}catch (Exception e) {
+			}
+			
 		return ret.substring(0, ret.length()-1);
 	}
 	/**

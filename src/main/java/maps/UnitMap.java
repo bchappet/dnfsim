@@ -52,6 +52,7 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 	protected void initMemory(UnitModel<T> um) {
 		for(int i = 0 ; i < this.getSpace().getVolume() ; i++){
 			UnitModel<T> clone = um.clone();
+			um.setIndex(i);
 			this.units.add(new Unit<T>(clone));
 		}
 		
@@ -97,9 +98,8 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 				this.units.get(i).addMemories(nb,null);
 			}
 		}
-		
-		
 	}
+
 
 
 	@Override
@@ -119,9 +119,14 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 	 */
 	@Override
 	public void compute() {
+		if(units.get(0).getUnitModel() instanceof Precomputation){
+			for(int i = 0 ; i < this.getSpace().getVolume() ; i++){
+				((Precomputation) units.get(i).getUnitModel()).precompute();
+			}
+		}
+		
 		//System.out.println("Compute " + this.getName());
 		for(int i = 0 ; i < this.getSpace().getVolume() ; i++){
-			
 			units.get(i).compute(this.getTime(),i,this.getParameters());
 		}
 		for(Unit<T> u : units){

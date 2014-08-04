@@ -37,6 +37,19 @@ public class ComputeUMTest {
 		assertEquals("Computation should respect the script",new Double(-16.1d),uut.get());
 	}
 	
+	@Test
+	public void testComputer2() {
+		script.set("Math.pow($1,(1.0/$2))");
+		Var<Double> a = new Var<Double>(100d);
+		Var<Double> b = new Var<Double>(2d);
+		uut.addParameters(a,b);
+		uut.compute();
+		assertEquals("Computation should respect the script",new Double(10d),uut.get());
+	}
+	
+	
+	
+	
 //	@Test
 //	public void testComputer2() {
 //		Var<String> equationWeights = new Var<String>("Equation Weights","$1/($2*$2)*(40*40)/$3");

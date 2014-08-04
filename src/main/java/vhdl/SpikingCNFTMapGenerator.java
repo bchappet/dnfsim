@@ -16,7 +16,7 @@ public class SpikingCNFTMapGenerator extends VHDLGenerator2 {
 	}
 	
 	public static void main(String[] args) throws SecurityException, IllegalArgumentException, IOException, NoSuchMethodException, IllegalAccessException, InvocationTargetException{
-		int res = 35;
+		int res = 3;
 		SpikingCNFTMapGenerator gen1 = new SpikingCNFTMapGenerator(res);
 		gen1.generateFile("vhdlSource", "SpikingCNFTMap");
 		
@@ -32,7 +32,7 @@ public class SpikingCNFTMapGenerator extends VHDLGenerator2 {
 			
 			for(int j = 0 ; j < res ; j ++){
 				ret += indent + "potential"+i+"_"+j+": out std_logic_vector(INT+FRAC-1 downto 0);\n";
-				ret += indent + "main.java.input"+i+"_"+j+": in std_logic_vector(INT+FRAC downto 0);\n";
+				ret += indent + "input"+i+"_"+j+": in std_logic_vector(INT+FRAC downto 0);\n";
 			}
 		}
 		return ret;

@@ -8,7 +8,6 @@ public class CNFTConfigurationGenerator extends VHDLGenerator2 {
 
 	public CNFTConfigurationGenerator(int res2) {
 		super(res2);
-		
 		width_id = Hardware.necessaryNbBit(this.res)*2;
 	}
 	
@@ -18,6 +17,14 @@ public class CNFTConfigurationGenerator extends VHDLGenerator2 {
 	
 	public String getRes(){
 		return indent + this.res;
+	}
+	
+	/**
+	 * Critical question...
+	 * @return
+	 */
+	public String getTRANS_OUT_WIDTH(){
+		return ""+indent+2;
 	}
 
 }

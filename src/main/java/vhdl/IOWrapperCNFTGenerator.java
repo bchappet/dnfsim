@@ -15,7 +15,7 @@ public class IOWrapperCNFTGenerator extends SpikingCNFTMapGenerator {
 		for(int i = 0 ; i < res ; i++){
 			for(int j = 0 ; j < res ; j++){
 				ret += indent + "potential" + i + "_" + j + " => ParallelPotentialCNFT (" + ((taps * nPot) - (nb*nPot) - 1) +" downto "+ ((taps * nPot) - (nb*nPot) - nPot) + "),\n";
-				ret += indent + "main.java.input" + i + "_" + j + " => ParallelPixelToCNFT (" + ((taps * nIn) - (nb*nIn) - 1) +" downto "+ ((taps * nIn) - (nb*nIn) - nIn) + "),\n";
+				ret += indent + "input" + i + "_" + j + " => ParallelPixelToCNFT (" + ((taps * nIn) - (nb*nIn) - 1) +" downto "+ ((taps * nIn) - (nb*nIn) - nIn) + "),\n";
 				nb ++;
 			}
 		}

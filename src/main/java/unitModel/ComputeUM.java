@@ -38,6 +38,7 @@ public class ComputeUM<T extends Number> extends UnitModel<T> {
 		String replacement = new String();
 		//System.out.println(script);
 
+		
 
 		Interpreter interpreter = new Interpreter();
 		T result = null;
@@ -47,15 +48,19 @@ public class ComputeUM<T extends Number> extends UnitModel<T> {
 			while(m.find()){
 				int nb = Integer.parseInt(m.group(1));
 				 eval = "var"+nb+"="+params.get(nb).getIndex(index)+";";
-				//System.out.println("eval:" + eval);
+//				System.err.println("eval:" + eval);
 				interpreter.eval(eval);
 			}
 			replacement = script.replaceAll("\\$([0-9]+)", "var$1");
 			eval = "result=" + replacement + ";";
-			//System.out.println("eval:" + eval);
+//			System.out.println("eval:" + eval);
+			
+	
 
 			interpreter.eval(eval);
+//			System.out.println("result: " + interpreter.get("result") + " result 2 " + result2);
 			result = (T) interpreter.get("result");
+			
 		} catch (EvalError e) {
 			e.printStackTrace();
 		}

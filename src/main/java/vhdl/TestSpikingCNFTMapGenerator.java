@@ -12,7 +12,7 @@ public class TestSpikingCNFTMapGenerator extends VHDLGenerator2 {
 
 			for(int j = 0 ; j < res ; j ++){
 				ret += indent + "potential"+i+"_"+j+": out std_logic_vector(INT+FRAC-1 downto 0);\n";
-				ret += indent + "main.java.input"+i+"_"+j+": in std_logic_vector(INT+FRAC downto 0);\n";
+				ret += indent + "input"+i+"_"+j+": in std_logic_vector(INT+FRAC downto 0);\n";
 			}
 		}
 		return ret;
@@ -24,7 +24,7 @@ public class TestSpikingCNFTMapGenerator extends VHDLGenerator2 {
 
 			for(int j = 0 ; j < res ; j ++){
 				ret += indent + "signal potential"+i+"_"+j+" : std_logic_vector(INT+FRAC-1 downto 0):= (others => '0');\n";
-				ret += indent + "signal main.java.input"+i+"_"+j+" : std_logic_vector(INT+FRAC downto 0):= (others => '0');\n";
+				ret += indent + "signal input"+i+"_"+j+" : std_logic_vector(INT+FRAC downto 0):= (others => '0');\n";
 			}
 		}
 		return ret;
@@ -35,7 +35,7 @@ public class TestSpikingCNFTMapGenerator extends VHDLGenerator2 {
 		for(int i = 0 ; i < res ; i ++){
 			for(int j = 0 ; j < res ; j ++){
 				ret += indent +"potential"+i+"_"+j+" => potential"+i+"_"+j+",\n";
-				ret += indent +"main.java.input"+i+"_"+j+" => main.java.input"+i+"_"+j+",\n";
+				ret += indent +"input"+i+"_"+j+" => input"+i+"_"+j+",\n";
 			}
 		}
 		ret += indent + "propagate => propagate,\n";

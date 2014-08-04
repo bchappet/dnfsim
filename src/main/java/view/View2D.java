@@ -25,12 +25,12 @@ public class View2D extends ParameterViewDB{
 	private int blackBorder = 1; 
 	
 	/**Color map**/
-	private Var<ColorMap> colorMap;
+	private ColorMap colorMap;
 	
 	private Var<Boolean> grid;
 
 	public View2D(String name,double[][] initialState,
-			Var<ColorMap> colorMap,Var<Boolean> grid) {
+			ColorMap colorMap,Var<Boolean> grid) {
 		super(name);
 		this.buffer = initialState;
 		this.colorMap = colorMap;
@@ -58,7 +58,7 @@ public class View2D extends ParameterViewDB{
 		Graphics tmp = img.getGraphics();
 		for(int i = 0 ; i < buffer[0].length ; i++){
 			for( int j = 0 ; j <buffer.length ; j ++){
-				tmp.setColor(colorMap.get().getColor(getValue(i,j)));
+				tmp.setColor(colorMap.getColor(getValue(i,j)));
 				tmp.fillRect(i,j,1,1);
 			}
 		}

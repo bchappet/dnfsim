@@ -71,9 +71,6 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 		return clone;
 	}
 	
-	public Space<C> getSpace(){
-		return this.space;
-	}
 	
 	
 	public String getName(){
@@ -90,7 +87,7 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	}
 	
 	/**
-	 * return the paraùeter at the index index
+	 * return the paraï¿½eter at the index index
 	 * @param index
 	 * @return
 	 */
@@ -196,6 +193,14 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 		return ArrayUtils.toString2D(getValues(),getSpace().getDimensions().getIndex(Space2D.X).get(),
 				getSpace().getDimensions().getIndex(Space2D.Y).get());
 	}
+
+
+	public Space<C> getSpace() {
+		return this.space; 
+	}
+
+
+	
 
 	
 	

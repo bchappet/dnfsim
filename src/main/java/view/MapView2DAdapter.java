@@ -12,7 +12,8 @@ public class MapView2DAdapter extends ParamViewAdapter{
 	@Override
 	protected ParameterView constructView(ViewConfiguration vc,ViewFactory vf) {
 		return new View2D(getParameterControler().getName(),
-				((MapControler)getParameterControler()).getArray(),vc.get(ViewConfiguration.COLORMAP),vc.get(ViewConfiguration.GRID));
+				((MapControler)getParameterControler()).getArray(),
+				((ColorMap)vc.get(ViewConfiguration.COLORMAP).get()).clone(),vc.get(ViewConfiguration.GRID));
 	}
 
 	@Override
