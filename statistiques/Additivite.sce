@@ -3,61 +3,11 @@
 //dossiers etant crées par la génération de données pour PFModel) mais extensible assez facilement en théorie.
 // on doit se trouver sous le dossier statistiques pour lancer de script
 
-here = pwd();
-
-//------------------------------------------------------------------------------
-//--------------------------calcul des données en moyenne-----------------------
-//------------------------------------------------------------------------------
-
-function[SOMMES]=averageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt)
-    SOMMES = zeros(taille,taille);
-    // on lit le dernier fichier de chaque iteration (time-dt), on sommme les valeurs et on 
-    // moyenne à la fin, one xtrait la courbe à la toute fin
-    //disp(maxiteration)
-    for iteration = 0:maxiteration-1
-        if weigth == 0.0 then
-            sweigth = "0.0";
-        else
-            if weigth == 1.0 then
-                sweigth = "1.0";
-            else
-                sweigth = string(weigth);
-            end
-        end
-        M = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
-        M = strtod(M);
-        SOMMES = SOMMES + M;
-    end;
-    SOMMES = SOMMES / maxiteration;
-    return double(SOMMES);
-endfunction
-
-function[diagonal]=averageDiagonal(initialisation_packet,taille,time,weigth,maxiteration,dt)
-    diagonal = zeros(taille);
-    for iteration = 0:maxiteration-1
-        if weigth == 0.0 then
-            sweigth = "0.0";
-        else
-            if weigth == 1.0 then
-                sweigth = "1.0";
-            else
-                sweigth = string(weigth);
-            end
-        end
-        M = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
-        diag_M = diag(strtod(M));
-        diagonal = diag_M + diagonal;
-    end;
-    diagonal = diagonal / maxiteration;
-    return double(diagonal);
-endfunction
+exec('Utils.sci');
 
 //------------------------------------------------------------------------------
 //--------------------------additivité binaire----------------------------------
 //------------------------------------------------------------------------------
-
-
-
 
 function[fitness] = allDiagonalFitBinaire(time,taille,weigths,maxiteration,dt,a,b,ab,eps)
     //disp("time : "+string(time)+" taille : "+string(taille)+' maxiteration : '+string(maxiteration));
@@ -77,21 +27,21 @@ function[fitness] = allDiagonalFitBinaire(time,taille,weigths,maxiteration,dt,a,
 endfunction
 function[fitness] = allFitBinaire(time,taille,weigths,maxiteration,dt,a,b,ab,eps)
     //disp("time : "+string(time)+" taille : "+string(taille)+' maxiteration : '+string(maxiteration));
-//    disp("------------- allFitBinaire ---------------")
+    //    disp("------------- allFitBinaire ---------------")
     fitness = zeros(size(weigths));
     fitnessB = zeros(size(weigths));
     i = 1;
     while(i <= size(weigths,'c'))
-//        disp('weigth : '+string(weigths(i)));
+        //        disp('weigth : '+string(weigths(i)));
         weigth = weigths(i);
         //disp(" weigth : "+string(weigth));
         M_a = averageMatrix(a,taille,time,weigth,maxiteration,dt);
-//        disp(M_a);
+        //        disp(M_a);
         M_b = averageMatrix(b,taille,time,weigth,maxiteration,dt);
-//        disp(M_b);
+        //        disp(M_b);
         M_ab = averageMatrix(ab,taille,time,weigth,maxiteration,dt);
-//        disp('M_ab :');
-//        disp(M_ab);             
+        //        disp('M_ab :');
+        //        disp(M_ab);             
         fitness(i)= fitBinaire(M_a,M_b,M_ab,eps);//fitBinaire(M_a,M_b,M_ab,eps); ça donne les memes results du coup, donc le prob devrait
         // venir de la diff entre fitNaire et fitBinaire, pour le test nous dit que les fonctions sont équilvalents ...
         // fitness(i)= computeFitnessNaire([M_a,M_b],M_ab); // ok la différence ne vient pas QUE de FitnessNaire/FintessBinaire
@@ -102,7 +52,7 @@ function[fitness] = allFitBinaire(time,taille,weigths,maxiteration,dt,a,b,ab,eps
     //    disp(fitnessB);
     //    disp('fitness : ');
     //    disp(fitness);
-//    disp("-------------------------------------------");
+    //    disp("-------------------------------------------");
     return fitness
 endfunction
 
@@ -117,10 +67,11 @@ endfunction
 //------------------------------------------------------------------------------
 //------------------------------additivité naire--------------------------------
 //------------------------------------------------------------------------------
-// S est un tableau de matrice 2D (une matrice 3D donc). Il reprensente l'ensemble 
+// S est un tableau de matrice 2D (une matrice 3D donc). Il represente l'ensemble 
 // des resultats suite aux différents stimulis. SSe represente la sommes expérimentale
 // ie la matrice resultante d'un envoi de tous les stimulis simultanement
-function[fitness] = fitNaire(S,SSe,eps)
+function[fitness] = fitNaire(S,SSe,eps,taille)
+    //disp(S);
     taille = size(SSe,'r');
     SSt = zeros(taille,taille);
     for k=1:size(S)(3)
@@ -130,6 +81,20 @@ function[fitness] = fitNaire(S,SSe,eps)
     fitness = sum(M) / size(SSe,'*');
     return fitness;
 endfunction
+//
+//function[fitness] = ErreurQuadratiqueNaire(S,SSe,eps,taille)
+//    //disp(S);
+//    taille = size(SSe,'r');
+//    SSt = zeros(taille,taille);
+//    for k=1:size(S)(3)
+//        SSt = SSt + S(:,:,k);
+//    end
+//    M = abs(SSt - SSe)./(SSt + SSe + eps);
+//    fitness = sum(M) / size(SSe,'*');
+//    return fitness;
+//endfunction
+
+
 
 
 // sd = tableau de nom de dossier des différents stimulis
@@ -151,11 +116,11 @@ function[fitness] = allFitNaire(time,taille,weigths,maxiteration,dt,sd,ssd,eps)
             //disp( s(:,:,k));
         end
         ss = averageMatrix(ssd,taille,time,weigth,maxiteration,dt);    
-//        disp('s : ' );
-//        disp(s);
-//        disp('ss : '); 
-//        disp(ss);
-        fitness(i)= fitNaire(s,ss,eps);
+        //        disp('s : ' );
+        //        disp(s);
+        //        disp('ss : '); 
+        //        disp(ss);
+        fitness(i)= fitNaire(s,ss,eps,taille);
         i = i+1;
     end
     //disp('fitness : ');
@@ -176,6 +141,12 @@ dt = 0.1;
 i = 1;
 j = 1;
 
+NO_TEST = 0;
+TEST_DIFF_BINAIRE_NAIRE = 1;
+TEST_AVERAGE_MATRIX_FILES = 2;
+TEST_FITNESS_NAIRE = 3;
+
+
 // 'tailles' 'times' 'weigths' 'iterations' sommesStimulis 'stimulis1 stimulis2 ...' testing
 args = sciargs();
 tailles = tokens(args(6),' ');
@@ -190,7 +161,14 @@ s = tokens(args(10));
 ss = args(11);
 testing = strtod(args(12));
 
-if testing == 0 then
+
+select testing    
+case NO_TEST then    
+
+    //------------------------------------------------------------------------------
+    //---------------------- plotting ----------------------------------------------
+    //------------------------------------------------------------------------------
+
     cmap = rainbowcolormap(32);//autumncolormap(32);
     CSV_M = string(zeros(size(iterations,'*')*size(weigths,'*')*size(times,'*')*size(tailles,'*'),5));
     for taille=tailles
@@ -199,18 +177,9 @@ if testing == 0 then
             xtitle('Critère d additivité sur l ensemble du graphe'+' taille : '+string(taille)+' time : '+string(time), 'poids', 'fitness');
             nbMaxIterations = size(iterations,'*');
             fitnesses = zeros(nbMaxIterations,size(weigths,'*'));
-//            fitnesses2 = zeros(nbMaxIterations,size(weigths,'*'));
-            //disp(fitnesses(2));
             for k=1:nbMaxIterations
                 iteration = iterations(k);
-//                fitnesses(k,:) = allFitBinaire(time,taille,weigths,iteration,dt,'a_send','b_send','ab_send',epsilon);
                 fitnesses(k,:) = allFitNaire(time,taille,weigths,iteration,dt,s,ss,epsilon);
-//                if fitnesses2(k,:)~=fitnesses(k,:) then
-//                    disp("There is an error in the code (allFitBinaire and allFitNaire are differents)");
-//                    disp(fitnesses(k,:));
-//                    disp(fitnesses2(k,:));
-//                    exit();
-//                end
                 index = int(size(cmap,'r') * (k/size(iterations,'*')));
                 plot2d(weigths,fitnesses(k,:),style=[color(cmap(index,1)*255,cmap(index,2)*255,cmap(index,3)*255)]);
             end
@@ -226,14 +195,19 @@ if testing == 0 then
         end
     end
 
-    arg = strsubst('tailles_'+args(6)+'_times_'+args(7)+'_weigths_'+args(8)+'_iterations_'+args(9),' ',',');
+    //------------------------------------------------------------------------------
+    //----------------------  csv --------------------------------------------------
+    //------------------------------------------------------------------------------
 
+    arg = strsubst('tailles_'+args(6)+'_times_'+args(7)+'_weigths_'+args(8)+'_iterations_'+args(9),' ',',');
     write_csv(CSV_M,'csv_stats/additiviteFitness_'+arg+'.csv',",",".");
 
-//    disp(fitnesses2==fitnesses);
-//    disp(fitnesses);
-//    disp(fitnesses2);    
-else 
+case TEST_DIFF_BINAIRE_NAIRE then
+
+    //------------------------------------------------------------------------------
+    //---------------------- testing -----------------------------------------------
+    //------------------------------------------------------------------------------
+
     disp("testing fitBinaire et fitNaire...");
     testOk = %T;
     tmax = 100;
@@ -244,16 +218,18 @@ else
         repet = 0;
         while(testOk==%T & repet < repetmax)
             A = rand(t,t);
+            //disp(A);
             B = rand(t,t);
+            //disp(B);
             ABe = rand(t,t);
             ABt = A+B;
             s = zeros(t,t,2);
             s(:,:,1)=A;
             s(:,:,2)=B;
             be = fitBinaire(A,B,ABe,epsilon);
-            ne = fitNaire(s,ABe,epsilon);
-            bt = fitBinaire(A,B,ABt,epsilon);
-            nt = fitNaire(s,ABt,epsilon);
+            ne = fitNaire(s,ABe,epsilon,t);
+            bt = fitBinaire(A,B,ABt,epsilon );
+            nt = fitNaire(s,ABt,epsilon,t);
             testOk = testOk & (be == ne) & (be > 0) & (ne >0) & (bt == nt) & (bt == 0) & (nt ==0);
             repet = repet + 1;
             if testOk == %F then
@@ -273,8 +249,56 @@ else
         t = t + 1;
     end
     disp("test validé ? "+string(testOk));
+    exit;
 
-    disp("testing allFitBinaire & allFitNaire ...");
+case TEST_AVERAGE_MATRIX_FILES then
+    
+    disp('testing averageMatrixFiles function ...');
+    a = here + '/test/a.csv';
+    files = [a,a,a,a,a];
+    Me = averageMatrixFiles(files,3);
+    disp(Me,'Me');
+    Mt = [[0,1,2];[3,4,5];[6,7,8]];
+    disp(Mt,'Mt')
+    disp(string(Me==Mt),'test validé ?');
+
+    files = [a, here + '/test/b.csv'];
+    Me = averageMatrixFiles(files,3);
+    disp(Me,'Me');
+    Mt = [[0.5,1.5,2.5];[3.5,4.5,5.5];[6.5,7.5,8.5]];
+    disp(Mt,'Mt')
+    disp(string(Me==Mt),'test validé ?');
+    exit;
+    
+case TEST_FITNESS_NAIRE then
+    
+    disp('testing fitness naire ...")
+    S1=[[1,1,1];[1,1,1];[1,1,1]];
+    disp(S1,'S1');
+    S2=[[1,1,1];[1,1,1];[1,1,1]];
+    disp(S2,'S2');
+    SS =[[2,2,2];[2,2,2];[2,2,2]];
+    disp(SS,'SS');
+    s = zeros(3,3,2);
+    s(:,:,1)=S1;
+    s(:,:,2)=S2;
+    f = fitNaire(s,SS,0,3)
+    disp(f,'f');
+    disp(f == 0,'Test validé ?');
+    
+    S1=[[1,1,1];[1,1,1];[1,1,1]];
+    disp(S1,'S1');
+    S2=[[0,0,0];[0,0,0];[0,0,0]];
+    disp(S2,'S2');
+    SS =[[2,2,2];[2,2,2];[2,2,2]];
+    disp(SS,'SS');
+    s = zeros(3,3,2);
+    s(:,:,1)=S1;
+    s(:,:,2)=S2;
+    f = fitNaire(s,SS,0,3)
+    disp(f,'f');
+    disp(f == 1/3,'Test validé ?');
+
     exit;
 end
 
