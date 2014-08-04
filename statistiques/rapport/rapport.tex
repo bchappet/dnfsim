@@ -1,0 +1,36 @@
+\documentclass{report}
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.pdf,.jpeg,.png,.ps} 
+\graphicspath{{images/}} 
+\begin{document}
+\title{Rapport probabilistic model}
+\author{CARRARA Nicolas}
+\date{Le 24 juillet 2014}
+\tableofcontents
+\part{Introduction}
+\section{Section}
+\subsection{Subsection}
+\subsubsection{subsubsection}
+\paragraph{paragraphe}
+\subparagraph{subparagraphe}
+  \[\sum_{n=1}^{+\infty}\frac{1}{n^2}=\frac{\pi^2}{6}.\]
+
+% Insérer une image
+\begin{figure}[h!]
+\centerline{\includegraphics[width=20cm]{{{spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3}}}}
+\caption{\label{toucan} Un jolie oiseau !}
+\end{figure}
+
+% Insérer une image
+\begin{figure}[h!]
+\centerline{\includegraphics[width=20cm]{{spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3}.pdf}}
+\caption{\label{toucan} Un jolie oiseau !}
+\end{figure}
+
+% Insérer une image
+\begin{figure}[h!]
+\centerline{\includegraphics[width=20cm]{{global_spike_data_diag0_variance_inita_send_taille9}.pdf}}
+\caption{\label{toucan} Un jolie oiseau !}
+\end{figure}
+
+\end{document}
