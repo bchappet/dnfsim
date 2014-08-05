@@ -186,14 +186,14 @@ public String getNeighboor(int x,int y,int direction){
 			default : //error;
 		}
 		
-		inside = space.checkInside(neigh);
-		if(!inside ){
-			return "NULL";
-		}
-		else{
+//		inside = space.checkInside(neigh);
+//		if(!inside ){
+//			return "NULL";
+//		}
+//		else{
 			
 			return getNeuronId(neigh.x,neigh.y);
-		}
+//		}
 
 	}
 

@@ -101,7 +101,7 @@ public class ModelDMADSom extends Model {
 		//Link other parameter
 		lateralWeights.addParameters(afferent_input,lateralWeights);
 		lateralWeights.addNeighboors(new V4Neighborhood2D<Integer>(space, afferent_input));
-		lateralWeights.initNeighboorhood();
+//		lateralWeights.initNeighboorhood();
 		
 		modulationMap.addParameters(potential);
 		afferent_input.addParameters(afferent_weights);
@@ -110,7 +110,7 @@ public class ModelDMADSom extends Model {
 		
 		//setNeighbourhood
 		lateralInput.addNeighboors(new V4Neighborhood2D<Integer>(space,afferent_input));
-		lateralInput.initNeighboorhood();
+//		lateralInput.initNeighboorhood();
 		
 		
 		this.root = potential;

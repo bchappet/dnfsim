@@ -20,7 +20,7 @@ public class View2DTest extends JFrame{
 	
 	@Before
 	public void setUp() throws Exception {
-		Var<ColorMap> cm = new Var(new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED}));
+		ColorMap cm = new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED});
 		Var<Boolean> grid = new Var(Boolean.TRUE);
 		uut = new View2D("uut",new double[][]{{-1,-2,-3},
 										{10,5,1}},cm,grid);
