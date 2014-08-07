@@ -45,8 +45,8 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
         this.time = new BigDecimal("0");
         nodes = new ArrayList<>();
         edges = new ArrayList<>();
-        this.params = new ArrayList(Arrays.asList(params));
-        this.params.add(STIMULIS_MAP,sm);
+        this.setParams(new ArrayList(Arrays.asList(params)));
+        this.getParams().add(STIMULIS_MAP,sm);
     }
 
     @Override
@@ -210,7 +210,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
 
     @Override
 	public List<Parameter> getParameters() {
-		return params;
+		return getParams();
 	}
 
 	@Override
@@ -221,6 +221,14 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
 		}
 		this.time = BigDecimal.ZERO;
 		
+	}
+
+	public ArrayList<Parameter> getParams() {
+		return params;
+	}
+
+	public void setParams(ArrayList<Parameter> params) {
+		this.params = params;
 	}
 
 }

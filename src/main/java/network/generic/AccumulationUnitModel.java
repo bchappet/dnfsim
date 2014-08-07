@@ -7,11 +7,11 @@ import main.java.maps.Parameter;
 import main.java.unitModel.UnitModel;
 
 
-public class TotalPacketReceiveUnitModel extends UnitModel<Integer>{
+public class AccumulationUnitModel extends UnitModel<Integer>{
 
 	private SpreadingGraph sg;
 
-	public TotalPacketReceiveUnitModel(SpreadingGraph sg) {
+	public AccumulationUnitModel(SpreadingGraph sg) {
 		super(0);
 		this.sg = sg;
 	}

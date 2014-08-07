@@ -13,13 +13,14 @@ import main.java.coordinates.NullCoordinateException;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.NetworkCommandLine;
+import main.java.network.generic.NetworkException;
 import main.java.network.generic.NetworkModel;
-import main.java.network.generic.TotalPacketReceiveUnitMap;
+import main.java.network.generic.AccumulationUnitMap;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.packet.Packet;
 import main.resources.utils.ArrayUtils;
 
-public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNode>>{
+public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Packet,PFNode<Packet>>>{
 
 	public PFModel(String name) throws IOException, CommandLineFormatException {
 		super(name);
@@ -44,7 +45,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(NetworkCommandLine.SIZE);
 
 
-		TotalPacketReceiveUnitMap receivePacketUnitMap = new TotalPacketReceiveUnitMap(getSpreadingGraph(), dt, size);
+		AccumulationUnitMap receivePacketUnitMap = new AccumulationUnitMap(getSpreadingGraph(), dt, size);
 
 
 		//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
@@ -114,7 +115,7 @@ public class PFModel extends NetworkModel<PFNode,Packet,DirectedEdge<Packet,PFNo
 
 
 	@Override
-	protected void constructGraph(File matrixTransitionFile) {
+	protected void constructGraph(File matrixTransitionFile) throws NetworkException {
 		try {
 			setSpreadingGraph(getSpreadingGraphFactory().constructGraph(matrixTransitionFile, TypeGraph.PROBABILISTIC_FLOODING, command));
 		} catch (CommandLineFormatException e) {

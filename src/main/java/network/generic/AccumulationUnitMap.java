@@ -7,14 +7,14 @@ import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.space.Space2D;
 
-public class TotalPacketReceiveUnitMap extends UnitMap<Integer,Integer>{
+public class AccumulationUnitMap extends UnitMap<Integer,Integer>{
 
-	public TotalPacketReceiveUnitMap(SpreadingGraph sg,Var<BigDecimal> dt,Var<Integer> size) throws CommandLineFormatException {
+	public AccumulationUnitMap(SpreadingGraph sg,Var<BigDecimal> dt,Var<Integer> size) throws CommandLineFormatException {
 		super(
 				"ReceiveMap", 
 				dt, 
 				new Space2D(size,size), 
-				new TotalPacketReceiveUnitModel(sg), 
+				new AccumulationUnitModel(sg), 
 				sg);
 	}
 

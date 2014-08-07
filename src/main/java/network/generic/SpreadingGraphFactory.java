@@ -3,6 +3,8 @@ package main.java.network.generic;
 import java.io.File;
 import java.math.BigDecimal;
 
+import org.jdom2.DataConversionException;
+
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;
@@ -120,6 +122,10 @@ public class SpreadingGraphFactory {
 					}
 				}
 				return res;
+			case INHIBITORY_GRAPH_PFSPIKE:
+				return null;
+			case EXCITATORY_GRAPH_PFSPIKE:
+				return null;
 			}
 		} catch (DataConversionException e) {
 			// TODO Auto-generated catch block

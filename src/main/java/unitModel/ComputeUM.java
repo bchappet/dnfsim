@@ -5,10 +5,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import main.java.controler.Interpreter;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
-import bsh.EvalError;
-import bsh.Interpreter;
 
 /**
  * Bash style script interpreter

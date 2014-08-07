@@ -37,6 +37,7 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 	private Iterator<Element> times;
 	private Class packetclass;
 	private Constructor packetConstructor;
+	
 
 	public StimulisMap(Var<String> file,Var<BigDecimal> dt,Var<Integer> size) throws DataConversionException, NetworkException{
 		super("Stimulis Map",dt,new Space2D(size, size),file);
@@ -63,6 +64,12 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 			throw new NetworkException("Erreur lecture xml : "+e);
 		}
 
+	}
+	
+	public StimulisMap(Var<BigDecimal> dt, Var<Integer >size){
+		super("Stimulis Map",dt,new Space2D(size, size));
+		ajouts = new ArrayList<>();
+		keepCompute = false;
 	}
 
 	private boolean keepCompute = true;

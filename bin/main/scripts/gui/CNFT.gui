@@ -1,4 +1,5 @@
 colormap=AdaptiveAndEquilibratedColorMap
+grid=false
 ---------------------------------------------
 CNFT
 	ParameterTreePanel
@@ -12,4 +13,6 @@ CNFT
 		Plot2D
 			Time
 			ActivitySum
+			Bubble Width
+			Bubble Height
 		CoordBubble:Coord2DSingleValueParamPlotCoord2DAdapter
