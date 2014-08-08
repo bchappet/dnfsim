@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import main.java.network.probalisticFlooding.PFModel;
 import main.java.network.rsdnf.RSDNFNetworkModel;
+import main.java.pfspike.PFSModel;
 import main.java.reservoirComputing.ModelESN;
 
 
@@ -41,7 +42,8 @@ public enum Models{
 	ESN("ESN",ModelESN.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
 	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
-	PFModel("PFModel",PFModel.class,false)
+	PFModel("PFModel",PFModel.class,false),
+	PFSModel("PFSModel",PFSModel.class,false)
 	;
 	
 	private final boolean assynch;

@@ -1,6 +1,18 @@
+\select@language {french}
 \contentsline {part}{I\hspace {1em}Introduction}{2}
-\contentsline {section}{\numberline {0.1}Section}{3}
-\contentsline {subsection}{\numberline {0.1.1}Subsection}{3}
-\contentsline {subsubsection}{subsubsection}{3}
-\contentsline {paragraph}{paragraphe}{3}
-\contentsline {subparagraph}{subparagraphe}{3}
+\contentsline {paragraph}{ Ce rapport a pour objectif d'exposer les diff\IeC {\'e}rents outils mis \IeC {\`a} disposition afin de tester diff\IeC {\'e}rents routages dans le cadre d'une \IeC {\'e}tude des champs neuronaux dynamiques. }{3}
+\contentsline {part}{II\hspace {1em}Stimulus}{4}
+\contentsline {section}{\numberline {0.1}Objectif}{5}
+\contentsline {section}{\numberline {0.2}Utilisation}{5}
+\contentsline {part}{III\hspace {1em}Generation de donn\IeC {\'e}es}{8}
+\contentsline {section}{\numberline {0.3}Introduction}{9}
+\contentsline {section}{\numberline {0.4}Spikes re\IeC {\c c}us jusqu'alors}{9}
+\contentsline {part}{IV\hspace {1em}Additivit\IeC {\'e}}{10}
+\contentsline {section}{\numberline {0.5}Th\IeC {\'e}orie( \IeC {\`a} refaire)}{11}
+\contentsline {section}{\numberline {0.6}Utilisation du script}{11}
+\contentsline {section}{\numberline {0.7}R\IeC {\'e}sultats}{12}
+\contentsline {part}{V\hspace {1em}Propagation des spikes}{13}
+\contentsline {section}{\numberline {0.8}Utilisation du script}{14}
+\contentsline {section}{\numberline {0.9}R\IeC {\'e}sultats}{14}
+\contentsline {section}{\numberline {0.10}R\IeC {\'e}flexions(intervalle pas possible car pas distrib...)}{14}
+\contentsline {part}{VI\hspace {1em}Annexe}{15}

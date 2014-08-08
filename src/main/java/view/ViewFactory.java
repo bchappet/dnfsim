@@ -109,6 +109,8 @@ public class ViewFactory {
 //		System.err.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
 //		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
+		
+		//System.out.println(pcTree);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
 //			System.out.println("parameter controler " + pc );

@@ -28,25 +28,30 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
     
     private ArrayList<Parameter> params;
     
-    public static final int STIMULIS_MAP = 0;
+    public static final int DT = 0;
+    
+    public static final int STIMULIS_MAP = 1;
 
     /**
      * Update time for this map*
      */
-    private final Var<BigDecimal> dt;
+    //private final Var<BigDecimal> dt;
     /**
      * Current time for this map*
      */
     private BigDecimal time;
     
-    public SpreadingGraph(Var<BigDecimal> dt,StimulisMap sm,Parameter ... params) {
-    	super();
-        this.dt = dt;
+    /**
+     * 
+     * @param params | dt | stimulis_map |
+     */
+    public SpreadingGraph(/*Var<BigDecimal> dt,*/Parameter ... params) {
+    	//super();
+        /*this.dt = dt;*/
+    	this.params = new ArrayList(Arrays.asList(params));
         this.time = new BigDecimal("0");
         nodes = new ArrayList<>();
-        edges = new ArrayList<>();
-        this.setParams(new ArrayList(Arrays.asList(params)));
-        this.getParams().add(STIMULIS_MAP,sm);
+        edges = new ArrayList<>();        
     }
 
     @Override
@@ -161,7 +166,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
 
     @Override
     public Var<BigDecimal> getDt() {
-        return this.dt;
+        return (Var<BigDecimal>) /*this.dt*/getParameters().get(DT);
     }
 
     @Override
@@ -210,7 +215,7 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
 
     @Override
 	public List<Parameter> getParameters() {
-		return getParams();
+		return params;
 	}
 
 	@Override
@@ -223,12 +228,6 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
 		
 	}
 
-	public ArrayList<Parameter> getParams() {
-		return params;
-	}
-
-	public void setParams(ArrayList<Parameter> params) {
-		this.params = params;
-	}
+	
 
 }

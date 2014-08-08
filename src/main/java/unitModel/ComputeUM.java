@@ -8,6 +8,7 @@ import java.util.regex.Pattern;
 import main.java.controler.Interpreter;
 import main.java.maps.Parameter;
 import main.java.maps.Var;
+import bsh.EvalError;
 
 /**
  * Bash style script interpreter

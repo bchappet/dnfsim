@@ -16,8 +16,8 @@ public class PFSpreadingGraph<P extends Packet> extends SpreadingGraph<PFNode<P>
 
 //	private final String initialisation;
 
-	public PFSpreadingGraph(Var<BigDecimal> dt,StimulisMap sm,Parameter ... params/*, Var<String> intialisation*/) {
-		super(dt,sm,params);
+	public PFSpreadingGraph(/*Var<BigDecimal> dt,*/Parameter ... params/*, Var<String> intialisation*/) {
+		super(/*dt,*/params);
 		//this.initialisation = intialisation.get();
 	}
 

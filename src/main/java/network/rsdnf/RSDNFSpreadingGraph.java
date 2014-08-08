@@ -15,8 +15,8 @@ import main.java.network.generic.packet.Spike;
 public class RSDNFSpreadingGraph extends SpreadingGraph<RSDNFTransmitter,SpikeEdge,Spike> {
 	private boolean isFirstComputatution = true;
 
-    public RSDNFSpreadingGraph(Var<BigDecimal> dt,StimulisMap sm,Parameter ... parameters) {
-        super(dt,sm,parameters);
+    public RSDNFSpreadingGraph(/*Var<BigDecimal> dt,*/Parameter ... parameters) {
+        super(/*dt,*/parameters);
     }
     
 	
