@@ -9,18 +9,19 @@ import main.java.unitModel.UnitModel;
 
 public class ConcentrationPacketUnitModel extends UnitModel<Integer>{
 
-	private SpreadingGraph sg;
+	private static final int SPREADING_GRAPH = 0;
 
-	public ConcentrationPacketUnitModel(SpreadingGraph sg) {
+	public ConcentrationPacketUnitModel(/*SpreadingGraph sg*/) {
 		super(0);
-		this.sg = sg;
+		//this.sg = sg;
 	}
 
 	@Override
 	protected Integer compute(BigDecimal time, int index,
 			List<Parameter> params) {
-//		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getTotalPacketReceived());
+		SpreadingGraph sg = (SpreadingGraph) params.get(SPREADING_GRAPH);
 		return sg.getIndex(index).getLastPacketReceiveNumber();
+		
 	}
 
 }

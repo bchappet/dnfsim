@@ -52,6 +52,7 @@ public class SpreadingGraphFactory {
 	 * @throws NetworkException 
 	 */
 	public SpreadingGraph constructGraph(File file, TypeGraph typeGraph, CommandLine commandLine,Parameter ... params) throws CommandLineFormatException, NetworkException {
+		System.out.println("fichier de transition : "+file);
 		double[][] matrice = Utils.parseCSVFile(file);
 		return constructGraph(matrice, typeGraph, commandLine,params);
 	}
@@ -174,6 +175,7 @@ public class SpreadingGraphFactory {
 				threshold = (Var<BigDecimal>) pfscl.get(PFSCommandLine.THRESHOLD);
 				nbSpike = (Var<Integer>) pfscl.get(PFSCommandLine.NB_SPIKE);
 				size = (Var<Integer>) pfscl.get(PFSCommandLine.SIZE);
+				System.out.println("size : "+size.get());
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				focus = (Map) params[0];
 				weigth = ((Var<BigDecimal>)pfscl.get(PFSCommandLine.E_WEIGTH)).get();
