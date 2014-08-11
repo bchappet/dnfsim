@@ -23,6 +23,9 @@ public class AccumulationUnitModel extends UnitModel<Integer>{
 			List<Parameter> params) {
 		SpreadingGraph sg = (SpreadingGraph) params.get(SPREADING_GRAPH);
 //		System.out.println("index : "+index+" last packet reçus : "+sg.getIndex(index).getTotalPacketReceived());
+		if(index == 0){
+			System.out.println("sg.getIndex("+index+").getTotalPacketReceived() : "+sg.getIndex(index).getTotalPacketReceived());
+		}
 		return sg.getIndex(index).getTotalPacketReceived();
 	}
 

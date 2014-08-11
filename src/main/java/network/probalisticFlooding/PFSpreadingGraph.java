@@ -60,7 +60,7 @@ public class PFSpreadingGraph<P extends Packet> extends SpreadingGraph<PFNode<P>
 
 	@Override
 	public String getName() {
-		return "Probabilistic flooding" + super.getName();
+		return "PFSpreadingGraph";
 	}
 
 }

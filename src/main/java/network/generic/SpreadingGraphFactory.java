@@ -154,7 +154,7 @@ public class SpreadingGraphFactory {
 				public static final int NB_COMPUTATION = 3;
 				public static final int MAIN_DT = 2;*/
 
-				res = new PFSSpreadingGraph(tempdt,sm, maindt,nbcomputation, threshold, nbSpike, focus);
+				res = new PFSSpreadingGraph(tempdt,sm, maindt,nbcomputation, threshold, nbSpike, focus,new Var("IPFSSpreadingGraph"));
 				for (int i = 0; i < matrice.length; i++) {
 					res.getNodes().add(new PFNode(weigth.doubleValue()));
 				}
@@ -177,7 +177,7 @@ public class SpreadingGraphFactory {
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				focus = (Map) params[0];
 				weigth = ((Var<BigDecimal>)pfscl.get(PFSCommandLine.E_WEIGTH)).get();
-				res = new PFSSpreadingGraph(tempdt, sm,maindt,nbcomputation, threshold, nbSpike, focus);
+				res = new PFSSpreadingGraph(tempdt, sm,maindt,nbcomputation, threshold, nbSpike, focus,new Var("EPFSSpreadingGraph"));
 				for (int i = 0; i < matrice.length; i++) {
 					res.getNodes().add(new PFNode(weigth.doubleValue()));
 				}

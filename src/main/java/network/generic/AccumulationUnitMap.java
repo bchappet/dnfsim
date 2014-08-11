@@ -13,9 +13,9 @@ import main.java.unitModel.UnitModel;
 public class AccumulationUnitMap extends UnitMap<Integer,Integer>{
 
 	//String name,Var<BigDecimal> dt,Space<C> space,UnitModel<T> unitModel, Parameter... param
-	public AccumulationUnitMap(SpreadingGraph sg,Var<BigDecimal> dt,Var<Integer> size) throws CommandLineFormatException {
+	public AccumulationUnitMap(String name,SpreadingGraph sg,Var<BigDecimal> dt,Var<Integer> size) throws CommandLineFormatException {
 		super(
-				"ReceiveMap", 
+				name, 
 				dt, 
 				new Space2D(size,size), 
 				new AccumulationUnitModel(/*sg*/), 

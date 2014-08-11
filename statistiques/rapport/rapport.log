@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.29)  4 AUG 2014 10:47
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013/Debian) (format=pdflatex 2014.7.29)  11 AUG 2014 14:32
 entering extended mode
  \write18 enabled.
  %&-line parsing enabled.
@@ -687,47 +687,49 @@ Overfull \hbox (3.84546pt too wide) in paragraph at lines 221--221
 
 [14] [15
 
+] [16] [17
+
 ]
-<images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf, id=72
+<images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf, id=78
 , 2502.34875pt x 1326.9575pt>
 File: images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf G
 raphic file (type pdf)
 
 <use images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf>
 Package pdftex.def Info: images/spike_data_diag1_variance_inita_send_taille9_ti
-me5_weigth0.3.pdf used on input line 229.
+me5_weigth0.3.pdf used on input line 235.
 (pdftex.def)             Requested size: 569.05511pt x 301.7517pt.
 
-<images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pdf, id=73
+<images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pdf, id=79
 , 2502.34875pt x 1326.9575pt>
 File: images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pdf G
 raphic file (type pdf)
 
 <use images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pdf>
 Package pdftex.def Info: images/spike_data_diag0_variance_inita_send_taille9_ti
-me5_weigth0.3.pdf used on input line 235.
+me5_weigth0.3.pdf used on input line 241.
 (pdftex.def)             Requested size: 569.05511pt x 301.7517pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
 
-<images/global_spike_data_diag0_variance_inita_send_taille9.pdf, id=74, 2502.34
+<images/global_spike_data_diag0_variance_inita_send_taille9.pdf, id=80, 2502.34
 875pt x 1326.9575pt>
 File: images/global_spike_data_diag0_variance_inita_send_taille9.pdf Graphic fi
 le (type pdf)
 
 <use images/global_spike_data_diag0_variance_inita_send_taille9.pdf>
 Package pdftex.def Info: images/global_spike_data_diag0_variance_inita_send_tai
-lle9.pdf used on input line 241.
+lle9.pdf used on input line 247.
 (pdftex.def)             Requested size: 569.05511pt x 301.7517pt.
 
 
 LaTeX Warning: `!h' float specifier changed to `!ht'.
 
-[16 <./images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf>
-] [17 <./images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pd
-f>] [18 <./images/global_spike_data_diag0_variance_inita_send_taille9.pdf>]
+[18 <./images/spike_data_diag1_variance_inita_send_taille9_time5_weigth0.3.pdf>
+] [19 <./images/spike_data_diag0_variance_inita_send_taille9_time5_weigth0.3.pd
+f>] [20 <./images/global_spike_data_diag0_variance_inita_send_taille9.pdf>]
 (./rapport.aux)
 
 LaTeX Warning: There were multiply-defined labels.
@@ -762,10 +764,10 @@ ic/cm-super/sfcc1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sfit1000
 mf/fonts/type1/public/cm-super/sfrm1000.pfb></usr/share/texmf/fonts/type1/publi
 c/cm-super/sfti1000.pfb></usr/share/texmf/fonts/type1/public/cm-super/sftt1000.
 pfb>
-Output written on rapport.pdf (18 pages, 599133 bytes).
+Output written on rapport.pdf (20 pages, 601145 bytes).
 PDF statistics:
- 162 PDF objects out of 1000 (max. 8388607)
- 114 compressed objects within 2 object streams
+ 169 PDF objects out of 1000 (max. 8388607)
+ 119 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
  16 words of extra memory for PDF output out of 10000 (max. 10000000)
 

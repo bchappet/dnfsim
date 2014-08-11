@@ -44,7 +44,7 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(PFSCommandLine.SIZE);
 
 
-		AccumulationUnitMap receivePacketUnitMap = new AccumulationUnitMap(getSpreadingGraph(), dt, size);
+		AccumulationUnitMap receivePacketUnitMap = new AccumulationUnitMap("ReceiveMap",getSpreadingGraph(), dt, size);
 
 
 		//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
