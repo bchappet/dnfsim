@@ -10,10 +10,12 @@ import main.java.network.rsdnf.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.MalformedURLException;
 
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
+import main.java.coordinates.NullCoordinateException;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.TypeGraph;
@@ -46,7 +48,7 @@ public class RSDNFSpreadingGraphTest {
     }
 
     @Before
-    public void setUp() throws CommandLineFormatException, FileNotFoundException, MalformedURLException {
+    public void setUp() throws CommandLineFormatException, NullCoordinateException, IOException {
         rsdnf = new RSDNFNetworkModel("testRSDNF");
         CommandLine cl = new RSDNFCommandLine() {
             @Override
