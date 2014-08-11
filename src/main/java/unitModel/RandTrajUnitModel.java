@@ -20,8 +20,11 @@ public class RandTrajUnitModel extends UnitModel<Double> {
 	@Override
 	protected Double compute(BigDecimal time, int index,
 			List<Parameter> params) {
-		return(((Number) params.get(CENTER).getIndex(index))).doubleValue() + 
+		
+		double ret = (((Number) params.get(CENTER).getIndex(index))).doubleValue() + 
 				(((Number)params.get(RADIUS).getIndex(index))).doubleValue() *(2*Math.random()-1);
+		
+		return ret;
 	}
 
 	

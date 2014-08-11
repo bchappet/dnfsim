@@ -73,6 +73,11 @@ public abstract class Plot {
         // Empty by default
     };
     
+    public void rightClick(EventObject event) {
+		// Empty by default
+		
+	}
+    
     /** Return the displayed window
      *  (the order is : x_min, y_min, x_max, y_max) */
     public double[] getLimits() {
@@ -110,4 +115,6 @@ public abstract class Plot {
                          (int)(t*c2.getGreen()+(1-t)*c1.getGreen()),
                          (int)(t*c2.getBlue()+(1-t)*c1.getBlue()));
     }
+
+	
 }

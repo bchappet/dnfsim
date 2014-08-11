@@ -23,7 +23,7 @@ public class ParameterControlerTree implements TreeModel {
 	
 	public ParameterControlerTree(ParameterControler root){
 		this.root = root;
-		contructTree((HasChildren) root.getParam(),root);
+		this.contructTree((HasChildren) root.getParam(),root);
 		
 	}
 	/**

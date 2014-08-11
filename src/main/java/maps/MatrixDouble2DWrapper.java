@@ -3,7 +3,7 @@ package main.java.maps;
 import java.math.BigDecimal;
 
 import main.java.space.Coord;
-import main.java.space.Space2D;
+import main.java.space.Space;
 
 public class MatrixDouble2DWrapper extends MatrixDouble2D {
 	
@@ -12,13 +12,13 @@ public class MatrixDouble2DWrapper extends MatrixDouble2D {
 
 
 	public MatrixDouble2DWrapper(String name, Var<BigDecimal> dt,
-			Space2D space, Parameter<Double>... params) {
+			Space space, Parameter<Double>... params) {
 		super(name, dt, space, params);
 	}
 	
 	
 	public MatrixDouble2DWrapper(Map param) {
-		this(param.getName()+"_MatrixWrapper", param.getDt(), (Space2D)param.getSpace(), param);
+		this(param.getName()+"_MatrixWrapper", param.getDt(), (Space)param.getSpace(), param);
 	}
 	
 	@Override

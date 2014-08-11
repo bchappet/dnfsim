@@ -16,9 +16,8 @@ import main.java.space.Space;
  * @author bchappet
  *
  */
-public class MatrixFileReader extends Map<Double,Integer> {
+public class MatrixFileReader extends MatrixDouble2D {
 	
-	private Double[] values;
 	
 	/**Parameters**/
 	public final static int FILE_NAME = 0; //String
@@ -28,10 +27,6 @@ public class MatrixFileReader extends Map<Double,Integer> {
 	public MatrixFileReader(String name, Var<BigDecimal> dt, Space<Integer> space,
 			Parameter... params) {
 		super(name, dt, space, params);
-		this.values = new Double[space.getVolume()];
-		for(int i=0 ; i < this.values.length ; i++){
-			this.values[i] = 0d;
-		}
 	}
 	
 	@Override
@@ -53,7 +48,7 @@ public class MatrixFileReader extends Map<Double,Integer> {
 					String[] values = line.split(" ");
 					for(String val : values){
 						try{
-							this.values[i] = Double.parseDouble(val); 
+							this.setIndex(i, Double.parseDouble(val)); 
 						}catch (ArrayIndexOutOfBoundsException e) {
 							break;
 						}
@@ -76,20 +71,6 @@ public class MatrixFileReader extends Map<Double,Integer> {
 		iteration ++;
 	}
 
-
-	@Override
-	public List<Double> getValues() {
-		return new ArrayList<Double>(Arrays.asList(this.values));
-	}
-	@Override
-	public Double getIndex(int index) {
-		return this.values[index];
-	}
-
-	public void setIndex(int i, double val) {
-		this.values[i] = val;
-		
-	}
 
 	@Override
 	public void reset() {

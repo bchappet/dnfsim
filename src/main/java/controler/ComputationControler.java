@@ -154,7 +154,7 @@ public class ComputationControler {
 //		System.out.println(" Save file : " + fileName);
 		ParameterControler map = tree.getControler(mapName);
 		if(map instanceof MapControler){
-			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray());
+			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray2D());
 			
 		}
 		

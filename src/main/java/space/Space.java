@@ -178,6 +178,11 @@ public abstract class Space<T> implements Parameter< Integer>{
 	public void reset(){
 		//TODO
 	}
+
+	public Space2D transpose() {
+		//nothing by default
+		throw new IllegalAccessError("You should use 2DSpace or 1D space or NoDimSpace for this method");
+	}
 	
 
 	

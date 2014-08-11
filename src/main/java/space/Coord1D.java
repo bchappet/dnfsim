@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @param <T>
  */
-public class Coord1D<T> extends Coord2D<T> {
+public class Coord1D<T> extends Coord<T> {
 	
 	public T x;
 	
@@ -20,7 +20,7 @@ public class Coord1D<T> extends Coord2D<T> {
 	 * @param y
 	 */
 	public Coord1D(T x){
-		super((ArrayList<T>) null);
+		super(x);
 		this.x = x;
 	}
 	
@@ -86,6 +86,7 @@ public class Coord1D<T> extends Coord2D<T> {
 	public String toString(){
 		return ""+this.x;
 	}
+	
 	
 	
 

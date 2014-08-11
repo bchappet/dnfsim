@@ -79,7 +79,7 @@ public class ModelESN extends Model {
 	 * @throws CommandLineFormatException
 	 */
 	protected Parameter getInput() throws CommandLineFormatException{
-		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT_INPUT);
+		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
 		Var<Integer> lenght_input = command.get(ESNCommandLine.LENGHT_INPUT);
 		Space<Integer> space_input = new Space1D(lenght_input);
 //		space_input.setSimulationSpace(new  DiscreteSquareSpace(new Var(Math.sqrt(lenght_input.val)), 2,false ));
@@ -114,7 +114,7 @@ public class ModelESN extends Model {
 				new Trajectory<Integer>(ESNCommandLine.OUTPUT_POLYNOMIAL_DEGREE + "+1",
 						new InfiniteDt(), new ComputeUM(polynomial_degree.get()+1), new Var<String>("$1+1"),polynomial_degree);
 
-		Var<BigDecimal> dtOutput = command.get(ESNCommandLine.DT_OUTPUT);
+		Var<BigDecimal> dtOutput = command.get(ESNCommandLine.DT);
 		Var<Integer> length_output = command.get(ESNCommandLine.LENGHT_OUTPUT);
 //		Space spaceOutput = new DiscreteSquareSpace(length_output, 1, false);
 		
@@ -140,9 +140,9 @@ public class ModelESN extends Model {
 		Var<Integer> lenght_reservoir = command.get(ESNCommandLine.LENGTH_RESERVOIR);
 		Var length_output = command.get(ESNCommandLine.LENGHT_OUTPUT);
 
-		Var<BigDecimal> dtReservoir = command.get(ESNCommandLine.DT_RESERVOIR);
-		Var<BigDecimal>  dtLearning = command.get(ESNCommandLine.DT_LEARNING);
-		Var<BigDecimal>  dtOutput = command.get(ESNCommandLine.DT_OUTPUT);
+		Var<BigDecimal> dtReservoir = command.get(ESNCommandLine.DT);
+		Var<BigDecimal>  dtLearning = command.get(ESNCommandLine.DT);
+		Var<BigDecimal>  dtOutput = command.get(ESNCommandLine.DT);
 
 		Space2D spaceReservoir = new Space2D(new Var<Integer>(1),lenght_reservoir); 
 		spaceOutput = new Space1D(length_output);

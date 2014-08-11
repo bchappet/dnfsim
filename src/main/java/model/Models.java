@@ -4,8 +4,8 @@ import java.lang.reflect.InvocationTargetException;
 
 import main.java.network.probalisticFlooding.PFModel;
 import main.java.network.rsdnf.RSDNFNetworkModel;
-import main.java.pfspike.PFSModel;
 import main.java.reservoirComputing.ModelESN;
+import main.java.reservoirComputing.ModelESN2;
 
 
 public enum Models{
@@ -40,10 +40,11 @@ public enum Models{
 //	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
 //	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false),
+	ESN2("ESN2",ModelESN2.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
 	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
-	PFModel("PFModel",PFModel.class,false),
-	PFSModel("PFSModel",PFSModel.class,false)
+	PFModel("PFModel",PFModel.class,false)
+	//PFSModel("PFSModel",PFSModel.class,false)
 	;
 	
 	private final boolean assynch;
