@@ -61,7 +61,7 @@ public class GraphControler extends ComputableControler {
 			Var<Integer> width = new Var<Integer>((int)Math.sqrt(list.size()));
 //			System.out.println("Node    jj " + listN.get(0));
 			Coord<SingleValueParam<Integer>> dim =  new Coord2D(width,width);
-			ret = ArrayUtils.toPrimitiveDoubleArray(list, dim.getIndex(0).get(), dim.getIndex(1).get());
+			ret = ArrayUtils.toPrimitiveDoubleArray2D(list, dim.getIndex(0).get(), dim.getIndex(1).get());
 		return ret;
 	
 	}

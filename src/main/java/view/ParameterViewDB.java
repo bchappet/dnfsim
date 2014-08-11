@@ -60,6 +60,11 @@ private JPanel borderPanel;
 	@Override
 	public void render(Graphics2D g) {
 	}
+	
+	@Override
+	public void rightClick(EventObject event) {
+		
+	}
 
 	
 

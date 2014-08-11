@@ -20,7 +20,7 @@ public class MatrixDouble2DWrapperTest {
 	public void setUp() throws Exception {
 		values = new double[][]{{1,2},{3,4},{5,6}};
 		Map<Double,Integer> map = new MatrixDouble2D("map",new InfiniteDt(),values);
-		uut = new MatrixDouble2DWrapper("uut", new InfiniteDt(), new Space2D(2, 3), map);
+		uut = new MatrixDouble2DWrapper(map);
 	}
 
 	@Test

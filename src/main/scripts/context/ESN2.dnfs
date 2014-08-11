@@ -1,0 +1,7 @@
+length_reservoir=49;
+input_file=src/main/java/reservoirComputing/data/MackeyGlass_t17.dat;
+tgtOutputFile=src/main/java/reservoirComputing/data/MackeyGlass_t17.dat;
+wrr_file=src/main/java/reservoirComputing/weights/randWeights;
+wro_file=src/main/java/reservoirComputing/weights/weightsOutput;
+leak=0.11;
+input_scale=1.01;

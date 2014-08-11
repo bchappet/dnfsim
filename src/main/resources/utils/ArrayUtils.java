@@ -222,7 +222,7 @@ public class ArrayUtils {
 	 * @param height
 	 * @return
 	 */
-	public static double[][] toPrimitiveDoubleArray(List<? extends Number> values, int width, int height) {
+	public static double[][] toPrimitiveDoubleArray2D(List<? extends Number> values, int width, int height) {
 		
 		double[][] ret = new double[height][width];
 		
@@ -297,12 +297,33 @@ public class ArrayUtils {
 		
 		return ret;
 	}
+	
+	public static String toString1D(List values,int width) {
+		String ret = "";
+			for(int j = 0 ; j < width-1 ; j++){ //row width X
+				ret += values.get( j) + ",";
+			}
+			ret += values.get(width-1);
+		
+		
+		
+		return ret;
+	}
 
 	public static <T> ArrayList<T> asList(T[] tab) {
 		ArrayList<T> ret = new ArrayList<T>(tab.length);
 		for (int i = 0; i < tab.length; i++) {
 			ret.add(tab[i]);
 		}
+		return ret;
+	}
+
+	public static double[] listToPrimitiveArray1D(List<? extends Number> list) {
+		double[] ret = new double[list.size()];
+		for(int i = 0 ; i < list.size() ; i++){
+			ret[i] = list.get(i).doubleValue();
+		}
+		
 		return ret;
 	}
 

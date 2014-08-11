@@ -1,6 +1,7 @@
 package main.java.model;
 
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.util.AbstractMap;
@@ -80,14 +81,12 @@ public abstract class Model implements HasChildren<Parameter> {
 	 * @param contextScript
 	 *            : URL of the script
 	 * @throws CommandLineFormatException
-	 * @throws FileNotFoundException
-	 * @throws MalformedURLException
 	 * @throws NullCoordinateException
+	 * @throws IOException 
 	 * @throws CloneNotSupportedException
 	 */
 	public void initialize(CommandLine cl)
-			throws CommandLineFormatException, FileNotFoundException,
-			MalformedURLException, NullCoordinateException {
+			throws CommandLineFormatException, NullCoordinateException, IOException {
 		if (!isInitilized) {
 			this.command = cl;
 			parameters = new LinkedList<Parameter>();
@@ -117,10 +116,12 @@ public abstract class Model implements HasChildren<Parameter> {
 	 * 
 	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 * 
 	 */
 	protected abstract void initializeParameters()
-			throws CommandLineFormatException, NullCoordinateException;
+			throws CommandLineFormatException, NullCoordinateException, FileNotFoundException, IOException;
 
 	/**
 	 * Construct the main.java.model main.java.statistics

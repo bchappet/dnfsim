@@ -5,11 +5,14 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
 import main.java.controler.MapControler;
+import main.java.controler.ModelControler;
 import main.java.controler.ParameterControler;
 import main.java.controler.ParameterControlerTree;
 import main.java.controler.SingleValueControler;
 import main.java.controler.StatisticsControler;
+import main.java.model.Model;
 import main.java.network.view.GraphControler;
+import main.scripts.gui.LearningWeightMatrixControler;
 
 /**
  * The view factory will construct the view thanks to a provided ParameterControler
@@ -82,6 +85,10 @@ public class ViewFactory {
 			return "StatisticsViewAdapter";
 		}else if(pc instanceof GraphControler){
 			return "GraphView2DAdapter";
+		}else if(pc instanceof ModelControler){
+			return "ModelViewAdapter";
+		}else if(pc instanceof LearningWeightMatrixControler){
+			return "LearningWeightMatrixViewAdapter";
 		}else{
 			return null;
 		}

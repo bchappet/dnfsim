@@ -89,4 +89,11 @@ public class Plotter extends JPanelDB {
             p.render(g,getWidth(),getHeight());
         }
     }
+
+	@Override
+	public void rightClick(EventObject event) {
+		 for (Plot p : plots)
+	            p.rightClick(event);
+		
+	}
 }
