@@ -213,6 +213,8 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
                 xs2ps(0,t +'.ps');
                 xs2png(0,t +'.png');
                 xs2pdf(0,t +'.pdf');
+                xs2svg(0,t +'.svg');
+                xs2emf(0,t +'.emf');
             end
 
             i=i+1;
@@ -224,7 +226,9 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
         t = outputDir+'/global_spike_data'+'_diag'+string(doDiag)+'_'+label+label2+'_init'+sender+'_taille'+string(taille);
         xs2ps(0,t+'.ps');
         xs2png(0,t+'.png');
-        xs2pdf(0,t+'.pdf'); 
+        xs2pdf(0,t+'.pdf');
+        xs2svg(0,t+'.svg');
+        xs2emf(0,t +'.emf'); 
     end
 
 endfunction
