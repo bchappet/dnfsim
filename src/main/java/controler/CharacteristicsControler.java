@@ -12,10 +12,7 @@ public class CharacteristicsControler extends  ParameterControler {
 
 
 	public void compute(BigDecimal currentTime) {
-		
-			
-		
-		
+		((Characteristics) getParam()).compute();
 	}
 
 

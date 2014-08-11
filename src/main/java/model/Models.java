@@ -5,21 +5,23 @@ import java.lang.reflect.InvocationTargetException;
 import main.java.network.probalisticFlooding.PFModel;
 import main.java.network.rsdnf.RSDNFNetworkModel;
 import main.java.reservoirComputing.ModelESN;
+import main.java.reservoirComputing.ModelESN2;
 
 
 public enum Models{
 	CNFT("CNFT",ModelCNFT.class,false),
 //	CNFTFFT("CNFTFFT",ModelCNFTFFT.class,false),
 //	CNFTDNFSOM("DNFSomCNFT",ModelDNFSomCNFT.class,false),
-//	GSPIKE("GSpike",ModelGSpike.class,false),
+	GSPIKE("GSpike",ModelGSpike.class,false),
 //	GSPIKEFFT("GSpikeFFT",ModelGSpikeFFT.class,false),
 //	GSPIKEFFT2("GSpikeFFTAsynch",ModelGSpikeFFT.class,true),
-//	ESPIKE("ESpike",ModelESpike.class,false),
+	ESPIKE("ESpike",ModelESpike.class,false),
 //	ESPIKEFFT("ESpikeFFT",ModelESpike.class,false),
 //	ESPIKE2("ESpike2",ModelESpike2.class,false),
 //	ESPIKEFileReader("ESpikeFileReader",ModelESpikeFileReader.class,false),
 //	ESPIKEDNFSUM("DNFSomESpike",ModelDNFSomESpike.class,false),
-//	NSPIKE("NSpike",ModelNSpike.class,false),
+	NSPIKE("NSpike",ModelNSpike.class,false),
+	NSPIKE_TRANSIENT("NSpikeTransientFault",ModelNSpikeTransientFault.class,false),
 //	NSPIKEFileReader("NSpikeFileReader", ModelNSpikeFileReader.class,false),
 //	NSPIKE_PRECISION("NSpikePrecision",ModelNSpikePrecision.class,false),
 //	NSPIKE2("NSpikeAssynch",ModelNSpike2.class,true),
@@ -38,9 +40,11 @@ public enum Models{
 //	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
 //	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false),
+	ESN2("ESN2",ModelESN2.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
 	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
 	PFModel("PFModel",PFModel.class,false)
+	//PFSModel("PFSModel",PFSModel.class,false)
 	;
 	
 	private final boolean assynch;

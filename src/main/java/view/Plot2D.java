@@ -19,13 +19,6 @@ import javax.swing.JPanel;
 public class Plot2D extends ViewPanel {
 
 
-
-	
-
-
-	
-
-
 	
 	
 	/**Display button**/

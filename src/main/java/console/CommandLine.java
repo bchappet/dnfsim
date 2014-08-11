@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,8 +94,8 @@ public class CommandLine  {
 	protected  String defaultScript()
 	{
 		return ""
-				+STAT_DT+"=bd0.1,0.01,1,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
-				+TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
+				+ STAT_DT+"=bd0.1,0.01,1.0,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
+				+ TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
 				+ MAP_TO_SAVE+"=null;" + PATH_TO_SAVE+"=src/;"
 				+ FIRST_ITERATION+"=0;"
 				;
@@ -228,7 +229,7 @@ public class CommandLine  {
 							else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// Big Decimal with definition set
 							{
 								String[] numbers = obj.split(",");
-								//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+//								System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
 								BigDecimal bd = new BigDecimal(numbers[0].substring(2));
 								Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
 								var.set(bd);
@@ -374,11 +375,13 @@ public class CommandLine  {
 //		}
 		else if(command.equals("print")){
 			String split[] = value.split(",");
+			
 			this.characControler.compute(this.computationControler.getTime());
 
 			for(String s : split){
 				if(s.equals("all")){
 					String[] all = this.characControler.getTrajectoryUnitMapsName();
+					this.characControler.compute(this.computationControler.getTime());
 					for(String s2 : all){
 						ret += findParameterValue(s2) + ",";
 					}
@@ -606,9 +609,11 @@ public class CommandLine  {
 					else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?,.*") )// Big Decimal with definition set
 					{
 						String[] numbers = obj.split(",");
-						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
+//						System.out.println(" key : " + key + " value : " + obj );
+//						System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0].substring(2))  + " reste : " +  Arrays.toString(numbers));
 						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(numbers[0].substring(2)));
 						Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
+//						System.out.println(System.identityHashCode(var));
 						map.put(key,var);
 						this.definitionSet.put(key, defSet);
 

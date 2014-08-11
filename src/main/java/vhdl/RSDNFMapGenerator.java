@@ -6,6 +6,8 @@ import java.io.PrintWriter;
 import java.io.Writer;
 import java.lang.reflect.InvocationTargetException;
 
+import main.java.space.Coord2D;
+
 public class RSDNFMapGenerator extends VHDLGenerator2 {
 
 public RSDNFMapGenerator(int res2) {
@@ -13,7 +15,7 @@ public RSDNFMapGenerator(int res2) {
 	}
 
 	//	public final static int[] LISTE_GEN = {3,5,7,9,11,19,31,35,49};
-	public final static int[] LISTE_GEN = {49};
+	public final static int[] LISTE_GEN = {3};
 
 	//Direction definition for Spikes Vectors
 	public final static int W = 0;
@@ -130,7 +132,7 @@ public RSDNFMapGenerator(int res2) {
 		return "component RSDNFCell is\n"+
 				"port(\n"+
 				"	 compute,propagate,clk,reset: in STD_LOGIC;\n"+
-				"	 main.java.input: in std_logic_vector(INT+FRAC downto 0);\n"+
+				"	 input: in std_logic_vector(INT+FRAC downto 0);\n"+
 				"	 inSpikesExc: in STD_LOGIC_VECTOR(NEIGHBORHOOD-1 downto 0);--(N,S,E,W)\n"+
 				"	 inSpikesInh: in STD_LOGIC_VECTOR(NEIGHBORHOOD-1 downto 0);\n"+
 				"	 outSpikesExc: out STD_LOGIC_VECTOR(NEIGHBORHOOD-1 downto 0);\n"+
@@ -150,17 +152,17 @@ public RSDNFMapGenerator(int res2) {
 				"propagate => propagate,\n"+
 				"compute => compute,\n"+
 				"Reset => Reset,\n"+
-				"main.java.input=> main.java.input"+getNeuronId(x, y)+",\n"+
-//
-//			 "inSpikesExc(N) => outSpikesExc" +getNeighboor(x, y, N) +"(S),\n" +   
-//			 "inSpikesExc(S) => outSpikesExc" +getNeighboor(x, y, S) +"(N),\n" + 
-//			 "inSpikesExc(E) => outSpikesExc" +getNeighboor(x, y, E) +"(W),\n" + 
-//			 "inSpikesExc(W) => outSpikesExc" +getNeighboor(x, y, W) +"(E),\n" + 
-//
-//			 "inSpikesInh(N) => outSpikesInh" +getNeighboor(x, y, N) +"(S),\n" +   
-//			 "inSpikesInh(S) => outSpikesInh" +getNeighboor(x, y, S) +"(N),\n" + 
-//			 "inSpikesInh(E) => outSpikesInh" +getNeighboor(x, y, E) +"(W),\n" + 
-//			 "inSpikesInh(W) => outSpikesInh" +getNeighboor(x, y, W) +"(E),\n" + 
+				"input=> input"+getNeuronId(x, y)+",\n"+
+
+			 "inSpikesExc(N) => outSpikesExc" +getNeighboor(x, y, N) +"(S),\n" +   
+			 "inSpikesExc(S) => outSpikesExc" +getNeighboor(x, y, S) +"(N),\n" + 
+			 "inSpikesExc(E) => outSpikesExc" +getNeighboor(x, y, E) +"(W),\n" + 
+			 "inSpikesExc(W) => outSpikesExc" +getNeighboor(x, y, W) +"(E),\n" + 
+
+			 "inSpikesInh(N) => outSpikesInh" +getNeighboor(x, y, N) +"(S),\n" +   
+			 "inSpikesInh(S) => outSpikesInh" +getNeighboor(x, y, S) +"(N),\n" + 
+			 "inSpikesInh(E) => outSpikesInh" +getNeighboor(x, y, E) +"(W),\n" + 
+			 "inSpikesInh(W) => outSpikesInh" +getNeighboor(x, y, W) +"(E),\n" + 
 
 			 "outSpikesExc => outSpikesExc"+getNeuronId(x, y)+",\n"+
 			 "outSpikesInh => outSpikesInh"+getNeuronId(x, y)+",\n"+
@@ -170,6 +172,29 @@ public RSDNFMapGenerator(int res2) {
 
 
 		return ret;
+	}
+	
+public String getNeighboor(int x,int y,int direction){
+		
+		boolean inside ;
+		Coord2D<Integer> neigh = null;
+		switch(direction){
+			case N:neigh  = new Coord2D<Integer>( x,(y-1));break;	
+			case S:neigh  = new Coord2D<Integer>(x, (y+1));break;
+			case E:neigh  = new Coord2D<Integer>( (x+1), y);break;
+			case W:neigh  = new Coord2D<Integer>( (x-1), y);break;
+			default : //error;
+		}
+		
+//		inside = space.checkInside(neigh);
+//		if(!inside ){
+//			return "NULL";
+//		}
+//		else{
+			
+			return getNeuronId(neigh.x,neigh.y);
+//		}
+
 	}
 
 
@@ -197,7 +222,7 @@ public RSDNFMapGenerator(int res2) {
 //		for(int i = 0 ; i < res ; i++){
 //			for(int j = 0 ; j  < res ; j++){
 //				ret += "potential"+i+"_"+j+" : out std_logic_vector(INT+FRAC-1 downto 0);\n";
-//				ret += "main.java.input"+i+"_"+j+" : in std_logic_vector(INT+FRAC downto 0);\n";
+//				ret += "input"+i+"_"+j+" : in std_logic_vector(INT+FRAC downto 0);\n";
 //			}
 //		}
 //

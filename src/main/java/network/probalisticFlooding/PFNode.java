@@ -4,7 +4,7 @@ import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.Node;
 import main.java.network.generic.packet.Packet;
 
-public class PFNode extends Node<Packet,DirectedEdge<Packet,PFNode>> {
+public class PFNode<P extends Packet> extends Node<P,DirectedEdge<P,PFNode<P>>> {
 
 	private double weight;
 	
@@ -31,11 +31,11 @@ public class PFNode extends Node<Packet,DirectedEdge<Packet,PFNode>> {
 	@Override
     public void send() {
         if (isEnabled()) {
-            Packet p = pollPacket();
+            P p = pollPacket();
             if (p != null) {
             	double proba = Math.random();
                 if ((proba > weight)) {
-                    for (DirectedEdge<Packet,PFNode> e : getEdges()) {
+                    for (DirectedEdge<P,PFNode<P>> e : getEdges()) {
                         e.transfer(p);
                     }
                 }

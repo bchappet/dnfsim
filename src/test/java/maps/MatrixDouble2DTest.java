@@ -1,28 +1,39 @@
 package test.java.maps;
 
+import static org.junit.Assert.*;
+
 import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
+import main.java.maps.InfiniteDt;
 import main.java.maps.MatrixDouble2D;
 import main.java.maps.Var;
+import main.java.space.Space1D;
 import main.java.space.Space2D;
 import main.resources.utils.ArrayUtils;
 
 import org.junit.Before;
 import org.junit.Test;
 
-public class MatrixDouble2DTest extends TestCase {
+public class MatrixDouble2DTest {
 	
 	protected MatrixDouble2D uut;
 	private Var<BigDecimal> dt;
 
 	@Before
-	protected void setUp() throws Exception {
-		super.setUp();
+	public void setUp() throws Exception {
 		dt = new Var<BigDecimal>("dt",new BigDecimal("0.1"));
 		uut = new MatrixDouble2D("uut",dt, new double[][]{{0,1,2},{3,4,5},{6,7,8},{9,10,11}});
+	
+	}
+	
+	@Test
+	public void testConstructFromSpace(){
+		Space2D space = new Space2D(3, 4);
+		uut = new MatrixDouble2D("uut", dt, space);
+		assertEquals("The jamat should be good " ,4,uut.getJamat().getRowDimension());
+		assertEquals("The jamat should be good " ,3,uut.getJamat().getColumnDimension());
 	}
 
 	@Test
@@ -51,19 +62,19 @@ public class MatrixDouble2DTest extends TestCase {
 	
 	@Test
 	public void testGetIndex(){
-		assertEquals("The element at the index should be good",10.,uut.getIndex(10));
-		assertEquals("The element at the index should be good",5.,uut.getIndex(5));
-		assertEquals("The element at the index should be good",1.,uut.getIndex(1));
+		assertEquals("The element at the index should be good",(Double)10.,uut.getIndex(10));
+		assertEquals("The element at the index should be good",(Double)5.,uut.getIndex(5));
+		assertEquals("The element at the index should be good",(Double)1.,uut.getIndex(1));
 	}
 	
 	@Test
 	public void testGetFast(){
-		assertEquals("The element at coordinate should be good",0.,uut.getFast(0, 0));
-		assertEquals("The element at coordinate should be good",2.,uut.getFast(2, 0));
-		assertEquals("The element at coordinate should be good",3.,uut.getFast(0, 1));
-		assertEquals("The element at coordinate should be good",7.,uut.getFast(1, 2));
-		assertEquals("The element at coordinate should be good",10.,uut.getFast(1, 3));
-		assertEquals("The element at coordinate should be good",11.,uut.getFast(2, 3));
+		assertEquals("The element at coordinate should be good",(Double)0.,uut.getFast(0, 0));
+		assertEquals("The element at coordinate should be good",(Double)2.,uut.getFast(2, 0));
+		assertEquals("The element at coordinate should be good",(Double)3.,uut.getFast(0, 1));
+		assertEquals("The element at coordinate should be good",(Double)7.,uut.getFast(1, 2));
+		assertEquals("The element at coordinate should be good",(Double)10.,uut.getFast(1, 3));
+		assertEquals("The element at coordinate should be good",(Double)11.,uut.getFast(2, 3));
 	}
 	
 	@Test
@@ -90,6 +101,25 @@ public class MatrixDouble2DTest extends TestCase {
 		
 		assertEquals("The values should be the same:",uut.toString(),clone.toString());
 		
+		
+	}
+	
+	
+	@Test 
+	public void setFast(){
+		uut.setFast(1, 1, 99);
+		List<Double> values = uut.getValues();
+		List<Double> expected = Arrays.asList(new Double[]{0d,1d,2d,3d,99d,5d,6d,7d,8d,9d,10d,11d});
+		assertEquals("The getValue methode should give the good list",expected,values);
+		
+	}
+	
+	@Test
+	public void constructVector(){
+		uut = new MatrixDouble2D("uut", new InfiniteDt(), new Space1D(4), 7.);
+		List<Double> values = uut.getValues();
+		List<Double> expected = Arrays.asList(new Double[]{7d,7d,7d,7d});
+		assertEquals("The getValue methode should give the good list",expected,values);
 		
 	}
 	

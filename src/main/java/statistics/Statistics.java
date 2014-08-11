@@ -74,6 +74,8 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 		paramNodes.addAll(Arrays.asList(time,compTime));
 		paramNodes.addAll(Arrays.asList(parameter));
 		this.wtrace = new WTrace(getParametersName());
+//		System.out.println(getParameters());
+//		System.out.println(Arrays.toString(getParametersName()));
 	}
 
 
@@ -210,6 +212,7 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 			paramArray[i] = paramTest.get(i).doubleValue();
 		}
 		wtrace.add(paramArray);
+		
 	}
 	/**
 	 * Update compTime Var
@@ -228,7 +231,7 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 		return wtrace.getLast(name);
 	}
 
-	/** Save the main.java.statistics with the default filename 
+	/** Save the statistics with the default filename 
 	 * @throws IOException */
 	public void save(String file) throws IOException {
 		wtrace.save(file);

@@ -2,21 +2,23 @@ package main.java.network.probalisticFlooding;
 
 import java.math.BigDecimal;
 
+import main.java.maps.Parameter;
 import main.java.maps.Var;
 import main.java.network.generic.DirectedEdge;
 import main.java.network.generic.SpreadingGraph;
+import main.java.network.generic.StimulisMap;
 import main.java.network.generic.packet.IPv4Datagramme;
 import main.java.network.generic.packet.Packet;
 
-public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,PFNode>>{
+public class PFSpreadingGraph<P extends Packet> extends SpreadingGraph<PFNode<P>,DirectedEdge<P,PFNode<P>>,P>{
 
 	private boolean isFirstComputatution = true;
 
-	private final String initialisation;
+//	private final String initialisation;
 
-	public PFSpreadingGraph(Var<BigDecimal> dt, Var<String> intialisation) {
-		super(dt);
-		this.initialisation = intialisation.get();
+	public PFSpreadingGraph(/*Var<BigDecimal> dt,*/Parameter ... params/*, Var<String> intialisation*/) {
+		super(/*dt,*/params);
+		//this.initialisation = intialisation.get();
 	}
 
 
@@ -31,24 +33,24 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 	}
 
 	public void firstComputation(){
-		switch(initialisation){
-		case PFCommandLine.A_SEND :
-			for (int i = 0; i < 10; i++) {
-				this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
-			}
-			break;
-		case PFCommandLine.B_SEND :
-			for (int i = 0; i < 10; i++) {
-				this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
-			}
-			break;
-		case PFCommandLine.AB_SEND:
-			for (int i = 0; i < 10; i++) {
-				this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
-				this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
-			}
-			break;
-		}
+//		switch(initialisation){
+//		case PFCommandLine.A_SEND :
+//			for (int i = 0; i < 10; i++) {
+//				this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
+//			}
+//			break;
+//		case PFCommandLine.B_SEND :
+//			for (int i = 0; i < 10; i++) {
+//				this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
+//			}
+//			break;
+//		case PFCommandLine.AB_SEND:
+//			for (int i = 0; i < 10; i++) {
+//				this.getIndex(0).addToFIFO(new IPv4Datagramme("first"));
+//				this.getIndex(0+8+9*8).addToFIFO(new IPv4Datagramme("first"));
+//			}
+//			break;
+//		}
 	}
 
 	public void reset(){
@@ -58,7 +60,7 @@ public class PFSpreadingGraph extends SpreadingGraph<PFNode,DirectedEdge<Packet,
 
 	@Override
 	public String getName() {
-		return "Probabilistic flooding" + super.getName();
+		return "PFSpreadingGraph";
 	}
 
 }

@@ -1,0 +1,17 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=false
+---------------------------------------------
+GSpike
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		Inputs
+		CNFT_Weights
+		CNFT_Convolution
+		Potential
+		Focus
+	stats
+		Plot2D
+			Time
+			ActivitySum
+		CoordBubble:Coord2DSingleValueParamPlotCoord2DAdapter

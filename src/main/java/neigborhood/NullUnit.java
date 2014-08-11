@@ -6,7 +6,7 @@ public class NullUnit<T> extends Unit<T> {
 	
 	private T val;
 	public NullUnit(Unit<T> u) {
-		super(u.getUnitModel());
+		super(null);
 		this.val = u.get();
 	}
 	

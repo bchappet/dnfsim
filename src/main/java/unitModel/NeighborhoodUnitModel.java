@@ -48,8 +48,8 @@ public abstract class NeighborhoodUnitModel<T> extends UnitModel<T> {
 //		//we are in the same unit: the neighbourhood is the same
 //		clone.neighborhoods = this.neighborhoods;
 //		clone.onNeighborhoodAddition();
-//		return clone;
 //	}
+//		return clone;
 //
 	
 
@@ -59,6 +59,9 @@ public abstract class NeighborhoodUnitModel<T> extends UnitModel<T> {
 	 */
 	public void addNeighborhoods(Unit<T>[] units) {
 		neighborhoods.add(units);
+//		System.out.println("@"+System.identityHashCode(this) + " add neighborhood");
+//		System.out.println(" North um : " +"@"+System.identityHashCode(units[0].getUnitModel()));
+//		System.exit(0);
 		onNeighborhoodAddition();
 	}
 	

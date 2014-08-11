@@ -1,0 +1,18 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=false
+---------------------------------------------
+NSpikeTransientFault
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		Inputs
+		CNFT_Convolution
+		Potential
+		Focus
+	stats
+		Plot2D
+			Time
+			ActivitySum
+			Bubble Width
+			Bubble Height
+		CoordBubble:Coord2DSingleValueParamPlotCoord2DAdapter

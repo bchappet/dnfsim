@@ -16,7 +16,7 @@ public class NetworkCommandLine extends CommandLine {
 	
 	
 	public static final String NO_TRANSITION_FILE = "noFile";
-	public static final String DEFAULT_STIMULIS = "default.stimulis";
+	public static final String DEFAULT_STIMULIS = "statistiques/stimulis/default.stimulis";
 	
 	@Override
 	protected String defaultScript() {

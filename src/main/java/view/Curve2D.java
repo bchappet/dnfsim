@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.EventObject;
 import java.util.List;
 
 import main.java.space.Coord2D;
@@ -135,5 +136,7 @@ public class Curve2D extends ParameterViewDB{
 	public double getMax() {
 		return minMax.y;
 	}
+
+	
 
 }

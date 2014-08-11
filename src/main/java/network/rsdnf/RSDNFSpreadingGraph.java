@@ -2,19 +2,21 @@ package main.java.network.rsdnf;
 
 import java.math.BigDecimal;
 
+import main.java.maps.Parameter;
 import main.java.maps.Var;
 import main.java.network.generic.SpreadingGraph;
+import main.java.network.generic.StimulisMap;
 import main.java.network.generic.packet.Spike;
 
 /**
  * 
  * @author CARRARA Nicolas
  */
-public class RSDNFSpreadingGraph extends SpreadingGraph<RSDNFTransmitter,SpikeEdge> {
+public class RSDNFSpreadingGraph extends SpreadingGraph<RSDNFTransmitter,SpikeEdge,Spike> {
 	private boolean isFirstComputatution = true;
 
-    public RSDNFSpreadingGraph(Var<BigDecimal> dt) {
-        super(dt);
+    public RSDNFSpreadingGraph(/*Var<BigDecimal> dt,*/Parameter ... parameters) {
+        super(/*dt,*/parameters);
     }
     
 	

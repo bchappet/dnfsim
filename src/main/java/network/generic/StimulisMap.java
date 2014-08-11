@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Var;
 import main.java.network.generic.packet.Packet;
@@ -37,6 +38,9 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 	private Iterator<Element> times;
 	private Class packetclass;
 	private Constructor packetConstructor;
+	
+	public static final StimulisMap NO_STIMULIS_MAP = new StimulisMap<>();
+	
 
 	public StimulisMap(Var<String> file,Var<BigDecimal> dt,Var<Integer> size) throws DataConversionException, NetworkException{
 		super("Stimulis Map",dt,new Space2D(size, size),file);
@@ -63,6 +67,12 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 			throw new NetworkException("Erreur lecture xml : "+e);
 		}
 
+	}
+	
+	private StimulisMap(/*Var<BigDecimal> dt, Var<Integer >size*/){
+		super("Stimulis Map",new InfiniteDt()/*dt*/,new Space2D(0,0));
+		ajouts = new ArrayList<>();
+		keepCompute = false;
 	}
 
 	private boolean keepCompute = true;

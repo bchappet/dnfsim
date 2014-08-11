@@ -47,6 +47,8 @@ public class Space2DTest {
 		assertEquals("The index should be good.",11,uut.coordIntToIndex(new Coord<Integer>(2,3)));
 	}
 	
+	
+	
 	@Test
 	public void testGetVolume(){
 		assertEquals("the volume should be 3*4.",12,uut.getVolume());

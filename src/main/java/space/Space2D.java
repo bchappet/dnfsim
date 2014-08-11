@@ -83,12 +83,13 @@ public class Space2D extends Space<Integer> implements ISpace2D {
 	public int coordToIndex(Coord<Integer> coord) {
 		return coordIntToIndex(coord);
 	}
-
+	
 	@Override
-	public Integer typeAxisProj(Integer val, int axis) {
-		// TODO Auto-generated method stub
-		return null;
+	public Space2D transpose(){
+		return new Space2D(getDimY(), getDimX());
 	}
+
+	
 
 	
 

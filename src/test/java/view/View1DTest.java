@@ -23,7 +23,7 @@ public class View1DTest extends JFrame{
 	@Before
 	public void setUp() throws Exception {
 		ColorMap cm = new AdaptiveAndEquilibratedColorMap(new Color[]{Color.BLUE,Color.WHITE,Color.RED});
-		uut = new View1D("uut",new double[]{-1,-2,-3},new Var<>(cm),new Var<Boolean>(true));
+		uut = new View1D("uut",new double[]{-1,-2,-3},cm,new Var<Boolean>(true));
 		
 			borderPanel = new JPanel();
 			borderPanel.setLayout(new BoxLayout(borderPanel, BoxLayout.PAGE_AXIS));

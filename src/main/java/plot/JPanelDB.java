@@ -63,7 +63,11 @@ abstract public class JPanelDB extends JPanel {
 			int button = e.getButton();
 			if(button == MouseEvent.BUTTON3)//Left click
 				interact(e);
+			else if(button == MouseEvent.BUTTON1)//right click
+				rightClick(e);
 		}
+
+		
 
 		@Override
 		public void mouseReleased(MouseEvent e){
@@ -77,6 +81,8 @@ abstract public class JPanelDB extends JPanel {
 			interact(e);
 		}
 	}
+	/**Interaction on right click**/
+	abstract public void rightClick(EventObject event);
 
 	/** Interactions with the interface */
 	abstract public void interact(EventObject event);

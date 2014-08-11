@@ -4,9 +4,14 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.math.BigDecimal;
 
+import main.java.console.CNFTCommandLine;
 import main.java.controler.Interpreter;
+import main.java.maps.InfiniteDt;
 import main.java.maps.MatrixDouble2D;
+import main.java.maps.Parameter;
+import main.java.maps.Trajectory;
 import main.java.maps.Var;
+import main.java.unitModel.ComputeUM;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -45,5 +50,9 @@ public class InterpreterTest {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	
+	
 
 }

@@ -11,6 +11,7 @@ import main.java.maps.Parameter;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
 import main.java.network.generic.NetworkCommandLine;
+import main.java.network.generic.NetworkException;
 import main.java.network.generic.NetworkModel;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.generic.TypeGraph;
@@ -155,7 +156,7 @@ public class RSDNFNetworkModel extends NetworkModel<RSDNFTransmitter,Spike,Spike
 	}
 
 	@Override
-	protected void constructGraph(File matrixTransitionFile) {
+	protected void constructGraph(File matrixTransitionFile) throws NetworkException {
 		try {
 			setSpreadingGraph(getSpreadingGraphFactory().constructGraph(matrixTransitionFile, TypeGraph.RSDNF, command));
 //			matrixTransitionFile.delete();

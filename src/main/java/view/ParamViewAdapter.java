@@ -82,7 +82,8 @@ public abstract class ParamViewAdapter {
 
 	public void reset() {
 		for(ParameterView pv : paramViews){
-			pv.reset();
+			if(pv != null)
+				pv.reset();
 		}
 		
 	}

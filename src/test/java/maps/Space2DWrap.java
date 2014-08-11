@@ -12,8 +12,9 @@ public class Space2DWrap extends Space2D implements WrappedSpace<Integer> {
 
 	@Override
 	public Coord<Integer> wrap(Coord<Integer> coord){
-		// TODO Auto-generated method stub
-		return null;
+		throw new Error("notImplented");
 	}
+	
+	
 
 }

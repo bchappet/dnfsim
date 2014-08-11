@@ -83,18 +83,7 @@ public class ComputationControler {
 	 */
 	public void compute(){
 		this.actualComputation();
-//		LOGGER.info("Computation until: " + timeLimit );
-//		checkFirstComputation();
-//
-//		while(time.compareTo(timeLimit) < 0){
-//			//Delay if there is a gui
-//			if(this.view != null){
-//				this.view.delayComputation(this.time);
-//			}
-//			
-//			this.actualComputation();
-//
-//		}
+
 	}
 	
 	public void checkFirstComputation(){
@@ -165,7 +154,7 @@ public class ComputationControler {
 //		System.out.println(" Save file : " + fileName);
 		ParameterControler map = tree.getControler(mapName);
 		if(map instanceof MapControler){
-			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray());
+			Utils.writeCSVFile(new File(fileName), ((MapControler) map).getArray2D());
 			
 		}
 		

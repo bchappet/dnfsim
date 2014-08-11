@@ -38,11 +38,35 @@ public class DoubleSpace extends Space<Double> {
 		return this.getDimensions().getIndex(0);
 	}
 	
-	
+	/**
+	 * Only for one axis
+	 * @original val
+	 * @original axis
+	 * @return
+	 */
 	public Double typeAxisProj(Integer val, int axis) {
 		double fact = this.length.getIndex(axis).get()/this.getIndex(axis);
 		double ret = origin.getIndex(axis).get() + fact/2 + fact*val;
 		return ret;
+	}
+	
+	/**
+	 * Axis projection : res = d/resolution
+	 * @param dist : a distance
+	 * @param axis : index of the axis
+	 * @return
+	 */
+	public double typeDistProj(Integer val, int axis) {
+		double fact = this.length.getIndex(axis).get()/this.getIndex(axis);
+		return  fact*val;
+	}
+	
+	public Integer intDistProj(Double val, int axis) {
+		double fact = this.length.getIndex(axis).get()/this.getIndex(axis);
+//		System.out.println("val " + val);
+//		System.out.println("Fact " + fact);
+//		System.out.println("val / fact " + val / fact);
+		return (int) Math.round( val / fact);
 	}
 
 
@@ -113,7 +137,7 @@ public class DoubleSpace extends Space<Double> {
 	 * @return
 	 */
 
-	protected Coord<Integer> toIntCoord(Coord<Double> typeCoord) {
+	public Coord<Integer> toIntCoord(Coord<Double> typeCoord) {
 		Coord<Integer> ret = new Coord<Integer>(typeCoord,0);
 		for(int i = 0 ; i < ret.getSize() ; i++)
 		{
@@ -159,9 +183,9 @@ public class DoubleSpace extends Space<Double> {
 
 	@Override
 	public int getVolume() {
-		// TODO Auto-generated method stub
-		return 0;
+		return (int) Math.pow(this.getResolution().get(), this.getDimension());
 	}
+
 
 	
 
