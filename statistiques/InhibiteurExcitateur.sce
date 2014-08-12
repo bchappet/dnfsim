@@ -8,7 +8,7 @@ w_excit = 0.7//0.7;
 t_inhib = 3//3;
 t_excit = 5;//5//5;
 
-taille = 19;
+taille = 9;
 
 N = 20;
 
@@ -16,19 +16,19 @@ aE = 4*0.3*(1/7)/N;
 aI = 1*0.3*(1/7)/N;
 bE = -0.5;
 bI = 0;
-initialisation_packet = string(taille)+'_a_send_'+string(N);
+initialisation_packet = 'a_send_'+string(N);//string(taille)+'_a_send_'+string(N);
 maxiteration = 1000;
-
+dt = 0.1;
 
 function[VARIANCES]=computeVariance(moyennes)
     //disp('okay : '+string(taille));
     VARIANCES = zeros(taille);
     for iteration = 0:maxiteration-1
         
-        M_I = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_inhib)+"/weigth"+w_inhib+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
+        M_I = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_inhib)+"/weigth"+string(w_inhib)+"/ReceiveMap_"+string(iteration)+"_"+string(t_inhib-dt)+".csv");
         M_I =  getDiag(strtod(M_I));
         
-        M_E = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_excit)+"/weigth"+w_excit+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
+        M_E = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_excit)+"/weigth"+string(w_excit)+"/ReceiveMap_"+string(iteration)+"_"+string(t_excit-dt)+".csv");
         M_E =  getDiag(strtod(M_E));
         
         diffM = (aE*M_E+bE-(aI*M_I+bI)) - moyennes;
@@ -52,13 +52,13 @@ x = linspace(1,taille,taille);
 
 
 clf();
-plot2d(x, coeffI*inhib+bI,style=[color('blue')]);
-plot2d(x, coeffE* excit+bE,style=[color('red')]);
+plot2d(x, aI*inhib+bI,style=[color('blue')]);
+plot2d(x, aE* excit+bE,style=[color('red')]);
 emi = aE*excit+bE-(aI*inhib+bI);
 vemi = computeVariance(emi);
-plot2d(x, emi);
+plot2d(x, emi,style=[color('green')]);
 plot2d(x,vemi);
-legend(string(aI)+'*inhibiteur +'+string(bI)+' '+string(w_inhib)+' '+string(t_inhib)+'s',string(aE)+'*excitateur +'+string(bE)+' '+string(w_excit)+' '+string(t_excit)+'s','difference','variance de la difference');
+legend(string(aI)+'*inhibiteur +'+string(bI)+' '+string(w_inhib)+'w '+string(t_inhib)+'s (en moyenne)',string(aE)+'*excitateur +'+string(bE)+' '+string(w_excit)+'w '+string(t_excit)+'s (en moyenne)','difference (en moyenne)','difference(variance)');
 
 //scf();
 //y = x;
