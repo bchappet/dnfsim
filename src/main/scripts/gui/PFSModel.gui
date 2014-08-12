@@ -1,0 +1,21 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=false
+---------------------------------------------
+PFSModel
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		Inputs
+		CNFT_Convolution
+		Potential
+		Focus
+		ExcitatoryMap
+		InhibitoryMap
+		AccuMapE
+		AccuMapI
+		ConcentrationMapE
+		ConcentrationMapI
+	stats
+		Plot2D
+			Time
+			Time

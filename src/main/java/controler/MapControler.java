@@ -31,7 +31,7 @@ public class MapControler extends ComputableControler {
 	 */
 	public double[][] getArray2D(){
 		Parameter param = this.getParam();
-		System.out.println("Map : " + this.getName());
+		//System.out.println("Map : " + this.getName());
 		double[][] ret;
 		if(param instanceof Array2DDouble){
 			ret = ((Array2DDouble)param).get2DArrayDouble();

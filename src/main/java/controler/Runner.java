@@ -103,9 +103,11 @@ public class Runner extends JFrame implements Runnable {
 			String command;
 			if(context == null){
 				command = FluxUtils.readFile(new URL(Printer.CONTEXT_PATH+name+".dnfs"));
+				//System.out.println("context : "+Printer.CONTEXT_PATH+name+".dnfs");
 			}else{
 				command = context;
 			}
+			
 			Model model = Models.getModel(name).construct();
 			this.cl = model.constructCommandLine();
 			this.cl.setContext(command);
