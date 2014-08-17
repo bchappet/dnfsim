@@ -22,4 +22,10 @@ public class CharacteristicsControler extends  ParameterControler {
 		return ((Characteristics) getParam()).getTrajectoryUnitMapsName();
 	}
 
+
+	@Override
+	public int getMaxIndex() {
+		return ((Characteristics) this.getParam()).getNbParam();
+	}
+
 }

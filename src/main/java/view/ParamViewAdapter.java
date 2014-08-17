@@ -36,6 +36,13 @@ public abstract class ParamViewAdapter {
 		this(paramControler,vf.getViewConfiguration(),vf);
 	}
 	
+	/**
+	 * Construct the view.
+	 * @Warning called during this construction, do not use this 
+	 * @param vc
+	 * @param vf
+	 * @return
+	 */
 	protected abstract ParameterView constructView(ViewConfiguration vc,ViewFactory vf);
 
 	/**

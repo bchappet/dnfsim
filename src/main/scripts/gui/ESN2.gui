@@ -10,9 +10,10 @@ ESN2
 		reservoir:MapView1DAdapter
 		output:MapCurve2DAdapter
 		target_output:MapCurve2DAdapter
-		WeightsIR:MapView1DAdapter
+		WeightsIR:MapBarPlot1DAdapter
 		WeightsRR
-		WeightsRO
+		LearningWeightMatrixView2
+			WeightsRO:MapBarPlot1DAdapter
 	stats
 		Plot2D
 			Time

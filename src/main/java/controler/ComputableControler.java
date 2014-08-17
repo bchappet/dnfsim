@@ -29,9 +29,9 @@ public abstract class ComputableControler extends ParameterControler {
 			+ currentTime + " class : " + this.getClass() + " pva = " + pva);
 			
 			map.compute();
-			
+//			System.out.println("there " );
 			if(pva != null){
-				//System.out.println("*************Display " + map.toString());
+//				System.out.println("*************Display " + map.toString());
 //				if(this.getParamView() instanceof View2D)
 //				System.out.println(map.toString());
 //				

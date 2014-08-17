@@ -29,10 +29,10 @@ public class ParameterControlerFactory {
 			return new CharacteristicsControler((Characteristics)param);
 		}else if(param instanceof Space){
 			return new SpaceControler((Space)param);
+		}else if(param instanceof LearningWeightMatrix){
+			return new LearningWeightMatrixControler((Map) param);
 		}else if(param instanceof SpreadingGraph){
 			return new GraphControler(param);
-		}else if(param instanceof LearningWeightMatrix){
-			return new LearningWeightMatrixControler(param);
 		}else{
 			return new MapControler((Map) param);
 		}

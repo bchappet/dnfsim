@@ -41,6 +41,10 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[][] values,Parameter<Double>... params){
 		this(name,dt,new Space2D(values[0].length,values.length),values,params);
 	}
+	
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Matrix mat,Parameter<Double>... params){
+		this(name,dt,new Space2D(mat.getRowDimension(),mat.getColumnDimension()),mat,params);
+	}
 
 	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[] values,Parameter<Double>... params){
 		this(name,dt,new Space1D(values.length),new double[][]{values},params);
@@ -54,8 +58,12 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	 * @param values
 	 */
 	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double[][] values,Parameter<Double>... params){
+		this(name,dt,space,new Matrix(values),params);
+	}
+	
+	public MatrixDouble2D(String name, Var<BigDecimal> dt,Space<Integer> space, Matrix mat,Parameter<Double>... params) {
 		super(name,dt,space,params);
-		this.jamat = new Matrix(values);
+		this.jamat = mat;
 		this.initJamat = (Matrix) this.jamat.clone();
 	}
 
@@ -94,6 +102,8 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 		this(name,dt,space,0.,params);
 	}
 
+
+	
 
 	public Jama.Matrix getJamat(){
 		return this.jamat;

@@ -38,6 +38,11 @@ public class VarControler extends ParameterControler implements SingleValueContr
 			
 		}
 	}
+
+	@Override
+	public int getMaxIndex() {
+		return 0;
+	}
 	
 	
 

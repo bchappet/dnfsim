@@ -1,7 +1,10 @@
 package main.java.reservoirComputing;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -32,7 +35,6 @@ import main.java.space.SpaceFactory;
 import main.java.statistics.Statistics;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.UnitModel;
-import Jama.Matrix;
 
 /**
  * Basic ESN main.java.model 
@@ -88,6 +90,17 @@ public class ModelESN2 extends Model {
 		return new ESNCommandLine();
 	}
 	
+	public static void generateRRWeightMatrix(int res, double rhowT,String outFile) throws IOException{
+		 String s = null;
+		 File workingDirectory = new File("src/main/java/reservoirComputing/scripts/rayonSpectral/");
+		 Process p = Runtime.getRuntime().exec("./generateRandomScaledWeigth.sh " + res + " " + rhowT + " " + outFile,null,workingDirectory);
+		 
+	}
+	
+//	public static void main(String[] args) throws IOException{
+//		generateRRWeightMatrix(100,3,"../../weights/weights100_3_0.csv");
+//	}
+	
 /**
 	 * Separate the input generation for a better modularity
 	 * @return
@@ -99,7 +112,9 @@ public class ModelESN2 extends Model {
 		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
 		Var<String> input_file = command.get(ESNCommandLine.INPUT_FILE);
 		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-		MatrixDouble2D inputRes  = new VectorFileReaderMap(INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep);
+		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_INPUT);
+		MatrixDouble2D inputRes  = new VectorFileReaderMap(
+				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
 		MatrixDouble2D normalize = new NormalisationMatrix(inputRes,command.get(ESNCommandLine.INPUT_SCALE));
 		return normalize;
 	}
@@ -115,7 +130,9 @@ public class ModelESN2 extends Model {
 		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
 		Var<String> input_file = command.get(ESNCommandLine.TGT_OUTPUT_FILE);
 		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-		Parameter ret  = new VectorFileReaderMap(TARGET_OUTPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep);
+		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_TGT_OUTPUT);
+		Parameter ret  = new VectorFileReaderMap(
+				TARGET_OUTPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
 		return ret;
 
 	}
@@ -138,6 +155,9 @@ public class ModelESN2 extends Model {
 
 		Space spaceWeightsReservoir = new Space2D(lenght_reservoir,lenght_reservoir);
 
+//		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(
+//				new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,
+//						new RandomlyChoosenFromUniformUM(0d), new Var<Double>(-0.1d),new Var<Double>(0.1d))));
 		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.5d))));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
 		weightsRO = new  LearningWeightMatrix(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
@@ -150,14 +170,14 @@ public class ModelESN2 extends Model {
 		Map dot_WRR_R = new MultiplicationMatrix("dot_WRR_R", dt, spaceReservoir.transpose()); 
 		Map dot_WIR_I = new MultiplicationMatrix("dot_WIR_I",dt,spaceReservoir.transpose(), weightsIR, input);
 		reservoir = new UnitMap(RESERVOIR,dt,spaceReservoir,new TanHReservoirNeuronUM(0d));
-		reservoir.addParameters(command.get(ESNCommandLine.LEAK),reservoir,dot_WRR_R,dot_WIR_I);
+		reservoir.addParameters(command.get(ESNCommandLine.LEAK),reservoir,dot_WRR_R,dot_WIR_I,command.get(ESNCommandLine.ALPHA));
 		
 		MatrixDouble2D matReservoir = new MatrixDouble2DWrapper((Map) reservoir);
 		MatrixDouble2D columnVectorMatReservoir = new TransposedMatrix(matReservoir);
 		dot_WRR_R.addParameters(weightsRR,columnVectorMatReservoir);
 		
 		targetOutput = getTargetOutput();
-		weightsRO.addParameters(matReservoir,targetOutput);
+		weightsRO.addParameters(matReservoir,targetOutput,command.get(ESNCommandLine.REGULARIZATION_FACTOR));
 
 		output = new MultiplicationMatrix(OUTPUT,dt,new NoDimSpace(),weightsRO,columnVectorMatReservoir);
 		//The output is a linear identity activation function
@@ -168,7 +188,7 @@ public class ModelESN2 extends Model {
 				
 		
 		this.root = output;
-		addParameters(command.get(ESNCommandLine.LEAK),command.get(ESNCommandLine.INPUT_SCALE));
+		addParameters(command.get(ESNCommandLine.LEAK),command.get(ESNCommandLine.INPUT_SCALE),command.get(ESNCommandLine.ALPHA));
 	}
 	
 	
@@ -204,22 +224,53 @@ public class ModelESN2 extends Model {
 	protected void initializeCharacteristics()
 			throws CommandLineFormatException {
 		//The main characteristic is NRMSE cf butcher et al 2013
-		Space noDimSpace = new NoDimSpace();
-		Trajectory nrmse = new Trajectory(StatisticsESN.ERROR_DIST,new InfiniteDt(),new UnitModel<Double>(0d) {
+		
+		Var<BigDecimal> dt = command.get(ESNCommandLine.DT);
+	
+		
+		Trajectory<Double> mse = new Trajectory<Double>(CharacteristicsESN.MSE,new InfiniteDt(),new UnitModel<Double>(0d) {
 			@Override
 			public Double compute(BigDecimal time,int index, List<Parameter> params) {
 				Statistics stats = (Statistics) params.get(0);
+				double lengthErrorSecond = (double) params.get(1).getIndex(0);
+				double dt =(( BigDecimal)(params.get(2).getIndex(0))).doubleValue();
+				int iterationError = (int) (lengthErrorSecond/dt);
+				
 				Trace error = stats.getTrace(StatisticsESN.ERROR_DIST);
 				Trace targetedOutput = stats.getTrace(StatisticsESN.TARGET_OUTPUT);
 				
-				double meanError = error.getMean();
-				double varTargetedOutput = targetedOutput.getVar();
+				double meanError = error.getMean(iterationError);
 
-				return Math.sqrt(meanError)/Math.pow(varTargetedOutput, 2);
+				return meanError;
 			}
-		},stats);
+		},stats,command.get(ESNCommandLine.LENGTH_ERROR),dt);
 		
-		charac = new CharacteristicsESN(nrmse);
+		//Root mean squared error
+		Trajectory<Double> rmse = new Trajectory<Double>(CharacteristicsESN.RMSE,new InfiniteDt(),new UnitModel<Double>(0d) {
+			@Override
+			public Double compute(BigDecimal time,int index, List<Parameter> params) {
+				Trajectory<Double> mse =  (Trajectory<Double>) params.get(0);
+				return Math.sqrt(mse.get());
+
+			}
+		},mse);
+				
+		//Normalize Root mean squared error (divised by the range of observed values)
+		Trajectory<Double> nrmse = new Trajectory<Double>(CharacteristicsESN.NRMSE,new InfiniteDt(),new UnitModel<Double>(0d) {
+			@Override
+			public Double compute(BigDecimal time,int index, List<Parameter> params) {
+				Statistics stats = (Statistics) params.get(0);
+				double lengthErrorSecond = (double) params.get(1).getIndex(0);
+				double dt =(( BigDecimal)(params.get(2).getIndex(0))).doubleValue();
+				int iterationError = (int) (lengthErrorSecond/dt);
+				Trace output = stats.getTrace(StatisticsESN.OUTPUT);
+				double rangeObserved = output.getRange(iterationError);
+				Trajectory<Double> rmse =  (Trajectory<Double>) params.get(3);
+				return rmse.get()/rangeObserved;
+			}
+		},stats,command.get(ESNCommandLine.LENGTH_ERROR),dt,rmse);
+		
+		charac = new CharacteristicsESN(mse,rmse,nrmse);
 	}
 
 

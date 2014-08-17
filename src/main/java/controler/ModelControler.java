@@ -16,6 +16,14 @@ public class ModelControler extends ParameterControler {
 		 tree = new ParameterControlerTree(this);
 	}
 	
+	/**
+	 * Return the parameter controler of the parameter with given name 
+	 * @param name
+	 * @return
+	 */
+	public ParameterControler getParameterControler(String name){
+		return this.tree.getControler(name);
+	}
 	
 	
 	
@@ -35,7 +43,7 @@ public class ModelControler extends ParameterControler {
 	 */
 	public Parameter getPath(String path,int level,String name,CommandLine cl) throws BadPathException, CommandLineFormatException {
 		String[] pa = path.split("\\.");
-		return null; //TODO
+		throw new Error("Not implemented yet");
 
 
 //		Parameter p =  getParameter(pa[level]);
@@ -70,6 +78,16 @@ public class ModelControler extends ParameterControler {
 //			throw new BadPathException("The path " + path + " was bad.Because the parameter " + pa[level-1] + " was not found.");
 //		}
 	}
+
+
+
+
+	@Override
+	public int getMaxIndex() {
+		return ((Model)this.getParam()).getParameters().size();
+	}
+
+	
 
 
 

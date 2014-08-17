@@ -1,7 +1,10 @@
 package main.java.view;
 
+import java.awt.Component;
 import java.awt.LayoutManager;
 
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
 import javax.swing.JPanel;
 
 /**
@@ -58,6 +61,19 @@ public abstract class ViewPanel extends JPanel implements ParameterView {
 		
 		return clone;
 		
+	}
+	
+	/**
+	 * Factorization function to make border of a panel
+	 * @param pv
+	 * @return
+	 */
+	protected static JPanel constructBorderPane(ParameterView pv){
+		JPanel borderPanel = new JPanel();
+		borderPanel.setLayout(new BoxLayout(borderPanel, BoxLayout.PAGE_AXIS));
+		borderPanel.setBorder(BorderFactory.createTitledBorder(pv.getName()));
+		borderPanel.add((Component) pv);
+		return borderPanel;
 	}
 	
 	

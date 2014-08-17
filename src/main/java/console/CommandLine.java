@@ -5,8 +5,9 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -52,6 +53,9 @@ public class CommandLine  {
 	
 	/* le numero de la première itération */
 	public static final String FIRST_ITERATION = "firstIteration";
+	
+	public static final String PATH_SCENARIO = "path_scenario";
+	public static final String PATH_CONTEXT = "path_context";
 
 	protected String initScript;
 	/**Associate a parameter name with its var**/
@@ -96,7 +100,7 @@ public class CommandLine  {
 		return ""
 				+ STAT_DT+"=bd0.1,0.01,1.0,0.01;"	+SIMULATION_STEP+"=bd0.1,0.01,1,0.01;"
 				+ TIME_SPEED_RATIO+"=1.0,0.1,10.0,0.1;"+PLAY+"=F;"+TIME_MAX+"=bd100.0;"+TIME_TO_REACH+"=bd100.0;"
-				+ MAP_TO_SAVE+"=null;" + PATH_TO_SAVE+"=src/;"
+				+ MAP_TO_SAVE+"=null;" + PATH_TO_SAVE+"=src/;" + PATH_SCENARIO+"=src/main/scripts/scenario/;"+ PATH_CONTEXT+"=src/main/scripts/context/;"
 				+ FIRST_ITERATION+"=0;"
 				;
 	}
@@ -130,11 +134,15 @@ public class CommandLine  {
 	 * @param initScript
 	 * @return
 	 * @throws CommandLineFormatException
-	 * @throws NullCoordinateException 
-	 * @throws NumberFormatException 
 	 * @throws FileNotFoundException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String parseCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException, FileNotFoundException
+	public String parseCommand(String command) throws CommandLineFormatException, FileNotFoundException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
 
 		command = command.replaceAll("\\s+", "");
@@ -332,31 +340,35 @@ public class CommandLine  {
 	 * @param value
 	 * @return
 	 * @throws CommandLineFormatException
-	 * @throws NullCoordinateException 
-	 * @throws NumberFormatException 
+	 * @throws ClassNotFoundException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
 	 * @throws IOException 
 	 * @throws BadPathException 
 	 */
-	private String execAffectation(String command, String value) throws  CommandLineFormatException, NumberFormatException, NullCoordinateException{
+	private String execAffectation(String command, String value) throws  CommandLineFormatException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		String ret = "";
-		if(command.equals("resolution"))
-		{
-			//			System.out.println("resolution =" + value);
-			//			Var var = map.get(initScript);
-			//			double newVal = Double.parseDouble(value);
-			//			if(var.get() != newVal){
-			//				var.set(newVal);
-			//				try{
-			//					currentModelControler.hardReset();
-			//				}catch (Exception e) {
-			//					throw new CommandLineFormatException("HardResetError",e);
-			//				}
-			//			}
-			//TODO
-			//throw new CommandLineFormatException("Resolution can only be set at the main.java.model initialization");
-
-		}
-		else if(command.equals("load"))
+//		if(command.equals("resolution"))
+//		{
+//			//			System.out.println("resolution =" + value);
+//			//			Var var = map.get(initScript);
+//			//			double newVal = Double.parseDouble(value);
+//			//			if(var.get() != newVal){
+//			//				var.set(newVal);
+//			//				try{
+//			//					currentModelControler.hardReset();
+//			//				}catch (Exception e) {
+//			//					throw new CommandLineFormatException("HardResetError",e);
+//			//				}
+//			//			}
+//			//TODO
+//			//throw new CommandLineFormatException("Resolution can only be set at the main.java.model initialization");
+//
+//		}
+		if(command.equals("load"))
 		{
 			ret =  execScript(value);
 		}
@@ -365,7 +377,7 @@ public class CommandLine  {
 			get(TIME_TO_REACH).set(new BigDecimal(value));
 			this.get(this.PLAY).set(true);
 			toRun.execute();
-//			System.out.println("time to reach "  +get(TIME_TO_REACH).get());
+			//System.out.println("time to reach "  +get(TIME_TO_REACH).get());
 			
 		}
 //		else if(command.equals("waitNsave"))
@@ -390,6 +402,13 @@ public class CommandLine  {
 					ret += findParameterValue(s) + ",";
 				}
 			}
+		}else if(command.equals("exec")){ //format : exec=paramName.method of the controler(no params  allowed now)
+			//System.out.println("exec " + value);
+			String[] split = value.split("\\.");
+			
+			ParameterControler pc = this.currentModelControler.getParameterControler(split[0]);
+			Method method = pc.getClass().getMethod(split[1]);
+			method.invoke(pc);
 		}
 
 		//		else if(command.equals("trace")){//return a statistic trace
@@ -403,13 +422,7 @@ public class CommandLine  {
 		//			}
 		//
 		//		}
-		//		else if(command.equals("SaveStats")){
-		//			try {
-		//				currentModelControler.saveStats(value+".csv");
-		//			} catch (IOException e) {
-		//				throw new CommandLineFormatException("IO error",e);
-		//			}
-		//		}
+		
 		//		else if(command.equals("SaveMaps")){
 		//			try {
 		//				ret = currentModelControler.saveMaps(value);
@@ -473,16 +486,20 @@ public class CommandLine  {
 	 * @throws IOException 
 	 * @throws CommandLineFormatException 
 	 * @return the resulting output
-	 * @throws NullCoordinateException 
-	 * @throws NumberFormatException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
 	 */
-	private String execScript(String value) throws  CommandLineFormatException, NumberFormatException, NullCoordinateException {
+	private String execScript(String value) throws  CommandLineFormatException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		BufferedReader br;
 		String output = "";
 		try {
-			br = new BufferedReader(new FileReader("./scenario/"+value));//TODO out of here!!
+			br = new BufferedReader(new FileReader(this.get(PATH_SCENARIO).get()+value));
 		} catch (FileNotFoundException e) {
-			throw new CommandLineFormatException("The file " + value + " was not found");
+			throw new CommandLineFormatException("The file " + this.get(PATH_SCENARIO).get()+value + " was not found");
 		}
 		String line = null;
 		try {
@@ -503,10 +520,14 @@ public class CommandLine  {
 	 * @param initScript
 	 * @return true if the initScript was correct
 	 * @throws FileNotFoundException 
-	 * @throws NumberFormatException 
-	 * @throws NullCoordinateException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
 	 */
-	private String execCommand(String command) throws CommandLineFormatException, NumberFormatException, NullCoordinateException, FileNotFoundException {
+	private String execCommand(String command) throws CommandLineFormatException, FileNotFoundException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		String ret = "";
 		//		if(command.equals("play"))
 		//			currentModelControler.play();
@@ -655,10 +676,14 @@ public class CommandLine  {
 	 * Reinitialize parameters with the  default script and the context initScript
 	 * @throws CommandLineFormatException 
 	 * @throws FileNotFoundException 
-	 * @throws NullCoordinateException 
-	 * @throws NumberFormatException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
 	 */
-	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, NumberFormatException, NullCoordinateException {
+	public void reinitialize() throws FileNotFoundException, CommandLineFormatException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		toRun.reset();
 		computationControler.reset();
 		parseCommand(defaultScript());

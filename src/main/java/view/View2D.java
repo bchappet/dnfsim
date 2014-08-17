@@ -1,5 +1,6 @@
 package main.java.view;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -36,6 +37,10 @@ public class View2D extends ParameterViewDB{
 		this.colorMap = colorMap;
 		this.grid = grid;
 		
+	}
+	
+	public void reset(){
+		colorMap.reset();
 	}
 	
 	
@@ -80,6 +85,11 @@ public class View2D extends ParameterViewDB{
 			}
 			
 		}
+		
+		g.setColor(Color.BLACK);
+		//draw information
+		g.drawString(String.format("%.2f", colorMap.getMax()), offsetX, 15);
+		g.drawString(String.format("%.2f", colorMap.getMin()), offsetX, dy);
 		
 		
 		for(int i = 0 ; i < blackBorder ; i++)
