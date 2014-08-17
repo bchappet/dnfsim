@@ -31,4 +31,8 @@
 
 #scilab -nw -f Additivite.sce -args '9' '1 3 5' '0.0 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 0.95 1.0'
 
-python generateData.py --weigths 0.7 0.5 0.3 0.9 0.6 --iterations 1000 --times 1 2 3 4 5 --packet_initialisation a_send
+#python generateData.py --weigths 0.7 0.5 --iterations 1000 --taille 19 --times 3 5  --packet_initialisation a_send_50 a_send_20
+#scilab -nw -f InhibiteurExcitateur.sce
+#python generateData.py --weigths 0.7  --iterations 1000 --times 5 --taille 9 19 --packet_initialisation a_send_20
+
+scilab -nw -f MeanAndVariance.sce -args 9 '5' '0.7' 1000 a_send_20 temp/
