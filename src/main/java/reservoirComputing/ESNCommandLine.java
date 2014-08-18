@@ -26,12 +26,23 @@ public class ESNCommandLine extends CommandLine {
 	public static final String INPUT_SCALE = "input_scale";
 
 	public static final String DT = "dt";
+
+	public static final String WRAP_INPUT = "wrap_input";
+	public static final String WRAP_TGT_OUTPUT = "wrap_tgt_output";
+
+	public static final String ALPHA = "alpha"; //lateral influence over input 0.5 = neutral
+
+	public static final String LENGTH_ERROR = "length_error";
+
+	public static final String REGULARIZATION_FACTOR = "regularization";
+
+	
 	
 	
 
 	public ESNCommandLine()  {
 		super();
-	}
+	}	
 
 
 	
@@ -46,11 +57,12 @@ public class ESNCommandLine extends CommandLine {
 				+DT+"=bd0.1,0,10,0.1;"	+WRR_FILE+"=src/main/java/reservoirComputing/weights/weights;"
 				+WRO_FILE+"=src/main/java/reservoirComputing/weights/weightsOutput;"	
 				+LENGHT_INPUT+"=1,1,1,1;"
-				+LEARNING_RATE+"=0.01,0,1,0.01;"+LENGHT_OUTPUT+"=1,1,1,1;"
+				+LEARNING_RATE+"=0.01,0,1,0.01;"+LENGHT_OUTPUT+"=1,1,1,1;" 
 				+OUTPUT_MEMORY+"=1,0,10,1;"		+OUTPUT_POLYNOMIAL_DEGREE+"=1,0,10,1;" 
 				+SEP+"=,;" 						+ INPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat"
 				+ TGT_OUTPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat;" + LEAK+"=0.1;"
-				+ INPUT_FILE+"=1.0,0.0,1.0,0.01;"
+				+ INPUT_FILE+"=1.0,0.0,1.0,0.01;" + WRAP_INPUT+"=T;" + WRAP_TGT_OUTPUT+"=F;"
+				+ ALPHA+"=0.5;" +LENGTH_ERROR+"=50.0;" + REGULARIZATION_FACTOR+"=1.0E-8;"
 				
 				;
 		

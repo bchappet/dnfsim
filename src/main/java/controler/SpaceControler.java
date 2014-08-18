@@ -6,7 +6,11 @@ public class SpaceControler extends ParameterControler {
 
 	public SpaceControler(Parameter param) {
 		super(param);
-		// TODO Auto-generated constructor stub
+	}
+
+	@Override
+	public int getMaxIndex() {
+		throw new Error("Not implemented");
 	}
 
 	

@@ -66,4 +66,10 @@ public class GraphControler extends ComputableControler {
 	
 	}
 
+	@Override
+	public int getMaxIndex() {
+		SpreadingGraph sg = (SpreadingGraph) getParam();
+		return sg.getNodes().size();
+	}
+
 }

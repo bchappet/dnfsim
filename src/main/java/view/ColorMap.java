@@ -144,6 +144,16 @@ public class ColorMap {
 		
 	}
 
+
+
+	public double getMax() {
+		return fixedPoints[END];
+	}
+	
+	public double getMin() {
+		return fixedPoints[START];
+	}
+
 	
 
 

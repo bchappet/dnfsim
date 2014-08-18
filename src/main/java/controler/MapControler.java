@@ -67,4 +67,9 @@ public class MapControler extends ComputableControler {
 		return (Number) getParam().getIndex(i);
 	}
 
+	@Override
+	public int getMaxIndex() {
+		return getSpace().getVolume();
+	}
+
 }

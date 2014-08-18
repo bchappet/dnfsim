@@ -154,6 +154,12 @@ public abstract class ParameterControler {
 		
 	}
 
+	/**
+	 * Return the maximal index of the parameter
+	 * @return
+	 */
+	public abstract int getMaxIndex();
+
 	
 	
 	

@@ -1,4 +1,5 @@
 exec('Utils.sci');
+exec('stixbox-master/macros/ciboot.sci');
 xdel();xdel();
 
 
@@ -20,32 +21,13 @@ initialisation_packet = 'a_send_'+string(N);//string(taille)+'_a_send_'+string(N
 maxiteration = 1000;
 dt = 0.1;
 
-//function[VARIANCES]=computeVariance(moyennes)
-//    //disp('okay : '+string(taille));
-//    VARIANCES = zeros(taille);
-//    for iteration = 0:maxiteration-1
-//        
-//        M_I = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_inhib)+"/weigth"+string(w_inhib)+"/ReceiveMap_"+string(iteration)+"_"+string(t_inhib-dt)+".csv");
-//        M_I =  getDiag(strtod(M_I));
-//        
-//        M_E = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(t_excit)+"/weigth"+string(w_excit)+"/ReceiveMap_"+string(iteration)+"_"+string(t_excit-dt)+".csv");
-//        M_E =  getDiag(strtod(M_E));
-//        
-//        diffM = (aE*M_E+bE-(aI*M_I+bI)) - moyennes;
-//        //disp("diffM : "+string(diffM));
-//        VARIANCES = VARIANCES + diffM .* diffM;
-//        //disp("V : "+string(VARIANCES));
-//    end;
-//    //disp(VARIANCES)
-//    VARIANCES = VARIANCES ./ maxiteration;
-//    //disp(VARIANCES)
-//    return double(VARIANCES);
-//endfunction
 
+
+//ci=ciboot(x,T,method,c);
 
 //computeAverageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt)
-inhib = computeAverageDiagonal(initialisation_packet,taille,t_inhib,w_inhib,maxiteration,0.1);
-excit = computeAverageDiagonal(initialisation_packet,taille,t_excit,w_excit,maxiteration,0.1);
+inhib = computeAverageDiagonal(initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt);
+excit = computeAverageDiagonal(initialisation_packet,taille,t_excit,w_excit,maxiteration,dt);
 
 x = linspace(1,taille,taille);
 

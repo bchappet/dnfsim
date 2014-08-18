@@ -49,7 +49,12 @@ public class PFSSpreadingGraph extends PFSpreadingGraph<Spike> {
 		
 		if (itsTime) {
 			// alors on est sur une des computation principale donc on vérifie
-			// le focus
+			// le focus et on vide le spreading graphe
+			//System.out.println("trolololololo");
+			BigDecimal lastTime = getTime();
+			this.reset();
+			setTime(lastTime);
+			//System.out.println("trolololo");
 			int size = this.getValues().size(); // TODO a recup des parametre
 			// plutot non ?
 			for (int i = 0; i < size; i++) {

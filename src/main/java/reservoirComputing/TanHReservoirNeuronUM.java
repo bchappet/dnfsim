@@ -18,6 +18,8 @@ public class TanHReservoirNeuronUM extends UnitModel<Double> {
 	public static final int RESERVOIR = 1;
 	public static final int conv_WRR_R = 2;
 	public static final int conv_WIR_I = 3;
+	
+//	public static final int ALPHA = 4; //lateral influence over input 0.5 = neutral
 
 	public TanHReservoirNeuronUM(Double initActivity) {
 		super(initActivity);
@@ -31,9 +33,12 @@ public class TanHReservoirNeuronUM extends UnitModel<Double> {
 		double x_1 = (double) params.get(RESERVOIR).getIndex(index);
 		double input = (double) params.get(conv_WIR_I).getIndex(index);
 		double lateral = (double) params.get(conv_WRR_R).getIndex(index);
+		//double alpha = (double) params.get(ALPHA).getIndex(index);
+		
+	//	System.out.println("x-1: " + x_1 + " input: " + input + " lateral: " +  lateral);
 		
 		
-		return Math.tanh((1-leak)*x_1 +  leak*( input + lateral));
+		return Math.tanh((1-leak)*x_1 +  leak*( input +  lateral));
 	}
 
 }

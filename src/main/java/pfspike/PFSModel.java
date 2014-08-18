@@ -40,8 +40,10 @@ public class PFSModel extends ModelNSpike{
 			String pathMatrixTransitionFile = 
 					((Var<String>)getCommandLine().get(PFSCommandLine.TRANSITION_MATRIX_FILE)).get();
 			Var<String> write = (Var<String>)((PFSCommandLine)command).get(PFSCommandLine.WRITE_TRANSITION_MATRIX_FILE);
-			Var<BigDecimal> coeff_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.COEFF_E);
-			Var<BigDecimal> coeff_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.COEFF_I);
+			Var<BigDecimal> a_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.A_E);
+			Var<BigDecimal> a_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.A_I);
+			Var<BigDecimal> b_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_E);
+			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
 
 			if("True".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
@@ -60,15 +62,16 @@ public class PFSModel extends ModelNSpike{
 					TypeGraph.EXCITATORY_GRAPH_PFSPIKE, 
 					getCommandLine(),
 					focus);
-			AccumulationUnitMap accE = new AccumulationUnitMap("AccuMapE",pfssge, dt, size);
-			PFSInputUnitModel pfseum = new PFSInputUnitModel(/*accE,4*/);
+			AccumulationUnitMap accE = new AccumulationUnitMap("AccuMapE",pfssge, pfssge.getDt()/*dt*/, size);
+			PFSFiltreLineaire pfseum = new PFSFiltreLineaire(/*accE,4*/);
 			UnitMap<BigDecimal, Integer> e = new UnitMap<BigDecimal, Integer>(
 					"ExcitatoryMap",
 					dt, 
 					new Space2D(size, size),
 					pfseum,
 					accE,
-					coeff_e);		
+					a_e,
+					b_e);		
 
 
 			PFSSpreadingGraph pfssgi = (PFSSpreadingGraph) SpreadingGraphFactory.getInstance().constructGraph(
@@ -77,19 +80,20 @@ public class PFSModel extends ModelNSpike{
 					getCommandLine(),
 					focus);
 
-			AccumulationUnitMap accI = new AccumulationUnitMap("AccuMapI",pfssgi, dt, size);
+			AccumulationUnitMap accI = new AccumulationUnitMap("AccuMapI",pfssgi, pfssgi.getDt()/*dt*/, size);
 			
-			PFSInputUnitModel pfsium = new PFSInputUnitModel(/*accI,-1*/);
+			PFSFiltreLineaire pfsium = new PFSFiltreLineaire(/*accI,-1*/);
 			UnitMap<BigDecimal, Integer> i = new UnitMap<BigDecimal, Integer>(
 					"InhibitoryMap",
 					dt, 
 					new Space2D(size, size),
 					pfsium,
 					accI,
-					coeff_i);		
+					a_i,
+					b_i);		
 
-			ConcentrationUnitMap concI = new ConcentrationUnitMap("ConcentrationMapI",pfssgi, dt, size);
-			ConcentrationUnitMap concE = new ConcentrationUnitMap("ConcentrationMapE",pfssge, dt, size);
+			ConcentrationUnitMap concI = new ConcentrationUnitMap("ConcentrationMapI",pfssgi, pfssgi.getDt()/*dt*/, size);
+			ConcentrationUnitMap concE = new ConcentrationUnitMap("ConcentrationMapE",pfssge, pfssge.getDt()/*dt*/, size);
 			UnitMap subMap = new UnitMap(CNFT, dt, space, new Sum(0.), e, i,concI, concE);
 			cnft = subMap;
 

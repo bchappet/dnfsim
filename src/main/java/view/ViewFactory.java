@@ -48,6 +48,8 @@ public class ViewFactory {
 		this.viewConfiguration = vc;
 		this.pcTree = pcTree;
 	}
+	
+	
 
 	/**
 	 * Construct a view panel from the name
@@ -133,7 +135,7 @@ public class ViewFactory {
 		}
 	}
 
-	private ParameterControler getParameterControler(String parameterName){
+	public ParameterControler getParameterControler(String parameterName){
 		return pcTree.getControler(parameterName);
 	}
 	

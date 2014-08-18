@@ -15,7 +15,6 @@ public class StateSaver<T extends Number> implements Computable{
 	private Parameter<T> linked;
 	private Var<BigDecimal> dt;
 	private BigDecimal time;
-	
 	private List<List<T>> states;
 	
 	public StateSaver(Parameter<T> linked)
@@ -40,6 +39,7 @@ public class StateSaver<T extends Number> implements Computable{
 
 	@Override
 	public void compute() {
+//		System.err.println("state save" + i);
 		states.add(linked.getValues());
 	}
 	

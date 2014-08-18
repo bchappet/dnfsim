@@ -187,6 +187,12 @@ public class Characteristics implements HasChildren<Parameter>,Computable {
 		this.time = currentTime;
 		
 	}
+
+
+
+	public int getNbParam() {
+		return params.size();
+	}
 	
 	
 

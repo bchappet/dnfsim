@@ -16,10 +16,17 @@ public class PFSCommandLine extends CNFTCommandLine{
 	public static final String STIMULIS_FILE = "stimulis_file";
 	public static final String STIMULIS_DT = "stimulis_dt";
 	public static final String WRITE_TRANSITION_MATRIX_FILE = "write_transition_matrix_file";
-	public static final String COEFF_E = "coeff_e";
-	public static final String COEFF_I = "coeff_i";
+	public static final String A_E = "a_e";
+	public static final String A_I = "a_i";
+	public static final String B_E = "b_e";
+	public static final String B_I = "b_i";
 	
-	private static final int DEFAULT_SIZE = 19;
+	private static final int DEFAULT_SIZE = 9;
+	private static final double DEFAULT_A_E = 1.2*(1./7.)/20.;
+	private static final double DEFAULT_A_I = -0.3/20.;
+	private static final double DEFAULT_B_E = -0.5;//-5.0;
+	private static final double DEFAULT_B_I = 0.0;
+	
 	
 	@Override
 	protected String defaultScript() {
@@ -44,12 +51,14 @@ public class PFSCommandLine extends CNFTCommandLine{
 				SIZE+"="+DEFAULT_SIZE+";"+
 				//RESOLUTION+"=19;"+
 				MAIN_DT+ "=bd0.1;"+
-				NB_SPIKE+"=1;"+
+				NB_SPIKE+"=20;"+
 				THRESHOLD+"=bd1.0;"+
 				TRANSITION_MATRIX_FILE+"=PFTransitionMatrixFile"+DEFAULT_SIZE+";"+
 				WRITE_TRANSITION_MATRIX_FILE + "=False;"+
-				COEFF_E+"=bd4.0;"+
-				COEFF_I+"=bd-1.0;";
+				A_E+"=bd"+DEFAULT_A_E+";"+
+				A_I+"=bd"+DEFAULT_A_I+";"+
+				B_E+"=bd"+DEFAULT_B_E+";"+
+				B_I+"=bd"+DEFAULT_B_I+";";
 				
 	}
 }

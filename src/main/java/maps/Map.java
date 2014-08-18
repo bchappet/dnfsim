@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import main.java.space.ISpace2D;
+import main.java.space.NoDimSpace;
 import main.java.space.Space;
 import main.java.space.Space1D;
 import main.java.space.Space2D;
@@ -191,11 +193,13 @@ public abstract class Map<T,C> implements HasChildren<T>,Computable {
 	
 	
 	public String toString(){
-		if(this.space instanceof Space2D){
+		if(this.space instanceof ISpace2D){
 			return ArrayUtils.toString2D(getValues(),getSpace().getDimensions().getIndex(Space2D.X).get(),
 				getSpace().getDimensions().getIndex(Space2D.Y).get());
 		}else if (this.space instanceof Space1D){
 			return ArrayUtils.toString1D(getValues(),getSpace().getDimensions().getIndex(Space2D.X).get());
+		}else if(this.space instanceof NoDimSpace){
+			return this.getIndex(0).toString();
 		}else{
 			return this.name + "space no displayable?";
 		}
