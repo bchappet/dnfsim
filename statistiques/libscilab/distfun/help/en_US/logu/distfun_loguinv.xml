@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_loguinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_loguinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_loguinv</refname>
+    <refpurpose>LogUniform Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_loguinv ( p , a , b )
+   x = distfun_loguinv ( p , a , b , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>a:</term>
+      <listitem><para> a matrix of doubles, the minimum of the underlying uniform variable.</para></listitem></varlistentry>
+   <varlistentry><term>b:</term>
+      <listitem><para> a matrix of doubles, the maximum of the underlying uniform variable. b>a.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the LogUniform quantile.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_loguinv(0.6,1,2)
+xexpected = 4.9530324
+
+// Check the inverse LogUniforme
+a=1;
+b=10;
+x=exp(2)
+p=distfun_logucdf(x,a,b)
+x=distfun_loguinv(p,a,b) // Must be exp(2)
+
+// Test upper tail
+x=distfun_loguinv(0.1,1,2,%f) // 6.6858944
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

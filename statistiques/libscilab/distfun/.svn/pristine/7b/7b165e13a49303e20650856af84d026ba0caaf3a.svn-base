@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_poissstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_poissstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_poissstat</refname>
+    <refpurpose>Poisson mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_poissstat(lambda)
+   [M,V] = distfun_poissstat(lambda)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>lambda :</term>
+      <listitem><para> a matrix of doubles, the average rate of occurrence. lambda>0.</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Poisson distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The Mean and Variance of the Poisson Distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \lambda \\
+V &amp;=&amp; \lambda
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with expanded lambda
+[m,v] = distfun_poissstat((1:6))
+me = [ 1 2 3 4 5 6 ];
+ve = [ 1 2 3 4 5 6 ];
+
+//Accuracy test
+lambda = [ 11 22 33 ];
+[M,V] = distfun_poissstat ( lambda )
+ve = [ 11 22 33 ];
+me = [ 11 22 33 ];
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Poisson_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

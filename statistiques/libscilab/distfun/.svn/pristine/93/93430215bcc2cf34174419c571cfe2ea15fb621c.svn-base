@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_verboseset.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_verboseset" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_verboseset</refname>
+    <refpurpose>Set verbose mode.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_verboseset(verbosemode)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>verbosemode :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the verbose mode.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Set the verbose mode.
+This gives informations on the number of iterations in the
+inverse CDF functions.
+Default mode is quiet (verbosemode=%f).
+   </para>
+   <para>
+The list of functions which are sensitive to this option is the
+following :
+<programlisting>
+cdflib_betainv
+cdflib_binoinv
+cdflib_chi2inv
+cdflib_cdfchn
+cdflib_finv
+cdflib_cdffnc
+cdflib_cdfnbn
+cdflib_cdfnbn
+cdflib_poissinv
+cdflib_tinv
+cdflib_hygeinvcdf
+</programlisting>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+distfun_verboseset(%t)
+distfun_chi2inv(0.1,50)
+distfun_verboseset(%f)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tnormpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tnormpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tnormpdf</refname>
+    <refpurpose>Truncated Normal PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y=distfun_tnormpdf(x,mu,sigma,a,b)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of the Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,\mu,\sigma,a,b) = \frac{\phi(\xi)}{\sigma Z}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x is in the [a,b] interval and zero otherwise,
+where
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+\xi&amp;=&amp;\frac{x-\mu}{\sigma}\\
+Z&amp;=&amp;\Phi(b)-\Phi(a)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+and <latex>$\Phi(x)$</latex> is the standard normal cumulated distribution function (i.e. CDF),
+and <latex>$\phi(x)$</latex> is the standard normal probability distribution function (i.e. PDF).
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+y=distfun_tnormpdf([-2 -1 0 1],0,1,-1,1)
+expected = [ 0.241970724519143   0.241970724519143 ];
+
+// Plot the function
+a=-10;
+b=10;
+x=linspace(a,b,1000);
+y1=distfun_tnormpdf(x,-8,2,a,b);
+y2=distfun_tnormpdf(x,0,2,a,b);
+y3=distfun_tnormpdf(x,9,10,a,b);
+y4=distfun_tnormpdf(x,0,10,a,b);
+scf();
+plot(x,y1,"k-")
+plot(x,y2,"b-")
+plot(x,y3,"r-")
+plot(x,y4,"g-")
+xtitle("Truncated normal [-10,10]","X","PDF");
+legend(["$\mu=-8,\sigma=2$","$\mu=0,\sigma=2$",..
+"$\mu=9,\sigma=10$","$\mu=0,\sigma=10$"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Truncated_normal_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

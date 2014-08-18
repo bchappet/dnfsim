@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_unifstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_unifstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_unifstat</refname>
+    <refpurpose>Uniform  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_unifstat ( a , b )
+   [M,V] = distfun_unifstat ( a , b )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Uniform distribution.
+   </para>
+   <para>
+The mean and variance of the Uniform distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \frac{a+b}{2} \\
+V &amp;=&amp; \frac{(b-a)^2}{12}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+a = 1:6;
+b = 2:7;
+[M,V] = distfun_unifstat ( a , b )
+me = [1.5    2.5    3.5    4.5    5.5    6.5];
+ve = [0.0833333    0.0833333    0.0833333    0.0833333    0.0833333    0.0833333];
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

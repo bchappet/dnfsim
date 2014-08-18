@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from identify.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="identify" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>identify</refname>
+    <refpurpose>Identify points on a plot with mouse clicks</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   v=identify(x,y)
+   v=identify(x,y,plotsymbol)
+   v=identify(x,y,plotsymbol,textvector)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a n-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>plotsymbol :</term>
+      <listitem><para> a 1-by-1 matrix of strings, the plot symbol (default = "*")</para></listitem></varlistentry>
+   <varlistentry><term>textvector :</term>
+      <listitem><para> a n-by-1 matrix of strings, or a n-by-1 matrix of doubles, the labels (default = 1:n)</para></listitem></varlistentry>
+   <varlistentry><term>v :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the indices of selected points</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This routine plots x versus y and waits for mouse clicks
+to identify points.
+This allows to interactively identify the points in a plot.
+   </para>
+   <para>
+Click with left button on points and end with middle button.
+   </para>
+   <para>
+The <literal>plotsymbol</literal> argument is used to specify
+the way the points are plotted, as given by the
+<literal>LineSpec</literal> argument of <literal>plot</literal>.
+In other words, the statement used to plot the points is
+   </para>
+   <para>
+<screen>
+plot(x,y,plotsymbol)
+</screen>
+   </para>
+   <para>
+If no point is selected, the function returns [].
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_normrnd(0,1,30,1);
+y = 2+3*x+distfun_normrnd(0,1,30,1);
+scf();
+v=identify(x,y)
+
+// Set the plot symbol
+scf();
+v=identify(x,y,"bo")
+
+// Use a text vector
+x = distfun_normrnd(0,1,10,1);
+y = 2+3*x+distfun_normrnd(0,1,10,1);
+textvector=strsplit("abcdefghij")
+scf();
+identify(x,y,"bo",textvector)
+
+// With a matrix of strings
+x = distfun_normrnd(0,1,4,1);
+y = 2+3*x+distfun_normrnd(0,1,4,1);
+textvector=[
+"john"
+"paul"
+"george"
+"ringo"
+];
+scf();
+identify(x,y,"bo",textvector)
+
+// With textvector a vector of doubles
+x = distfun_normrnd(0,1,4,1);
+y = 2+3*x+distfun_normrnd(0,1,4,1);
+textvector=10:14;
+scf();
+identify(x,y,"bo",textvector)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

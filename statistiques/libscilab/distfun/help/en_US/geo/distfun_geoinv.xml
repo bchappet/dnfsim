@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_geoinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_geoinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_geoinv</refname>
+    <refpurpose>Geometric Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_geoinv(p,pr)
+   x = distfun_geoinv(p,pr,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>pr :</term>
+      <listitem><para> a matrix of doubles,  the probability of success in a Bernoulli trial. pr in (0,1].</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome. x belongs to the set {0,1,2,3,......}</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Inverse cumulative distribution function of
+the Geometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with p scalar, pr scalar
+x = distfun_geoinv(0.999,0.5)
+expected = 9;
+x = distfun_geoinv(1-0.999,0.5,%f)
+expected = 9;
+
+// Test with expanded p , scalar pr
+x = distfun_geoinv([0.32 0.3],0.2)
+expected = [1. 1.];
+
+// Test with scalar p, expanded pr
+x = distfun_geoinv(0.22,[0.33 0.1])
+expected = [0. 2.];
+
+
+// Test small values of p
+xn = distfun_geoinv(1.e-15,0.1)
+expected = 0.;
+xn = distfun_geoinv(1.e-15,0.1,%f)
+expected = 327.;
+
+// Test small values of pr
+xn = distfun_geoinv(0.1,1.e-20)
+expected = 10536051565782630122;
+xn = distfun_geoinv(0.1,1.e-20,%f)
+expected = 230258509299404568400;
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Geometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

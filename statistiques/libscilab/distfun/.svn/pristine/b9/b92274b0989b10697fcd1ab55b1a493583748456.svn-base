@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_hygeinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_hygeinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_hygeinv</refname>
+    <refpurpose>Hypergeometric Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_hygeinv(p,M,k,N)
+   x = distfun_hygeinv(p,M,k,N,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the total size of the population. M belongs to the set {0,1,2,3........}</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of success states in the population. k belongs to the set {0,1,2,3,.......M-1,M}</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles, the total number of draws in the experiment. N belongs to the set {0,1,2,3.......M-1,M}</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of successful draws in the experiment. x belongs to the set [0,min(k,N)]</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Inverse cumulative distribution function of
+the Hypergeometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+// Test with all the arguments scalar
+x = distfun_hygeinv(0.2,80,50,30)
+expected = 17
+x = distfun_hygeinv(0.8,80,50,30,%f)
+expected = 17
+
+// Test with expanded p
+x = distfun_hygeinv([0.2 0.9],80,50,30)
+expected = [17 21]
+
+// Test with expanded p,k
+x = distfun_hygeinv([0.2 0.9],80,50,[30 35])
+expected = [17 25]
+
+// Test with all the arguments expanded
+x = distfun_hygeinv([0.2 0.9],[80 100],[50 60],[30 35])
+expected = [17 24]
+
+// Test with small values of p
+x = distfun_hygeinv(1.e-8,80,50,30)
+expected = 7
+x = distfun_hygeinv(1-1.e-8,80,50,30,%f)
+expected = 7
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Hypergeometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

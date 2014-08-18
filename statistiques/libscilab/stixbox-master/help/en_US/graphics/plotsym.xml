@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from plotsym.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="plotsym" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>plotsym</refname>
+    <refpurpose>Plot with symbols</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   plotsym(x,y)
+   plotsym(x,y,s)
+   plotsym(x,y,s,symtable,clrtable)
+   plotsym(x,y,s,symtable,clrtable,symsize)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the x-coordinate of the data</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the y-coordinate of the data</para></listitem></varlistentry>
+   <varlistentry><term>s :</term>
+      <listitem><para> a n-by-1 matrix of doubles, integer value, &gt;=1, the symbol of the data</para></listitem></varlistentry>
+   <varlistentry><term>symtable :</term>
+      <listitem><para> a n-by-1 matrix of string, the symbol table (default="stcidlr")</para></listitem></varlistentry>
+   <varlistentry><term>clrtable :</term>
+      <listitem><para> a n-by-1 matrix of string, the color table (default="rbgcmywk"). If a single color is given (e.g.clrtable="r"), then the same color is used for all symbols.</para></listitem></varlistentry>
+   <varlistentry><term>symsize :</term>
+      <listitem><para>  a 1-by-1 or n-by-1 matrix of doubles, integer value, the symbol sizes (default=ones(n,1)). If a scalar is given, the same size is used for all symbols.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Create a scatter plot with various symbols, colors and sizes.
+   </para>
+   <para>
+The argument s is vector that contains category marker that
+is plotted with symbol from text string symtable, i.e element i is
+plotted with symbol symtable(s(i)).
+   </para>
+   <para>
+<literal>symtable</literal> is a string with content:
+<screen>
+"s"  square (1)
+"t"  triangle (2)
+"c"  circle (3)
+"d"  diamond (4)
+"i"  inverted triangle (5)
+"l"  left triangle (6)
+"r"  right triangle (7)
+</screen>
+   </para>
+   <para>
+<literal>clrtable</literal> is a matrix of strings with content:
+<screen>
+"r"  red (1)
+"b"  blue (2)
+"g"  green (3)
+"c"  cyan (4)
+"m"  magenta (5)
+"y"  yellow (6)
+"w"  white (7)
+"k"  black (8)
+</screen>
+   </para>
+   <para>
+The input <literal>symsize</literal> defines the symbol size relative to the
+default size which is 1.
+It may be a scalar, which is then applied to all symbols, or a
+vector, one for each symbol.
+   </para>
+   <para>
+There must be at least as many symbols in <literal>symboltable</literal>
+as there are different symbols in <literal>s</literal>.
+If there are not enough symbols, the error
+   </para>
+   <para>
+<screen>
+Not enough symbols in symboltable.
+</screen>
+   </para>
+   <para>
+is produced.
+   </para>
+   <para>
+Any argument equal to the empty matrix [] is replaced
+by its default value.
+   </para>
+   <para>
+Caution : the symsize argument can be used to convey information,
+but this might be leading to wrong results.
+If this parameter is used as the radius of a circle, the area
+depends on the square of the radius.
+Hence, the area is a nonlinear function of the radius,
+which might lead to false conclusions: larger values of the radius
+leads to much larger values of the area.
+To do this, please use the bubblechart function instead.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+m = 12;
+x = [
+distfun_normrnd(0,1,m,1)
+distfun_normrnd(2,1,m,1)
+distfun_normrnd(4,1,m,1)
+];
+y = [
+distfun_normrnd(0,1,m,1)
+distfun_normrnd(4,1,m,1)
+distfun_normrnd(3,1,m,1)
+];
+S = [
+ones(m,1)
+2*ones(m,1)
+3*ones(m,1)
+];
+// Only red squares
+scf();
+plotsym(x,y);
+xtitle("","X","Y");
+// With 3 colors, and 3 shapes
+scf();
+plotsym(x,y,S);
+xtitle("","X","Y");
+// With squares ("s"), triangles ("s"),
+// circles ("c"), in blue ("b")
+scf();
+plotsym(x,y,S,"stc","b")
+xtitle("","X","Y");
+// Change the colormap
+h=scf();
+plotsym(x,y,S);
+h.color_map=autumncolormap(3);
+// Set the symbol size
+scf();
+plotsym(x,y,S,[],[],0.5);
+
+// Salary Survey
+// Source: Chatterjee, S. and Hadi, A. S. (1988), p. 88
+[x,txt] = getdata(3);
+scf();
+// Sex (1 = male, 0 = female)
+// Add +1, to get : 2=male, 1=female,
+// which maps to symbols.
+gender=x(:,2)+1;
+// Scale performance (from 1 to 5)
+// into a size from 0.2 to 2.
+perf=2*x(:,5)/5;
+plotsym(x(:,6),x(:,3),gender,[],[],perf);
+xtitle("Females:red square, Males:blue triangle, Size is performance",..
+"Monthly salary ($)","Number of years with the company");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

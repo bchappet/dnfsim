@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ncx2pdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ncx2pdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ncx2pdf</refname>
+    <refpurpose>oncentral Chi-squared PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_ncx2pdf(x,k,delta)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome, greater or equal to zero</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, k>0 (can be non integer)</para></listitem></varlistentry>
+   <varlistentry><term>delta :</term>
+      <listitem><para> a matrix of doubles, the noncentrality parameter, delta>=0</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Noncentral Chi-squared distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+<emphasis>Caution</emphasis>
+This distribution is known to have inferior accuracy in
+some cases.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) = \sum_{i\geq 0} \frac{1}{i!} e^{-\delta/2} (\delta/2)^i f_{k+2i}(x),
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+where <latex>f_{k+2i}</latex> is the chi-squared
+probability density function with k+2i degrees of
+freedom.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with x scalar, k scalar
+computed = distfun_ncx2pdf(9,5,4)
+expected = 0.0756164
+
+// Plot the function
+h=scf();
+k = [2 2 2 4 4 4];
+delta = [1 2 3 1 2 3];
+cols = [1 2 3 4 5 6];
+lgd = [];
+for i = 1:size(k,"c")
+x = linspace(0,10,1000);
+y = distfun_ncx2pdf ( x , k(i), delta(i));
+plot(x,y)
+str = msprintf("k=%s, delta=%s",..
+string(k(i)),string(delta(i)));
+lgd($+1) = str;
+end
+for i = 1:size(k,"c")
+hcc = h.children.children;
+hcc.children(size(k,"c") - i + 1).foreground = cols(i);
+end
+xtitle("Noncentral Chi-squared PDF","x","y")
+legend(lgd);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Chi-squared_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

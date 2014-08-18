@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_poisspdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_poisspdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_poisspdf</refname>
+    <refpurpose>Poisson PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_poisspdf(x,lambda)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of occurrences of events. x belongs to the set {0,1,2,3,.....}</para></listitem></varlistentry>
+   <varlistentry><term>lambda :</term>
+      <listitem><para> a matrix of doubles, the average rate of occurrence. lambda>0.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the poisson distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,\lambda) = \frac{\lambda^x e^{-\lambda}}{x!}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Note : x belongs to the set {0,1,2,3,...}.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+//Test with x scalar, lambda scalar
+p = distfun_poisspdf(0,2)
+expected = 0.1353353;
+
+//Test with x expanded, lambda scalar
+computed = distfun_poisspdf([0 3],2)
+expected = [0.1353353 0.1804470];
+
+//Test with x scalar, lambda expanded
+computed = distfun_poisspdf(3,[2 4])
+expected = [0.1804470 0.1953668];
+
+//Test with both the arguments expanded
+
+computed = distfun_poisspdf([3 4 8],[5 8 2])
+expected = [0.1403739 0.0572523 0.0008593];
+
+//Plot the function
+scf();
+x = 0:20;
+y = distfun_poisspdf(x,1);
+plot(x,y,"ro-");
+y1 = distfun_poisspdf(x,4);
+plot(x,y1,"go-");
+y2 = distfun_poisspdf(x,10);
+plot(x,y2,"bo-");
+xtitle("Poisson PDF","x","y");
+legend(["lambda=1","lambda=4","lambda=10"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Poisson_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

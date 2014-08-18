@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_evcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_evcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_evcdf</refname>
+    <refpurpose>Extreme value (Gumbel) CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p=distfun_evcdf(x,mu,sigma)
+   p=distfun_evcdf(x,mu,sigma,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the location</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the scale. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulated probability distribution function
+of the Extreme value (Gumbel) function.
+This is the minimum Gumbel distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test expanded arguments
+computed = distfun_evcdf([1 2 3],1,2)
+expected = [0.6321206 0.8077044 0.9340120]
+
+// Plot the Gumbel CDF
+N=1000;
+x=linspace(-20,5,N);
+p1= distfun_evcdf(x,-0.5,2.,%t);
+p2= distfun_evcdf(x,-1.0,2.,%t);
+p3= distfun_evcdf(x,-1.5,3.,%t);
+p4= distfun_evcdf(x,-3.0,4.,%t);
+scf();
+xtitle("Gumbel","x","P(X<x)");
+plot(x,p1,"r-")
+plot(x,p2,"g-")
+plot(x,p3,"b-")
+plot(x,p4,"c-")
+leg(1)="$\mu=-0.5,\beta=2.0$";
+leg(2)="$\mu=-1.0,\beta=2.0$";
+leg(3)="$\mu=-1.5,\beta=3.0$";
+leg(4)="$\mu=-3.0,\beta=4.0$";
+legend(leg,"in_upper_left");
+
+p=distfun_evcdf(1,0.5,2.,%t)
+q=distfun_evcdf(1,0.5,2.,%f)
+p+q
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

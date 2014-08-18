@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_frnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_frnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_frnd</refname>
+    <refpurpose>F-Distribution random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_frnd(v1,v2)
+   x = distfun_frnd(v1,v2,[m,n])
+   x = distfun_frnd(v1,v2,m,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>v1 :</term>
+      <listitem><para> a matrix of doubles, numerator degrees of freedom, v1&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>v2 :</term>
+      <listitem><para> a matrix of doubles, denominator degrees of freedom, v2&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers in the set [0,∞).</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the F-distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with expanded v1 and v2
+x = distfun_frnd(1:6,1:6)
+
+// Check x = distfun_frnd(v1,v2,v)
+x = distfun_frnd(2,5,[3 3])
+
+// Check mean and variance
+N = 5000;
+v1 = 3;
+v2 = 5;
+x = distfun_frnd(v1,v2,[1 N]);
+RM = mean(x)
+RV = variance(x)
+[M,V] = distfun_fstat(v1,v2)
+
+// Make a plot of the actual distribution of the numbers
+v1 = 10;
+v2 = 50;
+data = distfun_frnd(v1,v2,1,1000);
+scf();
+histplot(20,data)
+x = linspace(0,4,1000);
+y = distfun_fpdf(x,v1,v2);
+plot(x,y)
+xtitle("F Random Numbers","X","Density")
+legend(["Empirical","PDF"]);
+
+// Make a plot of a ratio of chi-square random numbers
+scf();
+v1 = 10;
+v2 = 50;
+R1 = distfun_chi2rnd(v1,1,1000);
+R2 = distfun_chi2rnd(v2,1,1000);
+x = (R1./v1)./(R2./v2);
+histplot(20,x)
+x = linspace(0,4,1000);
+y = distfun_fpdf(x,v1,v2);
+plot(x,y)
+xtitle("$\textrm{Random Numbers }\frac{R_1/v_1}{R_2/v_2}$","X","Density")
+legend(["Empirical","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/F-distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   </simplelist>
+</refsection>
+</refentry>

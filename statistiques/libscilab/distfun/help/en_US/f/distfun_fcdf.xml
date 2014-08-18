@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_fcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_fcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_fcdf</refname>
+    <refpurpose>F-distribution CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_fcdf(x,v1,v2)
+   p = distfun_fcdf(x,v1,v2,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles. x is real and x>=0.</para></listitem></varlistentry>
+   <varlistentry><term>v1 :</term>
+      <listitem><para> a matrix of doubles, numerator degrees of freedom, v1&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>v2 :</term>
+      <listitem><para> a matrix of doubles, denominator degrees of freedom, v2&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the f distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with x, v1, v2 scalar
+computed = distfun_fcdf(2,1,6)
+expected = 7.929687500000000000D-01
+
+// Test with x expanded, v1 and v2 scalar
+computed = distfun_fcdf([2 5],1,6)
+expected = [
+7.929687500000000000D-01
+9.332931980379590708D-01
+]'
+
+// Test with x,v1,v2 expanded
+computed = distfun_fcdf(2:6,1:5,6:10)
+expected = [
+7.929687500000000000D-01
+8.854377836609319541D-01
+9.481063231515756140D-01
+9.787944634589056392D-01
+9.919248908050191105D-01
+]'
+
+// Plot the function
+h=scf();
+x = linspace(0,5,1000);
+p1 = distfun_fcdf(x,1,1);
+p2 = distfun_fcdf(x,2,1);
+p3 = distfun_fcdf(x,5,2);
+p4 = distfun_fcdf(x,100,1);
+p5 = distfun_fcdf(x,100,100);
+plot(x,p1,"r")
+plot(x,p2,"g")
+plot(x,p3,"b")
+plot(x,p4,"y")
+plot(x,p5,"k")
+legend([
+"v1=1, v2=1"
+"v1=2, v2=1";
+"v1=5, v2=2"
+"v1=100, v2=1"
+"v1=100, v2=100"
+]);
+xtitle("F CDF","x","$P(X\leq x)$");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/F-distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

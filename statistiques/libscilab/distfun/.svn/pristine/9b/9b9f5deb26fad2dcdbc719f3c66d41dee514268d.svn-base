@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_mvnpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_mvnpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_mvnpdf</refname>
+    <refpurpose>Normal PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y=distfun_mvnpdf(x,mu,sigma)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-d matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a 1-by-d matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a d-by-d matrix of doubles, the covariance matrix</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Multivariate Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,\mu,\sigma) = \frac{1}{(2\pi})^{d/2}} |\Sigma|^{-1/2} \exp\left(-(x-\mu)^T\Sigma^{-1}(x-\mu)\right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=[13.2,-33.7]
+mu=[12 -31]
+sigma = [
+3.0  0.5
+0.5  1.0
+]
+y=distfun_mvnpdf(x,mu,sigma)
+
+// Plot the iso values of PDF
+// A wrapper for contouring
+function y=mvnpdfC(x1,x2,mu,sigma)
+x=[x1',x2']
+y=distfun_mvnpdf(x,mu,sigma)
+endfunction
+x1=linspace(-6,18,100);
+x2=linspace(-35,-27,100);
+levels=[0.1 0.05 0.02 0.005 0.001];
+contour(x1,x2,mvnpdfC,levels)
+legend(["Data","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Multivariate_normal_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

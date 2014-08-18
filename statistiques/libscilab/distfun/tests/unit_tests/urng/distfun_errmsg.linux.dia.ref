@@ -1,0 +1,172 @@
+// Copyright (C) 2012 - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+//
+//
+// Check the error messages in the uniform random number generators.
+//
+// clcg2.c (1 hits)
+// clcg4.c (2 hits)
+// fsultra.c (4 hits)
+// kiss.c (1 hits)
+// mt.c (2 hits)
+// unifrng.c (1 hits)
+// unifrng.h (1 hits)
+// urand.c (1 hits)
+// There are (at least) two things to check
+// - negative inputs generate an error
+// - floating point inputs generate an error
+// /////////////////////////////////////////////////////
+//
+// clcg2
+//
+distfun_genset("clcg2");
+instr="distfun_seedset(-1,-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of clcg2 generator." , 999 );
+WARNING: unifrng_clcg2_set_state: Bad seeds (-1.00000000000000000e+00,-1.00000000000000000e+00) for clcg2, must be integers with  s1 in [1, 2147483562] and s2 in [1, 2147483398]
+//
+distfun_genset("clcg2");
+instr="distfun_seedset(1.5,1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of clcg2 generator." , 999 );
+WARNING: unifrng_clcg2_set_state: Bad seeds (1.50000000000000000e+00,1.50000000000000000e+00) for clcg2, must be integers with  s1 in [1, 2147483562] and s2 in [1, 2147483398]
+// /////////////////////////////////////////////////////
+//
+// clcg4
+//
+//
+distfun_genset("clcg4");
+instr="distfun_seedset(-1,-1,-1,-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of clcg4 generator." , 999 );
+WARNING: display_info_clcg4: Bad seeds for clcg4, must be integers with  s1 in [1, 2147483646], s2 in [1, 2147483542], s3 in [1, 2147483422], s4 in [1, 2147483322]
+//
+distfun_genset("clcg4");
+instr="distfun_seedset(1.5,1.5,1.5,1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of clcg4 generator." , 999 );
+WARNING: display_info_clcg4: Bad seeds for clcg4, must be integers with  s1 in [1, 2147483646], s2 in [1, 2147483542], s3 in [1, 2147483422], s4 in [1, 2147483322]
+//
+// The second error message in clcg4 cannot be 
+// generated with the current interface.
+// This is on purpose: the user cannot change the seeds 
+// in a way which may lead to unconsistent results.
+// /////////////////////////////////////////////////////
+//
+// fsultra
+//
+//
+distfun_genset("fsultra");
+instr="distfun_seedset(-1,-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of fsultra generator." , 999 );
+WARNING: unifrng_fsultra_set_state_simple: Bad seed (-1.00000000000000000e+00,-1.00000000000000000e+00) for fsultra, must be integers in [0, 2^32-1]
+//
+distfun_genset("fsultra");
+instr="distfun_seedset(1.5,1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of fsultra generator." , 999 );
+WARNING: unifrng_fsultra_set_state_simple: Bad seed (1.50000000000000000e+00,1.50000000000000000e+00) for fsultra, must be integers in [0, 2^32-1]
+//
+distfun_genset("fsultra");
+for i=1:5:40
+    s = ones(40,1);
+    s(i)=-1;
+    instr="distfun_seedset(s)";
+    assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of fsultra generator." , 999 );
+end
+WARNING: unifrng_fsultra_set_state: The first component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 37]
+WARNING: unifrng_fsultra_set_state: The 6-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 11-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 16-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 21-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 26-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 31-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 36-th component of the fsultra state is equal to -1.00000000000000000e+00, must be an int in [0, 2^32-1]
+//
+distfun_genset("fsultra");
+for i=1:5:40
+    s = ones(40,1);
+    s(i)=1.5;
+    instr="distfun_seedset(s)";
+    assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of fsultra generator." , 999 );
+end
+WARNING: unifrng_fsultra_set_state: The first component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 37]
+WARNING: unifrng_fsultra_set_state: The 6-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 11-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 16-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 21-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 26-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 31-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+WARNING: unifrng_fsultra_set_state: The 36-th component of the fsultra state is equal to 1.50000000000000000e+00, must be an int in [0, 2^32-1]
+// /////////////////////////////////////////////////////
+//
+// kiss
+//
+//
+distfun_genset("kiss");
+instr="distfun_seedset(-1,-1,-1,-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of kiss generator." , 999 );
+WARNING: unifrng_kiss_set_state: Bad seeds (-1.00000000000000000e+00,-1.00000000000000000e+00,-1.00000000000000000e+00,-1.00000000000000000e+00) for kiss, must be integers in [0,2^32-1]
+//
+distfun_genset("kiss");
+instr="distfun_seedset(1.5,1.5,1.5,1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of kiss generator." , 999 );
+WARNING: unifrng_kiss_set_state: Bad seeds (1.50000000000000000e+00,1.50000000000000000e+00,1.50000000000000000e+00,1.50000000000000000e+00) for kiss, must be integers in [0,2^32-1]
+// /////////////////////////////////////////////////////
+//
+// mt
+//
+//
+distfun_genset("mt");
+instr="distfun_seedset(-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of mt generator." , 999 );
+WARNING: unifrng_mt_set_state_simple: Bad seed -1.00000000000000000e+00 for mt, must be an int in [0, 2^32-1]
+//
+distfun_genset("mt");
+instr="distfun_seedset(1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of mt generator." , 999 );
+WARNING: unifrng_mt_set_state_simple: Bad seed 1.50000000000000000e+00 for mt, must be an int in [0, 2^32-1]
+//
+distfun_genset("mt");
+for i=1:100:625
+    s=ones(625,1);
+    s(i)=-1;
+    instr="distfun_seedset(s)";
+    assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of mt generator." , 999 );
+end
+WARNING: unifrng_mt_set_state: The first component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 101-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 201-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 301-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 401-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 501-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 601-th component of the mt state mt is -1.00000000000000000e+00, but must be an int in [1, 624]
+//
+distfun_genset("mt");
+for i=1:100:625
+    s=ones(625,1);
+    s(i)=1.5;
+    instr="distfun_seedset(s)";
+    assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of mt generator." , 999 );
+end
+WARNING: unifrng_mt_set_state: The first component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 101-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 201-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 301-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 401-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 501-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+WARNING: unifrng_mt_set_state: The 601-th component of the mt state mt is 1.50000000000000000e+00, but must be an int in [1, 624]
+// /////////////////////////////////////////////////////
+//
+// urand
+//
+//
+distfun_genset("urand");
+instr="distfun_seedset(-1)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of urand generator." , 999 );
+WARNING: unifrng_urand_set_state: Bad seed -1.00000000000000000e+00 for urand, must be an int in [0, 2147483647]
+//
+distfun_genset("urand");
+instr="distfun_seedset(1.5)";
+assert_checkerror ( instr, "distfun_seedset: Internal error: Cannot set state of urand generator." , 999 );
+WARNING: unifrng_urand_set_state: Bad seed 1.50000000000000000e+00 for urand, must be an int in [0, 2147483647]

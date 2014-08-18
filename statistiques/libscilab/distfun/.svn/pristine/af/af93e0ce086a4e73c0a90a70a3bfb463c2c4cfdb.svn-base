@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_chi2rnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_chi2rnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_chi2rnd</refname>
+    <refpurpose>Chi-Square random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_chi2rnd(k)
+   x = distfun_chi2rnd(k,[m,n])
+   x = distfun_chi2rnd(k,m,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, k>0 (can be non integer)</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the positive random numbers.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Chi-Square distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with expanded k
+x = distfun_chi2rnd((1:6)')
+
+// Check x = distfun_chi2rnd(k,v)
+x = distfun_chi2rnd(2,[4 5])
+
+// Check mean and variance
+N = 50000;
+k = 3;
+x = distfun_chi2rnd(k,[1 N]);
+Mx = mean(x)
+Vx = variance(x)
+[M,V] = distfun_chi2stat (k)
+
+// Compare histogram of random numbers
+// with PDF.
+k=5;
+scf();
+x=distfun_chi2rnd(k,10000,1);
+histplot(30,x);
+x=linspace(0,25,1000);
+y=distfun_chi2pdf(x,k);
+plot(x,y,"b-");
+xtitle("Chi-square random numbers","X","Density");
+legend(["Empirical","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Chi-squared_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   </simplelist>
+</refsection>
+</refentry>

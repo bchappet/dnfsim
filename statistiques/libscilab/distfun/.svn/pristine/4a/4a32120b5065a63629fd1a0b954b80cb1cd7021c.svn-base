@@ -1,0 +1,537 @@
+changelog of the distfun Scilab Toolbox
+
+distfun (not released yet)
+  * Created a Kolmogorov-Smirnov distribution :
+      * distfun_ksrnd 
+      * distfun_ksstat
+      * distfun_kscdf
+      * distfun_kspdf
+      * distfun_ksinv
+
+  * Fixed the rnd functions when large output is required.
+    A clear error message is now produced.
+    http://forge.scilab.org/index.php/p/distfun/issues/1419
+
+  * Added Box-Muller random generation demo.
+  * Added Metropolis-Hastings demo.
+  * Added Rejection algorithm demo.
+  * Added Weibull fit functions :
+      * distfun_wblfit : Weibull parameter estimates
+      * distfun_wblfitmm : Weibull parameter estimates with 
+        method of moments
+      * distfun_wbllike : Weibull negative log-likelihood
+      * distfun_wblplot : Weibull plot
+  * Added distfun_betafitmm : Beta parameter estimates 
+    with the method of moments
+  * Added distfun_gamfitmm : Gamma parameter estimates 
+    with the method of moments
+  * Added distfun_uniffitmm : Uniform parameter estimates 
+    with the method of moments
+  * Added distfun_binofitmm : Binomial parameter estimates 
+    with the method of moments
+  * Fixed help page of the Extreme Value (Gumbel) distribution.
+
+distfun (v0.8)
+    * Added the crand generator, from C language.
+    * Ported all rnd function to C for performance reasons :
+      * distfun_normrnd
+      * distfun_unifrnd
+      * distfun_betarnd 
+      * distfun_binornd 
+      * distfun_chi2rnd 
+      * distfun_exprnd 
+      * distfun_frnd 
+      * distfun_gamrnd 
+      * distfun_geornd 
+      * distfun_hygernd 
+      * distfun_lognrnd 
+      * distfun_poissrnd 
+      * distfun_trnd 
+      http://forge.scilab.org/index.php/p/distfun/issues/1085/
+
+  * Created a uniform discrete distribution :
+      * distfun_unidrnd 
+      * distfun_unidstat
+      * distfun_unidcdf
+      * distfun_unidpdf
+      * distfun_unidinv
+      This is a fix for 
+      http://forge.scilab.org/index.php/p/distfun/issues/1065/
+
+  * New Multinomial distribution 
+      distfun_mnrnd 
+      distfun_mnstat 
+      distfun_mnpdf 
+      but the cdf and inv functions are still missing.
+    This fixes the bug #972.
+http://forge.scilab.org/index.php/p/distfun/issues/972/
+
+  * Deleted distfun_cov function, to fix bug :
+      http://forge.scilab.org/index.php/p/distfun/issues/1103/
+      To update your code, please install Stixbox, 
+      and replace :
+
+C=distfun_cov(x)
+
+with :
+
+C=cov(x)
+
+    * Created distfun_permrnd for random permutations.
+      This fixes the bug :
+      http://forge.scilab.org/index.php/p/distfun/issues/1066/
+
+    * Created Negative Binomial distribution :
+      * distfun_nbinrnd 
+      * distfun_nbinstat
+      * distfun_nbincdf
+      * distfun_nbinpdf
+      * distfun_nbininv
+
+    * Created Noncentral Chi-Square distribution :
+      * distfun_ncx2rnd 
+      * distfun_ncx2stat
+      * distfun_ncx2cdf
+      * distfun_ncx2pdf
+      * distfun_ncx2inv
+      The current implementation has accuracy limitations.
+
+    * Added figures for Gumbel distribution in Tutorial.
+      http://forge.scilab.org/index.php/p/distfun/issues/1125
+    
+    * Created Noncentral F distribution.
+      * distfun_ncfrnd 
+      * distfun_ncfstat
+      * distfun_ncfcdf
+      * distfun_ncfpdf
+      * distfun_ncfinv
+      The current implementation has accuracy limitations.
+    
+    * Created Noncentral T distribution :
+      * distfun_nctrnd 
+      * distfun_nctstat
+      * distfun_nctcdf
+      * distfun_nctpdf
+      * distfun_nctinv
+
+    * Removed hidden rndmarkov function :
+      No help, no test, not in the scope.
+
+    * Created Multivariate Normal distribution :
+      * distfun_mvnrnd 
+      * distfun_mvnpdf
+
+    * Created Weibull distribution :
+      * distfun_wblrnd 
+      * distfun_wblstat
+      * distfun_wblcdf
+      * distfun_wblpdf
+      * distfun_wblinv
+    This fixes bug #973
+http://forge.scilab.org/index.php/p/distfun/issues/973
+
+    * The Extreme Value distribution is now in C
+http://forge.scilab.org/index.php/p/distfun/issues/1396/
+
+    * Simplified computation of log(1+x) in the C 
+      library.
+      This fixes bug #988 :
+http://forge.scilab.org/index.php/p/distfun/issues/988
+
+    * Created distfun_gammainc, based on the internal lib. 
+      This is a solid alternative to specfun_gammainc, which 
+      uses Scilab's cdfgam.
+    * Created distfun_betainc. 
+
+distfun (v0.7)
+    * Added LogUniform distribution.
+      This fixes bug #1014:
+      http://forge.scilab.org/index.php/p/distfun/issues/1014
+    * Added truncated Normal distribution.
+      This fixes bug #1015
+      http://forge.scilab.org/index.php/p/distfun/issues/1015
+    * Added Extreme Value distribution.
+      This fixes bug #975
+      http://forge.scilab.org/index.php/p/distfun/issues/975/
+
+distfun (0.6)
+    * Updated the order of the internal (private) random 
+      generator C function to match the order of the 
+      documented functions (no switching anymore).
+    * Updated the name of the internal (private) random 
+      generator C function to match the name of the 
+      documented functions (no "grand" anymore).
+    * Fixed bug #979.
+      distfun_fstat did not give the formula for M and V
+    * Fixed bug #978
+      Connected the exponential random variable generator to the gateway.
+      Created and connected a Log-Normal random variable generator.
+      Created and connected a T random variable generated.
+      Created and connected a Hypergeometric random variable gateway.
+    * Fixed bug #977
+      distfun_binornd failed for large N
+    * Fixed bug #982
+      distfun_poissrnd failed for large lambda
+      Also improved accuracy of constants in Poisson 
+      random number generator.
+    * Fixed bug #986
+      distfun_gamrnd failed for small parameters.
+    * Fixed bug #989
+      Some tests fail on Linux 64 for v0.5.
+      Replaced the inversion routine with a clean C implementation of 
+      Brent's algorithm (John Burkardt C code). 
+      This also fix problems with the previous implementation, where the 
+      number of iterations seemed to be large for some inputs.
+    * Created function distfun_verboseset.
+
+distfun (0.5)
+    * Added Binomial Distribution.
+    * Added Poisson Distribution.
+    * Added Chi-Square Distribution.
+    * Added Hypergeometric Distribution.
+    * Fixed two accuracy bugs in distfun_invcdfbin.
+      The first bug happened for small values of S.
+      The second bug happened for small values of Xn.
+      See http://bugzilla.scilab.org/show_bug.cgi?id=11366
+    * Fixed accuracy issue in distfun_geocdf when pr is small.
+      See http://forge.scilab.org/index.php/p/distfun/issues/774/
+    * Fixed accuracy issue in distfun_expinv when p is small.
+      See http://forge.scilab.org/index.php/p/distfun/issues/780/
+    * Fixed accuracy bug in distfun_expcdf when x is small.
+      See http://forge.scilab.org/index.php/p/distfun/issues/781/
+    * Added a tutorial.
+    * Added distfun_plotintcdf to plot discrete CDF.
+      Updated the examples in all discrete CDF examples: 
+      geometric, poisson, hypergeometric, binomial.
+    * Checked that the x argument in distfun_betapdf is in [0,1].
+      It is now consistent with the behavior of distfun_betacdf.
+    * Fixed a typo in the example of distfun_binostat.
+    * Fixed a typo in the example of distfun_geornd.
+    * Fixed a bug in distfun_poissinv (arguments expansion).
+    * Fixed distfun_hygernd to invert the CDF.
+    * Fixed bug #870
+      distfun_hygecdf was too slow
+      Implemented with a C-based source code.
+      http://bugzilla.scilab.org/show_bug.cgi?id=870
+    * Fixed bug #778
+      The Quick start of distfun was empty.
+      http://forge.scilab.org/index.php/p/distfun/issues/778/
+    * Fixed bug #874
+      distfun_geoinv failed at p=1
+      http://bugzilla.scilab.org/show_bug.cgi?id=874
+    * Fixed bug #871
+      distfun_hygeinv was too slow
+      Implemented with a C-based source code.
+      http://bugzilla.scilab.org/show_bug.cgi?id=871
+    * Fixed bug #876
+      The help page of distfun_hygepdf was wrong.
+      http://bugzilla.scilab.org/show_bug.cgi?id=876
+    * Fixed bug #882
+      distfun_hygeinv was slow when M is large.
+      http://forge.scilab.org/index.php/p/distfun/issues/882/
+    * Fixed bug #875
+      distfun_hygeinv produced a large value of x
+      http://forge.scilab.org/index.php/p/distfun/issues/875/
+    * Fixed distfun_hygepdf to make it compute zero 
+      when x<N-M+k.
+    * Fixed bug #883
+      distfun_hygecdf was slow when M is large.
+      http://forge.scilab.org/index.php/p/distfun/issues/883/
+    * Fixed bug #889
+      distfun_chi2cdf was not accurate in the upper tail
+      http://forge.scilab.org/index.php/p/distfun/issues/889/
+    * Fixed bug #881
+      distfun_plotintcdf was too slow
+      http://forge.scilab.org/index.php/p/distfun/issues/881/
+    * Fixed bug #880
+      distfun_exppdf did not check that x>=0.
+      http://forge.scilab.org/index.php/p/distfun/issues/880/
+    * Fixed bug #891
+      distfun_hygeinv failed for p=1
+      http://forge.scilab.org/index.php/p/distfun/issues/891/
+    * Fixed bug #873: 
+      The tests for cdf functions were obsolete.
+      They now use the assert functions and tables of values.
+      http://forge.scilab.org/index.php/p/distfun/issues/873/
+    * Fixed bug #900
+      distfun_binopdf was wrong for small pr and large N.
+      http://forge.scilab.org/index.php/p/distfun/issues/900
+    * Fixed bug #918
+      distfun_chi2pdf can produce a NaN.
+      distfun_gampdf could also produce a NaN.
+      http://forge.scilab.org/index.php/p/distfun/issues/918/
+    * Fixed bug #913
+      distfun_unifrnd could produce a zero
+      Now all uniform generators are forced to generate 
+      numbers in (0,1).
+      http://bugzilla.scilab.org/show_bug.cgi?id=913
+    * Fixed bug #912
+      distfun_seedset did not accept vectors.
+      http://bugzilla.scilab.org/show_bug.cgi?id=912
+    * Fixed bug #897
+      distfun_fpdf can produce a Nan
+      http://forge.scilab.org/index.php/p/distfun/issues/897/
+    * Fixed bug #831
+      distfun_invcdpoi failed with small values of p
+      http://forge.scilab.org/index.php/p/distfun/issues/831/
+    * Fixed bug #926
+      distfun_poissinv failed for p=1.
+      http://forge.scilab.org/index.php/p/distfun/issues/926/
+    * Fixed bug #779
+      distfun_norminv failed when p = 1.
+      http://forge.scilab.org/index.php/p/distfun/issues/779/
+    * Fixed bug #777
+      distfun_gaminv failed with p=1
+      http://forge.scilab.org/index.php/p/distfun/issues/777/
+    * Fixed bug #776
+      distfun_expinv failed with p=1
+      http://forge.scilab.org/index.php/p/distfun/issues/776/
+    * Fixed bug #896
+      invcdfbet produced weird result for extreme x
+      http://forge.scilab.org/index.php/p/distfun/issues/896/
+    * Fixed bug #932
+      The urng gateway did not use the API.
+      http://forge.scilab.org/index.php/p/distfun/issues/932/
+    * Ported the tests on Scilab 5.4.0.
+    * Created distfun_inthisto to plot integer histograms.
+    * Fixed accuracy bug for the upper tail of distfun_poisscdf.
+    * Added F Distribution.
+    * Removed optional mu and sigma in Normal distribution:
+      mu and sigma are now mandatory in 
+      distfun_normpdf, distfun_normcdf, distfun_norminv.
+      Backward compatibility lost.
+    * Removed optional mu and sigma in Log-Normal distribution:
+      mu and sigma are now mandatory in
+      distfun_lognpdf, distfun_logncdf, distfun_logninv.
+      Backward compatibility lost.
+    * Fixed bug in distfun_binoinv, in the lower tail of the 
+      distribution : call to floor is now replaced with a call to 
+      ceil, which shifts the integers by +1.
+    * Removed optional a and b in Uniform distribution:
+      a and b are now mandatory in
+      distfun_unifpdf, distfun_unifcdf, distfun_unifinv.
+      Backward compatibility lost.
+    * Added C-based implementation of the PDF of : 
+      normal, chi-square, geometric, uniform.
+    * Fixed bug #950.
+      distfun_gaminv could go into an infinite loop.
+    * Fixed bug #951.
+      distfun_normcdf failed for x=+/-Inf.
+    * Fixed bug #953.
+      distfun_chi2inv fails for q=0.
+      distfun_chi2inv fails for small p.
+    * Fixed bug #958.
+      distfun_binopdf could fail for non-integer input arguments.
+    * Updated binomial distribution functions (distfun_binopdf, distfun_binocdf and 
+      distfun_binoinv) to manage large values (greater than 2^32).
+    * Fixed bug #960.
+      distfun_poisspdf could fail for non-integer, extreme input arguments.
+    * Fixed bug #962
+      distfun_hygepdf failed for large inputs.
+    * Updated hypergeometric distribution functions 
+      (distfun_hygepdf, distfun_hygecdf and distfun_hygeinv) to 
+      manage large values (greater than 2^32).
+    * Updated distfun_poisspdf to manage large arguments.
+    * Fixed bug #971
+      distfun_betarnd failed for small inputs
+    * Fixed bug #976
+      distfun_frnd failed for extreme inputs
+      
+distfun (0.4)
+    * Added the Geometric distribution.
+    * Fixed compilation and loading of the toolbox on Linux.
+      See http://bugzilla.scilab.org/show_bug.cgi?id=11127
+      Cleanup of the code generated by f2c.
+      Fixed includes in src/genrand.
+      Removed use of C2F in src/cdflib.
+      Cleanup of the code generated by f2c.
+    * Added Excel benchmark in the demos.
+
+distfun (0.3)
+    * Increased speed of rnd unit tests.
+    * Removed the old grand function.
+    * Connected distfun_cdf* functions instead of Scilab's cdf* 
+      functions.
+    * Fixed bugs in src/c after f2c.
+    * Added readme files src/c and sci_gateway/c to 
+      clarify the architecture.
+      Filled main readme.txt with purpose details.
+    * Factored accuracy parameters of cdf* functions.
+    * Fixed bug #9976 for the accuracy of cdfbet when x=0 on output.
+    * Fixed accuracy bugs in Inverse beta CDF when p<1.e-50.
+      Improved testing of inverse Beta CDF.
+    * Simplified the cdf* functions (removed unused code).
+    * Managed the empty matrix [] everywhere in distfun_cdf*.c and 
+      distfun_invcdf*.c and macros distfun_*.sci
+    * Refactored distfun_cdfpoi to remove the weird strings "PQ" and "S".
+      Created distfun_invcdfpoi for Inverse Poisson CDF.
+      Updated distfun_cdfpoi: now only for Poisson CDF.
+    * Same for distfun_cdfbet and distfun_invcdfbet for Poisson Distribution.
+    * Same for distfun_cdfbin and distfun_invcdfbin for Binomial Distribution.
+    * Same for distfun_cdfchi and distfun_invcdfchi for Chi-Square Distribution.
+    * Same for distfun_cdfchn and distfun_invcdfchn for non-central Chi-Square Distribution.
+    * Same for distfun_cdff and distfun_invcdff for F Distribution.
+    * Same for distfun_cdft and distfun_invcdft for T Distribution.
+    * Same for distfun_cdfgam and distfun_invcdfgam for Gamma Distribution.
+    * Same for distfun_cdfnbn and distfun_invcdfnbn for Neg. Binomial Distribution.
+    * Same for distfun_cdfnor and distfun_invcdfnor for Normal Distribution.
+    * Same for distfun_cdffnc and distfun_invcdffnc for Non Central F Distribution.
+   * Refactor the distfun_cdf* functions:
+     Use Scilab's API
+     Create a gw_support.c source and factor the Checkings in it.
+   * Removed obsolete distfun_cdfbase.c from the sources.
+   * Fixed license header in the unit tests.
+   * Moved distfun_p2q into "internals" lib.
+   * Added unit tests for distfun_grand* functions
+     Fixed error messages for distfun_grand* functions
+     Added distfun_grandlgi().
+   * Changed random number generation from CDF inversion
+     to direct generation.
+   * Fixed messages format in distfun_grand* functions.
+   * Fixed internal bugs in grand set/get functions.
+     The current generator was not consistently managed.
+   * Added missing distfun_grandexp.
+   * Added missing distfun_grandpoi.
+   * Connection distfun_grandprm.
+   * Extended distfun_*rnd to manage empty matrices.
+     Factored the common code into distfun_checkvmn().
+   * Fixed a bug in distfun_checkvmn.
+   * Added distfun_grandgeom
+   * Fixed unit tests for distfun_grand* functions.
+   * Extended distfun_grandunf to manage cases where a and b 
+     are m-by-n matrices.
+     Same for distfun_grandbet.
+     Same for distfun_grandchi.
+     Same for distfun_grandbin.
+     Same for distfun_grandexp.
+     Same for distfun_grandf.
+     Same for distfun_grandgam.
+     Same for distfun_grandgeom.
+     Same for distfun_grandpoi.
+     Same for distfun_granduin.
+     Same for distfun_grandnf.
+     Same for distfun_grandnbn.
+     Same for distfun_grandnch.
+   * Fixed a bug in distfun_exprnd, created after the 
+     refactoring (this bug was not in v0.2)
+   * Refactored distfun_grand(unf,bet,chi,bin) to share the 
+     maximum possible amount of code.
+   * Fixed distfun_cdfgam and distfun_invcdfgam to make sure 
+     that Shape and Rate are > 0 (as done in distfun_grandgam).
+   * Fixed a bug in the commends of distfun_grandgam.
+     Fixed a bug in distfun_gamrnd (this bug was not present in v0.2).
+   * Simplified the gateway support functions: removed unnecessary piaddr.
+     Created distfun_GetSizedMatrixOfDoublesGreaterOrEqualThanZero and 
+     distfun_GetSizedMatrixOfDoublesGreaterThanZero in distfun 
+     to check sizes.
+     Removed the size check from the src/gwsupport functions.
+   * Split distfun_grandlaws.tst test into several distfun_grand* tests.
+     Clarified unit tests of distfun_grand*.
+   * Updated distfun_grandnbn to produce a warning when N has 
+     not an integer value.
+   * Updated distfun_grandbin to produce a warning when N has 
+     not an integer value.
+   * Updated distfun_exprnd to avoid to invert the CDF.
+   * Updated distfun_lognrnd to avoid to invert the CDF.
+   * Updated distfun_gamrnd to avoid to invert the CDF.
+   * Updated distfun_normrnd to avoid to invert the CDF.
+   * Separate the library in src/c :
+     * the uniform random number generators functions -> src/unifrng
+     * the non-uniform random number generators functions -> src/genrand
+     * the CDF functions (i.e. DFDFLIB) -> src/cdflib
+   * Updated rng for exp to make direct use of distfun_grandexp.
+   * Added an option "lowertail" to distfun_*cdf functions to get q.
+     Added to exp, gamma, logn, norm, unif, beta.
+   * genrand : Updated to use a warning function.
+   * clcg4 : Updated to use a warning function.
+   * gwsupport : Created a proper warning function.
+   * Clarified demos.
+   * Removed distfun_grandlgi: unnecessary in practice.
+   * Removed distfun_granddef: can be replaced with 
+     Y=distfun_grandunf(m,n,0.,1.)
+   * Remove distfun_grandphr2sd: unnecessary in practice.
+   * Created a separate gateway for the uniform random number 
+     generators.
+   * Renamed uniform-RNG specific functions into distfun_urng*.
+   * Renamed clcg4 functions into distfun_clcg4*
+     Removed unnecessary distfun_clcg4setall function:
+     changed distfun_seedset so that the virtual generator G=0 
+     is initialized and the others are initalized accordingly, 
+     to get synchronization.
+     There is no reason not to maintain the synchronization anyway.
+   * Added help pages for distfun_genset, distfun_genget, 
+     distfun_seedset and distfun_seedget.
+   * Removed distfun_clcg4advnst: unnecessary in practice.
+     Even worst: this can lead to wrong results.
+   * Added help pages for distfun_clcg4get, distfun_clcg4set 
+     and distfun_clcg4init.
+   * Renamed functions to distfun_streamget, distfun_streamset 
+     and distfun_streamnit.
+   * Clarified the purpose of the virtual generators of clcg4.
+   * Create a separate gateway directory for the configuration of 
+     the uniform RNG.
+
+distfun (0.2)
+    * Splitted grand into separate distfun_grand* gateways.
+    * Added distfun_*stats functions.
+    * Removed MSDOS for compatibility for Scilab 5.4
+      Distfun now compiles with Scilab 5.4.
+    * Added missing spofa and sdot.
+    * Fixed bugs in granddriver.c: "long int" 
+      was used where "int" was necessary, producing a warning.
+    * Removed unnecessary #include in granddriver.c
+    * Created test sub-directories.
+    * Created and used datasets in unit tests.
+
+distfun (0.1)
+    * Initial version : April 2010
+    * Added gampdf, used apifun, created expandfromsize, 
+      separated tests, created help, demos : September 2010
+    * Updated help updater.
+    * Renamed functions into distfun_*
+    * Added sources for an independent library.
+    * Updated the tests to use assert.
+    * Removed distfun_expandvar (used from apifun).
+    * Imported cdf functions from NISP.
+      Created distfun_expcdf
+      Created distfun_exppdf
+      Created distfun_expinv
+      Created distfun_lognormalcdf
+      Created distfun_lognormalpdf
+      Created distfun_lognormalinv
+      Created distfun_erfcinv
+    * Created distfun_exprnd
+    * Changed distfun_exp* from lambda to mu to be 
+      Matlab-compatible.
+    * Created distfun_lognormalrnd
+    * Checked input arguments in *rnd functions.
+    * Checked input arguments in *cdf functions.
+    * Fixed unit tests on Linux.
+      Added No JVM where appropriate.
+    * Created distfun_gamcdf, distfun_gaminv, distfunrnd.
+    * Created distfun_betastat.
+    * Created distfun_lognormalstat.
+    * Created distfun_expstat.
+    * Updated the help pages.
+    * Beautified *stat functions with LaTeX.
+    * Created distfun_gamstat.
+    * Created distfun_normstat.
+    * Created distfun_unifcdf.
+    * Created distfun_unifpdf.
+    * Created distfun_unifinv.
+    * Added consistency test PDF/CDF.
+    * Created distfun_unifrnd.
+    * Created distfun_unifstat.
+    * Added tail to betacdf and betainv.
+    * Added tail to normcdf.
+    * Added tail to norminv.
+    * Added tail to expcdf.
+    * Added tail to expinv.
+    * Added tail to gamcdf.
+    * Added tail to gaminv.
+    * Removed distfun_expandfromsize: used apifun instead.
+    * Added tail to lognormalecdf.
+    * Added tail to lognormaleinv.
+    * Added tail to unifcdf.
+    * Added tail to unifinv.
+

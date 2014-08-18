@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_gammainc.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_gammainc" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_gammainc</refname>
+    <refpurpose>Regularized incomplete Gamma function</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_gammainc ( x , a )
+   y = distfun_gammainc ( x , a , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the upper limit of integration of the gamma density, x>=0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the parameter. a>0</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then computes the integral from 0 to x otherwise from x to infinity.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the incomplete gamma function.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Returns the regularized incomplete gamma function.
+If lowertail=%t, the function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+P(x,a) = \frac{1}{\Gamma(a)}\int_0^x e^{-t} t^{a-1} dt
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+If lowertail=%f, the function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+Q(x,a) = \frac{1}{\Gamma(a)}\int_x^\infty  e^{-t} t^{a-1} dt
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+We have
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+P(x,a) + Q(x,a) = 1
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+The lowertail option may be used to overcome the
+limitations of floating point arithmetic.
+We may use lowertail=%f when the output of the gamminc
+function with lowertail=%t is very close to 1.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+Notes
+   </para>
+   <para>
+The function P(x,a) is the cumulative distribution function
+of a Gamma random variable with shape parameter a and
+scale parameter 1.
+   </para>
+   <para>
+If a>0 is an integer, then Q(x,a) is the cumulative
+distribution function of a Poisson random variable
+with mean equal to a.
+   </para>
+   <para>
+When a→0, lim P(x,a)=1, and lim Q(x,a)=0
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+distfun_gammainc(1,2) // Expected : 0.264241117657115
+distfun_gammainc(2,3) // Expected : 0.323323583816936
+distfun_gammainc(2,3,%t) // Expected : 0.323323583816936
+// We have distfun_gammainc(x,a,%t) == 1 - distfun_gammainc(x,a,%f)
+distfun_gammainc(2,3,%f) // Expected : 0.676676416183064
+
+// The following example shows how to use the tail argument.
+// For a=1 and x>40, the result is so close to 1 that the
+// result is represented by the floating point number y=1.
+distfun_gammainc(40,1) // Expected : 1
+// This is why we may compute the complementary probability with
+// the tail option.
+distfun_gammainc(40,1,%f) // Expected : 4.248354255291594e-018
+
+// Show the expansion of a
+x = [1 2 3;4 5 6];
+a = 2;
+distfun_gammainc(x,a)
+
+
+// Plot the function
+a = [1 2 3 5 9];
+cols = [1 2 3 4 5];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(0,20,1000);
+y = distfun_gammainc ( x , a(k) );
+plot(x,y)
+str = msprintf("a=%s",string(a(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+xtitle("Regularized Incomplete Gamma","x","P(x,a)")
+legend(lgd);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

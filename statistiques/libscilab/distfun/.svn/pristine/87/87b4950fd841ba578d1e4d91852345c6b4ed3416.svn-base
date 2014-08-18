@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_nbinstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_nbinstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_nbinstat</refname>
+    <refpurpose>Negative Binomial  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_nbinstat(R,P)
+   [M,V] = distfun_nbinstat(R,P)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>R :</term>
+      <listitem><para> a matrix of doubles, the number of successes. R belongs to the set {0,1,2,3,4,.......}</para></listitem></varlistentry>
+   <varlistentry><term>P :</term>
+      <listitem><para> a matrix of doubles, the probability of getting success in a Bernoulli trial. P in [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Negative Binomial distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The Mean and Variance of the Negative Binomial Distribution is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; R \frac{1-P}{P} \\
+V &amp;=&amp; R \frac{1-P}{P^2}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Check with expanded R
+R = [1 2 3 4 5]
+P = 0.1
+[M,V] = distfun_nbinstat(R,P)
+me = [9.    18.    27.    36.    45.]
+ve = [90.    180.    270.    360.    450.]
+
+//Check with expanded P
+R = 5
+P = [0.1 0.2 0.3 0.4]
+[M,V] = distfun_nbinstat(R,P)
+me = [45.    20.    11.666667    7.5]
+ve = [450.    100.    38.888889    18.75]
+
+//Check with both R and P expanded
+R = [1 2 3 4]
+P = [0.1 0.2 0.3 0.4]
+[M,V] = distfun_nbinstat(R,P)
+me = [9.    8.    7.    6.]
+ve = [90.    40.    23.333333    15.]
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Negative_binomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

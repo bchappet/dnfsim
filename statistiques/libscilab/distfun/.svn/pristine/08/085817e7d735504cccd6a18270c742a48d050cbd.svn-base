@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_plotintcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_plotintcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_plotintcdf</refname>
+    <refpurpose>Plots an integer CDF.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_plotintcdf(x,p)
+   distfun_plotintcdf(x,p,colorspec)
+   distfun_plotintcdf(x,p,colorspec,legendspec)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the outcomes.</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a n-by-nbplot matrix of doubles, the probabilities, where nbplot is the number of plots and n is the number of outcomes. The entry p(j,k) is the probability that X&lt;x(j) for the k-th CDF plot, for j=1,2,...,n and k=1,2,...,nbplot.</para></listitem></varlistentry>
+   <varlistentry><term>colorspec :</term>
+      <listitem><para> a 1-by-nbplot matrix of strings, the color of each CDF plot. The k-th plot has the color colorspec(k), for k=1,2,...,nbplot.The available colors are: "r" "g" "b" "c" "m" "y" "k" "w" (default colorspec=[], i.e. the default color of the plot function).</para></listitem></varlistentry>
+   <varlistentry><term>legendspec :</term>
+      <listitem><para> a 1-by-nbplot matrix of strings, the legend of each CDF plot. The k-th plot has the legend legendspec(k), for k=1,2,...,nbplot.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Plots a discrete (integer) Cumulative Distribution Function.
+The CDF of a discrete random variable is discontinuous,
+with jumps at each point.
+More precisely, it is continuous from the right.
+This is why a dedicated plotting function was created.
+   </para>
+   <para>
+For the k-th CDF and the j-th outcome, the line starts from
+x(j) to x(j+1), at ordinate p(j,k), for j=1,2,...,n and
+k=1,2,...,nbplot.
+On the left of the line, a full circle is plotted, meaning that
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+P\left(X\leq x(j)\right)=p(j,k).
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+On the right of the line, an empty circle is plotted, meaning that
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+P\left(X&lt;x(j+1)\right)=p(j,k).
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Plot the geometric distribution
+x=(0:11)';
+pr=0.2;
+p=distfun_geocdf(x,pr)
+scf();
+distfun_plotintcdf(x,p)
+
+// Plot several geometric distributions
+x=(0:11)';
+p1=distfun_geocdf(x,0.2);
+p2=distfun_geocdf(x,0.5);
+p3=distfun_geocdf(x,0.8);
+legendspec=["pr=0.2" "pr=0.5" "pr=0.8"];
+scf();
+distfun_plotintcdf(x,[p1,p2,p3],["r" "b" "g"],legendspec)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Poisson_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

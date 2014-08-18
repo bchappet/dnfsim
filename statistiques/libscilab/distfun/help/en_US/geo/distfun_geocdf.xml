@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_geocdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_geocdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_geocdf</refname>
+    <refpurpose>Geometric CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_geocdf(x,pr)
+   p = distfun_geocdf(x,pr,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of Bernoulli trials after which the first success occurs. x belongs to the set {0,1,2,3,......}</para></listitem></varlistentry>
+   <varlistentry><term>pr :</term>
+      <listitem><para> a matrix of doubles,  the probability of success in a Bernoulli trial. pr in (0,1].</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Geometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+p = distfun_geocdf(3,0.5)
+expected = 0.9375;
+
+//Test with x expanded, pr scalar
+computed = distfun_geocdf([2 3],0.33)
+expected = [0.699237 0.7984888];
+
+//Test with x scalar, pr expanded
+computed = distfun_geocdf(3,[0.2 0.4])
+expected = [0.5904 0.8704];
+
+//Test with both the arguments expanded
+
+computed = distfun_geocdf([3 4 8],[0.5 0.8 0.2])
+expected = [0.9375 0.99968 0.8657823];
+
+//Plot the function
+h=scf();
+x=(0:10)';
+p1=distfun_geocdf(x,0.2);
+p2=distfun_geocdf(x,0.5);
+p3=distfun_geocdf(x,0.8);
+legendspec=["pr=0.2","pr=0.5","pr=0.8"];
+distfun_plotintcdf(x,[p1,p2,p3],["r" "g" "b"],legendspec);
+xtitle("Geometric CDF")
+h.children.children(1).legend_location="in_lower_right";
+
+// See upper tail
+p = distfun_geocdf(3,0.1)
+lt_expected = 0.3439;
+q = distfun_geocdf(3,0.1,%f)
+ut_expected = 0.6561;
+p+q
+
+// See accuray in the upper tail
+p = distfun_geocdf(100,0.5,%f)
+expected = 3.944305e-31
+// See accuray when pr is small
+p = distfun_geocdf(1,1.e-20)
+expected = 2.e-20
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Geometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

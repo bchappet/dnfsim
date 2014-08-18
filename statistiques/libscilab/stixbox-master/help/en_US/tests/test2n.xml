@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from test2n.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="test2n" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>test2n</refname>
+    <refpurpose>Tests two normal samples with equal variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   pval=test2n(x,y)
+   pval=test2n(x,y,c)
+   [pval,cimean]=test2n(...)
+   [pval,cimean,cisigma]=test2n(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a n-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the confidence level for the confidence intervals (default 0.95).</para></listitem></varlistentry>
+   <varlistentry><term>pval  :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the probability that Student statistic based on x and y is as far from 0 as it is actually, or further away under hypothesis that theoretical means are equal.</para></listitem></varlistentry>
+   <varlistentry><term>cimean :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the difference of means.</para></listitem></varlistentry>
+   <varlistentry><term>cisigma :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the standard deviation.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Tests and confidence intervals based on two normal samples
+with equal variance.
+   </para>
+   <para>
+The confidence intervals are of the form
+<screen>
+[LeftLimit, PointEstimate, RightLimit]
+</screen>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_normrnd(0,1,20,1);
+y=distfun_normrnd(0,1,20,1);
+pval=test2n(x,y)
+// Get a 95% confidence interval for the
+// difference of means
+[pval,cimean]=test2n(x,y)
+// Get a 90% confidence interval for the mean
+[pval,cimean]=test2n(x,y,0.9)
+// Get a 95% confidence interval for the
+// difference of standard deviations
+[pval,cimean,cistd]=test2n(x,y)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   <member>Copyright (C) 1998 - 2000 - Mathematique Universite de Paris-Sud - Jean Coursol</member>
+   </simplelist>
+</refsection>
+</refentry>

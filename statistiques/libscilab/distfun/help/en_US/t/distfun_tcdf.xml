@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tcdf</refname>
+    <refpurpose>T CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_tcdf ( x , v )
+   p = distfun_tcdf ( x , v , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome.</para></listitem></varlistentry>
+   <varlistentry><term>v :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, v>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the T cumulated distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+p = distfun_tcdf(1,2) // 0.7886751
+// With lower tail
+p = distfun_tcdf(1,2,%f) // 0.2113249
+
+// Plot the function
+h=scf();
+x = linspace(-5,5,1000);
+p1 = distfun_tcdf(x,1);
+p2 = distfun_tcdf(x,2);
+p3 = distfun_tcdf(x,5);
+p4 = distfun_tcdf(x,%inf);
+plot(x,p1,"r")
+plot(x,p2,"g")
+plot(x,p3,"b")
+plot(x,p4,"k")
+legend(["v=1" "v=2" "v=5" "v=Inf"]);
+xtitle("T CDF","x","$P(X\leq x)$");
+
+// An extreme case
+distfun_tcdf(40,10,%f) // 1.140D-12
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,63 @@
+// Copyright (C) 2010 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+
+Digits := 200; 
+interface(prettyprint = 0); 
+// Real values from extremelly small to extremelly larges
+x := [0,10^-324,10^-308,10^-100,10^-10,10^-5,10^-3,10^-2,10^-1,1,1.57079632679489661,2,3,3.14159265358979323,10,100,10^3,10^4,1.000000357564167061e5,10^10,10^100,10^308];
+for k from 1 to 22 do 
+  xk := x[k];
+  yk := log(1+xk);
+  ck := abs(xk / (1 + xk ) / log(1+xk));
+  if xk > 10^-1 then
+    print( evalf(xk,20) , evalf(yk,20) , evalf(ck,20) );
+  elif xk > 10^-10 then
+    print( evalf(xk,20) , evalf(yk,30) , evalf(ck,30) );
+  elif xk > 10^-100 then
+    print( evalf(xk,20) , evalf(yk,150) , evalf(ck,150) );
+  else
+    print( evalf(xk,20) , evalf(yk,300) , evalf(ck,300) );
+  fi;
+end do; 
+// Closer and closer to 0 from above
+st := 1/2;
+for k from 1 to 16 do 
+  xk := st;
+  yk := log(1+xk);
+  ck := abs(xk / (1 + xk ) / log(1+xk));
+  print( evalf(xk,20) , evalf(yk,20) , evalf(ck,20) );
+  st:=st/8;
+end do; 
+// Closer and closer to 1 from under
+st := 1/2;
+for k from 1 to 16 do 
+  xk := -st;
+  yk := log(1+xk);
+  ck := abs(xk / (1 + xk ) / log(1+xk));
+  print( evalf(xk,20) , evalf(yk,20) , evalf(ck,20) );
+  st:=st/8;
+end do; 
+// From R into C: from x=-1 to x = -16
+xk := 0;
+for k from 1 to 16 do 
+  xk := xk - 1;
+  yk := log(1+xk);
+  ck := abs(xk / (1 + xk ) / log(1+xk));
+  print( evalf(xk,20) , evalf(yk,20) , evalf(ck,20) );
+end do; 
+// From C into C: a path on the circle
+theta := 0;
+st := 360/10;
+for k from 1 to 16 do 
+  theta := theta + st;
+  xk := cos(theta*pi/180) + I*sin(theta*pi/180);
+  yk := log(1+xk);
+  ck := abs(xk / (1 + xk ) / log(1+xk));
+  print( evalf(xk,20) , evalf(yk,20) , evalf(ck,20) );
+end do; 
+

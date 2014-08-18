@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tnormrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tnormrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tnormrnd</refname>
+    <refpurpose>Truncated Normal random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x=distfun_tnormrnd(mu,sigma,a,b)
+   x=distfun_tnormrnd(mu,sigma,a,b,[m,n])
+   x=distfun_tnormrnd(mu,sigma,a,b,m,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Normal distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of
+the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_tnormrnd(3,5,2,4)
+
+// Test sigma expansion
+x=distfun_tnormrnd(3,5:7,2,4)
+
+// Test mu expansion
+x=distfun_tnormrnd(3:6,5,2,4)
+
+// Test with v
+x=distfun_tnormrnd(3,5,2,4,[3 2])
+
+// Test with m, n
+x=distfun_tnormrnd(3,5,2,4,3,2)
+
+// Make a plot of the actual distribution of the numbers
+a=-10;
+b=10;
+N=1000;
+x=linspace(a,b,1000);
+y1=distfun_tnormpdf(x,-8,2,a,b);
+R1=distfun_tnormrnd(-8,2,a,b,N,1);
+y2=distfun_tnormpdf(x,0,2,a,b);
+R2=distfun_tnormrnd(0,2,a,b,N,1);
+y3=distfun_tnormpdf(x,9,10,a,b);
+R3=distfun_tnormrnd(9,10,a,b,N,1);
+y4=distfun_tnormpdf(x,0,10,a,b);
+R4=distfun_tnormrnd(0,10,a,b,N,1);
+scf();
+subplot(2,2,1)
+histplot(20,R1);
+plot(x,y1);
+s="$\textrm{Trunc. normal [-10,10], }\mu=-8,\sigma=2$";
+xtitle(s,"X","Frequency");
+legend(["Data","PDF"]);
+//
+subplot(2,2,2)
+histplot(20,R2);
+plot(x,y2);
+s="$\textrm{Trunc. normal [-10,10], }\mu=0,\sigma=2$";
+xtitle(s,"X","Frequency");
+legend(["Data","PDF"]);
+//
+subplot(2,2,3)
+histplot(20,R3);
+plot(x,y3);
+s="$\textrm{Trunc. normal [-10,10], }\mu=9,\sigma=10$";
+xtitle(s,"X","Frequency");
+legend(["Data","PDF"]);
+//
+subplot(2,2,4)
+histplot(20,R4);
+plot(x,y4);
+s="$\textrm{Trunc. normal [-10,10], }\mu=0,\sigma=10$";
+xtitle(s,"X","Frequency");
+legend(["Data","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Truncated_normal_distribution</para>
+</refsection>
+</refentry>

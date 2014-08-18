@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from histo.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="histo" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>histo</refname>
+    <refpurpose>Plot a  histogram</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   histo(x)
+   histo(x)
+   histo(x,n)
+   histo(x,n)
+   histo(x,n,scale)
+   histo(x,n,scale,sym)
+   h=histo(...)
+   [h,edge]=histo(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a 1-by-p or p-by-1 matrix of doubles, the data</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the approximate number of bins (default n = ceil(log2(p)+1), where p is the size of x. This is Sturges' rule.). If n is not a scalar, it contains the edges of the classes, in increasing order.</para></listitem></varlistentry>
+   <varlistentry><term>scale :</term>
+      <listitem><para> a boolean, set to %t to have the area 1 under the histogram instead of area n.  (default scale = %f means no scaling)</para></listitem></varlistentry>
+   <varlistentry><term>sym :</term>
+      <listitem><para> a 1-by-1 matrix of doubles or string, the integer (positive or negative) of the color of the plot (default sym=[]). Negative is for a mark, positive is for a color.</para></listitem></varlistentry>
+   <varlistentry><term>egde :</term>
+      <listitem><para> a 1-by-(n+1) matrix of doubles, the edges of the classes of the histogram</para></listitem></varlistentry>
+   <varlistentry><term>h :</term>
+      <listitem><para> a 1-by-n matrix of doubles, h(i) is the number of values in x that belong to [edge(i), edge(i+1)[</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Compute and plots a histogram of the x.
+   </para>
+   <para>
+Any input argument equal to the empty matrix is replaced by its default value.
+   </para>
+   <para>
+The advantage of the stixbox/histo function over the
+Scilab/histplot function is that the number of classes n can be automatically
+computed in histo, while it is the first argument of histplot.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_chi2rnd(3,1000,1);
+scf();
+histo(x);
+xtitle("Chi-Square random numbers","X","Frequency")
+
+// Set the number of classes
+scf();
+histo(x,10);
+
+// Set the edges
+scf();
+X=distfun_unifrnd(0,1,1000,1);
+edges = 0:0.2:1.;
+histo(X,edges);
+
+// See without scaling
+scf();
+histo(x,[],%f);
+// See with scaling
+scf();
+histo(x,[],%t);
+
+// See various colors and styles
+scf();
+histo(x,[],[],1);
+scf();
+histo(x,[],[],2);
+scf();
+histo(x,[],[],3);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - 2014 - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Scilab Enterprises - Adeline CARNIS</member>
+   <member>Copyright (C) 2010 - Samuel Gougeon</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   <member>Copyright (C) 1998 - 2000 - Mathematique Universite de Paris-Sud - Jean Coursol</member>
+   <member>Copyright (C) Bruno Pincon</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,5 @@
+Scilab Benchmark Toolbox
+
+This toolbox is released under the terms of the CeCILL license :
+http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+

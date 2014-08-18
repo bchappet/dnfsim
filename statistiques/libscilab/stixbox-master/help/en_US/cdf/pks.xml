@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="pks"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>pks</refname><refpurpose> Kolmogorov Smirnov distribution function  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>p = pks(x)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>x  </term>
+  <listitem>
+    <para> vector or matrix</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>p  </term>
+  <listitem>
+    <para> Prob( KS &lt; x )</para>
+  </listitem> 
+  </varlistentry>
+ </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+    Kolmogorov Smirnov distribution function
+  </para>
+  <para>
+    Adapted from Press, Teukolsky, Vetterling and Flannery, Numerical
+    Recipes in C p620. 
+  </para>
+  </refsection>
+</refentry>

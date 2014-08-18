@@ -1,0 +1,343 @@
+changelog of the Stixbox Toolbox
+
+stixbox (not released yet)
+    * Updated help pages for betaln.
+      Created associated unit tests.
+    * Removed betainc. To update your code, please replace 
+
+I = betainc(x,z,w)
+
+with 
+
+I = distfun_betainc(x,z,w)
+
+    * Updated the histo function.
+This fixes the following bugs :
+
+http://forge.scilab.org/index.php/p/stixbox/issues/1442/
+histo is poorly implemented
+
+http://forge.scilab.org/index.php/p/stixbox/issues/1417/
+histo can fail
+
+http://forge.scilab.org/index.php/p/stixbox/issues/762/
+histo does not use my exact number of classes
+
+The "odd" option does not exist anymore.
+To update your code, please replace :
+
+histo(data,x,odd,...);
+
+with
+
+histo(data,x,...);
+
+i.e. remove "odd" from the calling sequence.
+
+The "scale" argument is now a boolean. 
+To update your code, if the scaling is disabled, 
+please replace :
+
+histo(x,n,odd,0)
+
+with 
+
+histo(x,n,%f)
+
+If the scaling is enabled, please replace :
+
+histo(x,n,odd,1)
+
+with 
+
+histo(x,n,%t)
+
+stixbox (2.2)
+    * Fixed bug #763: histo could not use the edges I want
+      http://forge.scilab.org/index.php/p/stixbox/issues/763/
+    * Fixed bug #822: pairs had no example.
+      http://forge.scilab.org/index.php/p/stixbox/issues/822/
+      Removed the pairs function: it did not work anyway. 
+    * Created the plotmatrix function, compatible with Matlab.
+      This is a replacement for the removed "pairs" function.
+    * Removed function plotdens: it had no help page, no test, 
+      and failed.
+    * Created ksdensity function, compatible with Matlab.
+      This is a replacement for the removed "plotdens" function.
+    * For plotsym : clarified help page, implementation, 
+      added examples, added unit tests.
+    * Created new bubblechart, bubblematrix functions.
+    * Created a "Polynomials" section.
+      Added examples to polyfit.
+      Added examples to polyval.
+    * Changed implementation of polyval to better handle 
+      ill-conditionned matrices, so that we can have a workaround 
+      for bug : http://bugzilla.scilab.org/show_bug.cgi?id=9196
+      We use the linalg module, and the linalg_dgesv function.
+    * Fix bug #188: polyfit and polyval are incompatible.
+      http://forge.scilab.org/index.php/p/stixbox/issues/188
+      Changed order of powers p in the argument of polyfit, 
+      in order to 
+       * make the call consistent with polyeval, 
+       * make the function compatible with Matlab.
+      This breaks the backward compatibility. 
+      To update your code, please replace :
+      
+p = polyfit(x,y,n)
+
+with 
+
+p = polyfit(x,y,n)
+p=p($:-1:1)
+
+    * Fixed computation of confidence bound in polyval. 
+      Added an example and a unit test of confidence interval.
+    * polyfit : computed Vandermonde matrix from makematrix.
+    * cov : changed implementation and help page. 
+      Added examples in the help page.
+      Added a unit test.
+      cov is now compatible with Matlab.
+    * Created new corrcoef function.
+      corrcoef is compatible with Matlab.
+    * Improved the stairs function to improve compatibility 
+      with Matlab.
+      stairs can plot several stairstep graphs in one statement.
+      The stairs(y) calling sequence is available.
+      Added a unit test.
+      Added several examples in the help page.
+    * Added the regres function, which performs multiple linear 
+      regression. 
+      This function is compatible with Matlab. 
+      This function is similar to the "lm" function in R.
+      The regres function was first available in the scidoe module. 
+      The "regres" function name was chosen because "regress" 
+      already exists in Scilab, but Scilab's "regress" is not Matlab-compatible, 
+      and has much less features.
+    * Added the regresprint function, which prints the 
+      analysis of variance table.
+      This function is similar to the "anova" function in R.
+    * Removed the linreg function. 
+      This was done for the following reasons:
+      * linreg did not work.
+      * linreg was not compatible with Matlab.
+      * linreg had no examples in the help page.
+      * linreg had poorly documented input arguments.
+      * linreg had no unit tests.
+      * linreg did both graphics and computations, which was  
+        a poor design choice.
+      * linreg was univariate, while regress is multivariate.
+    To update your legacy code, please replace:
+
+linreg(Y,X)
+
+with
+
+B = scidoe_regress(Y,[ones(X),X]);
+plot(X,B(1)*ones(X)+B(2)*X,"r-")
+
+      But this is unlikely, since linreg did not work (at least, 
+      the demo did not).
+    * Updated the help page of identify.
+      Added examples. 
+      Added description of input arguments.
+      Fixed a bug : the plotsymbol input argument was ignored.
+    * histo : 
+      Fixed a bug in the example where edges are set.
+      Fixed a bug in the code where edges are set.
+    * ciboot : 
+      Updated the help page : added examples, parameters description.
+      Updated the implementation to use distfun.
+    * test1b : fixed implementation by replacing the 
+      std function with Scilab's stdev.
+    * Created a next "Resampling Techniques" section with:
+      * ciboot
+      * covboot
+      * covjack
+      * rboot
+      * stdboot
+      * stdjack
+      Updated most help pages, with calling sequence, 
+      parameter description, description and examples.
+    * Fixed bug #1084: 
+      http://forge.scilab.org/index.php/p/stixbox/issues/1084/
+      A new "Regression" help section was created.
+    * Fixed a bug in covboot:
+      The output values were wrong for "mean","median", since 
+      Matlab returns columnwise results while Scilab 
+      returns a scalar.
+      The estimate in this case was completely wrong. 
+      For "std", the function did not work, as this function 
+      does not exist in Scilab.
+    * Fixed bug #1083:
+      http://forge.scilab.org/index.php/p/stixbox/issues/1083/
+      The Resampling Technique functions had no unit tests.
+    * Fixed bug #1070
+      http://forge.scilab.org/index.php/p/stixbox/issues/1070/
+      The Resampling Technique functions do not check input args.
+    * Fixed bug #1069:
+      http://forge.scilab.org/index.php/p/stixbox/issues/1069/
+      The Resampling Technique functions do not manage 
+      extra-arguments properly.
+    * Fixed bug #1071
+      http://forge.scilab.org/index.php/p/stixbox/issues/1071/
+      rboot had no example
+    * Fixed the test1b function : the confidence interval for the 
+      standard deviation was wrong. 
+      This is because the stdev function in Scilab returns a scalar, 
+      while Matlab's std returns a row vector.
+    * Added help page and unit test for test1b.
+    * Added help page and unit test for test1n.
+      Fixed implementation : pt, qt and qchisq did not 
+      exist anymore.
+      Fixed bug #1086: Execution of stixbox 2.1-1 test1n function failed.
+      http://forge.scilab.org/index.php/p/stixbox/issues/1086/#ic2883
+    * Added help page and unit test for test2n.
+      Fixed implementation : var, pt, qt and qchisq did not 
+      exist anymore.
+    * Added help page and unit test for test1r.
+    * Added help page and unit test for test2r.
+
+stixbox (2.1)
+    * Fixed bug #1025 : qqplot had no example
+      http://forge.scilab.org/index.php/p/stixbox/issues/1025/
+      Improved the help page of qqplot:
+      added several examples.
+    * Fixed bug #1024: The example in histo does not work.
+      http://forge.scilab.org/index.php/p/stixbox/issues/1024/
+    * Removed bincoef (obsolete).
+To update your code, please replace
+
+bincoef(n,N)
+
+with 
+
+specfun_nchoosek(N,n)
+
+    * Removed gammainc (obsolete).
+To update your code, please replace
+
+y=gammainc(x,a)
+
+with 
+
+y=distfun_gammainc(x,a)
+
+stixbox (2.0)
+    * Moved rboot to Misc help section
+    * Removed std function: use Scilab's stdev instead.
+To update your code, please use the following rules.
+If A is a row or column vector, then replace std(A) with stdev(A).
+If A is a matrix, then replace std(A) with stdev(A,"r") :
+
+-->A=[1,2,10;7,7.1,7.01]
+ A  =
+    1.    2.     10.   
+    7.    7.1    7.01  
+-->std(A)
+ ans  =
+    4.2426407    3.6062446    2.1142493  
+-->stdev(A,"r")
+ ans  =
+    4.2426407    3.6062446    2.1142493  
+    * Removed unnecessary requirement on Scilab 5.4.
+    * Removed bincoef function: use specfun_nchoosek instead.
+To update your code, please install the specfun module:
+
+atomsInstall("specfun")
+
+and replace 
+
+k=bincoef(n,N) 
+
+with 
+
+k=specfun_nchoosek(N,n)
+
+Notice that N and n are exchanged.
+    * Updated the unit tests to use assert functions.
+    * Removed the following functions:
+
+Probability Distribution Functions: 
+dbeta, dbinom, dchisq, df, dgamma, dhypg, dnorm, dt
+Probability Cumulative Distribution Functions
+pbeta, pbinom, pchisq, pf, pgamma, phypg, pnorm, pt
+Inverse Cumulative Distribution Functions
+qbeta, qbinom, qchisq, qf, qgamma, qhypg, qnorm, qt
+Random Numbers
+rbeta, rbinom, rchisq, rf, rgamma, rgeom, rhypg, rnorm, rpoiss, rt
+Reject Methods
+rjbinom, rjgamma, rjpoiss
+
+      Users should use the distfun module for Scilab.
+      To install it, type:
+
+atomsInstall("distfun")
+
+      This has been decided for the following reasons :
+      * Stixbox's distribution have known bugs, but no 
+        known maintainer to fix them.
+      * distfun is compatible with Matlab.
+      * distfun has more tests.
+      * distfun has more help pages and examples.
+      * distfun has more consistent functions.
+      * distfun's distributions are vectorized (and fast).
+    * The previous change automatically fixes the following bugs.
+    http://forge.scilab.org/index.php/p/stixbox/issues/339/
+    http://forge.scilab.org/index.php/p/stixbox/issues/338/
+    http://forge.scilab.org/index.php/p/stixbox/issues/337/
+    http://forge.scilab.org/index.php/p/stixbox/issues/335/
+    http://forge.scilab.org/index.php/p/stixbox/issues/223/
+    http://forge.scilab.org/index.php/p/stixbox/issues/98/
+
+stixbox (1.5)
+    * ATOMS 5.4 compatibility
+    * Fixed duplicated stairs help page.
+    * Reordered items in Features
+    * Improved getdata
+    * Updated help page of histo
+    * Removed unnecessary cleaner.sce
+    * Fixed bug in getdata
+
+stixbox (1.4)
+    * Fixed xml help page of test2r.
+    * Fixed getdata (removed call to checkflint)
+    * Fixed demo: added messages.
+    * Updated help page for histo: added examples. Created unit tests.
+    * Removed unnecessary help pages for individual datasets: users should run getdata.
+    * Improved help page of getdata.
+
+stixbox (1.3)
+    * Michael Baudin
+    * Removed function var (conflicts with apifun), replaced by variance (backward compatibility lost).
+    * Removed function erfinv (conflicts with Scilab).
+    * Updated of the .xml pages for help creation.
+    * Updated the Readme, created changelog.txt and licence.txt.
+    * Updated .start.
+    * Updated implementation of gammainc.
+    * Removed obsolete call to sort, replaced by gsort.
+    * Removed call to mtlb_rand, replaced by grand.
+    * Removed obsolete call to x_message, replaced by messagebox.
+    * Fixed use of df as a variable (it is a function).
+    * Removed use of maxi.
+    * Replaced call to rand with call to grand.
+    * Updated demos.
+    * Use apifun in gammainc.
+
+stixbox (1.2.6-1)
+    * Initial version in ATOMS : 6th of August 2009
+    * This toolbox is based on the toolbox by Anders Holtsberg with extensions from the Paris Sud University.
+    * The Scilab toolbox stixbox is derived from the matlab stixbox 1.1 version 
+    * The translation was initiated by Maurice Goursat (INRIA).
+    * Jean-Philippe Chancelier (ENPC)  December 2001 
+    * Serge Steer (INRIA) April 2006 (stixbox-1.2.4) : 
+    - adaptation to scilab-4.0 endfunctions added,
+    - adapted to new graphic,
+    - mtlb_xxx function replaced by native Scilab functions calls,
+    - on line help translated in xml,
+    - beta, diff function removed (already defined in Scilab)
+    - textual info merged into the dataxx.sci files
+    - cleaner.sce file added
+    * Allan CORNET 
+    - October 2008
+    - adaptation to Scilab-5.x
+

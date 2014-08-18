@@ -1,0 +1,37 @@
+changelog of the specfun Toolbox
+
+specfun (0.4)
+    * Improved specfun_combine, to remove Kronecker product.
+    * Added specfun_ismember.
+    * Used apifun_argindefault.
+    * Removed specfun_checkflint.
+      Replaced with apifun_checkflint.
+
+specfun (0.3)
+    * Created specfun_getpath.
+    * Improved robustness and help page of nchoosek.
+    * In expm1, added unit tests for robustness.
+    * In log1p, added unit tests for robustness.
+    * In lambertw, added unit tests for robustness.
+    * In lambertw, changed order of b and z for consistency (backward compatibility lost).
+    * Removed assert function from all unit tests. Module specfun now depends on assert module.
+    * In lambertw, improved management and testing of %inf, %nan and zero.
+    * Made consistent use of specfun_checkflint.
+
+specfun (0.2)
+    * combine created
+    * combinerepeat created
+    * subset created
+    * made a consistent use of the apifun module
+
+specfun (0.1)
+    * gammainc function created
+    * lambertw function created
+    * log1p function created
+    * factorial created
+    * factoriallog created
+    * nchoosek created
+    * pascal created
+    * expm1 created
+ -- Michael Baudin <michael.baudin@scilab.org>  2010
+

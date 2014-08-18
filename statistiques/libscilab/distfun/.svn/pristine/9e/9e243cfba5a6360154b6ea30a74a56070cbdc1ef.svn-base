@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_binofitmm.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_binofitmm" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_binofitmm</refname>
+    <refpurpose>Binomial parameter estimates with method of moments</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   parmhat = distfun_binofitmm( data )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a matrix of doubles, the data, in the set {0,1,2,3,...}.</para></listitem></varlistentry>
+   <varlistentry><term>parmhat :</term>
+      <listitem><para> a 1-by-2 matrix of doubles, the parameters of the Binomial distribution. parmhat(1) is N, parmhat(2) is pr.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Estimates the parameters of the Binomial distribution
+with method of moments.
+In other words, finds the parameters so that
+the mean and variance of the distribution are
+equal to the empirical mean and empirical variance of the
+data.
+   </para>
+   <para>
+The implementation uses direct inversion.
+The exact solution may generate a non integer N :
+the estimated N is the integer nearest to the exact solution.
+Moreover, this may be lower than 1 : in this case,
+the estimate is set to 1.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Samples from Binomial distribution with
+// N=12 and pr=0.42
+data = [7 3 7 7 3 8 7 4 6 4]
+parmhat = distfun_binofitmm(data)
+N=parmhat(1);
+pr=parmhat(2);
+// Compare the (mean,variance) of the
+// distribution against the data :
+// must be close, but cannot be equal
+// because N must be integer.
+[M,V]=distfun_binostat(N,pr)
+M_data=mean(data)
+V_data=variance(data)
+
+// Error : We must have more than one data.
+// parmhat = distfun_binofitmm(0)
+
+// Error : The mean must be nonzero.
+// parmhat = distfun_binofitmm([0 0])
+
+// Error : The estimated pr is lower or equal than zero
+// parmhat = distfun_binofitmm(1:7)
+// parmhat = distfun_binofitmm(1:8)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

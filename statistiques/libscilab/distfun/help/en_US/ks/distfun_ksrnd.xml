@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ksrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ksrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ksrnd</refname>
+    <refpurpose>Kolmogorov-Smirnov random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_ksrnd(N)
+   x = distfun_ksrnd(N,[m,n])
+   x = distfun_ksrnd(N,m,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles , the number of observations. N belongs to the set {1,2,3,4,.......,2147483647}</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers, x in [0,1]</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Kolmogorov-Smirnov distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_ksrnd(10)
+
+// Check x = distfun_ksrnd(N,v)
+x = distfun_ksrnd(100,[4 5])
+
+// Check actual distribution
+N=10;
+K=10000;
+h=scf();
+x=distfun_ksrnd(N,1,K);
+histplot(20,x);
+x=linspace(0,1);
+y=distfun_kspdf(x,N);
+plot(x,y,"b-")
+xtitle("Kolmogorov Smirnov Random Numbers","X","Density")
+legend(["Empirical","Exact"]);
+
+// Compare empirical CDF with exact CDF
+N=10;
+K=10000;
+y=1:K;
+y=y/K;
+x=distfun_ksrnd(N,[1,K]);
+x=gsort(x,"g","i");
+scf();
+plot(x,y,"r-");
+x=linspace(0,1);
+p=distfun_kscdf(x,N);
+plot(x,p,"b-");
+legend(["Empirical","Exact"]);
+xtitle("Kolmogorov-Smirnov Distribution","x","P(X<x)");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Binomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

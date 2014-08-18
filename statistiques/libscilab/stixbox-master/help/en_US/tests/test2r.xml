@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from test2r.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="test2r" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>test2r</refname>
+    <refpurpose>Test location equality of two samples using rank test</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   pval=test2r(x,y)
+   [pval,ranksum]=test2r(x,y)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a nx-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a ny-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>pval :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the two-sided p-value</para></listitem></varlistentry>
+   <varlistentry><term>ranksum :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the rank sum statistics</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Test location equality of two samples using rank test.
+   </para>
+   <para>
+This is the Wilcoxon-Mann-Whitney test.
+It is two sided.
+   </para>
+   <para>
+If you want a one sided alternative then divide pval by 2.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_binornd(10,0.5,20,1);
+y=distfun_binornd(10,0.5,20,1);
+pval=test2r(x,y)
+[pval,ranksum]=test2r(x,y)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Mann%E2%80%93Whitney_U</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

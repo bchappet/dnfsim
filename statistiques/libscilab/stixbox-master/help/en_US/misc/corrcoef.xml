@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from corrcoef.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="corrcoef" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>corrcoef</refname>
+    <refpurpose>Correlation coefficient</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   R=corrcoef(X)
+   R=corrcoef(x,y)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>X :</term>
+      <listitem><para> a n-by-nbvar matrix of doubles, where nbvar is the number of variables</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a n-by-1 or 1-by-n matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>y:</term>
+      <listitem><para> a n-by-1 or 1-by-n matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>R:</term>
+      <listitem><para> a 1-by-1 or nbvar-by-nbvar matrix of doubles, the linear correlation coefficient.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+<literal>corrcoef(x,y)</literal> returns the linear correlation
+coefficient of x and y.
+This is sometimes called Pearson's product-moment coefficient.
+   </para>
+   <para>
+The correlation coefficient between x and y is defined by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+R = \frac{\sum_{i=1}^n (x_i-\bar{x})(y_i-\bar{y})}
+{\sqrt{\sum_{i=1}^n (x_i-\bar{x})^2 \sum_{i=1}^n (y_i-\bar{y})^2}}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+<literal>corrcoef(X)</literal> returns the linear correlation
+coefficient between coumns of X.
+In this case, the correlation coefficient R and the
+covariance matrix C are related by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+R(i,j) = \frac{C(i,j)}{\sqrt{C(i,i)C(j,j)}}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+for i,j=1,2,...,nbvar.
+   </para>
+   <para>
+The corrcoef function is compatible with Matlab.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Source : [1], Example 2.6a
+x = [24.2;22.7;30.5;28.6;25.5;32;28.6;26.5;25.3;26;24.4;24.8;20.6;..
+25.1;21.4;23.7;23.9;25.2;27.4;28.3;28.8;26.6];
+y = [25;31;36;33;19;24;27;25;16;14;22;23;20;25;25;23;27;30;33;32;35;24];
+expected = 0.4189
+R = corrcoef ( x , y )
+// Draw the scatter plot
+scf();
+plot(x,y,"bo")
+
+// Source : [1], Example 2.6b
+x = [12 16 13 18 19 12 18 19 12 14];
+y = [73 67 74 63 73 84 60 62 76 71];
+R = corrcoef ( x , y )
+expected = -0.7638
+
+// For properly chosen data, the linear correlation
+// coefficient can be close to zero.
+n = 1000;
+x = linspace(-%pi/2,3*%pi/2,n);
+y = sin(x)+distfun_normrnd(0,0.5,1,n);
+R = corrcoef ( x , y )
+// This does not imply that there is no dependency
+// between the variables
+scf();
+plot(x,y,"bo")
+
+// See with one argument
+[X,txt] = getdata(1);
+R=corrcoef(X)
+expected=[
+1.           0.4615668    0.6934031
+0.4615668    1.           0.3544662
+0.6934031    0.3544662    1.
+];
+
+// Compute a correlation matrix
+// X is uncorrelated
+X = distfun_normrnd(0,1,30,4);
+// Put some correlation
+X(:,4) = sum(X,"c");
+R=corrcoef(X)
+// See that X4 is correlated with other Xi,
+// since the 4th column and 4th row have higher
+// values.
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2009 - CEA - Jean-Marc Martinez</member>
+   <member>Copyright (C) 2009-2010 - DIGITEO - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>[1] "Introduction to probability and statistics for engineers and scientists.", Chapter 2 Descriptive statistics, Sheldon Ross</para>
+   <para>[2] http://en.wikipedia.org/wiki/Correlation_and_dependence</para>
+   <para>[3] Pearson product-moment correlation coefficient, http://en.wikipedia.org/wiki/Pearson_product-moment_correlation_coefficient</para>
+</refsection>
+</refentry>

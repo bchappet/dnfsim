@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_genericpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_genericpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_genericpdf</refname>
+    <refpurpose>Compute the PDF from the CDF.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_genericpdf(x,cdffun)
+   distfun_genericpdf(x,cdffun,iscontinuous)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the points where to evaluate the PDF.</para></listitem></varlistentry>
+   <varlistentry><term>cdffun :</term>
+      <listitem><para> a list, the CDF function and its arguments</para></listitem></varlistentry>
+   <varlistentry><term>iscontinuous :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, %t for continuous variables, %f for integer variables (default iscontinuous=%t)</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The distfun_genericpdf function computes the PDF
+from a given CDF, by derivation.
+   </para>
+   <para>
+The CDF function should have header :
+   </para>
+   <para>
+<programlisting>
+p=cdffun(x,a)
+p=cdffun(x,a,b)
+p=cdffun(x,a,b,c)
+</programlisting>
+   </para>
+   <para>
+The cdffun function must be a list(f,a) or
+(f,a,b) or (f,a,b,c) where
+f is the PDF function and a, b, or c scalars which are automatically
+added at the end of the calling sequence.
+   </para>
+   <para>
+The performance of this function may be poor.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=3;
+v1=5;
+v2=6;
+distfun_genericpdf(x,list(distfun_fcdf,v1,v2))
+// Check with the exact PDF
+distfun_fpdf(x,v1,v2)
+
+// Integer distribution
+x=3;
+pr = 0.3;
+computed = distfun_genericpdf(x,list(distfun_geocdf,pr),%f)
+expected = distfun_geopdf(x,pr)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

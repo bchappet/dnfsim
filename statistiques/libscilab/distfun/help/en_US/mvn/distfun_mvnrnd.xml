@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_mvnrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_mvnrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_mvnrnd</refname>
+    <refpurpose>Normal random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x=distfun_mvnrnd(mu,sigma)
+   x=distfun_mvnrnd(mu,sigma,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a 1-by-d matrix of doubles, the average</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a d-by-d matrix of doubles, the covariance matrix, symmetric, positive definite</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows in x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a n-by-d matrix of doubles, the random numbers.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Multivariate Normal distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of
+the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+mu=[12,-31];
+sigma = [
+3.0  0.5
+0.5  1.0
+]
+n=1000;
+x=distfun_rndmvn(mu,sigma,5);
+disp(x)
+x=distfun_rndmvn(mu,sigma,n);
+plot(x(:,1),x(:,2),"b.")
+xtitle("Multivariate Normal Random Numbers","X1","X2")
+mean(x,"r") // Must be close to mu
+cov(x) // Must be close to sigma (requires stixbox)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

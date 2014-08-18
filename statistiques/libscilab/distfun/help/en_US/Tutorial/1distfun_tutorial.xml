@@ -1,0 +1,1254 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright (C) 2012-2013 - Michael Baudin
+-->
+<refentry
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:db="http://docbook.org/ns/docbook"
+  version="5.0-subset Scilab"
+  xml:lang="fr"
+  xml:id="distfun_tutorial">
+
+  <refnamediv>
+    <refname>Tutorial</refname>
+
+    <refpurpose>A tutorial of the Distfun toolbox.</refpurpose>
+  </refnamediv>
+
+  <refsection>
+    <title>Purpose</title>
+
+    <para>
+      The goal of this document is to illustrate practical uses
+      of the distfun toolbox.
+    </para>
+
+  </refsection>
+
+
+  <refsection>
+    <title>Normal distribution</title>
+
+    <para>
+      Reference: 68-95-99.7 rule. (2012, July 20). In Wikipedia, The Free Encyclopedia.
+      Retrieved 09:11, August 8, 2012, from
+      http://en.wikipedia.org/wiki/68-95-99.7_rule
+    </para>
+    <para>
+      Assume that X is a normally distributed random variable,
+      where &#956; is the mean of the distribution, and &#963; is its
+      standard deviation:
+      Therefore,
+    </para>
+
+    <para>
+      <latex>
+      <![CDATA[ 
+        \begin{eqnarray}
+        Pr(\mu-\sigma \le x \le \mu+\sigma)   &\approx& 0.6827 \\
+        Pr(\mu-2\sigma \le x \le \mu+2\sigma) &\approx& 0.9545 \\
+        Pr(\mu-3\sigma \le x \le \mu+3\sigma) &\approx& 0.9973
+        \end{eqnarray}
+ ]]>
+      </latex>
+    </para>
+
+    <para>
+      To check this, we can use the <literal>distfun_normcdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+distfun_normcdf(1,0,1)-distfun_normcdf(-1,0,1)
+distfun_normcdf(2,0,1)-distfun_normcdf(-2,0,1)
+distfun_normcdf(3,0,1)-distfun_normcdf(-3,0,1)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->distfun_normcdf(1,0,1)-distfun_normcdf(-1,0,1)
+ ans  =
+    0.6826895  
+-->distfun_normcdf(2,0,1)-distfun_normcdf(-2,0,1)
+ ans  =
+    0.9544997  
+-->distfun_normcdf(3,0,1)-distfun_normcdf(-3,0,1)
+ ans  =
+    0.9973002  
+    </screen>
+
+  </refsection>
+
+  <refsection>
+    <title>Binomial distribution</title>
+
+    <para>
+      Reference: Section 4.3 - Binomial Distribution,
+      "Introductory Probability and Statistical Applications" by Paul L. Meyer
+    </para>
+    <para>
+      Problem : Suppose that items coming off a production line are classified as
+	  defective (D), or nondefective (N), independently of each other. 
+	  The probability that an item is non-defective is pr=0.8. 
+	  At one point in the production, 
+	  we create a sample by randomly picking three items. 
+	  Compute the probability that the sample contains 0, 1, 2 or 3 non-defective 
+	  items.
+    </para>	  
+
+    <para>
+      Let X be the number of non-defective items in the sample. 
+	  Then X has a binomial distribution, with parameter pr=0.8.
+    </para>
+
+    <para>
+      To calculate the required probabilities, 
+	  we can use the <literal>distfun_binopdf</literal> function as follows.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+s0 = distfun_binopdf(0,3,0.8)
+s1 = distfun_binopdf(1,3,0.8)
+s2 = distfun_binopdf(2,3,0.8)
+s3 = distfun_binopdf(3,3,0.8)
+s0+s1+s2+s3
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->s0 = distfun_binopdf(0,3,0.8)
+ s1  = 
+    0.008  
+-->s1 = distfun_binopdf(1,3,0.8)
+ s2  = 
+    0.096   
+-->s2 = distfun_binopdf(2,3,0.8)
+ s5  = 
+    0.384   
+-->s3 = distfun_binopdf(3,3,0.8)
+ s8  = 
+    0.512  
+-->s0+s1+s2+s3
+ ans  =
+    1.  
+    </screen>
+
+  </refsection>
+
+  <refsection>
+    <title>Link between Binomial and Normal distribution</title>
+
+    <para>
+      Reference: http://en.wikipedia.org/wiki/Binomial_distribution, section "Normal_approximation"
+    </para>
+    <para>
+      When n increases, the binomial distribution with parameters n and pr approximates 
+	  the normal distribution with parameters n*pr and sqrt(n*pr*(1-pr)).
+    </para>	  
+	
+	<programlisting role="example">
+      <![CDATA[ 
+n=[1 2 4 8 16 32];
+pr=0.5;
+ny=3;
+nx=2;
+scf();
+for i=1:nx
+    for j=1:ny
+        ij=(i-1)*ny + j;
+        subplot(ny,nx,ij)
+        mu=n(ij)*pr;
+        sigma=sqrt(n(ij)*pr*(1-pr));
+        xmin=max(mu-3*sigma,0);
+        xmax=min(mu+3*sigma,n(ij));
+        x=linspace(xmin,xmax,100);
+        xbino=unique(floor(x));
+        y=distfun_binopdf(xbino,n(ij),pr);
+        plot(xbino,y,"ro");
+        y=distfun_normpdf(x,mu,sigma);
+        plot(x,y,"b-");
+        xtitle("n="+string(n(ij)),"X","Density");
+        legend(["Binomiale","Normal"]);
+    end
+end
+ ]]>
+    </programlisting>
+
+	<para>
+The previous script produces the following figure.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="norm_vs_bino.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+  </refsection>
+
+  <refsection>
+    <title>Link between Poisson and Normal distribution</title>
+
+    <para>
+      Reference: http://en.wikipedia.org/wiki/Poisson_distribution, section "Related distributions"
+    </para>
+    <para>
+      When lambda increases, the Poisson distribution with parameter lambda approximates 
+	  the normal distribution with mean lambda and standard deviation sqrt(lambda).
+    </para>	  
+	
+	<programlisting role="example">
+      <![CDATA[ 
+lambda=[4. 16. 32. 10000.];
+ny=2;
+nx=2;
+scf();
+for i=1:nx
+    for j=1:ny
+        ij=(i-1)*ny + j;
+        subplot(ny,nx,ij)
+		mu=lambda(ij);
+		sigma=sqrt(lambda(ij));
+        xmin=max(mu-3*sigma,0);
+        xmax=mu+3*sigma;
+        x=linspace(xmin,xmax,100);
+        xpoi=unique(floor(x));
+        y=distfun_poisspdf(xpoi,lambda(ij));
+        plot(xpoi,y,"ro");
+        y=distfun_normpdf(x,mu,sigma);
+        plot(x,y,"b-");
+        xtitle("lambda="+string(lambda(ij)));
+        legend(["Poisson","Normal"]);
+    end
+end
+ ]]>
+    </programlisting>
+
+	<para>
+The previous script produces the following figure.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="norm_vs_poiss.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+  </refsection>
+
+  <refsection>
+    <title>Geometric distribution</title>
+
+    <para>
+      Reference: Section 8.4 - Geometric Distribution,
+      "Introductory Probability and Statistical Applications" by Paul L. Meyer
+    </para>
+    <para>
+      Problem : If the probability of a certain test yielding "positive" reaction 
+	  equals 0.4, what is the probability that fewer than 5 "negative" reactions occur 
+	  before the first positive reaction occur.
+	</para>  
+
+	<para>  
+	  Let X be the number of negative reactions, before the first positive 
+	  reaction occur. 
+	  Then X has a geometric distribution with parameter pr=0.4. 
+	  We have to compute P(X&lt;=4).
+    </para>
+
+    <para>
+      To calculate the required probability, 
+	  we can use the <literal>distfun_geocdf</literal> function as follows.
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+p = distfun_geocdf(4,0.4)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->p = distfun_geocdf(4,0.4)
+ p  =
+    0.92224 
+    </screen>
+
+  </refsection>
+  
+  <refsection>
+    <title>Hypergeometric distribution</title>
+
+    <para>
+      Reference: Section 8.7 - Hypergeometric Distribution,
+      "Introductory Probability and Statistical Applications" by Paul L. Meyer
+    </para>
+    <para>
+      Problem : Small electric motors are shipped in lots of 50. Before such a shipment
+	  is accepted, an inspector chooses 5 of these motors and inspects them. If none of these
+	  motors are defective, the lot is accepted. If one or more are found to be defective, the 
+	  entire shipment is inspected. Suppose that there are, in fact, three defective motors in
+	  the lot. What is the probability that 100 percent inspection is required?
+	</para>  
+	<para>  
+	Let the number of defective motors found be X. 
+    Then X has an hypergeometric distribution, with parameters: 
+	the total number of motors M=50, 
+	the number of defective	motors k=3 and 
+	the number of motors inspected N=5.
+	</para>
+	
+    <para>
+	100 percent inspection will be required if and only if X>=1. Hence,
+	we have to compute P(X>=1)=P(X>0).
+	</para>
+	
+    <para>
+      To calculate the required probability, we can use 
+	  the <literal>distfun_hygecdf</literal> function as follows.
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+p = distfun_hygecdf(0,50,3,5,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->p = distfun_hygecdf(0,50,3,5,%f)
+ p  =
+    0.2760204 
+    </screen>
+
+  </refsection>
+  
+  <refsection>
+    <title>Hypergeometric distribution: recurrence</title>
+
+    <para>
+	The Hypergeometric distribution function f with parameters M, k and N 
+	satisfies the following recurrence:
+    </para>
+    
+    <latex>
+    f(x+1)=\frac{(N-x)(k-x)}{(x+1)(M-k-N+x+1)}f(x)
+    </latex>
+
+    <para>
+	for x=max(0,N-M+k),...,min(N,k).
+    </para>
+	
+    <para>
+	The following script checks this property for M=10, k=5 and N=7. 
+	For X=0 and X=1, the probability is zero, and this is why 
+	we start from X=2.
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+M=10;
+k=5;
+N=7;
+p=distfun_hygepdf(2,M,k,N);
+mprintf("pdf(%s)=%s\n",string(0),string(p))
+for x=2:4
+    p=(N-x)*(k-x)*p/(x+1)/(M-N-k+x+1);
+	px=distfun_hygepdf(x+1,M,k,N);
+	mprintf("P(X=%s): recurrence=%s, PDF=%s\n",..
+	string(x+1),string(p),string(px))
+end
+ ]]>
+    </programlisting>
+	
+    <para>
+	The previous script produces the following output.
+    </para>
+	
+    <screen>
+P(X=3): recurrence=0.4166667, PDF=0.4166667
+P(X=4): recurrence=0.4166667, PDF=0.4166667
+P(X=5): recurrence=0.0833333, PDF=0.0833333
+    </screen>
+	
+  </refsection>
+
+    <refsection>
+    <title>Poisson distribution</title>
+
+    <para>
+      Reference: Section 8.2 - The Poisson Distribution as approximation to the Binomial Distribution ,  
+      "Introductory Probability and Statistical Applications" by Paul L. Meyer
+    </para>
+    <para>
+      Problem : At a busy traffic intersection the probability p of an individual car having an accident is very
+	  small, say p=0.002. However, during a certain part of the day, say between 4 p.m and 6 p.m , a large 
+	  number of cars pass through the intersection, say 1000. Under these conditions, what is the probability of two
+	  or more accidents occuring during that period?
+	</para>  
+	<para>  
+	Let us assume that if X is the number of accidents among the 1000 cars. 
+	Then X has a binomial distribution with parameter pr=0.002. 
+	Hence, we have to compute P(X>=2)=P(X>1).
+	</para>
+    <para>
+      To calculate binomial probability, we can use the <literal>distfun_binocdf</literal> function as follows.
+    </para>
+    <programlisting role="example">
+      <![CDATA[ 
+p = distfun_binocdf(1,1000,0.002,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->distfun_binocdf(1,1000,0.002,%f)
+ p  =
+    0.5942651
+    </screen>
+
+	<para>
+	If n is large and pr is small, we can approximate binomial distribution 
+	using poisson distribution.
+ 	</para>
+	
+    <para>
+      To calculate poisson probability, we can use the 
+	  <literal>distfun_poisscdf</literal> function as follows.
+    </para>
+    <programlisting role="example">
+      <![CDATA[ 
+p = distfun_poisscdf(1,2,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->p = distfun_poisscdf(1,2,%f)
+ p  = 
+    0.5939942 
+    </screen>
+
+  </refsection>
+ 
+    <refsection>
+    <title>Chi-square distribution</title>
+
+    <para>
+      Reference: Section 5.8.1 - The Chisquare Distribution, and p.613 Table A2, 
+      "Introduction to Probability and Statistics for Engineers and Scientists 3rd ed - S. Ross (Elsevier, 2004)"
+    </para>
+    <para>
+	Compute a table of complementary quantiles of the Chi-Square distribution, 
+	using given values of alpha and given degrees of freedom k. 
+	In other words, compute x so that P(X>x)=alpha, for given values of alpha. 
+	</para>  
+	
+    <programlisting role="example">
+      <![CDATA[ 
+alpha = [
+0.995
+0.99
+0.975
+0.95
+0.05 
+0.025 
+0.01 
+0.005
+];
+A = []; 
+for k=1:30
+    A(k,:) = distfun_chi2inv(alpha',k,%f);
+end
+disp([(1:30)' A])
+ ]]>
+    </programlisting>
+
+    <para>
+	The previous script produces the following output.
+	</para>  
+	
+      <para>
+        <informaltable border="1">
+
+          <tr>
+          <td>k</td>
+          <td>alpha=0.995</td>
+          <td>alpha=0.99</td>
+          <td>alpha=0.975</td>
+          <td>alpha=0.95</td>
+          <td>alpha=0.05</td>
+          <td>alpha=0.025</td>
+          <td>alpha=0.01</td>
+          <td>alpha=0.005</td>
+          </tr>
+
+          <tr>
+            <td>k=1</td>
+            <td>0.00004</td>
+            <td>0.00016</td>
+            <td>0.00098</td>
+            <td>0.00393</td>
+            <td>3.84146</td>
+            <td>5.02389</td>
+            <td>6.6349</td>
+            <td>7.87944</td>
+          </tr>
+          <tr>
+            <td>k=2</td>
+            <td>0.01003</td>
+            <td>0.02010</td>
+            <td>0.05064</td>
+            <td>0.10259</td>
+            <td>5.99146</td>
+            <td>7.37776</td>
+            <td>9.21034</td>
+            <td>10.5966</td>
+          </tr>
+          <tr>
+            <td>k=3</td>
+            <td>0.07172</td>
+            <td>0.11483</td>
+            <td>0.21580</td>
+            <td>0.35185</td>
+            <td>7.81473</td>
+            <td>9.3484</td>
+            <td>11.3449</td>
+            <td>12.8382</td>
+          </tr>
+          <tr>
+            <td>k=4</td>
+            <td>0.20699</td>
+            <td>0.29711</td>
+            <td>0.48442</td>
+            <td>0.71072</td>
+            <td>9.48773</td>
+            <td>11.1433</td>
+            <td>13.2767</td>
+            <td>14.8603</td>
+          </tr>
+          <tr>
+            <td>k=5</td>
+            <td>0.41174</td>
+            <td>0.55430</td>
+            <td>0.83121</td>
+            <td>1.14548</td>
+            <td>11.0705</td>
+            <td>12.8325</td>
+            <td>15.0863</td>
+            <td>16.7496</td>
+          </tr>
+          <tr>
+            <td>k=6</td>
+            <td>0.67573</td>
+            <td>0.87209</td>
+            <td>1.23734</td>
+            <td>1.63538</td>
+            <td>12.5916</td>
+            <td>14.4494</td>
+            <td>16.8119</td>
+            <td>18.5476</td>
+          </tr>
+          <tr>
+            <td>k=7</td>
+            <td>0.98926</td>
+            <td>1.23904</td>
+            <td>1.68987</td>
+            <td>2.16735</td>
+            <td>14.0671</td>
+            <td>16.0128</td>
+            <td>18.4753</td>
+            <td>20.2777</td>
+          </tr>
+          <tr>
+            <td>k=8</td>
+            <td>1.34441</td>
+            <td>1.6465</td>
+            <td>2.17973</td>
+            <td>2.73264</td>
+            <td>15.5073</td>
+            <td>17.5345</td>
+            <td>20.0902</td>
+            <td>21.955</td>
+          </tr>
+          <tr>
+            <td>k=9</td>
+            <td>1.73493</td>
+            <td>2.0879</td>
+            <td>2.70039</td>
+            <td>3.32511</td>
+            <td>16.919</td>
+            <td>19.0228</td>
+            <td>21.666</td>
+            <td>23.5894</td>
+          </tr>
+          <tr>
+            <td>k=10</td>
+            <td>2.15586</td>
+            <td>2.55821</td>
+            <td>3.24697</td>
+            <td>3.9403</td>
+            <td>18.307</td>
+            <td>20.4832</td>
+            <td>23.2093</td>
+            <td>25.1882</td>
+          </tr>
+          <tr>
+            <td>k=11</td>
+            <td>2.60322</td>
+            <td>3.05348</td>
+            <td>3.81575</td>
+            <td>4.57481</td>
+            <td>19.6751</td>
+            <td>21.92</td>
+            <td>24.725</td>
+            <td>26.7568</td>
+          </tr>
+          <tr>
+            <td>k=12</td>
+            <td>3.07382</td>
+            <td>3.57057</td>
+            <td>4.40379</td>
+            <td>5.22603</td>
+            <td>21.0261</td>
+            <td>23.3367</td>
+            <td>26.217</td>
+            <td>28.2995</td>
+          </tr>
+          <tr>
+            <td>k=13</td>
+            <td>3.56503</td>
+            <td>4.10692</td>
+            <td>5.00875</td>
+            <td>5.89186</td>
+            <td>22.362</td>
+            <td>24.7356</td>
+            <td>27.6882</td>
+            <td>29.8195</td>
+          </tr>
+          <tr>
+            <td>k=14</td>
+            <td>4.07467</td>
+            <td>4.66043</td>
+            <td>5.62873</td>
+            <td>6.57063</td>
+            <td>23.6848</td>
+            <td>26.1189</td>
+            <td>29.1412</td>
+            <td>31.3193</td>
+          </tr>
+          <tr>
+            <td>k=15</td>
+            <td>4.60092</td>
+            <td>5.22935</td>
+            <td>6.26214</td>
+            <td>7.26094</td>
+            <td>24.9958</td>
+            <td>27.4884</td>
+            <td>30.5779</td>
+            <td>32.8013</td>
+          </tr>
+          <tr>
+            <td>k=16</td>
+            <td>5.14221</td>
+            <td>5.81221</td>
+            <td>6.90766</td>
+            <td>7.96165</td>
+            <td>26.2962</td>
+            <td>28.8454</td>
+            <td>31.9999</td>
+            <td>34.2672</td>
+          </tr>
+          <tr>
+            <td>k=17</td>
+            <td>5.69722</td>
+            <td>6.40776</td>
+            <td>7.56419</td>
+            <td>8.67176</td>
+            <td>27.5871</td>
+            <td>30.191</td>
+            <td>33.4087</td>
+            <td>35.7185</td>
+          </tr>
+          <tr>
+            <td>k=18</td>
+            <td>6.2648</td>
+            <td>7.01491</td>
+            <td>8.23075</td>
+            <td>9.39046</td>
+            <td>28.8693</td>
+            <td>31.5264</td>
+            <td>34.8053</td>
+            <td>37.1565</td>
+          </tr>
+          <tr>
+            <td>k=19</td>
+            <td>6.84397</td>
+            <td>7.63273</td>
+            <td>8.90652</td>
+            <td>10.117</td>
+            <td>30.1435</td>
+            <td>32.8523</td>
+            <td>36.1909</td>
+            <td>38.5823</td>
+          </tr>
+          <tr>
+            <td>k=20</td>
+            <td>7.43384</td>
+            <td>8.2604</td>
+            <td>9.59078</td>
+            <td>10.8508</td>
+            <td>31.4104</td>
+            <td>34.1696</td>
+            <td>37.5662</td>
+            <td>39.9968</td>
+          </tr>
+          <tr>
+            <td>k=21</td>
+            <td>8.03365</td>
+            <td>8.8972</td>
+            <td>10.2829</td>
+            <td>11.5913</td>
+            <td>32.6706</td>
+            <td>35.4789</td>
+            <td>38.9322</td>
+            <td>41.4011</td>
+          </tr>
+          <tr>
+            <td>k=22</td>
+            <td>8.64272</td>
+            <td>9.54249</td>
+            <td>10.9823</td>
+            <td>12.338</td>
+            <td>33.9244</td>
+            <td>36.7807</td>
+            <td>40.2894</td>
+            <td>42.7957</td>
+          </tr>
+          <tr>
+            <td>k=23</td>
+            <td>9.26042</td>
+            <td>10.1957</td>
+            <td>11.6886</td>
+            <td>13.0905</td>
+            <td>35.1725</td>
+            <td>38.0756</td>
+            <td>41.6384</td>
+            <td>44.1813</td>
+          </tr>
+          <tr>
+            <td>k=24</td>
+            <td>9.88623</td>
+            <td>10.8564</td>
+            <td>12.4012</td>
+            <td>13.8484</td>
+            <td>36.415</td>
+            <td>39.3641</td>
+            <td>42.9798</td>
+            <td>45.5585</td>
+          </tr>
+          <tr>
+            <td>k=25</td>
+            <td>10.5197</td>
+            <td>11.524</td>
+            <td>13.1197</td>
+            <td>14.6114</td>
+            <td>37.6525</td>
+            <td>40.6465</td>
+            <td>44.3141</td>
+            <td>46.9279</td>
+          </tr>
+          <tr>
+            <td>k=26</td>
+            <td>11.1602</td>
+            <td>12.1981</td>
+            <td>13.8439</td>
+            <td>15.3792</td>
+            <td>38.8851</td>
+            <td>41.9232</td>
+            <td>45.6417</td>
+            <td>48.2899</td>
+          </tr>
+          <tr>
+            <td>k=27</td>
+            <td>11.8076</td>
+            <td>12.8785</td>
+            <td>14.5734</td>
+            <td>16.1514</td>
+            <td>40.1133</td>
+            <td>43.1945</td>
+            <td>46.9629</td>
+            <td>49.6449</td>
+          </tr>
+          <tr>
+            <td>k=28</td>
+            <td>12.4613</td>
+            <td>13.5647</td>
+            <td>15.3079</td>
+            <td>16.9279</td>
+            <td>41.3371</td>
+            <td>44.4608</td>
+            <td>48.2782</td>
+            <td>50.9934</td>
+          </tr>
+          <tr>
+            <td>k=29</td>
+            <td>13.1211</td>
+            <td>14.2565</td>
+            <td>16.0471</td>
+            <td>17.7084</td>
+            <td>42.557</td>
+            <td>45.7223</td>
+            <td>49.5879</td>
+            <td>52.3356</td>
+          </tr>
+          <tr>
+            <td>k=30</td>
+            <td>13.7867</td>
+            <td>14.9535</td>
+            <td>16.7908</td>
+            <td>18.4927</td>
+            <td>43.773</td>
+            <td>46.9792</td>
+            <td>50.8922</td>
+            <td>53.672</td>
+          </tr>
+
+        </informaltable>
+      </para>
+
+    </refsection>
+
+    <refsection>
+    <title>Exponential distribution</title>
+
+    <para>
+      Reference: Section 5.6 - Exponentials Random Variables , 
+      "Introduction to Probability and Statistics for Engineers and Scientists 3rd ed - S. Ross (Elsevier, 2004) "
+    </para>
+    <para>
+	Problem: Suppose the number of miles a car can run before its batters discharges out is exponentially distributed
+	with an average value of 10 000 miles. 
+	If a 5 000 miles trip is to be made, what is the probability that the trip would
+	be completed without the replacement of battery?
+	</para>  
+	<para>  
+	The exponential distribution has memoryless property. 
+	Let X be the remaining lifetime of the battery. 
+	Therefore, X has exponential distribution with parameter lambda = 1/10000. 
+	Hence the desired probability is
+	</para>
+    <para>
+      <latex>
+      <![CDATA[ 
+		P(X \geq 5000) = e^\left(-5000\lambda\right) = e^\left(-\frac{1}{2}\right) = 0.606	
+	  ]]>
+      </latex>
+    </para>
+
+	<para>
+	with 3 significant digits.
+	</para>
+	
+	<para>  
+	To compute the probability, we can use the distfun_expcdf function as follows.
+	</para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+p = distfun_expcdf(5000,10000,%f)
+ ]]>
+    </programlisting>
+    
+	<para>
+      The previous script produces the following output. 
+    </para>	  
+	
+	    <screen>
+-->p = distfun_expcdf(5000,10000000000,%f)
+ p  =
+    0.6065307
+    </screen>
+	
+  </refsection>
+  
+    <refsection>
+    <title>Uniform distribution</title>
+
+    <para>
+      Reference: Section 5.4 - The Uniform Random Variable, 
+      "Introduction to Probability and Statistics for Engineers and Scientists 3rd ed - S. Ross (Elsevier, 2004) "
+    </para>
+    <para>
+	Problem: Buses arrive at an interval of 15 minutes starting at 7 a.m. 
+	That is, they arrive at 7:00, 7:15, 7:30, 7:45, and so on. 
+	If a passenger arrives at the stop between 7:00 and 7:30, 
+	calculate the probability that he waits, (a) less that 5
+	minutes for a bus; (b) at least 12 minutes for a bus.
+	</para>  
+	<para>  
+	Let X be the arrival time of the passenger of the bus. 
+	Then X is a uniform random variable in the interval [0,30]. 
+	The desired probability for (a) is	
+	</para>
+
+    <para>
+      <latex>
+      <![CDATA[ 
+		P(10 \leq X \leq 15) + P(25 \leq X \leq 30) = \frac{5}{30} + \frac{5}{30} = \frac{1}{3}	
+	  ]]>
+      </latex>
+    </para>
+	
+	    <programlisting role="example">
+      <![CDATA[ 
+	  a = 0
+	  b = 30
+	  p = (distfun_unifcdf(15,a,b) - distfun_unifcdf(10,a,b))+..
+	  (distfun_unifcdf(30,a,b) - distfun_unifcdf(25,a,b))
+ ]]>
+    </programlisting>
+    
+	<para>
+      The previous script produces the following output. 
+    </para>	  
+	
+	<screen>
+-->p = (distfun_unifcdf(15,a,b) - distfun_unifcdf(10,a,b))+..
+-->(distfun_unifcdf(30,a,b) - distfun_unifcdf(25,a,b))
+ p  =
+    0.3333333    
+	</screen>
+
+	
+	<para>  
+	Similarly, he would have to wait at least 12 minutes if he arrives between 7:00 and 7:03 or between 7:15 and 7:18,
+	the desired probability for (b) is	
+	</para>
+    <para>
+      <latex>
+      <![CDATA[ 
+		P(0 \leq X \leq 3) + P(15 \leq X \leq 18) = \frac{3}{30} + \frac{3}{30} = \frac{1}{5}	
+	  ]]>
+      </latex>
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+	  a = 0
+	  b = 30
+	  p = (distfun_unifcdf(3,a,b) - distfun_unifcdf(0,a,b))+..
+	  (distfun_unifcdf(18,a,b) - distfun_unifcdf(15,a,b))
+ ]]>
+    </programlisting>
+    
+	<para>
+      The previous script produces the following output . 
+    </para>	  
+	
+	<screen>
+-->p = (distfun_unifcdf(3,0,30) - distfun_unifcdf(0,0,30))+..
+-->(distfun_unifcdf(18,0,30) - distfun_unifcdf(15,0,30))
+ p  =
+    0.2     
+	</screen>
+	
+  </refsection>
+  
+    <refsection>
+    <title>Hypergeometric and Binomial distributions</title>
+
+    <para>
+Assume that X has Hypergeometric distribution 
+with parameters M, k and N.
+Assume that Y has Binomial distribution 
+with parameters N and pr=k/M.
+    </para>
+
+    <para>
+The following figure presents the Hypergeometric urn.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="hypergeometric_urn.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+
+    <para>
+The following figure presents the Binomial urn.
+    </para>
+	
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="binomial_urn.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+
+	<para>
+If M and k are large compared to N, 
+and if p is not close to 0 or 1, 
+then X and Y have approximately the 
+same distribution.
+    </para>
+
+	<para>
+In the following script, we use a constant value of N and pr, and 
+let M and k increase. 
+We can see that the Hypergeometric distribution become 
+closer and closer to the Binomial distribution.
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+M=[80 800 8000 80000];
+k=[50 500 5000 50000];
+N=30;
+scf();
+for i=1:2
+    for j=1:2
+        ij=(i-1)*2 + j;
+        subplot(2,2,ij)
+        x=(0:N)';
+        pr=k(ij)/M(ij);
+        pHy=distfun_hygepdf(x,M(ij),k(ij),N);
+        pBi=distfun_binopdf(x,N,pr);
+        plot(x,pHy,"ro-");
+        plot(x,pBi,"bo-");
+        strtitle=msprintf("M=%s, k=%s, N=%s, pr=%s", ..
+        string(M(ij)),string(k(ij)),string(N),string(pr));
+        xtitle(strtitle)
+        legend(["Hypergeometric" "Binomial"],"in_upper_left");
+    end
+end
+ ]]>
+    </programlisting>
+
+	<para>
+The previous script produces the following figure.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="hyge_vs_bino.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+
+  </refsection>
+
+  <refsection>
+    <title>Gumbel distribution</title>
+
+    <para>
+Let X maximum of n random variables with normal distribution.
+When n increases, the distribution of X becomes 
+closer and closer to the Gumbel distribution.
+    </para>
+
+    <para>
+Reference
+http://www.panix.com/~kts/Thesis/extreme/extreme2.html
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+stacksize("max");
+N=2000;
+mu=0;
+sigma=1;
+x=linspace(0,6,100);
+scf();
+xtitle("Max. of n Normal variables","X","Frequency")
+//
+n=10;
+R=distfun_normrnd(mu,sigma,n,N);
+X=max(R,"r");
+histplot(50,X,style=2);
+b = distfun_norminv(1-1/n,mu,sigma);
+a = distfun_norminv(1-1/(n*exp(1)),mu,sigma) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+//
+n=100;
+R=distfun_normrnd(mu,sigma,n,N);
+X=max(R,"r");
+histplot(50,X,style=3);
+b = distfun_norminv(1-1/n,mu,sigma);
+a = distfun_norminv(1-1/(n*exp(1)),mu,sigma) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+//
+n=1000;
+R=distfun_normrnd(mu,sigma,n,N);
+X=max(R,"r");
+histplot(50,X,style=4);
+legend(["n=10","n=100","n=1000"]);
+b = distfun_norminv(1-1/n,mu,sigma);
+a = distfun_norminv(1-1/(n*exp(1)),mu,sigma) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+ ]]>
+    </programlisting>
+
+	<para>
+The previous script produces the following figure.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="max-n-norm-variables.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+
+    <para>
+Let X maximum of n random variables with exponential distribution.
+When n increases, the distribution of X becomes 
+closer and closer to the Gumbel distribution.
+Reference
+http://www.panix.com/~kts/Thesis/extreme/extreme2.html
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+stacksize("max");
+N=2000;
+mu=20;
+x=linspace(0,300,100);
+scf();
+xtitle("Max. of n Exp variables","X","Frequency")
+//
+n=10;
+R=distfun_exprnd(mu,n,N);
+X=max(R,"r");
+histplot(50,X,style=2);
+b = distfun_expinv(1-1/n,mu);
+a = distfun_expinv(1-1/(n*exp(1)),mu) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+//
+n=100;
+R=distfun_exprnd(mu,n,N);
+X=max(R,"r");
+histplot(50,X,style=3);
+b = distfun_expinv(1-1/n,mu);
+a = distfun_expinv(1-1/(n*exp(1)),mu) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+//
+n=1000;
+R=distfun_exprnd(mu,n,N);
+X=max(R,"r");
+histplot(50,X,style=4);
+legend(["n=10","n=100","n=1000"]);
+b = distfun_expinv(1-1/n,mu);
+a = distfun_expinv(1-1/(n*exp(1)),mu) - b;
+y=distfun_evpdf(-x,-b,a);
+plot(x,y,"k");
+ ]]>
+    </programlisting>
+	
+	<para>
+The previous script produces the following figure.
+    </para>
+	
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="max-n-exp-variables.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+
+  </refsection>
+
+    <refsection>
+    <title>Multinomial distribution</title>
+
+    <para>
+	Source : Wikipedia, Multinomial distribution, 
+	http://en.wikipedia.org/wiki/Multinomial_distribution
+    </para>
+	
+    <para>
+	In a recent three-way election for a large country, candidate A 
+	received 20% of the votes, candidate B received 30% of the votes, 
+	and candidate C received 50% of the votes. 
+	If six voters are selected randomly, what is the probability 
+	that there will be exactly one supporter for candidate A, 
+	two supporters for candidate B and three supporters 
+	for candidate C in the sample?
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+n=6
+P=[0.2,0.3,0.5]
+x=[1,2,3]
+p=distfun_mnpdf(x,n,P) // 0.135
+ ]]>
+    </programlisting>
+    </refsection>
+  </refentry>

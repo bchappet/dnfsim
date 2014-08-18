@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_evinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_evinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_evinv</refname>
+    <refpurpose>Extreme value (Gumbel) Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_evinv ( p , mu , sigma )
+   x = distfun_evinv ( p , mu , sigma , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the location.</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the scale. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the inverse cumulated probability distribution function of the Extreme value (Gumbel) function.
+This is the minimum Gumbel distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_evinv([0.5 0.9 0.7],0,1)
+expected = [-0.3665129 0.8340324 0.1856268]
+
+x=1;
+mu=0.5;
+sigma=2.;
+lowertail=%t;
+p=distfun_evcdf(x,mu,sigma,lowertail);
+x1=distfun_evinv(p,mu,sigma,lowertail)
+//
+lowertail=%f;
+p=distfun_evcdf(x,mu,sigma,lowertail);
+x1=distfun_evinv(p,mu,sigma,lowertail)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

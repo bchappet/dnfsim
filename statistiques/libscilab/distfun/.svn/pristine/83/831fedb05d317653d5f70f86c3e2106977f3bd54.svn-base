@@ -1,0 +1,949 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ *
+ * Copyright (C) 2012 - Michael Baudin
+ *
+ * Reminder:
+ * &lt;	less than (i.e. <)
+ * &#8804;	less-than or equal to (i.e. <=)
+ * &#8805;	greater-than or equal to (i.e. >=)
+ *
+-->
+<refentry
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:db="http://docbook.org/ns/docbook"
+  version="5.0-subset Scilab"
+  xml:lang="fr"
+  xml:id="distfun_overview">
+
+  <refnamediv>
+    <refname>Distfun</refname>
+
+    <refpurpose>An overview of the Distfun toolbox.</refpurpose>
+  </refnamediv>
+
+  <refsection>
+    <title>Purpose</title>
+
+    <para>
+      The goal of this toolbox is to provide accurate distribution functions.
+      The provided functions are designed to be compatible with Matlab.
+    </para>
+
+    <para>
+      The goals of this toolbox are the following.
+      <itemizedlist>
+        <listitem>
+          <para>
+            All functions are tested with tables (actually, csv datasets).
+            The tests includes accuracy tests, so that the accuracy
+            should by from 13 to 15 significant digits.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            For each distribution, we have:
+            <itemizedlist>
+              <listitem>
+                <para>
+                  the probability distribution function (PDF),
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  the cumulated distribution function (CDF),
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  the inverse CDF (quantile),
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  the random number generator,
+                </para>
+              </listitem>
+              <listitem>
+                <para>
+                  the statistics (mean and variance).
+                </para>
+              </listitem>
+            </itemizedlist>
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The CDF provides the upper and the lower tail of the
+            distribution, for accuracy reasons.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The uniform random numbers are of high quality.
+            The default is to use the Mersenne-Twister generator.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            Each function has a consistent help page. 
+            This removes confusions in the meaning
+            of the parameters and clarifies the differences
+            with other computing languages (e.g. R).
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <para>
+      The design is similar to Matlab's distribution functions.
+      A significant difference with Matlab's function is that both
+      the upper and lower tails are available in the CDF of the "distfun" toolbox, while
+      Matlab only provides the lower tail.
+      Hence, "distfun" should provide a better accuracy when
+      probabilities close to 1 are computed (e.g. p=1 - 1.e-4).
+    </para>
+
+    <para>
+      The differences with Scilab is that a consistent set of
+      functions is provided.
+      First, Scilab currently does not provide the PDFs.
+      Users may write their own functions: this is not as easy as it
+      seems, and may lead to very innaccurate results if floating point
+      issues are ignored.
+      Secondly, Scilab does not provide a consistent sets of functions:
+      the CDF and the random number generators are provided in two
+      different toolboxes, with no consistency.
+      Thirdly, Scilab requires that we provide the argument Q 
+      (which is mathematically equal to 1-P), no matter if we 
+      want the lower or the upper tail. 
+	  Fourth, the inverse CDF functions in Scilab do not manage extreme 
+	  values of p (i.e. zero or one). 
+	  Fifth, inverse discrete distributions produces doubles with 
+	  fractional values instead of integer values (e.g. 1.3234887 
+	  instead of 2, with the Poisson distribution, for example). 
+	  Sixth, the cdf* functions allows to compute one parameter from 
+	  the others, which is unnecessary for the parameters of the 
+	  distribution (which is computed, in practice, either with the moments methods, 
+	  or with the maximum likelyhood function, for example). 
+    </para>
+
+    <para>
+      The difference with Stixbox is that the current function are
+      tested, accurate, with consistent help pages.
+    </para>
+
+    <para>
+      The toolbox is based on both macros and compiled source code.
+    </para>
+
+  </refsection>
+
+
+  <refsection>
+    <title>Quick start</title>
+
+    <para>
+      Reference:
+      Introduction to probability and statistics
+      for engineers and scientists,
+      3rd Edition, Sheldon Ross, Elsevier, 2004
+    </para>
+
+    <para>
+      Example 2.5a, p.33
+      Assume that X is a Normal random variable with mean m
+      and standard deviation s:
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+m = 70.571
+s = 14.354
+ ]]>
+    </programlisting>
+
+    <para>
+      What is the probability that X
+      falls in the interval [m-s,m+s]?
+    </para>
+
+    <para>
+      To answer to this question, we use the <literal>distfun_normcdf</literal> function,
+      which computes the cumulated density function of the normal distribution.
+      We first compute P(X&lt;m-s), P(X&lt;m+s) and then compute the difference
+      to evaluate P(m-s&lt;X&lt;m+s).
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+p1=distfun_normcdf(m-s,m,s)
+p2=distfun_normcdf(m+s,m,s)
+p2-p1
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->p1=distfun_normcdf(m-s,m,s)
+ p1  =
+    0.1586553
+-->p2=distfun_normcdf(m+s,m,s)
+ p2  =
+    0.8413447
+-->p2-p1
+  ans  =
+    0.6826895
+    </screen>
+
+    <para>
+      Therefore, approximately 68% of the
+      outcomes should fall in the interval [m-s,m+s].
+    </para>
+
+    <para>
+      Example 5.1a.
+      A store sells disks, which are defective with probability 0.01
+      independently of each other.
+      The store sells them in packages of 10 disks.
+      The store offers a new package if more than 1 disk is defective
+      in the package.
+    </para>
+
+    <para>
+      What proportion of packages is replaced?
+      Let X be the number of defective disks in a package.
+      We assume that X is a binomial random variable,
+      with parameters N=10 and pr=0.01.
+      We are searching for P(X>1).
+      To do this, we use the <literal>lowertail</literal>
+      option of the <literal>distfun_binocdf</literal> function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+pfail = distfun_binocdf(1,10,0.01,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->pfail = distfun_binocdf(1,10,0.01,%f)
+ pfail  =
+    0.0042662
+    </screen>
+
+    <para>
+      We could as well evaluate 1-P(X&#8804;1):
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+pfail = 1-distfun_binocdf(1,10,0.01)
+ ]]>
+    </programlisting>
+
+    <para>
+      which returns almost the same result (but not exactly).
+      In fact, this may be less numerically accurate if the
+      probability is small (see the section "The upper and lower tails" 
+	  below for details on this topic).
+      Notice that Ross indicates .005 in the text,
+      which is not as not correctly rounded.
+    </para>
+
+    <para>
+      Therefore, approximately 0.4% of the packages
+      will be replaced.
+    </para>
+
+    <para>
+      If I buy three packages, what is the
+      probability that exactly one of them will have to be
+      replaced?
+    </para>
+
+    <para>
+      Let Y be the number of defective packages
+      in a set of 3 packages.
+      We assume that Y is a binomial 
+      variable with parameters N=3 and pr=pfail.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+pfail = 1-distfun_binocdf(1,10,0.01)
+distfun_binopdf(1,3,pfail)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->distfun_binopdf(1,3,pfail)
+ ans  =
+    0.0126896
+    </screen>
+
+    <para>
+      In other words, the probability that exactly one package
+      contains a defective disk out of three packages is
+      1.2%.
+    </para>
+  </refsection>
+
+  <refsection>
+    <title>The PDF and the CDF</title>
+
+    <para>
+      For each PDF, we present the mathematical definition of the function that
+      we use.
+      This removes potential ambiguities.
+    </para>
+
+    <para>
+      In general, we do not give the mathematical definition of the CDF function.
+      This is because it can be derived directly from the PDF by integration
+      (for a continuous distribution) or by summation (for a discrete distribution).
+    </para>
+
+    <para>
+      Assume that the continuous PDF function f has the support (-inf,inf).
+      Therefore, the CDF function F is defined by:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        F(x) = P(X \leq x) = \int_{-\infty}^x f(t) dt
+        \end{eqnarray}
+      </latex>
+    </para>
+
+	<para>
+      for any real value x. 
+	  This situation is presented in the following figure, where the CDF
+	  is the grey area (i.e. the integral) under the PDF.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="pdf_and_cdf.png"
+          align ="center"
+          valign ="middle"
+			/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+    <para>
+      For example, the following script plots the PDF and the CDF 
+	  of the Normal distribution, with parameters &#956;=0 and &#963;=1.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x = linspace(-5,5,1000);
+y = distfun_normpdf(x,0,1);
+p = distfun_normcdf(x,0,1);
+scf();
+plot(x,y,"r")
+plot(x,p,"b")
+xtitle("Normal Distribution","x");
+legend(["f(x)" "F(x)"]);
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following figure.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="normal_pdf_cdf.png"
+          align ="center"
+          valign ="middle"
+			/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+    <para>
+      Secondly, assume that the discrete PDF function f has the support x&#8805;0, where 
+	  x is an integer.
+      Therefore, the CDF function F is defined by:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        F(x) = \sum_{i=0,1,...,x} f(i)
+        \end{eqnarray}
+      </latex>
+    </para>
+
+	<para>
+      for any integer positive value x.
+    </para>
+
+	<para>
+      For example, the following script plots the PDF and the CDF 
+	  of the Binomial distribution, with parameters N=20 and pr=0.5..
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x = (0:20)';
+y = distfun_binopdf(x,20,0.5);
+p = distfun_binocdf(x,20,0.5);
+scf();
+plot(x,y,"ro-")
+distfun_plotintcdf(x,p,"b");
+xtitle("Binomial Distribution","x","");
+legend(["$P(X=x)$" "$P(X\leq x)$"]);
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following figure.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="binomial_pdf_cdf.png"
+          align ="center"
+          valign ="middle"
+			/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+  </refsection>
+
+  <refsection>
+    <title>Inversion of discrete CDF</title>
+
+    <para>
+      In this section, we analyse why it is not straightforward
+      to invert a CDF when the distribution is discrete.
+    </para>
+
+    <para>
+      Let us first consider the case where the distribution is continuous.
+      Let us denote by F the CDF and by G the inverse CDF.
+      Assume that x is the point where we evaluate the CDF:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        p=F(x)
+        \end{eqnarray}
+      </latex>
+    </para>
+
+    <para>
+      where x is an integer. 
+      Therefore, the inverse CDF satisfies:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        G(p)=x
+        \end{eqnarray}
+      </latex>
+    </para>
+
+    <para>
+      Secondly, let us consider the case where the distribution is discrete.
+      Let us denote by x the output of the inverse CDF:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        x=G(p)
+        \end{eqnarray}
+      </latex>
+    </para>
+
+    <para>
+      The quantile x is the smallest x such that p&#8804;F(x).
+	  Therefore, x satisfies the inequalities:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        F(x-1) &lt; p \leq F(x)
+        \end{eqnarray}
+      </latex>
+    </para>
+
+    <para>
+      This situation is presented in the following figure.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="discrete_cdfinv.png"
+          align ="center"
+          valign ="middle"
+			/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+    <para>
+      The important fact is that the computed value of F(x) may not the one
+      which achieves the minimum distance to p.
+      As presented in the previous figure, the value of F(x-1) may be closer to p,
+      even if x is the correct inverse.
+    </para>
+
+    <para>
+      As an example of this situation, let us consider the following
+      example, which is based on the Hypergeometric function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+M=1030;
+k=515;
+N=500;
+p=1.6013707e-280;
+x=distfun_hygeinv(p,M,k,N)
+distfun_hygecdf(x,M,k,N)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <screen>
+-->x=distfun_hygeinv(p,M,k,N)
+ x  =
+    1.
+-->distfun_hygecdf(x,M,k,N)
+ ans  =
+    2.57D-276
+    </screen>
+
+    <para>
+      The previous result may seem weird, since the
+      value of the CDF at x=0 is much closer to the
+      value of p.
+    </para>
+
+    <screen>
+-->distfun_hygecdf(0,M,k,N)
+ ans  =
+    1.60D-280
+    </screen>
+
+    <para>
+      But this is a consistent result, since the inequalities are satisfied.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+p=1.6013707e-280;
+M=1030;
+k=515;
+N=500;
+x=1;
+distfun_hygecdf(x-1,M,k,N) &lt; p
+p <= distfun_hygecdf(x,M,k,N)
+ ]]>
+    </programlisting>
+
+    <para>
+      Notice that, in the previous result, the 7th digits in p 
+	  completely changes the quantile x. 
+	  The previous analysis explains why, in the following script, 
+	  the variables x and xx may not be equal. 
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+M=80;
+k=50;
+N=30;
+x=0
+p=distfun_hygecdf(x,M,k,N)
+xx=distfun_hygeinv(p,M,k,N)
+ ]]>
+    </programlisting>
+
+	<para>
+      The previous script produces the following output. 
+    </para>
+
+    <screen>
+-->x=0
+ x  =
+    0.  
+-->p=distfun_hygecdf(x,M,k,N)
+ p  =
+    1.127D-22  
+-->xx=distfun_hygeinv(p,M,k,N)
+ xx  =
+    1.  
+    </screen>
+	
+    <para>
+      Indeed, the rounding errors in the evaluation of 
+	  <literal>distfun_hygecdf</literal> may combine in such a 
+	  way that the quantile jumps from one value to another. 
+    </para>
+	
+    <para>
+      We now consider the properties of the complementary quantile. 
+	  Let us denote q=P(X>x) the probability that we are searching for. 
+	  We have q=1-p, where p=P(X&#8804;x). 
+	  The complementary quantile x is the smallest x such that q&#8805;1-F(x).
+	  Therefore, x satisfies the inequalities:
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        1-F(x-1) > q &#8805; 1-F(x)
+        \end{eqnarray}
+      </latex>
+    </para>
+	
+    <para>
+      This situation is presented in the following figure.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="discrete_ccdfinv.png"
+          align ="center"
+          valign ="middle"
+			/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+  </refsection>
+
+  <refsection>
+    <title>The upper and lower tails</title>
+
+    <para>
+      In this section, we present the purpose of the <literal>lowertail</literal>
+      option of the <literal>distfun_*cdf</literal> functions.
+    </para>
+
+    <para>
+      The lower tail of the CDF is the function P(X&#8804;x). 
+	  The upper tail of the CDF (i.e. the complementary CDF) is the function P(X > x). 
+    </para>
+
+	<para>
+      The following script plots the Normal CDF and complementary CDF functions. 
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x = linspace(-5,5,1000);
+p = distfun_normcdf(x,0,1);
+q = distfun_normcdf(x,0,1,%f);
+scf();
+plot(x,p,"r")
+plot(x,q,"b")
+xtitle("Normal CDF","x");
+legend(["$P(X\leq x)$" "$P(X>x)$"]);
+ ]]>
+    </programlisting>
+	
+	<para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="normal_cdf_ccdf.png"
+			align =" center "
+			valign =" middle "
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      Mathematically, we have
+    </para>
+
+    <para>
+      <latex>
+        \begin{eqnarray}
+        P(X > x) = 1 - P(X \leq x)
+        \end{eqnarray}
+      </latex>
+    </para>
+
+    <para>
+      But the numerical evaluation of the previous equation may lead to 
+	  a different result in some cases.
+    </para>
+
+    <para>
+      Let us consider the distribution function <literal>distfun_dcdf</literal>,
+      where d is some distribution (e.g. d=norm).
+      Hence, for most arguments x, we have
+    </para>
+
+    <screen>
+distfun_dcdf(x,%f) almost-equal 1-distfun_dcdf(x,%t)
+    </screen>
+
+    <para>
+      but there can be a significant difference between the two 
+	  numerical evaluations in some cases. 
+    </para>
+
+    <para>
+      The <literal>lowertail</literal> argument of the
+      <literal>distfun_dcdf</literal> function controls the
+      tail which is computed.
+      The default value, <literal>lowertail=%t</literal>
+      computes the lower tail of the CDF, i.e. P(X&#8804;x).
+      When <literal>lowertail=%f</literal>, we compute the
+      upper tail of the CDF, i.e. P(X>x).
+    </para>
+
+    <para>
+      This option is illustrated in the following example.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+1-distfun_normcdf(3,4,1)
+distfun_normcdf(3,4,1,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous example produces the following output.
+    </para>
+
+    <screen>
+-->1-distfun_normcdf(3,4,1)
+ ans  =
+    0.8413447
+-->distfun_normcdf(3,4,1,%f)
+ ans  =
+    0.8413447
+    </screen>
+
+    <para>
+      But the two computations can be numerically different,
+      when the value of the CDF is close to 1.
+      To see this, let us consider the following example.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+1-distfun_normcdf(15,4,1)
+distfun_normcdf(15,4,1,%f)
+ ]]>
+    </programlisting>
+
+    <para>
+      The previous example produces the following output.
+    </para>
+
+    <screen>
+-->1-distfun_normcdf(15,4,1)
+ ans  =
+    0.
+-->distfun_normcdf(15,4,1,%f)
+ ans  =
+    1.911D-28
+    </screen>
+
+    <para>
+      The correct result is 1.911D-28.
+    </para>
+
+    <para>
+      The previous session is explained by the limitation of
+      the representation of floating point numbers which are close to 1.
+      Indeed, the computed value of <literal>distfun_normcdf(15,4,1)</literal>
+      is mathematically so close to 1 that it is numerically 
+      rounded to 1.
+      Hence, the expression <literal>1-distfun_normcdf(15,4,1)</literal>
+      is evaluated as zero.
+	  Instead, the <literal>lowertail=%f</literal> option performs the correct computation. 
+    </para>
+
+    <para>
+      Whenever the value of P(X&#8804;x) is greater than, say, 0.99,
+      there is some rounding in 1-P(X&#8804;x) which reduces the
+      number of significant digits of this computation.
+      When the probability P(X&#8804;x) comes closer and closer to 1,
+      each time a new 9 digit is added, the computed result
+      1-P(X&#8804;x) loses a significant decimal digit, until a point
+      where there is no significant digit anymore.
+      On the other hand, when we directly compute P(X>x),
+      most the significant digits are correct.
+    </para>
+
+    <para>
+      Hence, the <literal>lowertail=%f</literal> argument should be used to compute P(X>x)
+    when the associated probability is very small, that is, when
+    P(X&#8804;x) is close to 1.
+    </para>
+
+  </refsection>
+
+  <refsection>
+    <title>Integer parameters</title>
+
+    <para>
+      In this section, we present why some functions were numerically extended to manage 
+	  non-integer parameters.
+    </para>
+
+    <para>
+      Some distributions are associated with parameters, which mathematically 
+	  appear as integers. 
+	  For some of these distribution, it appears that the evaluation is based on 
+	  functions which can be used for non-integer values. 
+	  This is why these distributions were extended, so that non-integer values 
+	  can be used for the parameters. 
+	  This feature improves the compatibility with other environments. 
+      Indeed, other softwares (such as R or Matlab), provide this feature.
+    </para>
+
+    <para>
+	  The distribution for which non-integer values of the parameters are available are:
+    </para>
+
+    <para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            The Chi-Square distribution, where k is the number of degrees of freedom.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The F distribution, where v1 and v2 are the numerator and 
+			denominator degrees of freedom.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The T distribution, where v is the number of degrees of freedom.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <para>
+	  On the contrary, there are distributions for which the parameters have integer values, 
+	  and it would be an error to do otherwise. 
+    </para>
+	
+    <para>
+	  The distribution for which only integer values of the parameters are available are:
+    </para>
+
+    <para>
+      <itemizedlist>
+        <listitem>
+          <para>
+            The Binomial distribution, where N is the total number of binomial trials.
+          </para>
+        </listitem>
+        <listitem>
+          <para>
+            The Hypergeometric distribution, where M,k and N must have integer values.
+          </para>
+        </listitem>
+      </itemizedlist>
+    </para>
+
+    <para>
+	  Whenever possible, large values of the parameters are authorized, even if these 
+	  values are larger than 2^31. 
+	  In other words, the C "int" datatype is not used in the implementation 
+	  whenever this is possible, in order to avoid to limit the range of available 
+      values of the parameters of the distribution. 
+	  If the parameter must have an integer value, the function checks that the 
+	  double is a floating point number which has no fractional part. 
+    </para>
+	
+    <para>
+	  In the following example, we use the hypergeometric function with parameters 
+	  which are much larger than 2^31.
+    </para>
+	
+    <programlisting role="example">
+      <![CDATA[ 
+-->x=20;
+-->M=1.e10;
+-->k=50;
+-->N=4.e9;
+-->distfun_hygepdf(x,M,k,N)
+ ans  =
+    0.1145586  
+ ]]>
+    </programlisting>
+
+	</refsection>
+  
+  <refsection>
+    <title>Authors</title>
+
+    <simplelist type="vert">
+      <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+      <member>Copyright (C) 2012 - Prateek Papriwal</member>
+      <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+      <member>Copyright (C) 2008 - 2011 - INRIA - Michael Baudin</member>
+	  <member>Copyright (C) 2008 - John Burkardt</member>
+      <member>Copyright (C) 2002, 2004, 2005 - Bruno Pincon</member>
+      <member>Copyright (C) 1997, 1999 - Makoto Matsumoto and Takuji Nishimura</member>
+      <member>Copyright (C) 1999 - G. Marsaglia</member>
+      <member>Copyright (C) 1994 - Barry W. Brown, James Lovato, Kathy Russell (DCDFLIB)</member>
+      <member>Copyright (C) 1992 - Arif Zaman</member>
+      <member>Copyright (C) 1992 - George Marsaglia</member>
+      <member>Copyright (C) 1973 - Cleve B. Moler</member>
+      <member>Copyright (C) 1973 - Michael A. Malcolm</member>
+	  <member>Copyright (C) 1973 - Richard Brent</member>
+      <member>Copyright (C) Jean-Philippe Chancelier</member>
+      <member>Copyright (C) Luc Devroye</member>
+      <member>Copyright (C) Pierre Lecuyer</member>
+    </simplelist>
+  </refsection>
+
+</refentry>

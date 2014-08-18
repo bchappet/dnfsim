@@ -1,0 +1,392 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright (C) 2012-2013 - Michael Baudin
+-->
+<refentry
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:db="http://docbook.org/ns/docbook"
+  version="5.0-subset Scilab"
+  xml:lang="fr"
+  xml:id="rng_overview">
+
+  <refnamediv>
+    <refname>Random Number Generators</refname>
+
+    <refpurpose>An overview of the Random Number Generators of the Distfun toolbox.</refpurpose>
+  </refnamediv>
+
+  <refsection>
+    <title>Purpose</title>
+
+    <para>
+      The non-uniform random numbers in this toolbox are
+      all based on a unique uniform random number generator (RNG).
+      This toolbox provides several RNG, so that the user can
+      see the effect of the generator.
+    </para>
+
+    <para>
+
+      The random number generators in this toolbox are the
+      following.
+      <itemizedlist>
+        <listitem>
+          <para>
+            "mt" :
+          </para>
+          <para>
+            the Mersenne-Twister of M. Matsumoto and T. Nishimura. 
+			Its period is 2^19937-1 (approximately 4.3x10^6001). 
+            Its state is given by an array of 624 integers (plus an index onto this array).
+            This is the default generator.
+          </para>
+        </listitem>
+		
+        <listitem>
+          <para>
+            "kiss" :
+          </para>
+          <para>
+            combines two multiply-with-carry
+			generators with a 3-shift register and 
+			a congruential generator, using addition and 
+			exclusive-or. 
+			Its author is G. Marsaglia. 
+			Its period is about 2^123 (approximately 1.0x10^37). 
+			Its state is defined by 4 unsigned integers. 
+          </para>
+        </listitem>
+		
+        <listitem>
+          <para>
+            "clcg2" :
+          </para>
+          <para>
+            a combination of two Linear Congruential Generators. 
+            The authors are P. L'Ecuyer and S. Cotes (1991). 
+            Its period is about 2^61 (approximately 2.3x10^18). 
+			Its state is given by 2 integers.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            "clcg4" :
+          </para>
+          <para>
+            a combination of four Linear Congruential Generators. 
+			The authors are P. L'Ecuyer and Terry H. Andres (1997). 
+            Its period is about 2^121 (approximately 2.6x10^36). 
+            Its state is given by 4 integers.
+            This generator can be used to generate 101 non overlapping subsequences, 
+			i.e. streams.
+            See the "Notes on streams" below for details on this generator.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            "fsultra" :
+          </para>
+          <para>
+            a Subtract-with-Borrow generator mixed with a congruential generator. 
+            The authors are Arif Zaman and George Marsaglia (1992). 
+            Its period is 2^1178-2^762 (approximately 10^356). 
+			Its state is given by an array of 37 integers, plus an index 
+			onto this array, a flag (0 or 1) and another integer.
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            "urand" :
+          </para>
+          <para>
+            a linear congruential generator. 
+			Its state is given by 1 integer. 
+			Its period is 2^31 (approximately 2.1x10^9). 
+            This is the second fastest of this toolbox but its statistical qualities
+            are (much) less satisfactory than the other generators.
+            The "urand" generator corresponds to the generator used by the Scilab v5
+            function "rand()".
+          </para>
+        </listitem>
+
+        <listitem>
+          <para>
+            "crand" :
+          </para>
+          <para>
+            the random generator from the C language. 
+			Its state is given by 1 integer (in [1,2^15]). 
+            This is the fastest of this toolbox but its statistical qualities
+            are (much much) less satisfactory than the other generators.
+          </para>
+        </listitem>
+
+      </itemizedlist>
+    </para>
+
+  </refsection>
+
+  <refsection>
+    <title>Notes on streams</title>
+
+    <para>
+      The "clcg4" generator may be used as the others generators, but
+      additionnaly provides streams and substream. 
+      Indeed, it offers the advantage to be split in several (101) virtual
+      generators with non over-lapping sequences.
+      Indeed, when you use a classic generator you may change the initial
+      state (seeds) in order to get
+      another sequence but you there is no guarantee to get a completely different one.
+      With clcg4, each virtual generator is associated with its own sequence, and
+      the sequences are guaranteed to be different.
+      In other words, this is as if there was 101 different random number generators,
+      each one producing its own sequence of random numbers.
+    </para>
+
+    <para>
+        Each virtual generator corresponds to a stream of 2^72 values which is further
+        split into V=2^31 substreams of length W=2^41.
+        For a given virtual generator, the distfun_streaminit function let us return at the
+        beginning of the sequence or at the beginning of the current segment or
+        to go directly at the next segment.
+        We may also change the initial state (seed) of the generator 0 with the
+        "distfun_seedset" function which change also the initial state of the other
+        virtual generators so as to get synchronisation.
+        In other words, depending on the new initial state of virtual generator g=0,
+        the initial state of the virtual generator g=1, 2, ..., 100 are recomputed so
+        as to get 101 non over-lapping sequences.
+      </para>
+    
+    <para>
+      An example of the need of the splitting capabilities of clcg4 is as follows. 
+      Two statistical techniques are being compared on data of different sizes. 
+      The first technique uses bootstrapping and is thought to be as accurate 
+      using less data than the second method which employs only brute force. 
+      For the first method, a data set of size uniformly distributed between 
+      25 and 50 will be generated. 
+      Then the data set of the specified size will be generated and analyzed. 
+      The second method will choose a data set size between 100 and 200, generate 
+      the data and analyze it. This process will be repeated 1000 times. 
+      For variance reduction, we want the random numbers used in the two methods 
+      to be the same for each of the 1000 comparisons. 
+      But method two will use more random numbers than method one and without this package, 
+      synchronization might be difficult. With clcg4, it is a snap. 
+      Use generator 0 to obtain the sample size for method one and generator 1 to 
+      obtain the data. 
+      Then reset the state to the beginning of the current stream and do the same 
+      for the second method. 
+      This assures that the initial data for method two is that used by method one. 
+      When both have concluded, advance the stream for both generators.
+    </para>
+  </refsection>
+
+  <refsection>
+    <title>Technical details</title>
+
+    <itemizedlist>
+      <listitem>
+        <para>
+          randlib :
+          The codes to generate sequences following other distributions than
+          def, unf, lgi, uin and geom are from "Library of Fortran Routines for Random
+          Number Generation", by Barry W. Brown and James Lovato, Department of
+          Biomathematics, The University of Texas, Houston.
+          The source code is available at : http://www.netlib.org/random/ranlib.f.tar.gz
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "mt" :
+        </para>
+        <para>
+          The code is the mt19937int.c by M. Matsumoto and T. Nishimura,
+          "Mersenne Twister: A 623-dimensionally equidistributed uniform pseudorandom
+          number generator", ACM Trans. on Modeling and Computer Simulation Vol. 8, No. 1, January, pp.3-30 1998.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "kiss" :
+        </para>
+        <para>
+          The code was given by G. Marsaglia at the end of a thread concerning RNG in C in
+          several newsgroups (whom sci.math.num-analysis) "My offer of RNG's for C was an
+          invitation to dance..." only kiss have been included in Scilab.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "clcg2" :
+        </para>
+        <para>
+          The method is from P. L'Ecuyer but the C code is provided at Luc Devroye's home
+          page : http://cg.scs.carleton.ca/~luc/rng.html See "lecuyer.c".
+          This is a C port of the Pascal procedure given in P. L'Ecuyer and S. Cote.
+          "Implementing a Random Number Package with Splitting Facilities.", 
+          ACM Transactions on Mathematical Software, March 1991, Vol 17, No. 1, pp 98-111.
+          </para>
+          <para>
+          This generator is made of two linear congruential sequences :
+          <itemizedlist>
+            <listitem>
+              <para>
+                s1 = a1*s1 mod m1, with a1 = 40014, m1 = 2147483563 and
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                s2 = a2*s2 mod m2 , with a2 = 40692, m2 = 2147483399.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <para>
+          Then the integer output is computed from the equation :
+        </para>
+        <para>
+          s = s1-s2 mod (m1 - 1).
+        </para>
+        <para>
+          Therefore, the output s is in [0, 2147483561]. The period is about 2.3x10^18.
+          The state is given by (s1, s2).
+          In case of a user modification of the state we must have : s1 in [1, m1-1] and s2 in [1, m2-1].
+          The default initial seeds are s1 = 1234567890 and s2 = 123456789.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "clcg4" :
+        </para>
+        <para>
+          The code is from P. L'Ecuyer and Terry H.Andres and provided at the P. L'Ecuyer
+          home page ( http://www.iro.umontreal.ca/~lecuyer/papers.html).
+		  Pierre L'Ecuyer and Terry H. Andres. 1997. 
+		  A random number generator based on the combination of four LCGs. 
+          Math. Comput. Simul. 44, 1 (May 1997), 99-107.
+        </para>
+        <para>
+          This generator is made of four linear congruential sequences :
+          <itemizedlist>
+            <listitem>
+              <para>
+                s1 = a1*s1 mod m1, with a1 = 45991, m1 = 2147483647,
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                s2 = a2*s2 mod m2 , with a2 = 207707, m2 = 2147483543,
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                s3 = a3*s3 mod m3 , with a3 = 138556, m3 = 2147483423,
+              </para>
+            </listitem>
+            <listitem>
+              <para>
+                s4 = a4*s4 mod m4 , with a4 = 49689, m4 = 2147483323.
+              </para>
+            </listitem>
+          </itemizedlist>
+        </para>
+        <para>
+          Then the integer output is computed from the equation :
+        </para>
+        <para>
+          s = -s1+s2-s3+s4 mod m1.
+        </para>
+        <para>
+          The clcg4 is an improvement over clcg2.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "fsultra" :
+        </para>
+        <para>
+          This code is from Arif Zaman and George 
+		  Marsaglia. 
+		  It is based on the paper "A new class of random number 
+		  generators", G. Marsaglia, A. Zaman, The annals of applied probability, 
+		  1991, Vol. 1, No. 3, 462-480.
+        </para>
+      </listitem>
+
+      <listitem>
+        <para>
+          "urand" :
+        </para>
+        <para>
+          This generator is based on "Urand, A Universal Random Number Generator" By Michael A. Malcolm,
+          Cleve B. Moler, Stan-Cs-73-334, January 1973, Computer Science Department,
+          School Of Humanities And Sciences, Stanford University.
+          The URAND routine is based on the following iterative procedure :
+        </para>
+        <para>
+          s = a * s + c mod m
+        </para>
+        <para>
+          where the constants are
+        </para>
+        <para>
+          a = 843314861
+          c = 453816693
+          m = 2^31
+        </para>
+      </listitem>
+	  
+      <listitem>
+        <para>
+          "crand" :
+        </para>
+        <para>
+          This generator is based on the rand() function 
+		  of the C language. 
+		  This generator has low statistical properties.
+        </para>
+      </listitem>
+    </itemizedlist>
+
+  </refsection>
+
+  <refsection>
+    <title>Authors</title>
+	
+    <itemizedlist>
+      <listitem>
+        <para>
+          Copyright (C) Jean-Philippe Chancelier
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Copyright (C) 2002, 2004, 2005 - Bruno Pincon
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+		  Copyright (C) 2010 - DIGITEO - Michael Baudin
+        </para>
+      </listitem>
+      <listitem>
+        <para>
+          Copyright (C) 2012-2013 - Michael Baudin
+        </para>
+      </listitem>
+
+    </itemizedlist>
+
+  </refsection>
+
+</refentry>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from ciboot.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="ciboot" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>ciboot</refname>
+    <refpurpose>Bootstrap confidence intervals</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   ci=ciboot(x,T)
+   ci=ciboot(x,T,method)
+   ci=ciboot(x,T,method,c)
+   ci=ciboot(x,T,method,c,b)
+   [ci,y]=ciboot(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>T :</term>
+      <listitem><para> a function or a list, the function which computes the empirical estimate from x.</para></listitem></varlistentry>
+   <varlistentry><term>method :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, integer, the method to use. Available methods are 1,2,3,4,5,6 (default method=5). See below for details.</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the confidence level (default c=0.9, which corresponds to a 90% confidence interval)</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the number of bootstrap resamples (default b=200)</para></listitem></varlistentry>
+   <varlistentry><term>ci :</term>
+      <listitem><para> a m-by-3 matrix of doubles, the confidence interval for the parameter estimate. ci(:,1) is the lower bound, ci(:,2) is the estimate, ci(:,3) is the upper bound. Each row in ci represents a component of the parameter estimate.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a m-by-b matrix of doubles, the parameter estimates of the resamples</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Compute a bootstrap confidence interval for T(x) with level
+c.
+   </para>
+   <para>
+The function T must have the following header:
+<screen>
+p=T(x)
+</screen>
+where <literal>x</literal> is the sample or the resample
+and <literal>p</literal> is a m-by-1 matrix of doubles.
+In the case where the parameter estimate has a more general
+shape (e.g. 2-by-2), the shape of <literal>p</literal> is reshaped
+into a column vector with <literal>m</literal> components.
+   </para>
+   <para>
+See "T and extra arguments" for details on how to pass extra-arguments
+to T.
+   </para>
+   <para>
+The available values of <literal>method</literal> are the following.
+<itemizedlist>
+<listitem><para>
+method=1.  Normal approximation (std is bootstrap).
+</para></listitem>
+<listitem><para>
+method=2.  Simple bootstrap principle (bad, don't use).
+</para></listitem>
+<listitem><para>
+method=3.  Studentized, std is computed via jackknife.
+If T is the mean function, you may use the <literal>test1b</literal>
+function, which is faster.
+</para></listitem>
+<listitem><para>
+method=4.  Studentized, std is 30 samples' bootstrap.
+</para></listitem>
+<listitem><para>
+method=5.  Efron's percentile method (default).
+</para></listitem>
+<listitem><para>
+method=6.  Efron's percentile method with bias correction (BC).
+</para></listitem>
+</itemizedlist>
+   </para>
+   <para>
+Often T(x) is a single number (e.g. the mean) but it may also
+be a vector or a even a matrix (e.g. the covariance matrix).
+Every row of the result ci is of the form
+<screen>
+[LeftLimit, PointEstimate, RightLimit]
+</screen>
+and the corresponding element of T(x) is found by noting
+that
+<screen>
+t = T(x);
+t = t(:);
+</screen>
+is used in the routine.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Estimate a 90% confidence interval for
+// the empirical standard deviation
+n = 20;
+x=distfun_chi2rnd(3,n,1);
+s=stdev(x)
+ci=ciboot(x,stdev)
+[ci,y] = ciboot(x,stdev,[],0.9,1000);
+size(y)
+
+x = distfun_unifrnd(0,1,13,2)
+// Estimate the covariance
+C = cov(x)
+// Estimate a 90% confidence interval
+ci = ciboot(x,cov)
+
+// Test all methods
+n = 20;
+x=distfun_chi2rnd(3,n,1);
+ci=ciboot(x,mean,1)
+ci=ciboot(x,mean,2)
+ci=ciboot(x,mean,3)
+ci=ciboot(x,mean,4)
+ci=ciboot(x,mean,5)
+ci=ciboot(x,mean,6)
+
+// With extra-arguments for T.
+x=distfun_chi2rnd(3,20,5);
+s=stdev(x,"r")
+ci=ciboot(x,list(stdev,"r"))
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="stdboot">stdboot</link></member>
+   <member><link linkend="stdjack">stdjack</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

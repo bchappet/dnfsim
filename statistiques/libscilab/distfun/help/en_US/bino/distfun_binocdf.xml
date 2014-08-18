@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_binocdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_binocdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_binocdf</refname>
+    <refpurpose>Binomial CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_binocdf(x,N,pr)
+   p = distfun_binocdf(x,N,pr,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of successes. x belongs to the set {0,1,2,3,...,N}</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles , the total number of binomial trials . N belongs to the set {1,2,3,4,.......}</para></listitem></varlistentry>
+   <varlistentry><term>pr :</term>
+      <listitem><para> a matrix of doubles,  the probability of success in a Bernoulli trial. pr in [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Binomial distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Check with x scalar, N scalar, pr scalar
+computed = distfun_binocdf(100,162,0.5)
+expected = 0.9989567
+
+// Check with expanded x
+computed = distfun_binocdf([5 15],100,0.05)
+expected = [0.6159991 0.9999629]
+
+// Check with expanded N
+computed = distfun_binocdf(5,[50 100],0.05)
+expected = [0.9622238 0.6159991]
+
+// Check with expanded pr
+computed = distfun_binocdf(5,50,[0.05 0.1])
+expected = [0.9622238 0.6161230]
+
+// Check with two arguments expanded
+computed = distfun_binocdf([5 10],[50 100],0.05)
+expected = [0.9622238 0.9885276]
+
+// Check with all the arguments expanded
+computed = distfun_binocdf([5 10],[50 100],[0.05 0.1])
+expected = [0.9622238 0.5831555]
+
+//Plot the function
+scf();
+x = (0:20)';
+p1=distfun_binocdf(x,20,0.5);
+p2=distfun_binocdf(x,20,0.7);
+p3=distfun_binocdf(x,40,0.5);
+legendspec=["pr=0.5, N=20","pr=0.7, N=20","pr=0.5, N=40"];
+distfun_plotintcdf(x,[p1,p2,p3],["b" "g" "r"],legendspec);
+xtitle("Binomial CDF")
+
+//check upper tail
+p = distfun_binocdf(3,10,0.1)
+lt_expected = 0.9872048
+
+q = distfun_binocdf(3,10,0.1,%f)
+ut_expected = 0.0127952
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Binomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

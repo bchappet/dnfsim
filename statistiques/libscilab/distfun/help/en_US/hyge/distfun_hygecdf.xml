@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_hygecdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_hygecdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_hygecdf</refname>
+    <refpurpose>Hypergeometric CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_hygecdf(x,M,k,N)
+   p = distfun_hygecdf(x,M,k,N,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of successful draws in the experiment. x belongs to the set [0,min(k,N)]</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the total size of the population. M belongs to the set {0,1,2,3........}</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of successful states in the population. k belongs to the set {0,1,2,3,.......M-1,M}</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles, the total number of draws in the experiment. N belongs to the set {0,1,2,3.......M-1,M}</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Hypergeometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Tests with all the arguments scalar
+computed = distfun_hygecdf(20,80,50,30)
+expected = 0.7974774
+
+// Test with x expanded
+computed = distfun_hygecdf([20 17],80,50,30)
+expected = [0.7974774 0.2746181]
+
+// Test with M expanded
+computed = distfun_hygecdf(20,[80 100],50,30)
+expected = [0.7974774 0.9921915]
+
+// Test with x,N expanded
+computed = distfun_hygecdf([20 17],80,[50 60],30)
+expected = [0.7974774 0.0041404]
+
+// Test with all the arguments expanded
+copmuted = distfun_hygecdf([20 17 15],[100 80 90],[50 60 70],[30 20 18])
+expected = [0.9921915 0.9375322 0.8279598]
+
+// See upper tail
+p = distfun_hygecdf(20,80,50,30)
+lt_expected = 0.7974774
+q = distfun_hygecdf(20,80,50,30,%f)
+ut_expected = 0.2025226
+p+q
+
+// Plot the function
+scf();
+x = (0:30)';
+y = distfun_hygecdf(x,80,50,30);
+distfun_plotintcdf(x,y);
+xtitle("Hypergeometric CDF");
+legend("M=80,k=50,N=30","in_upper_left");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Hypergeometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

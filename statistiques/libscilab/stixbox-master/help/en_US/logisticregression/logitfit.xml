@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="logitfit"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>logitfit</refname><refpurpose> Fit a logistic regression model  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>[b, Ib, Vb] = logitfit(y,X,C)</synopsis></refsynopsisdiv>
+  <refsection><title>Description</title>
+  <para>
+    Fit a logistic regression model.
+  </para>
+  <para>
+    Fit the model log(p/(1-p)) = X*b, where p is the probability 
+    that y is 1 and not 0. Output b is vector of point estimates,  
+    Ib is confidence intervals, and Vb is the estimated variance 
+    matrix of b. Input C is confidence level for the confidence 
+    intervals, default is 0.95.
+  </para>
+  <para>
+    If an intercept is not included in X it is automatically added 
+    as an extra column.
+  </para>
+  </refsection>
+  <refsection><title>See Also</title><simplelist type="inline">
+    <member> <link linkend="lodds">lodds</link> </member>     <member> <link linkend="loddsinv">loddsinv</link> </member>
+  </simplelist></refsection>
+</refentry>

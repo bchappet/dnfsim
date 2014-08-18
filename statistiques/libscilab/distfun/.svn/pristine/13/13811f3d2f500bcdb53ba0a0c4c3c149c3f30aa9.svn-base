@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ksinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ksinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ksinv</refname>
+    <refpurpose>Kolmogorov-Smirnov Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_ksinv(p,N)
+   x = distfun_ksinv(p,N,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles , the number of observations. N belongs to the set {1,2,3,4,.......,2147483647}</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome, x in [0,1]</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Inverse cumulative distribution function of
+the Kolmogorov-Smirnov distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_ksinv(.6284796154565043,10)
+expected = 0.274
+
+// Kolmogorov-Smirnov Test
+// http://www.itl.nist.gov/div898/handbook/eda/section3/eda35g.htm
+n=1000;
+x=distfun_normrnd(0,1,[1 n]);
+// Does x comes from the Normal distribution ?
+x=gsort(x,"g","i");
+y=distfun_normcdf(x,0,1);
+i=1:n;
+Dplus=max(y-(i-1)/n);
+Dminus=max(i/n-y);
+D=max(Dminus,Dplus);
+mprintf("Test statistic D=%f\n",D)
+// Threshold
+alpha=0.05;
+Dalpha=distfun_ksinv(alpha,n,%f);
+mprintf("Significance level =%f\n",alpha)
+mprintf("Critical value =%f\n",Dalpha)
+mprintf("Critical region: Reject H0 if D>%f\n",Dalpha)
+if (D>Dalpha) then
+mprintf("Reject H0.\n")
+else
+mprintf("Accept H0.\n")
+end
+// We should accept 95% of the time
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

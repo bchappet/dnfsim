@@ -1,0 +1,70 @@
+// Copyright (C) 2012 - Michael Baudin
+// Copyright (C) 2009 - 2011 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+//
+a=5;
+b=6;
+rtol=1.e-12;
+p=linspace(0.1,0.9,5);
+CheckInverseCDF("distfun_betainv",list(distfun_betainv,a,b),p,rtol);
+CheckInverseCDF: Checking empty matrix...
+CheckInverseCDF: x=distfun_betainv([],[],[])
+CheckInverseCDF: ... OK
+CheckInverseCDF: Get reference quantiles...
+CheckInverseCDF: x(1)=distfun_betainv(0.1,5,6)
+CheckInverseCDF: x(2)=distfun_betainv(0.3,5,6)
+CheckInverseCDF: x(3)=distfun_betainv(0.5,5,6)
+CheckInverseCDF: x(4)=distfun_betainv(0.7,5,6)
+CheckInverseCDF: x(5)=distfun_betainv(0.9,5,6)
+CheckInverseCDF: ... OK
+CheckInverseCDF: Compute complementary quantiles...
+CheckInverseCDF: Check that invfun(p,%t)==invfun(1-p,%f)
+CheckInverseCDF: x=distfun_betainv([0.9,0.7,0.5,0.3,0.1],5,6,%F)
+CheckInverseCDF: ... OK
+CheckInverseCDF: With arguments expanded...
+CheckInverseCDF: x=distfun_betainv([0.1,0.3,0.5,0.7,0.9],5,6)
+CheckInverseCDF: x=distfun_betainv([0.1,0.3,0.5,0.7,0.9],5,[6,6,6,6,6])
+CheckInverseCDF: x=distfun_betainv([0.1,0.3,0.5,0.7,0.9],[5,5,5,5,5],6)
+CheckInverseCDF: x=distfun_betainv([0.1,0.3,0.5,0.7,0.9],[5,5,5,5,5],[6,6,6,6,6])
+CheckInverseCDF: ... OK
+//
+// Test accuracy of distfun_betainv
+//
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","beta","beta.dataset.csv");
+table = readCsvDataset(dataset);
+precision = 1.e-11;
+nt = size(table,"r");
+for k = 1 : nt
+    x = table(k,1);
+    a = table(k,2);
+    b = table(k,3);
+    y = table(k,4);
+    p = table(k,5);
+    q = table(k,6);
+    if (p<q) then
+        computed = distfun_betainv ( p , a , b );
+    else
+        computed = distfun_betainv ( q , a , b , %f );
+    end
+    if ( %f ) then
+        digits = assert_computedigits ( computed , x );
+        digits = floor(digits);
+        if (p<q) then
+            mprintf("Test #%3d/%3d: Digits p=%.g, X= %d\n",k,nt,p,digits);
+        else
+            mprintf("Test #%3d/%3d: Digits q=%.g, X= %d\n",k,nt,q,digits);
+        end
+    end
+    assert_checkalmostequal ( computed , x , precision );
+end

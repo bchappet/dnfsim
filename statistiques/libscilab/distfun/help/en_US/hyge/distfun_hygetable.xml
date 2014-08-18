@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_hygetable.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_hygetable" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_hygetable</refname>
+    <refpurpose>Print a contingency table.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_hygetable(x,M,k,N)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a 1x1 matrix of doubles, the number of successful draws in the experiment. x belongs to the set [0,min(k,N)]</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a 1x1 matrix of doubles, the total size of the population. M belongs to the set {0,1,2,3........}</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a 1x1 matrix of doubles, the number of success states in the population. k belongs to the set {0,1,2,3,.......M-1,M}</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a 1x1 matrix of doubles, the total number of draws in the experiment. N belongs to the set {0,1,2,3.......M-1,M}</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Prints a contingency table of the inputs, for the
+corresponding parameters.
+   </para>
+   <para>
+<screen>
+_________   Drawn    Not Drawn    Total
+Successes   x        k-x          k
+Failures    N-x      M+x-N-k      M-k
+Total       N        M-N          M
+</screen>
+   </para>
+   <para>
+If the number of successes x in the sample is too small,
+then a warning is printed.
+In this case, the probability associated with x is zero.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+distfun_hygetable(3,9,5,6)
+
+// A warning is printed:
+// distfun_hygetable(0,9,5,6)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Hypergeometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

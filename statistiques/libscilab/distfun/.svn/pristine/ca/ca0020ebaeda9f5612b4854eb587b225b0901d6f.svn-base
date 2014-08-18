@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_betafitmm.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_betafitmm" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_betafitmm</refname>
+    <refpurpose>Beta parameter estimates with method of moments</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   parmhat = distfun_betafitmm( data )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a matrix of doubles, the data, in the interval [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>parmhat :</term>
+      <listitem><para> a 1-by-2 matrix of doubles, the parameters of the Beta distribution. parmhat(1) is a, parmhat(2) is b.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Estimates the parameters of the Beta distribution
+with method of moments.
+In other words, finds the parameters so that
+the mean and variance of the distribution are
+equal to the empirical mean and empirical variance of the
+data.
+   </para>
+   <para>
+The implementation is based on direct inversion of the moments.
+   </para>
+   <para>
+On output, we have a>=0 and b>=0.
+If the exact a or b is lower than zero, the estimate is set to
+zero.
+If required, a or b is set to zero.
+In this case, the moments are not matched anymore.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Samples from Beta distribution with
+// a=12 and b=42
+data = [
+0.2876148
+0.3311889
+0.2448739
+0.1452694
+0.1861828
+0.2299041
+0.1619109
+0.3711106
+0.2198700
+0.2831889
+]
+parmhat = distfun_betafitmm(data)
+a=parmhat(1);
+b=parmhat(2);
+// Compare the (mean,variance) of the
+// distribution against the data :
+// must be equal.
+[M,V]=distfun_betastat(a,b)
+M_data=mean(data)
+V_data=variance(data)
+
+// Error : variance is zero
+// parmhat = distfun_betafitmm([1 1])
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

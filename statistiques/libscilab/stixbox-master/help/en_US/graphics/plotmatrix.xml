@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from plotmatrix.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="plotmatrix" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>plotmatrix</refname>
+    <refpurpose>Plot an X vx Y scatter plot matrix</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   plotmatrix(x)
+   plotmatrix(x,y)
+   plotmatrix(x,y,key1,value1,key2,value2,...)
+   plotmatrix(x,y,"xlabels",xlabels)
+   plotmatrix(x,y,"ylabels",ylabels)
+   plotmatrix(x,y,"ptsize",ptsize)
+   plotmatrix(x,y,"valuelabels",valuelabels)
+   plotmatrix(x,y,"symbol",symbol)
+   plotmatrix(x,"histogram",histogram)
+   plotmatrix(x,"nbclasses",nbclasses)
+   plotmatrix(x,"histoYlabel",histoYlabel)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-ninput matrix of doubles, the x datas</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a n-by-noutput matrix of doubles, the y datas</para></listitem></varlistentry>
+   <varlistentry><term>xlabels :</term>
+      <listitem><para> a ninput-by-1 matrix of strings, the x labels (default="")</para></listitem></varlistentry>
+   <varlistentry><term>ylabels :</term>
+      <listitem><para> a noutput-by-1 matrix of strings, the y labels (default="")</para></listitem></varlistentry>
+   <varlistentry><term>ptsize :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, integer value, positive, the number pixels for the dots (default ptsize=2)</para></listitem></varlistentry>
+   <varlistentry><term>valuelabels :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, set to true to print the x and y value labels (default=%t)</para></listitem></varlistentry>
+   <varlistentry><term>symbol :</term>
+      <listitem><para> a 1-by-1 matrix of strings, the point symbols (default="b.")</para></listitem></varlistentry>
+   <varlistentry><term>histogram :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, set to true to print the histogram (default=%t)</para></listitem></varlistentry>
+   <varlistentry><term>nbclasses :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, integer value, positive, the number of classes in the histogram (default nbclasses=[])</para></listitem></varlistentry>
+   <varlistentry><term>histoYlabel :</term>
+      <listitem><para> a 1-by-1 matrix of strings, the Y-label in the histogram (default histoYlabel="Frequency")</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Plots a matrix of scatter plots representing the
+dependencies of Y vs X: plots the columns of Y versus the columns of X.
+This creates a rectangular matrix of plots with ninput columns and
+noutput rows.
+   </para>
+   <para>
+If only X is specified, plots the columns of X versus the columns of X,
+and replaces the diagonal with histograms.
+This creates a square matrix of plots with ninput columns and ninput rows.
+The plotmatrix function is partly compatible with Matlab.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Example 1
+// Plot Y versus X
+m=1000;
+x1=distfun_unifrnd(0,1,m,1);
+x2=distfun_unifrnd(0,1,m,1);
+x3=distfun_unifrnd(0,1,m,1);
+y1=2*x1.*x2+x3;
+y2=-3*x1+x2.^2-2*x3;
+y3=sin(x1)-3*x2+3*x3;
+x=[x1,x2,x3];
+y=[y1,y2,y3];
+//
+xlabels=["X1","X2","X3"];
+ylabels=["Y1","Y2","Y3"];
+// No labels
+scf();
+plotmatrix(x,y);
+// With labels (Figure 1)
+scf();
+plotmatrix(x,y,"xlabels",xlabels,"ylabels",ylabels);
+// Without XY value labels
+scf();
+plotmatrix(x,y,"valuelabels",%f);
+// Without XY value labels, and XY labels
+scf();
+plotmatrix(x,y,"valuelabels",%f,..
+"xlabels",xlabels,"ylabels",ylabels);
+// Set the point size
+scf();
+plotmatrix(x,y,"ptsize",1);
+// With red crosses
+scf();
+plotmatrix(x,y,"symbol","rx");
+//
+// Example 2
+// Plot Y versus X
+m=1000;
+x1=distfun_normrnd(0,1,m,1);
+x2=distfun_unifrnd(-1,1,m,1);
+y1=x1.^2+x2;
+y2=-3*x1+x2.^2;
+y3=x1-3*exp(x2);
+x=[x1,x2];
+y=[y1,y2,y3];
+//
+xlabels=["X1","X2"];
+ylabels=["Y1","Y2","Y3"];
+// No labels
+scf();
+plotmatrix(x,y);
+// With labels, and red circles
+scf();
+plotmatrix(x,y,"xlabels",xlabels,"ylabels",ylabels,..
+"symbol","ro");
+//
+// Example 3
+// Plot X versus X
+m=1000;
+x1=distfun_unifrnd(0,1,m,1);
+x2=distfun_unifrnd(0,1,m,1);
+x3=distfun_unifrnd(0,1,m,1);
+y1=2*x1.*x2+x3;
+y2=-3*x1+x2.^2-2*x3;
+y3=sin(x1)-3*x2+3*x3;
+y=[y1,y2,y3];
+//
+ylabels=["Y1","Y2","Y3"];
+// No labels
+scf();
+plotmatrix(y);
+// With labels (Figure 2)
+scf();
+plotmatrix(y,"xlabels",ylabels);
+// With labels, without value labels
+scf();
+plotmatrix(y,"xlabels",ylabels,"valuelabels",%f);
+// With labels, without value labels, with red circles
+scf();
+plotmatrix(y,"xlabels",ylabels,"valuelabels",%f,..
+"symbol","ro");
+// With labels, without value labels, with red dots,
+// with symbols of size 1
+scf();
+plotmatrix(y,"xlabels",ylabels,"valuelabels",%f,..
+"symbol","r.","ptsize",1);
+// With the histogram
+scf();
+plotmatrix(y,"histogram",%t);
+// With the histogram, and the labels
+scf();
+plotmatrix(y,"histogram",%t,"xlabels",ylabels);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

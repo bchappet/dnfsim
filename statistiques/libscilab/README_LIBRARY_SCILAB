@@ -1,0 +1,17 @@
+
+
+Readme pour installer les libs
+
+A noter que j'ai fais une modif dans le fichier stixbox-master/macros/rboot.sci
+
+// Workaround for bug ::
+// http://forge.scilab.org/index.php/p/distfun/issues/1085
+U=distfun_unifrnd(0,1,nrows,ncols*b)
+//U=distfun_rndunf(0,1,nrows,ncols*b)
+
+cf http://forge.scilab.org/index.php/p/distfun/issues/1085/
+
+
+lancez sous libscilab la commande scilab -nw -f [la bibliothèque]/builder.sce dans un terminal
+
+pour chacune des libs si le fichier builder.sce existe (sinon ça veut dire que la lib est pré compilé et fonctionne pour n'importe qu'elle platforme)

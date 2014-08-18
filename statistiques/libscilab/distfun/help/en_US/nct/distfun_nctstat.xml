@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_nctstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_nctstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_nctstat</refname>
+    <refpurpose>Noncentral T  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_nctstat ( v , delta )
+   [M,V] = distfun_nctstat ( v , delta )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>v :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, v>0.</para></listitem></varlistentry>
+   <varlistentry><term>delta :</term>
+      <listitem><para> a matrix of doubles, the noncentrality parameter, delta is real</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Noncentral T distribution.
+   </para>
+   <para>
+The mean of the Noncentral T distribution is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M=\delta \sqrt{v/2} \frac{\Gamma((v-1)/2)}{\Gamma(v/2)}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if v &gt; 1. M is undefined if 0 &lt; v &lt;= 1.
+   </para>
+   <para>
+The variance of the Noncentral T distribution is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+V=\frac{v(1+\delta^2)}{v-2} - M^2
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if v &gt; 2.
+V is undefined if 0 &lt; v &lt;= 2.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+delta=10;
+v = [0.5 1 1.5 2 2.3 4];
+[M,V]=distfun_nctstat(v,delta)
+me=[%nan %nan %nan %nan 521.0145  44.920367]
+ve=[%nan %nan 25.622878  17.724539  15.915993  12.533141]
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

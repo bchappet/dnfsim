@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_geopdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_geopdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_geopdf</refname>
+    <refpurpose>Geometric PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_geopdf(x,pr)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of Bernoulli trials after which the first success occurs. x belongs to the set {0,1,2,3,.....}</para></listitem></varlistentry>
+   <varlistentry><term>pr :</term>
+      <listitem><para> a matrix of doubles,  the probability of success in a Bernoulli trial. pr in (0,1].</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Geometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,pr) = pr\left(1-pr\right)^x
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Analysis of the random variable
+   </para>
+   <para>
+The random variable X is the number of Bernoulli trials
+needed to get one success.
+   </para>
+   <para>
+Compatibility Note : x belongs to the set {0,1,2,3,...}.
+This choice is compatible with Matlab and R.
+This is different from Scilab v5 grand(m,n,"geom"), which
+uses {1,2,3,...}.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test x scalar , pr scalar
+computed = distfun_geopdf(3,0.5)
+expected = 0.0625;
+
+// Test with x expanded, with pr scalar
+computed = distfun_geopdf([2 3],0.1)
+expected = [0.081 0.0729];
+
+//Test with x scalar, pr expanded
+computed = distfun_geopdf(3,[0.2 0.4])
+expected = [0.1024 0.0864];
+
+//Test with both arguments expanded
+computed = distfun_geopdf([3 4 8],[0.5 0.8 0.2])
+expected = [0.0625 0.00128 0.033554432];
+
+// Plot the function
+scf();
+x = 0:10;
+y = distfun_geopdf(x,0.2);
+plot(x,y,"ro-");
+y1 = distfun_geopdf(x,0.5);
+plot(x,y1,"go-");
+y2 = distfun_geopdf(x,0.8);
+plot(x,y2,"bo-");
+xtitle("Geometric PDF","x","P(X=x)");
+legend(["pr=0.2","pr=0.5","pr=0.8"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Geometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

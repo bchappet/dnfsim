@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="ciquant"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>ciquant</refname><refpurpose> Nonparametric confidence interval for quantile  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>ci = ciquant(x,p,C);</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>C  </term>
+  <listitem>
+    <para> confidence level for the interval (default 0.95).</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>p  </term>
+  <listitem>
+    <para> a probability defining a quantile.</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>x  </term>
+  <listitem>
+     <para>a sample. if x is a matrix, the procedure is colonwise.</para>
+  </listitem> 
+  </varlistentry>
+ </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+    Nonparametric confidence interval for quantile. 
+    The returned value is the interval ci which is of the form 
+  </para>
+  <programlisting><![CDATA[
+                   [LeftLimit, PointEstimate, RightLimit]'. 
+   ]]></programlisting>
+  <para>
+    The interval is constructed conservatively in both ends, 
+    that is <literal>P(q&lt;LeftLimit) &lt;= C/2</literal> and similarly for the upper limit.
+  </para>
+  </refsection>
+  <refsection><title>See Also</title><simplelist type="inline">
+    <member> <link linkend="quantile">quantile</link> </member>
+  </simplelist></refsection>
+</refentry>

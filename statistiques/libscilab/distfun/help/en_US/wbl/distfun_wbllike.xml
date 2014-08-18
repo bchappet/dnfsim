@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_wbllike.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_wbllike" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_wbllike</refname>
+    <refpurpose>Weibull negative log-likelihood</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   nlogl = distfun_wbllike(params,data)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a matrix of doubles, the data</para></listitem></varlistentry>
+   <varlistentry><term>params :</term>
+      <listitem><para> a 1-by-2 matrix of doubles, the parameters of the Weibull distribution. params(1) is a, params(2) is b.</para></listitem></varlistentry>
+   <varlistentry><term>nlogl :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the negative log-likelihood</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the negative log-likelihood depending on the data,
+assuming that is Weibull distributed.
+   </para>
+   <para>
+The negative log-likelihood function is :
+   </para>
+   <para>
+-sum(log(PDF(params,data)))
+   </para>
+   <para>
+where PDF is the probability distribution function,
+which depends on the parameters and the data.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Samples from Weibull distribution with
+// a=5432 and b=3.21
+data = [
+3303.
+3172.
+2473.
+5602.
+3109.
+4415.
+6471.
+5952.
+3945.
+3534.
+]
+nlogl = distfun_wbllike([4672 3.5],data)
+exact=85.799862
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Likelihood_function</para>
+</refsection>
+</refentry>

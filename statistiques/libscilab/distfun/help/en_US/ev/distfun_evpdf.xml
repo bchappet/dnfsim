@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_evpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_evpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_evpdf</refname>
+    <refpurpose>Extreme value (Gumbel) PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y=distfun_evpdf(x,mu,sigma)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the location</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the scale. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of the Extreme value (Gumbel) function.
+This is the minimum Gumbel distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,\mu,\sigma) = \frac{1}{\sigma} \exp(z-\exp(z))
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+where
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+z=\frac{x-\mu}{\sigma}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+To get the max-Gumbel PDF:
+<screen>
+y = distfun_evpdf(-x,-mu,sigma)
+</screen>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+computed = distfun_evpdf ( [-1 1] , 0 , 1 )
+expected = [0.2546464 0.1793741];
+
+// Plot the Gumbel PDF
+N=1000;
+x=linspace(-20,5,N);
+y1= distfun_evpdf(x,-0.5,2.);
+y2= distfun_evpdf(x,-1.0,2.);
+y3= distfun_evpdf(x,-1.5,3.);
+y4= distfun_evpdf(x,-3.0,4.);
+scf();
+xtitle("Gumbel","x","Density");
+plot(x,y1,"r-")
+plot(x,y2,"g-")
+plot(x,y3,"b-")
+plot(x,y4,"c-")
+leg(1)="$\mu=-0.5,\beta=2.0$";
+leg(2)="$\mu=-1.0,\beta=2.0$";
+leg(3)="$\mu=-1.5,\beta=3.0$";
+leg(4)="$\mu=-3.0,\beta=4.0$";
+legend(leg,"in_upper_left");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Gumbel_distribution</para>
+   <para>NIST/SEMATECH e-Handbook of Statistical Methods,</para>
+   <para>http://www.itl.nist.gov/div898/handbook/</para>
+   <para>http://www.itl.nist.gov/div898/handbook/eda/section3/eda366g.htm</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

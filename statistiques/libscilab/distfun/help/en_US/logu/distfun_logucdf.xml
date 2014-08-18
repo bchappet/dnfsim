@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_logucdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_logucdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_logucdf</refname>
+    <refpurpose>LogUniform CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_logucdf ( x , a , b )
+   p = distfun_logucdf ( x , a , b , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>a:</term>
+      <listitem><para> a matrix of doubles, the minimum of the underlying uniform variable.</para></listitem></varlistentry>
+   <varlistentry><term>b:</term>
+      <listitem><para> a matrix of doubles, the maximum of the underlying uniform variable. b>a.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p:</term>
+      <listitem><para> a matrix of doubles, the probability</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the LogUniform Cumulated Density Function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+p=distfun_logucdf(exp(4),3,10)
+pexpected = 0.4087797
+
+a=2;
+b=3.5;
+N=10000;
+x=linspace(exp(a),exp(b),1000);
+y=distfun_logucdf(x,a,b);
+r=distfun_logurnd(a,b,N,1);
+r=gsort(r,"g","i");
+scf();
+plot(r,(1:N)./N,"r-");
+plot(x,y,"b-")
+xtitle("Log-Uniform","X","");
+legend(["Data","CDF"]);
+
+// Check upper tail
+p=distfun_logucdf(exp(4),3,4,%f) // 0.8571429
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

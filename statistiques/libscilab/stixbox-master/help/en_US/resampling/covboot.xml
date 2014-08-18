@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from covboot.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="covboot" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>covboot</refname>
+    <refpurpose>Bootstrap estimate of the variance of a parameter estimate.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   c=covboot(x,T)
+   c=covboot(x,T,b)
+   [c,y]=covboot(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>T :</term>
+      <listitem><para> a function or a list, the function which computes the empirical estimate from x.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the number of resamples (default b=200)</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a matrix of doubles, the variance-covariance matrix</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a m-by-b matrix of doubles, the parameter estimates of the resamples, where m is the size of the parameter estimate.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the T(x) many times using resampled data and
+uses the result to compute an estimate of the variance
+of T(x) assuming that x is a representative sample from
+the underlying distribution of x.
+   </para>
+   <para>
+The function T must have the following header:
+<screen>
+p=T(x)
+</screen>
+where <literal>x</literal> is the sample or the resample
+and <literal>p</literal> is a m-by-1 matrix of doubles.
+In the case where the parameter estimate has a more general
+shape (e.g. 2-by-2), the shape of <literal>p</literal> is reshaped
+into a column vector with <literal>m</literal> components.
+   </para>
+   <para>
+See "T and extra arguments" for details on how to pass extra-arguments
+to T.
+   </para>
+   <para>
+If T is multidimensional
+then the covariance matrix is estimated.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Case where the parameter to estimate is univariate:
+// estimate a mean
+n = 20;
+x=distfun_chi2rnd(3,n,1);
+mean(x)
+c=covboot(x,mean)
+c=covboot(x,mean,50000)
+[c,y]=covboot(x,mean);
+size(y)
+
+// Case where the parameter to estimate is multivariate:
+// estimate a covariance
+n = 20;
+X1=distfun_chi2rnd(3,n,1);
+X2=distfun_unifrnd(0,1,n,1);
+X3=distfun_normrnd(0,1,n,1);
+x = [X1,X2+X3];
+cov(x)
+c=covboot(x,cov)
+[c,y]=covboot(x,cov);
+size(y)
+
+// Test with a user-defined function.
+function y=mymean(x)
+y=mean(x)
+endfunction
+n = 20;
+x=distfun_chi2rnd(3,n,1);
+c=covboot(x,mymean)
+
+// With extra-arguments for T.
+x=distfun_chi2rnd(3,20,5);
+mean(x,"r")
+c=covboot(x,list(mean,"r"))
+
+// With extra-arguments for T, and
+// multivariante case
+x=distfun_chi2rnd(3,20,5);
+c=covboot(x,list(mean,"r"))
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from ksdensity.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="ksdensity" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>ksdensity</refname>
+    <refpurpose>Kernel smoothing density estimate</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   ksdensity(x)
+   ksdensity(x,xi)
+   ksdensity(x,xi,"kernel",akernel)
+   ksdensity(x,xi,"npoints",npoints)
+   ksdensity(x,xi,"support",support)
+   ksdensity(x,xi,"width",width)
+   f=ksdensity(...)
+   [f,xi]=ksdensity(...)
+   [f,xi,u]=ksdensity(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles, the data</para></listitem></varlistentry>
+   <varlistentry><term>xi :</term>
+      <listitem><para> a npoints-by-1 matrix of doubles, the points where the density is estimated</para></listitem></varlistentry>
+   <varlistentry><term>u,width :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, positive, the width of the kernel (default=Silverman's rule).</para></listitem></varlistentry>
+   <varlistentry><term>support :</term>
+      <listitem><para> a 1-by-1 matrix of string, the support (default="unbounded"). If support is "unbounded", all real values are possible. If support is "positive", only positive values are possible.</para></listitem></varlistentry>
+   <varlistentry><term>akernel :</term>
+      <listitem><para> a 1-by-1 matrix of strings, the type of kernel (default="normal"). Available values are "normal", "biweight", "triangle", "epanechnikov".</para></listitem></varlistentry>
+   <varlistentry><term>npoints :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, positive, the number of points in the density estimate (default=100)</para></listitem></varlistentry>
+   <varlistentry><term>f :</term>
+      <listitem><para> a npoints-by-1 matrix of doubles, the density estimate</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Compute a kernel density estimate of the data.
+   </para>
+   <para>
+The Silverman rule for the width u of the kernel is:
+   </para>
+   <para>
+<latex>
+u=1.06\hat{\sigma} n^{-1/5},
+</latex>
+   </para>
+   <para>
+where <latex>\hat{\sigma}</latex> is the empirical standard
+deviation, and n is the size of the sample.
+   </para>
+   <para>
+On output, <literal>xi</literal> and <literal>f</literal> contain
+the kernel density estimate of the data.
+For i=1,2,...,npoints, f(i) is the estimate
+of the probability density at xi(i).
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+X=distfun_normrnd(0,1,1000,1);
+[f,xi,u]=ksdensity(X);
+gh=scf();
+histo(X,[],[],1);
+plot(xi,f,"r-");
+xtitle("Kernel density estimate","X","Density");
+legend(["Data","PDF estimate"]);
+
+// Set the kernel width
+X=distfun_normrnd(0,1,1000,1);
+[f,xi,u]=ksdensity(X,"width",0.5);
+scf();
+histo(X,[],[],1);
+plot(xi,f,"r-");
+
+// Set the number of points
+X=distfun_normrnd(0,1,1000,1);
+[f,xi,u]=ksdensity(X,"npoints",500);
+scf();
+histo(X,[],[],1);
+plot(xi,f,"r-");
+
+// Set the kernel
+scf();
+X=distfun_normrnd(0,1,1000,1);
+//
+subplot(2,2,1);
+histo(X,[],[],1);
+[f,xi,u]=ksdensity(X,"kernel","normal");
+plot(xi,f,"r-");
+xtitle("Gaussian Density Estimate","X","Density")
+legend(["Data","PDF estimate"]);
+//
+subplot(2,2,2);
+histo(X,[],[],1);
+[f,xi,u]=ksdensity(X,"kernel","epanechnikov");
+plot(xi,f,"r-");
+xtitle("Epanechnikov Density Estimate","X","Density")
+legend(["Data","PDF estimate"]);
+//
+subplot(2,2,3);
+histo(X,[],[],1);
+[f,xi,u]=ksdensity(X,"kernel","biweight");
+plot(xi,f,"r-");
+xtitle("Biweight Density Estimate","X","Density")
+legend(["Data","PDF estimate"]);
+//
+subplot(2,2,4);
+histo(X,[],[],1);
+[f,xi,u]=ksdensity(X,"kernel","triangle");
+plot(xi,f,"r-");
+xtitle("Triangular Density Estimate","X","Density")
+legend(["Data","PDF estimate"]);
+
+// Set the kernel width
+X=distfun_normrnd(0,1,1000,1);
+scf();
+//
+[f,xi,u]=ksdensity(X,"width",0.1);
+subplot(2,2,1)
+histo(X,[],[],1);
+plot(xi,f,"r-");
+xtitle("width=0.1")
+//
+[f,xi,u]=ksdensity(X,"width",0.25);
+subplot(2,2,2)
+histo(X,[],[],1);
+plot(xi,f,"r-");
+xtitle("width=0.25")
+//
+[f,xi,u]=ksdensity(X,"width",0.5);
+subplot(2,2,3)
+histo(X,[],[],1);
+plot(xi,f,"r-");
+xtitle("width=0.5")
+//
+[f,xi,u]=ksdensity(X,"width",1.);
+subplot(2,2,4)
+histo(X,[],[],1);
+plot(xi,f,"r-");
+xtitle("width=1.")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

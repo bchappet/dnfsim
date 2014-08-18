@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="kstwo"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>kstwo</refname><refpurpose> Kolmogorov-Smirnov statistic from two samples  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>[d,p] = kstwo(x,y)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>x,y  </term>
+  <listitem>
+    <para>samples (column vectors)</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>d  </term>
+  <listitem>
+    <para>  Kolmogorov-Smirnov statistic d</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>p  </term>
+  <listitem>
+    <para>significance level p for the null hypothesis that the data sets x and y are drawn from the same distribution.</para>
+  </listitem> 
+  </varlistentry>
+ </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+    Kolmogorov-Smirnov statistic from two samples
+  </para>
+  <para>
+    Adapted from Press, Teukolsky, Vetterling and Flannery, Numerical
+    Recipes in Fortran p619. 
+  </para>
+  </refsection>
+</refentry>

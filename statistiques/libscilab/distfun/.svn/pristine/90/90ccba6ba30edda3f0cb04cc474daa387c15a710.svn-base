@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_trnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_trnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_trnd</refname>
+    <refpurpose>T random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_trnd ( v )
+   x = distfun_trnd ( v , [m,n] )
+   x = distfun_trnd ( v , m , n )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>v :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, v>0.</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers, in the interval [0,1].</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the T distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Produce 6 random numbers from T distribution
+// and degrees of freedom from 1 to 6
+x=distfun_trnd(1:6)
+
+// Compare empirical distribution and density
+v=12;
+N=10000;
+h=scf();
+x=distfun_trnd(v,1,N);
+histplot(40,x);
+h.children.children(1).children.background=-2;
+[M,V]=distfun_tstat(v);
+x=linspace(M-3*sqrt(V),M+3*sqrt(V),1000);
+y=distfun_tpdf(x,v);
+plot(x,y,"r-");
+xtitle("T Random Numbers","X","Frequency")
+legend(["Empirical","Density"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

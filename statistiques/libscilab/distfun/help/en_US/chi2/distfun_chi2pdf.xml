@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_chi2pdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_chi2pdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_chi2pdf</refname>
+    <refpurpose>Chi-squared PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_chi2pdf(x,k)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome, greater or equal to zero</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, k>0 (can be non integer)</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Chi-squared distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,k) = \frac{1}{2^{\frac{k}{2}}\Gamma\left(\frac{k}{2}\right)} x^{\frac{k}{2}-1} \exp\left(-\frac{x}{2}\right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Analysis of the random variable.
+   </para>
+   <para>
+If Z1, ..., Zk are independent standard normal random variables,
+then
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+Q=Z_1^2+...+Z_k^2
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+has a chi-squared distribution with k degrees of freedom.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with x scalar, k scalar
+computed = distfun_chi2pdf(4,5)
+expected = 0.1439759
+
+// Test with expanded x, k scalar
+computed = distfun_chi2pdf([2 6],5)
+expected = [0.1383692 0.0973043]
+
+// Test with x scalar, k expanded
+computed = distfun_chi2pdf(4,[4 7])
+expected = [0.1353353 0.1151807]
+
+// Test with both x,k expanded
+computed = distfun_chi2pdf([2 6],[3 4])
+expected = [0.2075537 0.0746806]
+
+// Plot the function
+h=scf();
+k = [2 3 4 6 9 12];
+cols = [1 2 3 4 5 6];
+lgd = [];
+for i = 1:size(k,"c")
+x = linspace(0,10,1000);
+y = distfun_chi2pdf ( x , k(i) );
+plot(x,y)
+str = msprintf("k=%s",string(k(i)));
+lgd($+1) = str;
+end
+for i = 1:size(k,"c")
+hcc = h.children.children;
+hcc.children(size(k,"c") - i + 1).foreground = cols(i);
+end
+xtitle("Chi-squared PDF","x","y")
+legend(lgd);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Chi-squared_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright (C) 2013 - Michael Baudin
+ *
+ * This file must be used under the terms of the CeCILL.
+ * This source file is licensed as described in the file COPYING, which
+ * you should have received as part of this distribution.  The terms
+ * are also available at
+ * http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+-->
+<refentry
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:db="http://docbook.org/ns/docbook"
+  version="5.0-subset Scilab"
+  xml:lang="fr"
+  xml:id="stixbox_graphics">
+
+  <refnamediv>
+    <refname>Tutorial</refname>
+
+    <refpurpose>Demos of the graphics.</refpurpose>
+  </refnamediv>
+
+  <refsection>
+    <title>Purpose</title>
+
+    <para>
+      The goal of this document is to present the graphics
+      available in this toolbox.
+    </para>
+
+  </refsection>
+
+  <refsection>
+    <title>Scatter plot matrix</title>
+
+    <para>
+      In the script below, we consider a model with 3 inputs and 3 outputs.
+      Then we plot Y versus X.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+m=1000;
+x1=distfun_unifrnd(0,1,m,1);
+x2=distfun_unifrnd(0,1,m,1);
+x3=distfun_unifrnd(0,1,m,1);
+y1=2*x1.*x2+x3;
+y2=-3*x1+x2.^2-2*x3;
+y3=sin(x1)-3*x2+3*x3;
+x=[x1,x2,x3];
+y=[y1,y2,y3];
+xlabels=["X1","X2","X3"];
+ylabels=["Y1","Y2","Y3"];
+scf();
+plotmatrix(x,y,"xlabels",xlabels,"ylabels",ylabels);
+]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="plotmatrix-1.png"
+          align ="center"
+          valign ="middle"
+/>
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+
+    <para>
+      In the script below, we consider a model with 3 inputs and 3 outputs.
+      Then we plot X versus X, with histograms on the diagonal.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+m=1000;
+x1=distfun_unifrnd(0,1,m,1);
+x2=distfun_unifrnd(0,1,m,1);
+x3=distfun_unifrnd(0,1,m,1);
+y1=2*x1.*x2+x3;
+y2=-3*x1+x2.^2-2*x3;
+y3=sin(x1)-3*x2+3*x3;
+y=[y1,y2,y3];
+ylabels=["Y1","Y2","Y3"];
+scf();
+plotmatrix(y,"xlabels",ylabels);
+]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="plotmatrix-2.png"
+          align ="center"
+          valign ="middle"
+            />
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+  </refsection>
+
+  <refsection>
+    <title>Histogram</title>
+
+    <para>
+      In the script below, we create a sample of 10000 random numbers from the
+      chi-square distribution with 3 degrees of freedom.
+      Then we plot the histogram.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x=distfun_chi2rnd(3,1000,1);
+scf();
+histo(x);
+xtitle("Chi-Square random numbers","X","Frequency")
+]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="histo.png"
+          align ="center"
+          valign ="middle"
+            />
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+  </refsection>
+
+  <refsection>
+    <title>QQ-plot</title>
+
+    <para>
+      In the script below, we create two samples of 100 random numbers from the
+      Poisson distribution.
+      Then we create the QQ-plot.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x = distfun_poissrnd(10,100,1);
+y = distfun_poissrnd(5,100,1);
+scf();
+qqplot(x,y);
+xtitle("n=100","Quantile Poiss(10)","Quantile Poiss(5)");
+]]>
+    </programlisting>
+
+    <para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+      <inlinemediaobject>
+        <imageobject>
+          <imagedata
+          fileref ="qqplot.png"
+          align ="center"
+          valign ="middle"
+            />
+        </imageobject>
+      </inlinemediaobject>
+    </para>
+  </refsection>
+</refentry>

@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_betainc.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_betainc" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_betainc</refname>
+    <refpurpose>Regularized Incomplete Beta function</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_betainc(x,z,w)
+   y = distfun_betainc(x,z,w,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome. Should be in the [0,1] interval. If not, an error is generated.</para></listitem></varlistentry>
+   <varlistentry><term>z :</term>
+      <listitem><para> a matrix of doubles, the first shape parameter, z>=0.</para></listitem></varlistentry>
+   <varlistentry><term>w :</term>
+      <listitem><para> a matrix of doubles, the second shape parameter, w>=0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then computes the integral from 0 to x otherwise from x to 1.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the output, y in [0,1].</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the regularized Incomplete Beta function.
+   </para>
+   <para>
+The Beta function is defined by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+B(z,w) = \int_0^1 t^{z-1} (1-t)^{w-1} dt = \frac{\Gamma(z)\Gamma(w)}{\Gamma(z+w)}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+The incomplete Beta function is defined by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+B(x,z,w) = \int_0^x t^{z-1} (1-t)^{w-1} dt
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x is in [0,1].
+   </para>
+   <para>
+The (lower tail) regularized incomplete Beta function
+is defined by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+I_x(z,w) = \frac{B(x,z,w)}{B(z,w)}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x is in [0,1].
+   </para>
+   <para>
+The upper tail regularized incomplete Beta function
+is defined by
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+I_x^u(z,w) = \frac{B^u(x,z,w)}{B(z,w)}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x is in [0,1] where the upper tail of the
+incomplete Beta function is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+B^u(x,z,w) = \int_x^1 t^{z-1} (1-t)^{w-1} dt.
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+The sum of the lower and upper tail is equal to 1 :
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+I_x(z,w) + I_x^u(z,w) = 1
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+distfun_betainc(.5,(0:10)',3)
+
+// Plot the function
+z = 1;
+w = 2;
+x=linspace(0,1,100);
+y = distfun_betainc(x,z,w);
+plot(x,y)
+xtitle("Regularized Incomplete Beta Function, z=1, w=2","x","Ix(z,w)");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

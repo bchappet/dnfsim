@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ksstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ksstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ksstat</refname>
+    <refpurpose>Kolmogorov-Smirnov mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_ksstat(N)
+   [M,V] = distfun_ksstat(N)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles , the number of observations. N belongs to the set {1,2,3,4,.......,2147483647}</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Kolmogorov-Smirnov distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+Only the asymptotic mean and variance is implemented in
+this function, i.e. the mean and variance computed
+by this function is more and more accurate when
+n increases.
+   </para>
+   <para>
+The asymptotic mean and variance of the Kolmogorov-Smirnov distribution is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+\lim_{N\rightarrow \infty} M &amp;=&amp; \frac{\sqrt{\pi/2}\log(2)}{\sqrt{N}} \\
+\lim_{N\rightarrow \infty} V &amp;=&amp; \frac{\pi^2}{12N}-M^2
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[M,V] = distfun_ksstat(5)
+Me = 0.3885084
+Ve = 0.0135546
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

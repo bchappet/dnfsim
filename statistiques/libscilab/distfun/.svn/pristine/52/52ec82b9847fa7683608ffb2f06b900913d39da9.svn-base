@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_evstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_evstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_evstat</refname>
+    <refpurpose>Extreme value (Gumbel) mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_evstat ( mu , sigma )
+   [M,V] = distfun_evstat ( mu , sigma )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the location</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the scale. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Extreme value (Gumbel) distribution.
+This is the minimum Gumbel distribution.
+   </para>
+   <para>
+The mean and variance of the Extreme value (Gumbel) distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \mu+\sigma*z \\
+V &amp;=&amp; \frac{\pi^2\sigma^2}{6}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+where
+   </para>
+   <para>
+<screen>
+z=dlgamma(1)=-0.5772157...
+</screen>
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[M,V]=distfun_evstat(5,2)
+me = 3.8455687;
+ve = 6.5797363;
+
+mu=0.5;
+sigma=2.0;
+[M,V]=distfun_evstat(mu,sigma);
+R=distfun_evrnd(mu,sigma,1000,1000);
+m=mean(R,"r");
+v=variance(R,"r");
+//
+scf();
+xtitle("Estimate of mean","Mean","Frequency")
+histplot(11,m);
+plot([M,M],[0,5])
+legend(["Data","Exact"]);
+//
+scf();
+xtitle("Estimate of variance","Variance","Frequency")
+histplot(11,v);
+plot([V,V],[0,1])
+legend(["Data","Exact"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

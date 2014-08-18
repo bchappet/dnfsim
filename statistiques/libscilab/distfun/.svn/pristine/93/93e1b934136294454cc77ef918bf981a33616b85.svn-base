@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_evrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_evrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_evrnd</refname>
+    <refpurpose>Extreme value (Gumbel) random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_evrnd ( mu , sigma )
+   x = distfun_evrnd ( mu , sigma , [m,n] )
+   x = distfun_evrnd ( mu , sigma , m , n )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Extreme value (Gumbel) distribution function.
+This is the minimum Gumbel distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of
+the same size as the other input arguments.
+   </para>
+   <para>
+To get max-Gumbel random numbers:
+<screen>
+y = -distfun_evrnd(-mu,sigma,m,n)
+</screen>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test both mu and sigma expanded
+computed = distfun_evrnd(1,2,[5,5])
+
+// Plot Gumbel random numbers
+N=1000;
+x=linspace(-20,5,N);
+y1=distfun_evpdf(x,0.5,2.);
+x=distfun_evrnd(0.5,2,10000,1);
+scf();
+xtitle("Gumbel distribution","x","Density");
+plot(x,y1)
+histplot(20,x);
+legend(["PDF","Data"],"in_upper_left");
+
+// Compare with CDF
+x=gsort(x,"g","i");
+n=size(x,"*");
+p=distfun_evcdf(x,0.5,2,%t);
+scf();
+plot(x,(1:n)'/n,"r-");
+plot(x,p,"b-");
+legend(["Empirical","CDF"],"in_upper_left");
+xtitle("Gumbel distribution","x","P(X<x)");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

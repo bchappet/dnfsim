@@ -1,0 +1,63 @@
+
+Toolbox: specfun
+
+Title: Specfun
+
+Summary: A collection of special functions
+
+Version: 0.4.1
+
+Author: Michaël Baudin
+
+Maintainer: Michael Baudin <michael.baudin@scilab.org>
+
+Category: Scilab development
+
+Entity: DIGITEO
+
+WebSite: http://forge.scilab.org/index.php/p/specfun/
+
+URL: http://atoms.scilab.org/toolboxes/specfun/0.4.1
+
+License: CeCILL
+
+ScilabVersion: >= 5.4
+
+Depends: 
+
+Date: 2011-11-24 16:01:18
+
+Description: Purpose
+ --------
+ 
+ The goal of this toolbox is to provide special functions.
+ The toolbox is based on macros.
+ 
+ Features
+ --------
+ 
+ The following is a list of the current features: 
+ 
+  * specfun_expm1 : Compute exp(x)-1 accurately for small values of x.
+  * specfun_gammainc : The incomplete gamma function.
+  * specfun_lambertw : The Lambert W-Function.
+  * specfun_log1p : Compute log(1+x) accurately for small values of x.
+  *  Discrete Maths
+    * specfun_combine : Returns the all the combinations of the given vectors.
+    * specfun_combinerepeat : Returns repeated combinations with replacement.
+    * specfun_factorial : The factorial function
+    * specfun_factoriallog : The log-factorial function
+    * specfun_ismember : Array elements that are members of set.
+    * specfun_nchoosek : Returns the binomial number (n,k).
+    * specfun_pascal : Returns the Pascal matrix.
+    * specfun_subset : Generate all combinations of k values from x without
+ replacement.
+ 
+ Acknowledgements
+ ----------------
+ 
+ Samuel Gougeon
+ Calixte Denizet
+ 
+ 
+

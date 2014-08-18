@@ -1,0 +1,59 @@
+// Copyright (C) 2012 - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+//
+v=5;
+rtol=1.e-12;
+x=[
+-1.475884   
+-0.5594296  
+0.         
+0.5594296  
+1.475884   
+];
+CheckCDF("distfun_tcdf",list(distfun_tcdf,v),x,rtol);
+CheckCDF: Checking empty matrix...
+CheckCDF: p=distfun_tcdf([],[])
+CheckCDF: ... OK
+CheckCDF: Get reference quantiles...
+CheckCDF: p(1)=distfun_tcdf(-1.475884,5)
+CheckCDF: p(2)=distfun_tcdf(-0.5594296,5)
+CheckCDF: p(3)=distfun_tcdf(0,5)
+CheckCDF: p(4)=distfun_tcdf(0.5594296,5)
+CheckCDF: p(5)=distfun_tcdf(1.475884,5)
+CheckCDF: ... OK
+CheckCDF: Compute complementary probabilities...
+CheckCDF: (check that p+q=1)
+CheckCDF: q=distfun_tcdf([-1.475884;-0.5594296;0;0.5594296;1.475884],5,%F)
+CheckCDF: ... OK
+CheckCDF: With arguments expanded...
+CheckCDF: p=distfun_tcdf([-1.475884;-0.5594296;0;0.5594296;1.475884],5)
+CheckCDF: p=distfun_tcdf([-1.475884;-0.5594296;0;0.5594296;1.475884],[5;5;5;5;5])
+CheckCDF: ... OK
+//
+// Test accuracy
+//
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","t","t.dataset.csv");
+table = readCsvDataset(dataset);
+precision = 100*%eps;
+nt = size(table,"r");
+for k = 1 : nt
+    x = table(k,1);
+    v = table(k,2);
+    p = table(k,4);
+    q = table(k,5);
+    computed = distfun_tcdf ( x , v );
+    assert_checkalmostequal ( computed , p , precision );
+    computed = distfun_tcdf ( x , v , %f );
+    assert_checkalmostequal ( computed , q , precision );
+end

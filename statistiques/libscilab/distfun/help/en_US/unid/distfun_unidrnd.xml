@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_unidrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_unidrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_unidrnd</refname>
+    <refpurpose>Uniform Discrete random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_unidrnd ( N )
+   x = distfun_unidrnd ( N , [m,n] )
+   x = distfun_unidrnd ( N , m , n )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles, integer value, the integer upper bound (with N&gt;=1)</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers in the set {1,...,N}.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates integer random variables from the Uniform discrete distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Use x = distfun_unidrnd ( N )
+x=distfun_unidrnd(7)
+x=distfun_unidrnd(2:7)
+
+// Check x = distfun_unidrnd ( N , v )
+x = distfun_unidrnd(2,[1 5])
+x = distfun_unidrnd(2,[3 2])
+
+// See x = distfun_unidrnd (N,m,n)
+x = distfun_unidrnd(3,1,2)
+
+// Check mean and variance for x = distfun_unidrnd ( N )
+m = 1000;
+N = 2:7;
+[M,V] = distfun_unidstat(N)
+for i = 1:m
+computed(i,1:6) = distfun_unidrnd(N);
+end
+Mx = mean(computed, "r" )
+Vx = variance(computed, "r" )
+
+// Make a plot of the actual distribution of the numbers
+N = 10;
+h=scf();
+x = distfun_unidrnd(N,1,1000);
+distfun_inthisto(x);
+h.children.children(1).children.background=-2;
+x=1:N;
+y=distfun_unidpdf(x,N);
+plot(x,y,"ro-")
+legend(["Data","PDF"]);
+xtitle("Uniform random numbers","X","Density");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

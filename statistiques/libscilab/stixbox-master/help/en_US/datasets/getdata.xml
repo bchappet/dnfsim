@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from getdata.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="getdata" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>getdata</refname>
+    <refpurpose>Returns a dataset.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = getdata()
+   [x,txt] = getdata()
+   x = getdata(i)
+   [x,txt] = getdata(i)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>i :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integer, the dataset index, in the range 1,2,...,23</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a m-by-n matrix of doubles, the data</para></listitem></varlistentry>
+   <varlistentry><term>txt :</term>
+      <listitem><para> a m-by-1 matrix of strings, the header of the dataset.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Returns famous datasets.
+Each dataset is made of a header presenting the content of the dataset
+(to be stored into txt) and the data (to be stored into x).
+   </para>
+   <para>
+Without input argument, opens an interactive dialog asking the user
+to choose one dataset.
+If the user cancels, returns the empty matrix into x and and empty string into txt.
+   </para>
+   <para>
+With one input argument i, returns the dataset #i.
+   </para>
+   <para>
+With one output argument x, returns the data into x and opens an interactive
+dialog displaying the header.
+   </para>
+   <para>
+With two output arguments x and txt, returns the data into x and the header into txt.
+   </para>
+   <para>
+The txt header is structured as follows:
+<itemizedlist>
+<listitem>
+txt(1) is the title,
+</listitem>
+<listitem>
+txt(2) is a reference using the dataset (a paper, a book, a technical report, ...),
+</listitem>
+<listitem>
+txt(3) is the original source of the dataset,
+</listitem>
+<listitem>
+txt(4) is the dimension of the dataset (number of observations and variables in the dataset),
+</listitem>
+<listitem>
+txt(5:$) is the description of the dataset.
+</listitem>
+</itemizedlist>
+   </para>
+   <para>
+The following is the list of datasets available:
+   </para>
+   <para>
+<programlisting>
+1  Phosphorus
+2  Scottish Hill Race
+3  Salary Survey
+4  Health Club
+5  Brain and Body Weight
+6  Cement
+7  Colon Cancer
+8  Growth
+9  Consumption Function
+10 Cost-of-Living
+11 Demographic
+12 Cable
+13 Service call
+14 Phone call
+15 Turnover
+16 Unemployment
+17 Quality Control
+18 Graphics cards
+19 Data Processing System development
+20 Paper
+21 Bulb
+22 Memory Chip
+23 French firm
+</programlisting>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// A regular call
+[x,txt] = getdata(10)
+// Displays only the header
+[x,txt] = getdata(10); txt
+// Select the dataset interactively.
+[x,txt] = getdata()
+// Display the header interactively.
+x = getdata(10)
+// Select the dataset interactively and
+// display the header interactively.
+x = getdata()
+
+// A short abstract of all datasets
+for i = 1 : 23
+[x,txt] = getdata(i);
+txt_title=txt(1);
+mprintf("Dataset #%3d: %-30s (%3d-by-%-3d)\n",i,txt_title,size(x,"r"),size(x,"c"));
+end
+
+// A longer abstract of all datasets
+for i = 1 : 23
+[x,txt] = getdata(i);
+txt_title=txt(1);
+txt_source=txt(2);
+txt_from=txt(3);
+txt_dims=txt(4);
+txt_descr=txt(5:$);
+abstract = strcat(txt_descr(:)," ");
+abstract = part(abstract,1:80)+"...";
+mprintf("\nDataset #%3d: %-30s (%3d-by-%-3d)\n",i,txt_title,size(x,"r"),size(x,"c"));
+mprintf("\t%s\n",txt_source);
+mprintf("\t%s\n",txt_from);
+mprintf("\t%s\n",txt_dims);
+mprintf("\t%s\n",abstract);
+end
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

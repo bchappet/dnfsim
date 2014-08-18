@@ -1,0 +1,55 @@
+// Copyright (C) 2009 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+
+// Test the Normal law in the Mathematica language
+//
+// Test the Probability Density Function
+//
+dist = NormalDistribution[1, 2]
+N [ PDF [ dist , 3/2 ] , 16 ]
+N [ PDF [ dist , 5 ] , 16 ]
+N [ PDF [ dist , 10 ] , 16 ]
+N [ PDF [ dist , 15 ] , 16 ]
+N [ PDF [ dist , 20 ] , 16 ]
+N [ PDF [ dist , 30 ] , 16 ]
+N [ PDF [ dist , 50 ] , 16 ]
+N [ PDF [ dist , 76 ] , 16 ]
+//
+// Test the Cumulative Probability Density Function
+//
+dist = NormalDistribution[1, 2]
+N [ CDF [ dist , 1 ] , 16 ]
+N [ CDF [ dist , 2 ] , 16 ]
+N [ CDF [ dist , 3 ] , 16 ]
+N [ CDF [ dist , 4 ] , 16 ]
+N [ CDF [ dist , 5 ] , 16 ]
+N [ CDF [ dist , -5 ] , 16 ]
+N [ CDF [ dist , -6 ] , 16 ]
+N [ CDF [ dist , -10 ] , 16 ]
+N [ CDF [ dist , -15 ] , 16 ]
+//
+// Test the Inverse Cumulative Probability Density Function
+//
+$MaxExtraPrecision = 200
+dist = NormalDistribution[1, 2]
+N [ Quantile [ dist , 1/2 ] , 16 ]
+N [ Quantile [ dist , 0. ] , 16 ]
+N [ Quantile [ dist , 1. ] , 16 ]
+N [ Quantile [ dist , 6/10 ] , 16 ]
+N [ Quantile [ dist , 8/10 ] , 16 ]
+N [ Quantile [ dist , 9/10 ] , 16 ]
+N [ Quantile [ dist , 2/10 ] , 16 ]
+N [ Quantile [ dist , 1/10 ] , 16 ]
+N [ Quantile [ dist , 1/10^2 ] , 16 ]
+N [ Quantile [ dist , 1/10^5 ] , 16 ]
+N [ Quantile [ dist , 1/10^10 ] , 16 ]
+N [ Quantile [ dist , 1/10^20 ] , 16 ]
+N [ Quantile [ dist , 1/10^50 ] , 16 ]
+N [ Quantile [ dist , 1/10^100 ] , 16 ]
+N [ Quantile [ dist , 1/10^200 ] , 16 ]
+

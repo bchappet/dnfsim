@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ncfrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ncfrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ncfrnd</refname>
+    <refpurpose>Noncentral F random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_ncfrnd(v1,v2,delta)
+   x = distfun_ncfrnd(v1,v2,delta,[m,n])
+   x = distfun_ncfrnd(v1,v2,delta,m,n)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>v1 :</term>
+      <listitem><para> a matrix of doubles, numerator degrees of freedom, v1&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>v2 :</term>
+      <listitem><para> a matrix of doubles, denominator degrees of freedom, v2&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>delta :</term>
+      <listitem><para> a matrix of doubles, the noncentrality parameter, delta>=0</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers in the set [0,∞).</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Noncentral F-distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_ncfrnd(2,5,3)
+
+// Test with expanded v1, v2 and delta
+x = distfun_ncfrnd(1:6,1:6,3)
+
+// Check mean and variance
+N = 5000;
+v1 = 3;
+v2 = 5;
+delta = 7;
+x = distfun_ncfrnd(v1,v2,delta,[1 N]);
+RM = mean(x)
+RV = variance(x)
+[M,V] = distfun_ncfstat(v1,v2,delta)
+
+// Make a plot of the actual distribution of the numbers
+v1 = 10;
+v2 = 50;
+delta = 7;
+data = distfun_ncfrnd(v1,v2,delta,1,1000);
+scf();
+histplot(20,data)
+x = linspace(0,4,1000);
+y = distfun_ncfpdf(x,v1,v2,delta);
+plot(x,y)
+xtitle("Noncentral F Random Numbers","X","Density")
+legend(["Empirical","PDF"]);
+
+// Make a plot of a ratio of chi-square random numbers
+scf();
+v1 = 10;
+v2 = 50;
+delta = 7;
+R1 = distfun_ncx2rnd(v1,delta,1,1000);
+R2 = distfun_chi2rnd(v2,1,1000);
+x = (R1./v1)./(R2./v2);
+histplot(20,x)
+x = linspace(0,4,1000);
+y = distfun_ncfpdf(x,v1,v2,delta);
+plot(x,y)
+xtitle("$\textrm{Random Numbers }\frac{R_1/v_1}{R_2/v_2}$","X","Density")
+legend(["Empirical","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Noncentral_F-distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

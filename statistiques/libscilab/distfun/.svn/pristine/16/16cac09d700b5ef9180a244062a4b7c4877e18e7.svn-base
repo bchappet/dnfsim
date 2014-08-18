@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_normpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_normpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_normpdf</refname>
+    <refpurpose>Normal PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y=distfun_normpdf(x,mu,sigma)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of the Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,\mu,\sigma) = \frac{1}{\sigma\sqrt{2\pi}} \exp\left(\frac{-(x-\mu)^2}{2\sigma^2}\right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+computed = distfun_normpdf ( [-1 1] , 0 , 1 )
+expected = [ 0.241970724519143   0.241970724519143 ];
+//
+// Check expansion of mu and expansion of sigma
+computed = distfun_normpdf ( [1 2 3] , 1.0 , 2.0 )
+expected = [ ..
+0.199471140200716, ..
+0.176032663382150, ..
+0.120985362259572 ..
+];
+// Check with expanded arguments
+computed = distfun_normpdf ( [1 2 3] , [1 1 1], [2 2 2] )
+
+// Plot the function
+mu = [0 0 0 -2];
+sigma2 = [0.2 1.0 5.0 0.5];
+cols = [1 2 3 4];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(-5,5,1000);
+y = distfun_normpdf ( x , mu(k) , sqrt(sigma2(k)) );
+plot(x,y)
+str = msprintf("mu=%s, sigma^2=%s",..
+string(mu(k)),string(sigma2(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+legend(lgd);
+xtitle("Normal PDF","x","y")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Normal_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2009 - 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

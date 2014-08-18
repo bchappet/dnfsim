@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="lsselect"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>lsselect</refname><refpurpose> Select a predictor subset for regression  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>[Q, I, B, BB] = lsselect(y,x,crit,how,pmax,level)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+    <variablelist>
+      <varlistentry>
+	<term>y  </term>
+	<listitem>
+	  <para>dependant variate (column vector)</para>
+	</listitem> 
+      </varlistentry>
+      <varlistentry>
+	<term>x  </term>
+	<listitem>
+	  <para>   regressor variates</para>
+	</listitem> 
+      </varlistentry>
+      <varlistentry>
+	<term>crit  </term>
+	<listitem>
+	  <para>selection criterion (string):</para>
+	  <para>'HT' :   Hypothesis Test (default level = 0.05)</para>
+	<para>'AIC' :  Akaike's Information Criterion </para>
+	<para>'BIC':  Bayesian Information Criterion</para>
+	<para>'CMV' :  Cross Model Validation (inner criterion RSS)</para>
+	</listitem> 
+      </varlistentry>
+    <varlistentry>
+      <term>how  </term>
+      <listitem>
+	<para>   (string)  choses between :</para>
+	<para>'AS' :   All Subsets</para>
+	<para>'FI' :  Forward Inclusion</para>
+	<para>'BE' :   Backward Elimination</para>
+	</listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>pmax  </term>
+      <listitem>
+	<para>limits the number of included parameters (scalar).</para>
+      </listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>level  </term>
+      <listitem>
+	<para>optional input argument, p-value reference used for inclusion or deletion.</para>
+      </listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>Q  </term>
+      <listitem>
+	<para>criterion as a function of the number of parameters; might be interpreted as an estimate of the prediction standard deviation. For the method 'HT', Q is instead the successive p-values for inclusion or elimination. </para>
+      </listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>I  </term>
+      <listitem>
+	<para>index numbers of the included columns.</para>
+      </listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>B  </term>
+      <listitem>
+	<para>vector of coefficients, ie the suggested model is Y = X*B. </para>
+      </listitem> 
+    </varlistentry>
+    <varlistentry>
+      <term>BB  </term>
+      <listitem>
+	<para>Column p of BB is the best B of parameter size p. </para>
+      </listitem> 
+    </varlistentry>
+  </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+    <para>
+    Selects a good subset of regressors in a multiple linear regression
+    model. 
+  </para>
+    <para>
+    The last column of the prediction matrix x must be an intercept
+    column, ie all elements are ones. This column is never excluded in the
+    search for a good model. If it is not present it is added.
+  </para>
+    <para>
+    This function is not highly optimized for speed but rather for
+    flexibility. It would be faster if 'all subsets' were in a  separate
+    routine and 'forward' and 'backward' were in another routine,
+    especially for CMV. 
+  </para>
+  </refsection>
+  <refsection><title>See Also</title><simplelist type="inline">
+    <member> <link linkend="lsfit">lsfit</link> </member>     <member> <link linkend="linreg">linreg</link> </member>
+  </simplelist></refsection>
+</refentry>

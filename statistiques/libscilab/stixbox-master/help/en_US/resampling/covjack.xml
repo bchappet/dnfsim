@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from covjack.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="covjack" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>covjack</refname>
+    <refpurpose>Jackknife estimate of the variance of a parameter estimate.</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   c=covjack(x,T)
+   [c,y]=covjack(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>T :</term>
+      <listitem><para> a function which computes the empirical estimate from x</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the estimate of the covariance matrix</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a m-by-n matrix of doubles, the parameter estimates of the resamples, where m is the size of the parameter estimate and n is the length of x.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The function computes T(x) with one observation removed at a
+time and uses the result to compute an estimate of the variance
+of T(x) assuming that x is a representative sample from
+the underlying distribution of x.
+   </para>
+   <para>
+If T is multidimensional then the covariance matrix is estimated.
+   </para>
+   <para>
+The function T must have the following header:
+<screen>
+p=T(x)
+</screen>
+where <literal>x</literal> is the sample or the resample
+and <literal>p</literal> is a m-by-1 matrix of doubles.
+In the case where the parameter estimate has a more general
+shape (e.g. 2-by-2), the shape of <literal>p</literal> is reshaped
+into a column vector with <literal>m</literal> components.
+   </para>
+   <para>
+See "T and extra arguments" for details on how to pass extra-arguments
+to T.
+   </para>
+   <para>
+Note that the jackknife
+method does not work for some functions T that are not smooth
+enough, the median being one example.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_unifrnd(0,1,100,1);
+c=covjack(x,mean)
+// Get y
+[c,y]=covjack(x,mean);
+size(y)
+
+// With extra-arguments for T.
+x=distfun_chi2rnd(3,20,5);
+mean(x,"r")
+c=covjack(x,list(mean,"r"))
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (c) 2013 - Michael Baudin</member>
+   <member>Copyright (c) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (c) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,197 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_hygepdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_hygepdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_hygepdf</refname>
+    <refpurpose>Hypergeometric PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_hygepdf(x,M,k,N)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the number of successful draws in the experiment. x belongs to the set [0,min(k,N)]</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the total size of the population. M belongs to the set {0,1,2,...}</para></listitem></varlistentry>
+   <varlistentry><term>k :</term>
+      <listitem><para> a matrix of doubles, the number of successful states in the population. k belongs to the set {0,1,2,...,M}</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles, the total number of draws in the experiment. N belongs to the set {0,1,2,...,M}</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Hypergeometric distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,M,k,N) = \frac{\binom{k}{x} \binom{M-k}{N-x}}{\binom{M}{N}}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+where <latex>\binom{M-k}{N-x}</latex> is zero if <literal>N-x>M-k</literal>.
+   </para>
+   <para>
+From the definition of the PDF, the input arguments must be so that:
+x&lt;=N, x&lt;=k, k&lt;=M and N&lt;=M.
+   </para>
+   <para>
+If one of these conditions is not satisfied,
+an error is generated.
+   </para>
+   <para>
+If x&lt;N-M+k, then the probability is zero.
+   </para>
+   <para>
+Analysis of the random variable.
+   </para>
+   <para>
+Consider an urn with M balls.
+In this urn, k balls are successes, and M-k balls
+are failures.
+We randomly pick a ball in this urn, see if
+it is a success or a failure, and
+replace the ball in the urn.
+We repeat this experiment N times and let X be
+the number of successful draws.
+Then X has an hypergeometric distribution,
+with parameters M, k and N.
+   </para>
+   <para>
+Compatibility note.
+   </para>
+   <para>
+This function is compatible with Matlab, but
+not compatible with R.
+The calling sequence
+   </para>
+   <para>
+distfun_hygepdf(x,M,k,N)
+   </para>
+   <para>
+corresponds to the R calling sequence:
+   </para>
+   <para>
+dhyper(x,k,M-k,N)
+   </para>
+   <para>
+Range of the input
+   </para>
+   <para>
+It might happen that the user has a input argument x which
+is either too small (e.g. x=-10) or too large (e.g. x=M+1).
+In this case, the distfun_hygepdf function generates an error.
+This situation may reveal a bug in the data.
+This feature may be a problem for some users
+which would rather want to compute a zero
+probability.
+In this case, it may be required
+to prepare x for distfun_hygepdf.
+See the "Restrict x to the acceptable range."
+example below.
+The same situation can happen with distfun_hygecdf.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Tests with all the arguments scalar
+computed = distfun_hygepdf(20,80,50,30)
+expected = 0.1596136
+
+// Test with x expanded
+computed = distfun_hygepdf([20 17],80,50,30)
+expected = [0.1596136 0.1329349]
+
+// Test with M expanded
+computed = distfun_hygepdf(20,[80 100],50,30)
+expected = [0.1596136 0.0164823]
+
+// Test with x,N expanded
+computed = distfun_hygepdf([20 17],80,[50 60],30)
+expected = [0.1596136 0.0033836]
+
+// Test with all the arguments expanded
+copmuted = distfun_hygepdf([20 17 15],[100 80 90],[50 60 70],[30 20 18])
+expected = [0.0164823 0.1248637 0.2170354]
+
+// Plot the function
+scf();
+x = 0:30;
+y = distfun_hygepdf(x,80,50,30);
+plot(x,y,"ro-");
+xtitle("Hypergeometric PDF","x","P(x)");
+legend("M=80,k=50,N=30");
+
+// If x is not in the range, then an error is generated.
+// Generates an error:
+// distfun_hygepdf(-20,80,50,30)
+// distfun_hygepdf(40,80,50,30)
+
+// Restrict x to the acceptable range.
+M=80;
+k=50;
+N=30;
+x=(-10:100);
+x=min(x,N,k);
+x=max(x,0);
+p=distfun_hygepdf(x,M,k,N);
+plot(x,p,"o");
+xtitle("Hypergeometric PDF","x","P(X=x)");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Hypergeometric_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_gamcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_gamcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_gamcdf</refname>
+    <refpurpose>Gamma CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_gamcdf ( x , a , b )
+   p = distfun_gamcdf ( x , a , b , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome, x>=0</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the shape parameter, a>0.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the scale parameter, b>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Gamma cumulated probability distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test x scalar, a scalar, b expanded
+b = 1:5;
+computed = distfun_gamcdf(1,1,b)
+expected = [  ..
+6.321205588285576660D-01  ..
+3.934693402873664647D-01  ..
+2.834686894262107293D-01  ..
+2.211992169285951215D-01  ..
+1.812692469220181790D-01  ..
+]
+
+// Plot the function
+shape = [1 2 3 5 9];
+scale = [2 2 2 1 0.5];
+cols = [1 2 3 4 5];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(0,20,1000);
+y = distfun_gamcdf ( x , shape(k) , scale(k) );
+plot(x,y)
+str = msprintf("shape=%s, scale=%s",..
+string(shape(k)),string(scale(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+xtitle("Gamma CDF","x","$P(X\leq x)$")
+legend(lgd);
+
+// See upper tail
+p = distfun_gamcdf(1,3,5)
+q = distfun_gamcdf(1,3,5,%f)
+p+q
+// See an extreme case
+p = distfun_gamcdf(300,3,5,%f)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

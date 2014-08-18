@@ -1,0 +1,23 @@
+# Copyright (C) 2009-2011 - DIGITEO - Michael Baudin
+#
+# This file must be used under the terms of the CeCILL.
+# This source file is licensed as described in the file COPYING, which
+# you should have received as part of this distribution.  The terms
+# are also available at
+# http:#www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+#
+#
+# Assessing the quality of the Normal distribution function
+# References
+#   Yalta, A. T. 2008. The accuracy of statistical distributions in Microsoft®Excel 2007. Comput. Stat. Data Anal. 52, 10 (Jun. 2008), 4579-4586. DOI= http:#dx.doi.org/10.1016/j.csda.2008.03.005 
+#   Computation of Statistical Distributions (ELV), Leo Knüsel 
+# Table 4
+# Check Poisson distribution with parameters (lambda, k, Sigma)
+# If Sigma = 1, the cumulated distribution function is to be computed.
+#
+# table = [x lambda CDF ]
+#
+1e+03 1e+03 0.508409 
+1e+05 1e+05 0.500841 
+1e+07 1e+07 0.500084 
+1e+09 1e+09 0.500008 

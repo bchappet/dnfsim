@@ -1,0 +1,234 @@
+The Distribution Testing Check-List
+
+Michael Baudin
+
+July 2012
+
+Abstract
+--------
+
+In this document, we gather informations on how to test 
+a probability distribution function. 
+More precisely, we present what should be checked in 
+a distribution so that it makes accurate computations.
+
+PDF
+---
+
+The PDF function generally has the header :
+
+y = PDF(x,a1,a2,...)
+
+where x is the outcome, y is the probability density and a1, a2, ...
+are parameters.
+
+We should check that no unnecessary overflow happens during the 
+computation of the PDF.
+
+For example, the mathematical definition of the Binomial 
+distribution is 
+
+	y = nchoosek(n,k) p^k (1-p)^k
+	
+where p is the probability of each trial and k is the number of trials. 
+In the previous statement, the nchoosek function is mathematically 
+defined as 
+
+nchoosek(n,k) = n! / k! / (n-k)!
+
+If we use the previous formula, it may happen that the output y 
+is well defined, but that the implementation returns an infinite 
+number. 
+This may happen if the number p^k overflows, for example if k is large.
+Instead, the implementation can safely use the 
+log-factorial function, available with the gammaln function. 
+For example, the Binomial PDF can be implemented with :
+
+    r = gammaln ( N + 1 ) - gammaln (x + 1) - gammaln (N - x + 1)
+    r = exp( r )
+    r = round ( r )
+    lny = log(r) + x .* log(pr) + (N-x) .* log(1-pr)
+    y = exp(lny)
+
+CDF
+---
+
+The CDF function generally has the header :
+
+p = CDF(x,a1,a2,...)
+
+where x is the outcome, p is the probability that X<x and a1, a2, ...
+are parameters.
+
+There are several details which must be checked on a CDF function. 
+
+CDF: Check the upper tail.
+
+We must check that the function can compute the upper tail 
+Indeed, by default, the computed probability is P(X<x), for a given value of 
+x: this is the lower tail of the CDF. 
+Now, if p is very close to 1 (e.g. p=0.99999...), then there is 
+very few significant digits in p. 
+In the limit, all probabilities in the range [1-%eps/4,1] will be 
+represented by 1, because of the limitations of floating point 
+arithmetic. 
+In this case, the complementary probability q=1-p cannot be 
+computed accurately from the value of p. 
+This is why the CDF function must provide the "lowertail" option, 
+which allows the user to compute q instead of p. 
+
+For example, the CDF of the Normal distribution has the calling sequence :
+
+p=distfun_normcdf(x,mu,sigma,lowertail)
+
+where x is the outcome, mu is the mean, sigma is the standard deviation, lowertail 
+is a boolean and p is the probability that X<x.
+The default value of lowertail is %t. 
+In the following session, we see that we cannot compute q from p when 
+x is greater than 9.
+
+-->p=distfun_normcdf(9,0,1)
+ p  =
+    1.  
+-->q=1-p
+ q  =
+    0.  
+
+In other words, if p==1, then all the accuracy is lost 
+and there is nothing that we can do to recover the complementary 
+probability q=1-p. 
+	
+If, instead, we use the lowertail option, then we can accurately 
+compute q, as in the following example.
+
+-->q=distfun_normcdf(9,0,1,%f)
+ q  = 
+    1.129D-19  
+
+Of course, this situation occurs only for values of p very close 
+to 1, but this does not limit the usefulness of the 
+lowertail option. 
+Indeed, for values of p increasingly closer to 1, if we do not 
+use the lowertail option, we can measure a decrease in the accuracy of 
+of p: i.e. the number of significant digits in p progressively 
+decreases from 15 to 17 (the maximum) to zero (the minimum). 
+Hence, in practice, any probability in the range, say, [0.99 1] 
+should be computed with lowertail=%f to get a full accuracy 
+in the result. 
+
+CDF : Check expressions such as exp(x)-1
+
+For the CDF, we must check expressions involving 1-x, 
+log(1-x) or exp(x)-1 when x is small. 
+For example, the CDF of the Exponential distribution 
+is mathmatically defined by the equation:
+
+p = 1-exp( -lambda*x )
+
+But the previous formula is not accurate when x (or lambda) is small.
+Instead, we can use the following implementation:
+
+p = -specfun_expm1 ( -lambda*x )
+
+CDF : check the extreme values of the parameters.
+
+The mathematical formula which defines the probability p 
+may become inaccurate when one parameter becomes 
+large or small. 
+
+For example, the Geometric CDF has the mathematical definition :
+
+	p = 1-(1-pr)^(x+1)
+
+where pr is the probability of success on each trial, 
+x is the number of failures before the first success and 
+p is the probability that X<=x.
+When pr becomes small, then the straightforward formula 
+does not lead to an accurate computation, as shown in the 
+following session:
+
+-->pr=1.e-20;
+-->x= 1;
+-->1-(1-pr)^(x+1)
+ ans  =
+    0.  
+
+Here, the exact probability is 2.e-20 and the mathematically 
+correct implementation does not produce any significant digit. 
+The reason for the failure is that the floating point 
+representation of (1-pr)^(x+1) is 1. 
+The core of the problem is that there are terms which are 
+becoming smaller and smaller and are eliminated in the 
+computation, although these terms are important in the 
+result. 
+Instead, we may use the log1p function, which is defined as:
+
+log1p(x)=log(1+x)
+
+and the expm1 function, which is defined as:
+
+expm1(x)=exp(x)-1
+
+Then an accurate implementation of the Geometric 
+distribution is:
+
+    t = log1p(-pr)*(x+1)
+    if (lowertail) then
+        p = -specfun_expm1(t)
+    else
+        p = exp(t)
+    end
+
+Inverse CDF (quantile)
+----------------------
+
+The inverse CDF function generally has the header :
+
+x = inverseCDF(p,a1,a2,...)
+
+where p is the probability, x is the quantile and a1, a2, ...
+are parameters.
+
+We should check that the particular case p=1 
+is correctly taken into account, if the 
+range of X values contains infinite bounds. 
+For example, the inverse Binomial distribution has header:
+
+x = distfun_binoinv(p,N,pr)
+
+where p is in [0,1], N is the number of Bernouilli trials, 
+pr is the probability of succes and x is in [0,+inf].
+In this case, we must check that the input p=1 
+produces the output x=+inf, whatever the value of N and pr.
+
+The lower tail / upper tail issue for probabilities 
+close to 1 is the same as for the CDF function. 
+
+For the inverse CDF, we must check expressions involving 1-x, 
+when x is small. 
+The inverse Exponential CDF is mathematically defined as:
+
+x=-log(1-p)/lambda
+
+The problem is that this otherwise simple formula is 
+not accurate when p is small. 
+This is why we should use the implementation:
+
+x = - specfun_log1p(-p)/lambda
+
+Summary
+-------
+
+ * All : Check expressions such as 1-x, log(1-x) 
+   or exp(x)-1, when x is small.
+ * PDF : Check overflows/underflows.
+ * CDF : Check upper tail.
+ * CDF : check extreme values of the parameters.
+ * Inverse CDF : Check p=1, p=0.
+ * Inverse CDF : Check upper tail.
+
+Bibliography
+------------
+
+The accuracy of statistical distributions in Microsoft  Excel 2007, 				
+A. Talha Yalta, Computational Statistics and Data Analysis 52 (2008) 4579–4586				

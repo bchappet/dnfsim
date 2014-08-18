@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_nctpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_nctpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_nctpdf</refname>
+    <refpurpose>Noncentral T PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_nctpdf ( x , v , delta )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome.</para></listitem></varlistentry>
+   <varlistentry><term>v :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, v>0.</para></listitem></varlistentry>
+   <varlistentry><term>delta :</term>
+      <listitem><para> a matrix of doubles, the noncentrality parameter, delta is real</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Noncentral T probability distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+<emphasis>Caution</emphasis>
+This distribution is known to have inferior accuracy in
+some cases.
+   </para>
+   <para>
+If Z is a normal random variable with mean 0 and standard deviation 1,
+and T is a Chi-squared random variable with v degrees of freedom,
+then the variable
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+\frac{Z+\delta}{\sqrt{T/v}}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+has a Noncentral T distribution with v degrees of freedom
+and delta noncentrality parameter.
+   </para>
+   <para>
+When the number of degrees of freedom v increases, the
+Noncentral T distribution approaches the Normal distribution with
+mean 0 and variance 1.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+y=distfun_nctpdf(7,2,10)
+expected = 0.0750308
+
+// Plot the function
+h=scf();
+x = linspace(-5,10,1000);
+p1 = distfun_nctpdf(x,1,0);
+p2 = distfun_nctpdf(x,4,0);
+p3 = distfun_nctpdf(x,1,2);
+p4 = distfun_nctpdf(x,4,2);
+plot(x,p1,"r")
+plot(x,p2,"g")
+plot(x,p3,"b")
+plot(x,p4,"k")
+legend(["v=1, delta=0", ..
+"v=4, delta=0", ..
+"v=1, delta=2", ..
+"v=4, delta=2"]);
+xtitle("Noncentral T PDF","x","y");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Noncentral_t-distribution</para>
+</refsection>
+</refentry>

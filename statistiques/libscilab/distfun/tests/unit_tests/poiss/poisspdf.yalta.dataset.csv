@@ -1,0 +1,28 @@
+# Copyright (C) 2012 - Prateek Papriwal 
+#
+# This file must be used under the terms of the CeCILL.
+# This source file is licensed as described in the file COPYING which
+# you should have received as part of this distribution.  The terms
+# are also available at
+# http:#www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+#
+# <-- JVM NOT MANDATORY -->
+#
+# Assessing the quality of the Poisson distribution function
+# Reference
+# "The accuracy of statistical distributions in Microsoft  Excel 2007", 
+# A. Talha Yalta, Computational Statistics and Data Analysis 52 (2008) 4579–4586
+#
+# Table of inputs from Yalta
+# [ x lambda PDF-P ]
+#
+0 200 1.38390E-87
+103 200 1.41720E-14
+104 200 2.72538E-14
+133 200 1.01322E-07
+134 200 1.51227E-07
+200 200 2.81977E-02
+314 200 2.23568E-14
+315 200 1.41948E-14
+400 200 5.58069E-36
+900 200 1.73230E-286

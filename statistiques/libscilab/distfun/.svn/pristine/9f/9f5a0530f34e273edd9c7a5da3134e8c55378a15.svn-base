@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tnorminv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tnorminv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tnorminv</refname>
+    <refpurpose>Truncated Normal Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x=distfun_tnorminv(p,mu,sigma,a,b)
+   x=distfun_tnorminv(p,mu,sigma,a,b,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean.</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the inverse Normal cumulated probability distribution function of the Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+p=[0.01 0.5 0.9 0.99 0.7]'
+distfun_tnorminv (p,0,1,-1,1)
+expected = [
+-0.9721734
+0.
+0.7490146
+0.9721734
+0.3492199
+]
+
+// Plot accuracy
+// See how the accuracy decreases when
+// we invert the upper tail:
+// in the upper left figure, the number of
+// significant digits goes down from 16 to 0.
+// This is what the lowertail=%f option is for.
+a=-10;
+b=10;
+//
+mu=-8;
+sigma=2;
+x=linspace(a,b,1000);
+p1=distfun_tnormcdf(x,mu,sigma,a,b);
+x1=distfun_tnorminv(p1,mu,sigma,a,b);
+d1=assert_computedigits(x,x1);
+//
+mu=0;
+sigma=2;
+x=linspace(a,b,1000);
+p2=distfun_tnormcdf(x,mu,sigma,a,b);
+x2=distfun_tnorminv(p2,mu,sigma,a,b);
+d2=assert_computedigits(x,x2);
+//
+mu=9;
+sigma=10;
+x=linspace(a,b,1000);
+p3=distfun_tnormcdf(x,mu,sigma,a,b);
+x3=distfun_tnorminv(p3,mu,sigma,a,b);
+d3=assert_computedigits(x,x3);
+//
+mu=0;
+sigma=10;
+x=linspace(a,b,1000);
+p4=distfun_tnormcdf(x,mu,sigma,a,b);
+x4=distfun_tnorminv(p4,mu,sigma,a,b);
+d4=assert_computedigits(x,x4);
+//
+scf();
+subplot(2,2,1)
+plot(x,d1)
+sshared="$\textrm{Inv. Trunc. normal [-10,10], }";
+s=sshared+"\mu=-8,\sigma=2$";
+xtitle(s,"X","Digits");
+subplot(2,2,2)
+plot(x,d2)
+s=sshared+"\mu=0,\sigma=2$";
+xtitle(s,"X","Digits");
+subplot(2,2,3)
+plot(x,d3)
+s=sshared+"\mu=9,\sigma=10$";
+xtitle(s,"X","Digits");
+subplot(2,2,4)
+plot(x,d4)
+s=sshared+"\mu=0,\sigma=10$";
+xtitle(s,"X","Digits");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Truncated_normal_distribution</para>
+</refsection>
+</refentry>

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_mnpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_mnpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_mnpdf</refname>
+    <refpurpose>Multinomial PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_mnpdf(x,n,P)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a m-by-k matrix of doubles, integer value, positive, the m outcomes</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, integer value, positive, the number of trials</para></listitem></varlistentry>
+   <varlistentry><term>P :</term>
+      <listitem><para> a m-by-k matrix of doubles, positive, sum to 1, the probability of the k categories</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a m-by-1 matrix of doubles, positive, the probability of each outcome</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the PDF from the multinomial distribution.
+On input, we assume that sum(P)==1 (otherwise an error is produced).
+In general, we should have sum(x,"c")==n.
+Rows of x for sum(x,"c")&gt;n are associated with p=0.
+   </para>
+   <para>
+Each trial is classified in exactly one of k categories,
+where each category has a different probability.
+Perform n such trials.
+   </para>
+   <para>
+P is the vector of probabilities is of size k.
+We expect that sum(P)=1 (otherwise, an error is generated).
+P(i) is the probability that an event will be classified into category i.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,n,P) = \frac{n!}{x_1!\ldots x_k!} p_1^{x_1} \cdots p_k^{x_k}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Compute the probability of the outcome x = [4 0 6]
+n = 10
+P = [0.3 0.4 0.3]
+x = [4 0 6]
+p = distfun_mnpdf(x,n,P)
+p_expected = 0.001240029
+
+// Plot trinomial distribution
+P = [1/2 1/3 1/6]; // Outcome probabilities
+n = 6; // Sample size
+x1 = 0:n;
+x2 = 0:n;
+[X1,X2] = meshgrid(x1,x2);
+X3 = n-(X1+X2);
+X3(X3<0)=0;
+X=[X1(:),X2(:),X3(:)];
+colors=["r","g","b","c","m","y","k"]
+Y = distfun_mnpdf(X,n,repmat(P,(n+1)^2,1));
+Y=matrix(Y,n+1,n+1)';
+scf();
+for i=1:n+1
+plot(x1,Y(i,:),colors(i)+"o-")
+end
+legend("x1="+string(0:n));
+xlabel("X2")
+ylabel("P")
+title("Trinomial Distribution (X3=n-X1-X2)")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Wikipedia, Multinomial distribution function, http://en.wikipedia.org/wiki/Multinomial_distribution</para>
+</refsection>
+</refentry>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="cmpmod"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>cmpmod</refname><refpurpose> Compare linear submodel versus larger one  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>[z,p, esub, e] = cmpmod(Y, Xsub, X)</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>Y  </term>
+  <listitem>
+    <para>dependant variates vector</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>Xsub  </term>
+  <listitem>
+    <para>controlled variates "X" matrix for the submodel</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>X  </term>
+  <listitem>
+    <para>controlled variates "X" matrix for the model</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>z  </term>
+  <listitem>
+    <para>F-test statistic value</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>p  </term>
+  <listitem>
+    <para>Prob(F variate &gt; z)</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>esub  </term>
+  <listitem>
+    <para>residus vector for the submodel</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>e  </term>
+  <listitem>
+    <para>residus vector for the model</para>
+  </listitem> 
+  </varlistentry>
+ </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+    Compare linear submodel versus larger one. The standard hypothesis
+    F-test of a regular linear model  against a smaller regular one.
+  </para>
+  </refsection>
+  <refsection><title>See Also</title><simplelist type="inline">
+    <member> <link linkend="lsfit">lsfit</link> </member>
+  </simplelist></refsection>
+</refentry>

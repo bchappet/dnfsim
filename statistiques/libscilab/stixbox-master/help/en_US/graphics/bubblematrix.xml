@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from bubblematrix.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="bubblematrix" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>bubblematrix</refname>
+    <refpurpose>Plot a bubble chart</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   bubblematrix(X,Y,Z)
+   bubblematrix(X,Y,Z,fill)
+   bubblematrix(X,Y,Z,fill,maxR)
+   bubblematrix(X,Y,Z,fill,maxR,scale)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>X :</term>
+      <listitem><para> a nx-by-1 or 1-by-nx matrix of doubles, the X coordinates</para></listitem></varlistentry>
+   <varlistentry><term>Y :</term>
+      <listitem><para> a ny-by-1 or 1-by-ny matrix of doubles, the Y coordinates</para></listitem></varlistentry>
+   <varlistentry><term>Z :</term>
+      <listitem><para> a nx-by-ny matrix of doubles, the Z coordinates</para></listitem></varlistentry>
+   <varlistentry><term>fill :</term>
+      <listitem><para> a 1-by-1 or n-by-1 matrix of doubles, integer value, the color (default fill=4)</para></listitem></varlistentry>
+   <varlistentry><term>maxR :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, positive, the maximum radius (default maxR=1)</para></listitem></varlistentry>
+   <varlistentry><term>scale :</term>
+      <listitem><para> a boolean, set to %f to disable scaling (default scale=%t)</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Plots a matrix of bubbles for the data.
+For each row i=1,2,...,nx, and each column j=1,2,...,ny,
+a colored bubble with center (X(i),Y(i)) is plotted.
+The radius of the i-th bubble is computed depending
+on Z(i,j), so that the area of the bubble is
+proportionnal to Z.
+   </para>
+   <para>
+The radius are scaled, so that the bubbles have a radius proportionnal
+to maxR.
+Reduce this parameter if the bubbles are too large, perhaps
+hiding other bubbles.
+   </para>
+   <para>
+If scale is true, then scales the circles into ellipses,
+so that the X/Y scaling makes the ellipse look like
+a circle.
+Otherwise, really create circles.
+In this case, we recommend to set the isoview option to "on".
+   </para>
+   <para>
+Any argument equal to the empty matrix [] is
+replaced by its default value.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// A matrix of bubbles
+Z = [
+53.    35.    34.    34.    28.    28.    19.
+53.    24.    19.    15.    4.     9.     0.
+53.    16.    10.    6.     3.     0.     0.
+53.    13.    7.     0.     0.     0.     0.
+53.    10.    0.     0.     0.     0.     0.
+53.    8.     0.     0.     0.     0.     0.
+];
+X=1:6;
+Y=1:7;
+// With default settings
+scf();
+bubblematrix(X,Y,Z);
+// Set the color (2="blue"), the radius (=0.5).
+h=scf();
+bubblematrix(X,Y,Z,2,0.4);
+xtitle("Area of bubbles: Z","X","Y")
+h.children.axes_visible=["off","off","off"];
+// Draw X axis
+drawaxis(x=X,y=0.2,dir="d",tics="v",val=string(X))
+// Draw Y axis
+drawaxis(x=0.3,y=Y,dir="l",tics="v",val=string(Y))
+
+// Bubbles with random area
+n=5;
+R=distfun_unifrnd(0,1,n,n);
+h=scf();
+xtitle("Random numbers [0,1]")
+bubblematrix(1:n,1:n,R,-2,0.5)
+
+// Reference : [1]
+weightLabels=["<150" "150-175" "175-200" ">200"]
+eventLabels=[
+"LW_double_sculls"
+"LW_four"
+"coxswain"
+"eight"
+"four"
+"pair"
+"quad"
+"single_sculls"
+];
+R=[
+0.    0.    1.    0.    0.    0.    0.    0.
+2.    4.    0.    0.    0.    0.    0.    0.
+0.    0.    0.    4.    1.    1.    0.    0.
+0.    0.    0.    4.    3.    1.    4.    1.
+];
+// Print the table
+disp([["";eventLabels],[weightLabels;string(R')]])
+// Set the color (2="blue"), the radius (=0.5).
+h=scf();
+m=size(R,"c")
+n=size(R,"r")
+bubblematrix(1:n,1:m,R,2,0.2);
+xtitle("Area=Number of Athletes","Weigth Cat.","Event")
+h.children.axes_visible=["off","off","off"];
+// Draw X axis
+drawaxis(x=1:n,y=0.25,dir="d",tics="v",val=weightLabels)
+// Draw Y axis
+drawaxis(x=0.8,y=1:m,dir="l",tics="v",val=eventLabels)
+
+//
+// A regular matrix of bubbles
+nx=20;
+ny=20;
+X=linspace(0,2*%pi,nx);
+Y=linspace(0,2*%pi,ny);
+Z=cos(X)'*sin(Y);
+Z1=max(Z,0);
+Z2=max(-Z,0);
+h=scf();
+bubblematrix(1:nx,1:ny,Z1,-2,0.5);
+bubblematrix(1:nx,1:ny,Z2,-3,0.5);
+xtitle("Area: z=cos(x)sin(y), blue:z>0, green:z<0","x","y")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>[1] Categorical Data, Michelle Lacey, Yale University, Department of Statistics, http://www.stat.yale.edu/Courses/1997-98/101/catdat.htm</para>
+</refsection>
+</refentry>

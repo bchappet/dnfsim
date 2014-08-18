@@ -1,0 +1,153 @@
+Nov 2009
+
+Some notes about the Distribution Functions toolbox.
+
+1. Problems in Scilab
+
+There is a massive loss of digits in the inverse cumulative beta distribution
+function.
+R,      options(digits=20), qbeta(0.5, 1, 2),                0.2928932188134525        > Correct
+Scilab, format(25),         p = 0.5; cdfbet("XY",1,2,p,1-p), 0.29289321750687375       > Inaccurate
+(5.2.beta-1)
+ScicosLab                                                    0.2928932175068738041901  > Inaccurate
+Scilab (4.1.2)                                               0.2928932175068737486789  > Inaccurate
+Directly from DCDFLIB, C++ version from Burkardt,            0.29289321881345187       > Correct
+Octave, format long, betainv ( 0.5 , 1 , 2 )                 0.292893218813453         > Correct
+Matlab,                                                      0.292893218813453         > Correct
+There is only 7 digits accurate in Scilab. 
+
+Is that sure that Scilab is inaccurate ? Yes.
+p = cdfbet ( "PQ", x , y , 1, 2)
+-->(p-0.5)/0.5
+ ans  =
+  - 3.696D-09
+
+Why is Scilab inaccurate ?
+
+R uses the file qbeta.c, which does not use the DCDFLIB.
+
+Octave implements a Newton method based on betacdf and betapdf.
+
+In Scilab, the module is in modules/statistics/src/dcdflib/cdfbet.f
+
+2. Problems in Stixbox
+
+There is no hypergeometric function in Scilab.
+The Stixbox / dhypg functions returns the pdf for the 
+hypergeometric function.
+The problem is that it is inaccurate:
+
+p = dhypg ( 200 , 515 , 500 , 1030 )
+p = 0.0  // Expected result = 1.65570E-ˆ’10
+
+3. Issues with the Poisson pdf
+
+Scilab does not offer the Poisson pdf.
+We could naively think that it is easy to program 
+such a law. The naive code is :
+
+function p = dfpoisson1 ( k , lambda )
+  p = exp ( - lambda ) * lambda^k / factorial ( k )
+endfunction
+
+The not-so-naive code is 
+
+function p = dfpoisson2 ( k , lambda )
+  p = exp ( - lambda )
+  for i = 1 : k
+    p = p * lambda / i
+  end
+endfunction
+
+// Exact is 2.23568e-14
+f = dfpoisson1 ( 314 ,   200 ), mprintf("%e\n", f ) // Nan
+f = dfpoisson2 ( 314 ,   200 ), mprintf("%e\n", f ) // 2.235682e-014
+
+Conclusion: it is not-so-easy to compute such a simple distribution
+function.
+
+4. Implementations of distribution functions
+
+The f77 original version of the dcdflib:
+http://www.netlib.org/random/
+
+A C++ port of the DCDFLIB, by John Burkardt:
+https://people.sc.fsu.edu/~burkardt/cpp_src/dcdflib/dcdflib.html
+
+A project aiming at using the /safe flag of Visual compiler :
+http://www.codewiz51.com/wiki/DCDFLIB00.ashx
+
+5. Issues with the gamma distribution function
+
+The scale parameter is inverted with respect to Matlab !
+In R, the scale parameter is the same as in Scilab.
+
+Matlab    format long; gamcdf(5,1,2)              0.91791500137610       correct
+Octave                                            0.917915001376101      correct
+Scilab    format(20); cdfgam("PQ",5,1,1/2)        0.91791500137610116    correct
+R         options(digits=20); pgamma(5,1,2)       0.9999546000702375     wrong
+
+Matlab    format long; gamcdf(5,2,1)              0.95957231800549       correct
+Scilab    format(20); cdfgam("PQ",5,2,1)          0.95957231800548715    correct
+R         options(digits=20); pgamma(5,2,1)       0.9595723180054872     correct
+
+Matlab    format long; gamcdf(5,2,2)              0.71270250481635       correct
+Scilab    format(20); cdfgam("PQ",5,2,2)          0.71270250481635422    correct
+R         options(digits=20); pgamma(5,2,1/2)     0.7127025048163542     correct
+
+// Caution : the scale factor is to be inverted !
+x = linspace(0,20,100);
+a = 1*ones(1,100);
+b = 1/2*ones(1,100);
+y = cdfgam("PQ",x,a,b);
+plot(x,y)
+
+======================================
+
+About the S parameter of the cdfnbn function
+[P,Q]=cdfnbn("PQ",S,Xn,Pr,Ompr)
+P,Q (Q=1-P)
+  The cumulation from 0 to S of the negative binomial distribution.
+S
+  The upper limit of cumulation of the binomial distribution. 
+  There are F or fewer failures before the XNth success.
+  In Matlab: X
+Xn
+  The number of successes. 
+  In Matlab: R
+Pr
+  The probability of success in each binomial trial. 
+  In Matlab: P
+Ompr
+  1-Pr
+  In Matlab: does not exist
+  
+In Matlab :
+X = 5
+R = 3
+P = 0.3
+Y = nbincdf(X,R,P) //     0.4482
+
+In Scilab:
+S = 5
+Xn = 3
+Pr = 0.3
+Ompr = 0.7
+[P,Q]=cdfnbn("PQ",S,Xn,Pr,Ompr)
+
+======================================
+
+In Matlab :
+X = 1.2
+NU1 = 5
+NU2 = 20
+DELTA = 2
+ncfcdf(X,NU1,NU2,DELTA) // 0.4650
+
+In Scilab
+F = 1.2
+Dfn = 5
+Dfd = 20
+Pnonc = 2
+[P,Q]=distfun_cdffnc("PQ",F,Dfn,Dfd,Pnonc)
+

@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from rboot.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="rboot" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>rboot</refname>
+    <refpurpose>Simulate a bootstrap resample</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   z=rboot(x)
+   z=rboot(x,b)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a nrows-by-ncols matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the number of bootstrap resamples (default b=1)</para></listitem></varlistentry>
+   <varlistentry><term>z :</term>
+      <listitem><para> a nrows-by-(ncols*b) matrix of doubles</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+<literal>rboot(x)</literal> gives a resample of x.
+   </para>
+   <para>
+<literal>rboot(x,b)</literal> gives b columns of resamples. This form works
+only for x one-dimensional, ie x column vector.
+   </para>
+   <para>
+If x is a row vector, it is converted into
+a column vector.
+   </para>
+   <para>
+If x is a matrix, the resamples are stored in the columns of z:
+<screen>
+z=[z1,z2,...,zb]
+</screen>
+where zi is a nrows-by-ncols matrix of doubles, for i=1,2,...,b.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// With x column vector
+x=distfun_chi2rnd(3,10,1)
+z=rboot(x)
+// Get 3 resamples
+z=rboot(x,3)
+
+// With a x matrix
+x=distfun_chi2rnd(3,10,3)
+z=rboot(x)
+// Get 3 resamples
+z=rboot(x,3)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

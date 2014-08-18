@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="lsfit"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>lsfit</refname><refpurpose> Fit a multiple regression normal model  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>[b, Ib, e, s, Is] = lsfit(y,x,C);</synopsis></refsynopsisdiv>
+  <refsection><title>Parameters</title>
+ <variablelist>
+  <varlistentry>
+  <term>y  </term>
+  <listitem>
+    <para>dependant variate (column vector)</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>x  </term>
+  <listitem>
+    <para>regressor variates</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>C  </term>
+  <listitem>
+    <para>confidence level for the confidence intervals (default0.95).</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>b  </term>
+  <listitem>
+    <para> vector of point estimates, </para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>Ib  </term>
+  <listitem>
+    <para>confidence intervals, </para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>s  </term>
+  <listitem>
+    <para> estimated standard deviation of error with confidence interval Is,</para>
+  </listitem> 
+  </varlistentry>
+  <varlistentry>
+  <term>e  </term>
+  <listitem>
+    <para> residuals.</para>
+  </listitem> 
+  </varlistentry>
+ </variablelist>
+  </refsection>
+  <refsection><title>Description</title>
+  <para>
+    Fit a multiple regression normal model.
+    An intercept not included in x is automatically added as an extra column.
+  </para>
+  </refsection>
+  <refsection><title>See Also</title><simplelist type="inline">
+    <member> <link linkend="linreg">linreg</link> </member>     <member> <link linkend="lsselect">lsselect</link> </member>
+  </simplelist></refsection>
+</refentry>

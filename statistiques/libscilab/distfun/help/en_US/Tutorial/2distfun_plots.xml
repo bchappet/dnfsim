@@ -1,0 +1,557 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!--
+ * Copyright (C) 2012 - Prateek Papriwal
+ * Copyright (C) 2014 - Michael Baudin
+-->
+<refentry
+  xmlns="http://docbook.org/ns/docbook"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:svg="http://www.w3.org/2000/svg"
+  xmlns:mml="http://www.w3.org/1998/Math/MathML"
+  xmlns:db="http://docbook.org/ns/docbook"
+  version="5.0-subset Scilab"
+  xml:lang="fr"
+  xml:id="distfun_plots">
+
+  <refnamediv>
+    <refname>Distribution Function Plots</refname>
+
+    <refpurpose>A collection of distribution function plots.</refpurpose>
+  </refnamediv>
+
+  <refsection>
+    <title>Purpose</title>
+
+    <para>
+      The goal of this document is to show pdf and cdf plots for different distribution functions
+      of the distfun toolbox.
+    </para>
+
+  </refsection>
+
+  
+    <refsection>
+
+    <title>Normal distribution</title>
+
+    <para>
+      Reference: Normal distribution.
+	  In Wikipedia, The Free Encyclopedia. (Retrieved 2014, February). 
+	  from http://en.wikipedia.org/wiki/Normal_distribution
+    </para>
+
+    <para>
+      To make pdf plot, we can use the <literal>distfun_normpdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+mu = [0 0 0 -2];
+sigma2 = [0.2 1.0 5.0 0.5];
+cols = [1 2 3 4];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(-5,5,1000);
+y = distfun_normpdf ( x , mu(k) , sqrt(sigma2(k)) );
+plot(x,y)
+str = msprintf("mu=%s, sigma^2=%s",..
+string(mu(k)),string(sigma2(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+legend(lgd);
+xtitle("Normal PDF","x","y")
+]]>
+    </programlisting>
+
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="normpdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_normcdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+mu = [0 0 0 -2];
+sigma2 = [0.2 1.0 5.0 0.5];
+cols = [1 2 3 4];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(-5,5,1000);
+y = distfun_normcdf ( x , mu(k) , sqrt(sigma2(k)) );
+plot(x,y)
+str = msprintf("mu=%s, sigma^2=%s",..
+string(mu(k)),string(sigma2(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+xtitle("Normal CDF","x","$P(X\leq x)$");
+legend(lgd);
+ ]]>
+    </programlisting>
+
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="normcdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+		</para>
+
+	</refsection>	
+
+  <refsection>
+    <title>Geometric distribution</title>
+
+    <para>
+      Reference: Geometric distribution. 
+	  In Wikipedia, The Free Encyclopedia. (Retrieved August 2012)
+      from http://en.wikipedia.org/wiki/Geometric_distribution
+    </para>
+	
+    <para>
+      To make pdf plot, we can use the <literal>distfun_geopdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+scf();
+x = 0:10;
+y = distfun_geopdf(x,0.2);
+plot(x,y,"ro-");
+y1 = distfun_geopdf(x,0.5);
+plot(x,y1,"go-");
+y2 = distfun_geopdf(x,0.8);
+plot(x,y2,"bo-");
+xtitle("Geometric PDF","x","P(x=x)");
+legend(["pr=0.2","pr=0.5","pr=0.8"]); 
+]]>
+    </programlisting>
+
+	<para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="geopdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_geocdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+x=(0:11)';
+scf(); 
+p1=distfun_geocdf(x,0.2);
+p2=distfun_geocdf(x,0.5);
+p3=distfun_geocdf(x,0.8);
+distfun_plotintcdf(x,[p1,p2,p3],["r" "b" "g"],..
+    ["pr=0.2" "pr=0.5" "pr=0.8"]);
+xtitle("Geometric CDF")
+ ]]>
+    </programlisting>
+
+		<para>
+      The previous script produces the following output.
+    </para>
+
+    <para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="geocdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+	
+  </refsection>
+
+  <refsection>
+    <title>Binomial distribution</title>
+
+    <para>
+      Reference: Binomial distribution. 
+	  In Wikipedia, The Free Encyclopedia.
+      (Retrieved August 2012), 
+	  from http://en.wikipedia.org/wiki/Binomial_distribution
+    </para>
+	
+    <para>
+      To make pdf plot, we can use the <literal>distfun_binopdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+scf();
+N1 = 20;
+x = 0:N1;
+y1 = distfun_binopdf(x,N1,0.5);
+plot(x,y1,"bo-")
+N2 = 20;
+x = 0:N2;
+y2 = distfun_binopdf(x,N2,0.7);
+plot(x,y2,"go-")
+N3 = 40;
+x = 0:N3
+y3 = distfun_binopdf(x,N3,0.5);
+plot(x,y3,"ro-")
+legend(["pr=0.5, N=20","pr=0.7, N=20","pr=0.5, N=40"]);
+xtitle("Binomial PDF","x","P(x)")
+]]>
+    </programlisting>
+
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="binopdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_binocdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+scf();
+x = (0:20)';
+p1=distfun_binocdf(x,20,0.5);
+p2=distfun_binocdf(x,20,0.7);
+p3=distfun_binocdf(x,40,0.5);
+legendspec=["pr=0.5, N=20","pr=0.7, N=20","pr=0.5, N=40"];
+distfun_plotintcdf(x,[p1,p2,p3],["b" "g" "r"],legendspec);
+xtitle("Binomial CDF")
+ ]]>
+    </programlisting>
+
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="binocdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+	
+  </refsection>
+
+  <refsection>
+    <title>Chi-Square distribution</title>
+
+    <para>
+      Reference: Chi-Square distribution. 
+	  In Wikipedia, The Free Encyclopedia.
+      (Retrieved August 2012), 
+	  from http://en.wikipedia.org/wiki/Chisquare_distribution
+    </para>
+	
+    <para>
+      To make pdf plot, we can use the <literal>distfun_chi2pdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+h=scf();
+k = [2 3 4 6 9 12];
+cols = [1 2 3 4 5 6];
+lgd = [];
+for i = 1:size(k,'c')
+   x = linspace(0,10,1000);
+   y = distfun_chi2pdf ( x , k(i) );
+   plot(x,y)
+   str = msprintf("k=%s",string(k(i)));
+   lgd($+1) = str;
+end
+for i = 1:size(k,'c')
+    hcc = h.children.children;
+    hcc.children(size(k,'c') - i + 1).foreground = cols(i);
+end
+xtitle("Chi-square PDF","x","f(x)")
+legend(lgd);
+]]>
+    </programlisting>
+
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="chi2pdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_chi2cdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+h=scf();
+k = [2 3 4 6 9 12];
+cols = [1 2 3 4 5 6];
+lgd = [];
+for i = 1:size(k,'c')
+  x = linspace(0,10,1000);
+  y = distfun_chi2cdf ( x , k(i) );
+  plot(x,y)
+  str = msprintf("k=%s",string(k(i)));
+  lgd($+1) = str;
+end
+for i = 1:size(k,'c')
+    hcc = h.children.children;
+	hcc.children(size(k,'c') - i + 1).foreground = cols(i);
+end
+xtitle("Chi-square CDF","x","f(x)")
+legend(lgd);
+ ]]>
+    </programlisting>
+
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="chi2cdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+		</para>
+	
+	
+  </refsection>
+
+    <refsection>
+	
+    <title>Poisson distribution</title>
+
+    <para>
+      Reference: Poisson distribution. 
+	  In Wikipedia, The Free Encyclopedia.
+      (Retrieved August 2012), 
+	  from http://en.wikipedia.org/wiki/Poisson_distribution
+    </para>
+	
+    <para>
+      To make pdf plot, we can use the <literal>distfun_poisspdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+scf();
+x = 0:20;
+y = distfun_poisspdf(x,1);
+plot(x,y,"ro-");
+y1 = distfun_poisspdf(x,4);
+plot(x,y1,"go-");
+y2 = distfun_poisspdf(x,10);
+plot(x,y2,"bo-");
+xtitle("Poisson PDF","x","P(X=x)");
+legend(["lambda=1","lambda=4","lambda=10"]);
+]]>
+    </programlisting>
+
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="poisspdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_poisscdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+h=scf();
+x=(0:20)';
+p1=distfun_poisscdf(x,1);
+p2=distfun_poisscdf(x,4);
+p3=distfun_poisscdf(x,10);
+legendspec=["lambda=1","lambda=4","lambda=10"];
+distfun_plotintcdf(x,[p1,p2,p3],["r" "g" "b"],legendspec);
+xtitle("Poisson CDF")
+h.children.children(1).legend_location="in_lower_right";
+ ]]>
+    </programlisting>
+
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="poisscdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+		</para>
+
+	</refsection>	
+  
+    <refsection>
+
+    <title>Extreme Value (Gumbel) distribution</title>
+
+    <para>
+      Reference: Gumbel distribution. 
+	  In Wikipedia, The Free Encyclopedia. 
+	  (Retrieved 2014, January 19)
+      from http://en.wikipedia.org/wiki/Gumbel_distribution
+    </para>
+
+    <para>
+      Notice that Matlab and the distfun toolbox use the Minimum Gumbel 
+	  distribution, while Wikipedia present the max-Gumbel distribution.
+    </para>
+
+    <para>
+      To make pdf plot, we can use the <literal>distfun_evpdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+N=1000;
+x=linspace(-20,5,N);
+y1= distfun_evpdf(x,-0.5,2.);
+y2= distfun_evpdf(x,-1.0,2.);
+y3= distfun_evpdf(x,-1.5,3.);
+y4= distfun_evpdf(x,-3.0,4.);
+scf();
+xtitle("Gumbel","x","Density");
+plot(x,y1,"r-")
+plot(x,y2,"g-")
+plot(x,y3,"b-")
+plot(x,y4,"c-")
+leg(1)="$\mu=-0.5,\beta=2.0$";
+leg(2)="$\mu=-1.0,\beta=2.0$";
+leg(3)="$\mu=-1.5,\beta=3.0$";
+leg(4)="$\mu=-3.0,\beta=4.0$";
+legend(leg,"in_upper_left");
+]]>
+    </programlisting>
+
+	<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="evpdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+	</para>
+	
+    <para>
+      To make cdf plot, we can use the <literal>distfun_evcdf</literal>
+      function.
+    </para>
+
+    <programlisting role="example">
+      <![CDATA[ 
+N=1000;
+x=linspace(-20,5,N);
+p1= distfun_evcdf(x,-0.5,2.,%t);
+p2= distfun_evcdf(x,-1.0,2.,%t);
+p3= distfun_evcdf(x,-1.5,3.,%t);
+p4= distfun_evcdf(x,-3.0,4.,%t);
+scf();
+xtitle("Gumbel","x","P(X<x)");
+plot(x,p1,"r-")
+plot(x,p2,"g-")
+plot(x,p3,"b-")
+plot(x,p4,"c-")
+leg(1)="$\mu=-0.5,\beta=2.0$";
+leg(2)="$\mu=-1.0,\beta=2.0$";
+leg(3)="$\mu=-1.5,\beta=3.0$";
+leg(4)="$\mu=-3.0,\beta=4.0$";
+legend(leg,"in_upper_left");
+ ]]>
+    </programlisting>
+
+		<para>
+		<inlinemediaobject>
+		<imageobject>
+			<imagedata
+			fileref ="evcdf.png"
+			align ="center"
+			valign ="middle"
+			/>
+		</imageobject>
+		</inlinemediaobject>
+		</para>
+
+	</refsection>	
+  
+</refentry>
+

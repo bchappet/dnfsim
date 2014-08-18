@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from stairs.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="stairs" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>stairs</refname>
+    <refpurpose>Stairstep graph</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   stairs(y)
+   stairs(x,y)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+<literal>stairs(y)</literal> plots the stairstep graph of y.
+<itemizedlist>
+<listitem><para>
+If y is a vector, the x-axis ranges from 1 to length(y).
+</para></listitem>
+<listitem><para>
+If y is a matrix, the x-axis ranges from 1 to the number of rows
+in y.
+The number of columns in y is the number of stairstep graphs
+to plot.
+</para></listitem>
+</itemizedlist>
+   </para>
+   <para>
+<literal>stairs(x,y)</literal> plots the stairstep graph of x and y.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// stairs(y), y a row vector
+x = linspace(0,4*%pi,40);
+y = sin(x);
+scf();
+stairs(y)
+
+// stairs(y), y a matrix
+// Plot several stairstep graphs
+x = linspace(0,4*%pi,50)';
+y = [0.5*cos(x), 2*cos(x)];
+scf();
+stairs(y);
+
+// stairs(x,y)
+x = linspace(0,4*%pi,40);
+y = sin(x);
+scf();
+stairs(x,y)
+
+// Plot the empirical CDF of exponential
+// random numbers
+n=10000;
+y=1:n;
+y=y/n;
+lambda=1;
+x=gsort(rexpweib(n,lambda),"g","i");
+scf();
+stairs(x,y);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2006 - INRIA - Serge Steer</member>
+   </simplelist>
+</refsection>
+</refentry>

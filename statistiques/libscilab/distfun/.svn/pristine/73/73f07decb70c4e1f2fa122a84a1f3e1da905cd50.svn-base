@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_genset.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_genset" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_genset</refname>
+    <refpurpose>Set the current random number generator</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_genset ( gen )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>gen:</term>
+      <listitem><para> a 1-by-1 matrix of strings, the current random number generator</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Sets the current random number generator to gen, a string in the set :
+"mt", "kiss", "clcg2", "clcg4", "urand", "fsultra", "crand".
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Set the CLCG2 generator
+distfun_genset ( "clcg2" );
+// Now, generate normal random numbers from clcg2
+// with mean mu=12 and sigma=7
+distfun_normrnd(12,7,5,3)
+// Set the KISS generator
+distfun_genset ( "kiss" );
+// Now, generate normal random numbers from kiss
+// with mean mu=12 and sigma=7
+distfun_normrnd(12,7,5,3)
+// Return to the default generator
+distfun_genset ( "mt" );
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012-2013 - Michael Baudin</member>
+   <member>Copyright (C) Jean-Philippe Chancelier and Bruno Pincon</member>
+   </simplelist>
+</refsection>
+</refentry>

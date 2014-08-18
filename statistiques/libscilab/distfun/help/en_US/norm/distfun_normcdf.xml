@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_normcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_normcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_normcdf</refname>
+    <refpurpose>Normal CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p=distfun_normcdf(x,mu,sigma)
+   p=distfun_normcdf(x,mu,sigma,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulated probability distribution function
+of the Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test expanded arguments
+computed = distfun_normcdf ( [1 2 3] , [1 1 1] , [2 2 2] )
+expected = [
+0.500000000000000 , ..
+0.691462461274013 , ..
+0.841344746068543
+]
+
+// Test argument expansion
+computed = distfun_normcdf ( [1 2 3] , 1.0 , 2.0 )
+expected = [
+0.500000000000000 , ..
+0.691462461274013 , ..
+0.841344746068543
+]
+
+// Plot the function
+mu = [0 0 0 -2];
+sigma2 = [0.2 1.0 5.0 0.5];
+cols = [1 2 3 4];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(-5,5,1000);
+y = distfun_normcdf ( x , mu(k) , sqrt(sigma2(k)) );
+plot(x,y)
+str = msprintf("mu=%s, sigma^2=%s",..
+string(mu(k)),string(sigma2(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+xtitle("Normal CDF","x","$P(X\leq x)$");
+legend(lgd);
+
+// See upper tail
+p = distfun_normcdf ( 7, 4, 1 )
+q = distfun_normcdf ( 7, 4, 1 , %f )
+p+q
+// See an extreme case
+distfun_normcdf ( 15, 4, 1 , %f )
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2009 - 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

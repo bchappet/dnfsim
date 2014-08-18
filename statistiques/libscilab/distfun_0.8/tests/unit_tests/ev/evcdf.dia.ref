@@ -1,0 +1,66 @@
+// Copyright (C) 2013 - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+mu=5;
+sigma=6;
+rtol=1.e-12;
+x=[
+0.2937283
+0.6067423
+0.9765364
+1.560462
+3.1075117
+];
+CheckCDF("distfun_evcdf",list(distfun_fcdf,mu,sigma),x,rtol);
+CheckCDF: Checking empty matrix...
+CheckCDF: p=distfun_evcdf([],[],[])
+CheckCDF: ... OK
+CheckCDF: Get reference quantiles...
+CheckCDF: p(1)=distfun_evcdf(0.2937283,5,6)
+CheckCDF: p(2)=distfun_evcdf(0.6067423,5,6)
+CheckCDF: p(3)=distfun_evcdf(0.9765364,5,6)
+CheckCDF: p(4)=distfun_evcdf(1.560462,5,6)
+CheckCDF: p(5)=distfun_evcdf(3.1075117,5,6)
+CheckCDF: ... OK
+CheckCDF: Compute complementary probabilities...
+CheckCDF: (check that p+q=1)
+CheckCDF: q=distfun_evcdf([0.2937283;0.6067423;0.9765364;1.560462;3.1075117],5,6,%F)
+CheckCDF: ... OK
+CheckCDF: With arguments expanded...
+CheckCDF: p=distfun_evcdf([0.2937283;0.6067423;0.9765364;1.560462;3.1075117],5,6)
+CheckCDF: p=distfun_evcdf([0.2937283;0.6067423;0.9765364;1.560462;3.1075117],5,[6;6;6;6;6])
+CheckCDF: p=distfun_evcdf([0.2937283;0.6067423;0.9765364;1.560462;3.1075117],[5;5;5;5;5],6)
+CheckCDF: p=distfun_evcdf([0.2937283;0.6067423;0.9765364;1.560462;3.1075117],[5;5;5;5;5],[6;6;6;6;6])
+CheckCDF: ... OK
+//
+// Test accuracy
+//
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","ev","ev.dataset.csv");
+table = readCsvDataset(dataset);
+precision = 1.e-12;
+ntests = size(table,"r");
+for i = 1 : ntests
+    x = table(i,1);
+    mu = table(i,2);
+    sigma = table(i,3);
+    p = table(i,5);
+    q = table(i,6);
+    computed = distfun_evcdf ( x , mu , sigma );
+    assert_checkalmostequal ( computed , p , precision );
+    if ( %f ) then
+        d = assert_computedigits ( computed , p );
+        mprintf("Test #%d/%d: Digits = %.1f\n",i,ntests,d);
+    end
+    computed = distfun_evcdf ( x , mu,sigma , %f );
+    assert_checkalmostequal ( computed , q , precision );
+end

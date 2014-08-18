@@ -1,0 +1,24 @@
+The accuracy of statistical distributions in Microsoft  Excel 2007, 				
+A. Talha Yalta, Computational Statistics and Data Analysis 52 (2008) 4579–4586				
+				
+Michael Baudin - Juin 2012				
+				
+Description				
+In this Excel file, we test the numerical accuracy of Excel's distribution functions. 
+The distribution under test are compared to values computed with the ELV program by Knusel. 
+For given parameters, we compute the number of significant digits by evaluating the log 
+of the relative error (LRE). 
+For IEEE754 2008 double precision computations (i.e. binary 64 floating point numbers), 
+the highest possible value of LRE is 17.
+But ELV values are reported with 6 significant digits only. 
+In other words, the maximum possible LRE value in the file is approximately 6.
+When the LRE is zero, this means that there is no significant digit. 			
+
+In order to update all cells in the Excel sheet, type 
+Control+Alt+Shift+F9.
+If we do not do this, the content of the cells is not refreshed.
+
+Notations				
+Exact : the value of the paper from Yalta, computed with ELV.				
+RE : The relative error				
+LRE : The logarithm of the relative error, i.e. the number of accurate digits.				

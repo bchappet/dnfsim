@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_ncfcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_ncfcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_ncfcdf</refname>
+    <refpurpose>Noncentral F CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_ncfcdf(x,v1,v2,delta)
+   p = distfun_ncfcdf(x,v1,v2,delta,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles. x is real and x>=0.</para></listitem></varlistentry>
+   <varlistentry><term>v1 :</term>
+      <listitem><para> a matrix of doubles, numerator degrees of freedom, v1&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>v2 :</term>
+      <listitem><para> a matrix of doubles, denominator degrees of freedom, v2&gt;0 (can be non integer).</para></listitem></varlistentry>
+   <varlistentry><term>delta :</term>
+      <listitem><para> a matrix of doubles, the noncentrality parameter, delta>=0</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Noncentral F distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+<emphasis>Caution</emphasis>
+This distribution is known to have inferior accuracy in
+some cases.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test with x, v1, v2 scalar
+computed = distfun_ncfcdf(5,4,12,0.3)
+expected = 0.98319765219863320
+
+// Plot the function
+h=scf();
+x = linspace(0,15,1000);
+p1 = distfun_ncfcdf(x,10,20,0);
+p2 = distfun_ncfcdf(x,10,20,1);
+p3 = distfun_ncfcdf(x,10,20,5);
+p4 = distfun_ncfcdf(x,10,20,10);
+p5 = distfun_ncfcdf(x,10,20,40);
+plot(x,p1,"r")
+plot(x,p2,"g")
+plot(x,p3,"b")
+plot(x,p4,"y")
+plot(x,p5,"k")
+legend([
+"v1=10, v2=20, delta=0"
+"v1=10, v2=20, delta=1"
+"v1=10, v2=20, delta=5"
+"v1=10, v2=20, delta=10"
+"v1=10, v2=20, delta=40"
+]);
+xtitle("Noncentral F CDF","x","$P(X\leq x)$");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Noncentral_F-distribution</para>
+   <para>http://www.boost.org/doc/libs/1_55_0/libs/math/doc/html/math_toolkit/dist_ref/dists/nc_f_dist.html</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

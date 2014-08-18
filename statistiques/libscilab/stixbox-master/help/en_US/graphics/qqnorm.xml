@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="qqnorm">
+  <info>
+    <pubdate>Nov 2001  </pubdate>
+  </info>
+  <refnamediv>
+    <refname>qqnorm</refname>
+    <refpurpose> Normal probability paper  </refpurpose>
+  </refnamediv>
+
+
+
+
+
+  <refsynopsisdiv>
+    <title>Calling Sequence</title>
+    <synopsis>
+      qqnorm(x)
+      qqnorm(x, symbol)
+    </synopsis>
+  </refsynopsisdiv>
+  <refsection>
+    <title>Description</title>
+    <para>
+      Normal probability paper.
+      Data on x-axis and  qnorm((i-1/2)/n)  on y-axis.
+      The second optional argument is the plot symbol, e g '+'.
+    </para>
+  </refsection>
+  <refsection>
+    <title>See Also</title>
+    <simplelist type="inline">
+      <member>
+        <link linkend="qqplot">qqplot</link>
+      </member>
+    </simplelist>
+  </refsection>
+</refentry>

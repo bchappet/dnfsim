@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tnormcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tnormcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tnormcdf</refname>
+    <refpurpose>Truncated Normal CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p=distfun_tnormcdf(x,mu,sigma,a,b)
+   p=distfun_tnormcdf(x,mu,sigma,a,b,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulated probability distribution function
+of the Normal (Laplace-Gauss) function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Test expanded arguments
+p=distfun_tnormcdf([-2 1.5 3],[1 1 1],[2 2 2],0,2)
+expected = [0. 0.7577694 1.]
+
+// Test argument expansion
+computed=distfun_tnormcdf([-3 -1 1 2 3],1.,2.,-1,2)
+expected=[0. 0. 0.6406534 1. 1.]
+
+// Plot the function
+a=-10;
+b=10;
+x=linspace(a,b,1000);
+p1=distfun_tnormcdf(x,-8,2,a,b);
+p2=distfun_tnormcdf(x,0,2,a,b);
+p3=distfun_tnormcdf(x,9,10,a,b);
+p4=distfun_tnormcdf(x,0,10,a,b);
+scf();
+plot(x,p1,"k-")
+plot(x,p2,"b-")
+plot(x,p3,"r-")
+plot(x,p4,"g-")
+xtitle("Truncated normal [-10,10]","X","CDF");
+legend(["$\mu=-8,\sigma=2$","$\mu=0,\sigma=2$",..
+"$\mu=9,\sigma=10$","$\mu=0,\sigma=10$"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Truncated_normal_distribution</para>
+</refsection>
+</refentry>

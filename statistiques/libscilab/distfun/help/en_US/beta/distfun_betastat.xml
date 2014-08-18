@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_betastat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_betastat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_betastat</refname>
+    <refpurpose>Beta  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_betastat ( a , b )
+   [M,V] = distfun_betastat ( a , b )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the first shape parameter, a>=0.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the first shape parameter, b>=0.</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Beta distribution.
+   </para>
+   <para>
+The mean and variance of the Beta distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \frac{a}{a+b} \\
+V &amp;=&amp; \frac{ab}{(a+b)^2 (a+b+1)}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+a = 1:6;
+b = (1:6)^-1;
+[M,V] = distfun_betastat ( a , b )
+me = [..
+0.5 ..
+0.8 ..
+0.9 ..
+0.9411765..
+0.9615385..
+0.9729730..
+]';
+ve = [..
+0.0833333..
+0.0457143..
+0.0207692..
+0.0105454..
+0.0059649..
+0.0036693..
+]';
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_lognstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_lognstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_lognstat</refname>
+    <refpurpose>LogNormal mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_lognstat ( mu , sigma )
+   [M,V] = distfun_lognstat ( mu , sigma )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the mean of the underlying normal variable.</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation of the underlying normal variable. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the LogNormal distribution.
+   </para>
+   <para>
+The mean and variance of the lognormal distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \exp\left(\mu+\sigma^2/2\right) \\
+V &amp;=&amp; \left(\exp\left(\sigma^2\right)-1\right) \exp\left(2\mu+\sigma^2\right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+A lognormal distribution with mean m and
+variance v has parameters
+   </para>
+   <para>
+<screen>
+mu = log(M) - 0.5 * log(1+V./(M.^2))
+sigma = sqrt(log(1+V./(M.^2)))
+</screen>
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+mu = 1:6;
+sigma = (1:6)^-1;
+[M,V] = distfun_lognstat ( mu , sigma )
+// See if we can recover the original parameters:
+mu = log(M) - 0.5 * log(1+V./(M.^2))
+sigma = sqrt(log(1+V./(M.^2)))
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2011 - 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

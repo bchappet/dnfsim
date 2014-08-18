@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from test1b.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="test1b" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>test1b</refname>
+    <refpurpose>Bootstrap test that mean equals zero</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   pval=test1b(x)
+   pval=test1b(x,c)
+   pval=test1b(x,c,b)
+   [pval,cimean]=test1b(...)
+   [pval,cimean,cistd]=test1b(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a m-by-n matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, c in [0,1], the confidence level for the confidence intervals (default=0.95)</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, b>=1, the number of bootstrap samples (default=2000)</para></listitem></varlistentry>
+   <varlistentry><term>pval :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the probability that the mean is zero</para></listitem></varlistentry>
+   <varlistentry><term>cimean :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the mean</para></listitem></varlistentry>
+   <varlistentry><term>cistd :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the standard deviation</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Performs the bootstrap t test for the equality of the mean to zero
+and computes confidence interval for the mean.
+   </para>
+   <para>
+Another name for the bootstrap t is studentized bootstrap.
+   </para>
+   <para>
+The confidence intervals are of the form
+<screen>
+[LeftLimit, PointEstimate, RightLimit]
+</screen>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_normrnd(0,1,20,1);
+pval=test1b(x) // pval is close to 1
+
+x=distfun_normrnd(10,1,20,1);
+pval=test1b(x) // pval is close to 0
+
+x=distfun_chi2rnd(3,20,1);
+pval=test1b(x)
+// Set the confidence level
+pval=test1b(x,0.9)
+// Set the number of bootstrap samples
+pval=test1b(x,[],100)
+// Get a confidence interval for the mean
+[pval,cimean]=test1b(x)
+// Get a confidence interval for the standard
+// deviation
+[pval,cimean,cistd]=test1b(x)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   </simplelist>
+</refsection>
+</refentry>

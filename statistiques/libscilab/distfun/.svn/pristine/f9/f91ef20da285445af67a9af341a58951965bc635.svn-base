@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_exppdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_exppdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_exppdf</refname>
+    <refpurpose>Exponential PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_exppdf ( x , mu )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average. mu>0</para></listitem></varlistentry>
+   <varlistentry><term>y:</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the Exponential PDF.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+The exponential distribution with average mu has density
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) = \frac{1}{\mu} e^{\frac{-x}{\mu}}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+for x &gt;= 0 and is zero if x&lt;0.
+   </para>
+   <para>
+Compatibility note.
+   </para>
+   <para>
+Notice that mu, the average, is the inverse of the rate.
+Other computing languages (including R), use 1/mu as the
+parameter of the exponential distribution.
+The calling sequence
+   </para>
+   <para>
+distfun_exppdf(x,mu)
+   </para>
+   <para>
+corresponds to the R calling sequence:
+   </para>
+   <para>
+dexp(x,1/mu)
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// http://en.wikipedia.org/wiki/Exponential_distribution
+scf();
+x = linspace(0,5,1000);
+y = distfun_exppdf ( x , 2 );
+plot(x,y, "r-" );
+y = distfun_exppdf ( x , 1 );
+plot(x,y, "m-" );
+y = distfun_exppdf ( x , 2/3 );
+plot(x,y, "c-" );
+xtitle("Exponential PDF","x","y");
+legend(["mu=2","mu=1","mu=2/3"]);
+
+// For negative inputs, the probability is
+// zero
+distfun_exppdf(-10,2)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2008-2011 - INRIA - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Wikipedia, Exponential distribution function, http://en.wikipedia.org/wiki/Exponential_distribution</para>
+</refsection>
+</refentry>

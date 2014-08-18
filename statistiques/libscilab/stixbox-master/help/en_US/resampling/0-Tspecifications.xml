@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from covboot.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="stixbox_resamplingT" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>T and extra arguments</refname>
+    <refpurpose>How to use extra-arguments in T.</refpurpose>
+  </refnamediv>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The function T must have the following header:
+<screen>
+p=T(x)
+</screen>
+where <literal>x</literal> is the sample or the resample
+and <literal>p</literal> is a m-by-1 matrix of doubles.
+   </para>
+   <para>
+It may happen that the function T require extra-arguments.
+In this case, the argument T can be the list
+<literal>(Tfunc,arg1,arg2,...)</literal> where Tfunc is a function
+with calling sequence
+<screen>
+p=T(x,arg1,arg2,...)
+</screen>
+where arg1, arg2, etc... are automatically added at the end
+of the calling sequence of <literal>Tfunc</literal>.
+   </para>
+</refsection>
+
+</refentry>

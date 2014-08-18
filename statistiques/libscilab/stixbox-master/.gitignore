@@ -1,0 +1,36 @@
+#
+# Java compilation output dir
+#
+jar
+
+#
+# Documentation generation output files
+#
+.last_*
+.list_*
+help/en_US/master_help.xml
+help/en_US/scilab_en_US_help/
+
+#
+# Scilab compiled macros
+#
+*.bin
+names
+lib
+
+#
+# backup files
+#
+*~
+*.bak
+
+#
+# windows files
+#
+
+
+# MacOS files
+.DS_Store
+
+loader.sce
+cleaner.sce

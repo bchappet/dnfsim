@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_seedget.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_seedget" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_seedget</refname>
+    <refpurpose>Get the current state of the current random number generator</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   s = distfun_seedget ( )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>s:</term>
+      <listitem><para> a m-by-1 matrix of doubles, integer value, the current state of the current random number generator</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+s is a column vector (of integers) of
+<itemizedlist>
+<listitem>
+<para>
+dimension m=625 for mt,
+</para>
+</listitem>
+<listitem>
+<para>
+dimension m=4 for kiss,
+</para>
+</listitem>
+<listitem>
+<para>
+dimension m=2 for clcg2,
+</para>
+</listitem>
+<listitem>
+<para>
+dimension m=40 for fsultra,
+</para>
+</listitem>
+<listitem>
+<para>
+dimension m=4 for stream,
+</para>
+</listitem>
+<listitem>
+<para>
+dimension m=1 for urand.
+</para>
+</listitem>
+</itemizedlist>
+   </para>
+   <para>
+For "clcg4", s is the current state of the current virtual generator.
+   </para>
+   <para>
+For "mt", the first entry, s(1), is an index in [1,624].
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+s = distfun_seedget ( );
+size(s)
+
+// Set the CLCG2 generator
+distfun_genset ( "clcg2" );
+s = distfun_seedget ( )
+// Return to the default generator
+distfun_genset ( "mt" );
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   <member>Copyright (C) Jean-Philippe Chancelier and Bruno Pincon</member>
+   </simplelist>
+</refsection>
+</refentry>

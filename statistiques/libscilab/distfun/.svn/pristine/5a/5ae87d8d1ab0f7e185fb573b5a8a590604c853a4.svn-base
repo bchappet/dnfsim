@@ -1,0 +1,28 @@
+# Copyright (C) 2012 - Prateek Papriwal 
+#
+# This file must be used under the terms of the CeCILL.
+# This source file is licensed as described in the file COPYING which
+# you should have received as part of this distribution.  The terms
+# are also available at
+# http:#www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+#
+# <-- JVM NOT MANDATORY -->
+# <-- ENGLISH IMPOSED -->
+#
+# Assessing the quality of the Hypergeometric distribution function
+# Reference
+# "The accuracy of statistical distributions in Microsoft  Excel 2007", 
+# A. Talha Yalta, Computational Statistics and Data Analysis 52 (2008) 4579–4586
+#
+# Table of inputs from Yalta
+# [ x M k N PDF-P ]
+0 1030 515 500 1.60137E-280
+100 1030 515 500 7.46483E-83
+187 1030 515 500 1.53541E-15
+188 1030 515 500 4.13038E-15
+200 1030 515 500 1.65570E-10
+300 1030 515 500 1.65570E-10
+312 1030 515 500 4.13038E-15
+313 1030 515 500 1.53541E-15
+400 1030 515 500 7.46483E-83
+500 1030 515 500 1.60137E-280

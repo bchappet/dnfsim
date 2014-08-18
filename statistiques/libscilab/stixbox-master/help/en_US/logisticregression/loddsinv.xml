@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<refentry xmlns="http://docbook.org/ns/docbook" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svg="http://www.w3.org/2000/svg" xmlns:mml="http://www.w3.org/1998/Math/MathML" xmlns:db="http://docbook.org/ns/docbook" version="5.0-subset Scilab" xml:lang="en" xml:id="loddsinv"><info><pubdate>Nov 2001  </pubdate></info><refnamediv><refname>loddsinv</refname><refpurpose> inverse of log odd  </refpurpose></refnamediv>
+  
+  
+  
+  
+  
+  <refsynopsisdiv><title>Calling Sequence</title><synopsis>p = loddsinv(z,b)</synopsis></refsynopsisdiv>
+  <refsection><title>Description</title>
+  <para>
+    Compute the inverse of log odds. The function is equal to
+    1/(1+exp(-u)) with
+  </para>
+ 
+    <variablelist>
+  <varlistentry><term>u = z</term><listitem> 
+    <para>if only one input argument is given </para>
+  </listitem></varlistentry>
+
+  <varlistentry><term>u = z*b</term><listitem> 
+     <para>if size(z,2) = length(b) </para>
+  </listitem></varlistentry>
+
+  <varlistentry><term>u = z*b(1:n-1) + b(n)</term><listitem> 
+    <para> if size(z,2) &lt; length(b) </para>
+  </listitem></varlistentry>
+     </variablelist>
+  </refsection>
+</refentry>

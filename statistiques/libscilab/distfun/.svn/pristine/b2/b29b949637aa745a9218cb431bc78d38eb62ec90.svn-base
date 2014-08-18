@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_erfcinv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_erfcinv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_erfcinv</refname>
+    <refpurpose>Inverse erfc function</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_erfcinv ( x )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, in the range [0,2].</para></listitem></varlistentry>
+   <varlistentry><term>y:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the inverse of the erfc function.
+This function is ill-conditioned when x is close to 1 or
+when x is close to 2: this might lead to inaccurate results.
+   </para>
+   <para>
+The implementation is based on cdfnor, which suffers from
+inaccuracies when x is close to 0.5:
+http://bugzilla.scilab.org/show_bug.cgi?id=9030
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+distfun_erfcinv(1.e-3)
+expected = 2.326753765513525
+
+// Plot the function
+scf();
+x = linspace(1.e-5,2-1.e-5,1000);
+y = distfun_erfcinv(x);
+plot(x,y);
+
+// This implementation is accurate, even if x is small:
+distfun_erfcinv ( 10^-20 )
+expected = 6.60158062235514256
+// By contrast, the mathematically correct erfinv(1-x)
+// formula gives poor results:
+x = 10^-20
+erfinv(1-x)
+expected = 6.60158062235514256
+
+// erfcinv is ill-conditioned when x is close to 1.
+distfun_erfcinv(1-1.e-15)
+expected = 8.855185839123727168e-16
+
+// erfcinv is ill-conditioned when x is close to 2.
+distfun_erfcinv(2-1.e-12)
+expected = -5.04202109411347248
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2008-2011 - INRIA - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Dider Pelat, "Bases et méthodes pour le traitement de données", section 8.2.8, "Loi log-normale".</para>
+   <para>Wikipedia, Lognormal probability distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_PDF.png</para>
+   <para>Wikipedia, Lognormal cumulated distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_CDF.png</para>
+</refsection>
+</refentry>

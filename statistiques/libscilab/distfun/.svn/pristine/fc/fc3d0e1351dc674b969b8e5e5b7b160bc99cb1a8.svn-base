@@ -1,0 +1,92 @@
+// Copyright (C) 2012 - 2014 - Michael Baudin
+// Copyright (C) 2011 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+//
+a=5;
+b=6;
+rtol=1.e-12;
+p=linspace(0.1,0.9,5);
+CheckInverseCDF("distfun_gaminv",list(distfun_gaminv,a,b),p,rtol);
+CheckInverseCDF: Checking empty matrix...
+CheckInverseCDF: x=distfun_gaminv([],[],[])
+CheckInverseCDF: ... OK
+CheckInverseCDF: Get reference quantiles...
+CheckInverseCDF: x(1)=distfun_gaminv(0.1,5,6)
+CheckInverseCDF: x(2)=distfun_gaminv(0.3,5,6)
+CheckInverseCDF: x(3)=distfun_gaminv(0.5,5,6)
+CheckInverseCDF: x(4)=distfun_gaminv(0.7,5,6)
+CheckInverseCDF: x(5)=distfun_gaminv(0.9,5,6)
+CheckInverseCDF: ... OK
+CheckInverseCDF: Compute complementary quantiles...
+CheckInverseCDF: Check that invfun(p,%t)==invfun(1-p,%f)
+CheckInverseCDF: x=distfun_gaminv([0.9,0.7,0.5,0.3,0.1],5,6,%F)
+CheckInverseCDF: ... OK
+CheckInverseCDF: With arguments expanded...
+CheckInverseCDF: x=distfun_gaminv([0.1,0.3,0.5,0.7,0.9],5,6)
+CheckInverseCDF: x=distfun_gaminv([0.1,0.3,0.5,0.7,0.9],5,[6,6,6,6,6])
+CheckInverseCDF: x=distfun_gaminv([0.1,0.3,0.5,0.7,0.9],[5,5,5,5,5],6)
+CheckInverseCDF: x=distfun_gaminv([0.1,0.3,0.5,0.7,0.9],[5,5,5,5,5],[6,6,6,6,6])
+CheckInverseCDF: ... OK
+//
+// Accuracy test
+// Numerical values computed from R
+//
+precision = 1.e-12;
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","gam","gamma.dataset.csv");
+table = readCsvDataset(dataset);
+ntests = size(table,"r");
+for i = 1 : ntests
+    x = table(i,1);
+    shape = table(i,2);
+    scale = table(i,3);
+    p = table(i,5);
+    q = table(i,6);
+    if (q<1.e-90 & q>0) then
+        mprintf("Skip test #%d, x=%e, p=%e, q=%e\n",i,x,p,q)
+        continue
+    end
+    if (p<1.e-90 & p>0) then
+        mprintf("Skip test #%d, x=%e, p=%e, q=%e\n",i,x,p,q)
+        continue
+    end
+    if (q==0 & x<%inf) then
+        mprintf("Skip test #%d, x=%e, p=%e, q=%e\n",i,x,p,q)
+        continue
+    end
+    if (p<q) then
+        computed = distfun_gaminv(p,shape,scale);
+        assert_checkalmostequal ( computed , x , precision );
+    else
+        computed = distfun_gaminv(q,shape,scale,%f);
+        assert_checkalmostequal ( computed , x , precision );
+    end
+    if ( %f ) then
+        d = assert_computedigits ( computed , x );
+        mprintf("Test #%d/%d: Digits = %.1f\n",i,ntests,d);
+    end
+end
+Skip test #21, x=3.000000e+02, p=1.000000e+00, q=1.674168e-132
+Skip test #22, x=5.000000e+02, p=1.000000e+00, q=1.795833e-219
+Skip test #23, x=1.000000e+03, p=1.000000e+00, q=0.000000e+00
+Skip test #30, x=1.000000e-200, p=1.128379e-100, q=1.000000e+00
+Skip test #31, x=1.000000e-300, p=1.128379e-150, q=1.000000e+00
+Skip test #33, x=1.122331e-33, p=1.884956e-102, q=1.000000e+00
+Skip test #34, x=1.957434e-66, p=1.000000e-200, q=1.000000e+00
+Skip test #35, x=4.217163e-33, p=1.000000e-100, q=1.000000e+00
+Skip test #36, x=5.209397e-67, p=1.884956e-202, q=1.000000e+00
+Skip test #73, x=9.085603e-100, p=1.000000e-300, q=1.000000e+00
+//
+// See upper tail, compare with R
+p = distfun_gaminv(1.e-20,3,5,%f);
+assert_checkalmostequal(p, 266.7488703551273943,10*%eps);

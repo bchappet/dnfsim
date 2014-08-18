@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tstat</refname>
+    <refpurpose>T  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M = distfun_tstat ( v )
+   [M,V] = distfun_tstat ( v )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>v :</term>
+      <listitem><para> a matrix of doubles, the number of degrees of freedom, v>0.</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the T distribution.
+   </para>
+   <para>
+The mean of the T distribution is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M=v
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if v &gt; 1. M is undefined if 0 &lt; v &lt;= 1.
+   </para>
+   <para>
+The variance of the T distribution is
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+V=\frac{v}{v-2}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if v &gt; 2.
+We have V=Inf if 1 &lt; v &lt;= 2. V is undefined if 0 &lt; v &lt;= 1.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+[M,V] = distfun_tstat ( [0.5 1 1.5 2 2.3 4] )
+me=[%nan %nan 0. 0. 0. 0.]
+ve=[%nan %nan %inf %inf 2.3/0.3 2]
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Prateek Papriwal</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

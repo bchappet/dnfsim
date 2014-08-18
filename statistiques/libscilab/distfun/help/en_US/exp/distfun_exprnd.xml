@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_exprnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_exprnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_exprnd</refname>
+    <refpurpose>Exponential random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_exprnd ( mu )
+   x = distfun_exprnd ( mu , [m,n] )
+   x = distfun_exprnd ( mu , m , n )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average. mu>0</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of rows of x</para></listitem></varlistentry>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of floating point integers, the number of columns of x</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the random numbers.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates random variables from the Exponential distribution.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of
+the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Use x = distfun_exprnd ( mu )
+x=distfun_exprnd(1:6)
+
+// Check x = distfun_exprnd ( mu , v )
+x = distfun_exprnd(2,[1 5])
+x = distfun_exprnd(2,[3 2])
+
+// Check x = distfun_exprnd ( mu , m , n )
+x = distfun_exprnd([1 2 3;4 5 6],2,3)
+x = distfun_exprnd(2,2,3)
+x = distfun_exprnd(1,2,3)
+
+// Check mean and variance for x = distfun_exprnd ( mu )
+N = 1000;
+mu = 2;
+x = distfun_exprnd(mu,1,N);
+M=mean(x)
+V=variance(x)
+[M,V]=distfun_expstat(mu)
+
+// Make a plot of the actual distribution of the numbers
+mu = 2;
+scf();
+x = distfun_exprnd(mu,1,1000);
+histplot(10,x)
+x = linspace(0,14,1000);
+y = distfun_exppdf(x,mu);
+plot(x,y)
+xtitle("Exponential Random Numbers","X","Density")
+legend(["Empirical","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   <member>Copyright (C) 2009-2011 - DIGITEO - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

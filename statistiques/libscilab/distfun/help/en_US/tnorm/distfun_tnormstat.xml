@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_tnormstat.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_tnormstat" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_tnormstat</refname>
+    <refpurpose>Truncated Normal  mean and variance</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   M=distfun_tnormstat(mu,sigma,a,b)
+   [M,V]=distfun_tnormstat(mu,sigma,a,b)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average</para></listitem></varlistentry>
+   <varlistentry><term>sigma :</term>
+      <listitem><para> a matrix of doubles, the standard deviation. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the lower bound</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the upper bound (with a&lt;=b)</para></listitem></varlistentry>
+   <varlistentry><term>M :</term>
+      <listitem><para> a matrix of doubles, the mean</para></listitem></varlistentry>
+   <varlistentry><term>V :</term>
+      <listitem><para> a matrix of doubles, the variance</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes statistics from the Normal distribution.
+   </para>
+   <para>
+The mean and variance of the Normal distribution are
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+M &amp;=&amp; \mu + \sigma \frac{\phi(\alpha)-\phi(\beta)}{Z}\\
+V &amp;=&amp; \sigma^2 \left[1 + \frac{\alpha \phi(\alpha)-\beta\phi(\beta)}{Z}
+- \left(\frac{\phi(\alpha)-\phi(\beta)}{Z}\right)^2\right]
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of
+doubles of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+
+mu = 1:6;
+sigma = 7:12;
+a=-10;
+b=10;
+[M,V]=distfun_tnormstat(mu,sigma,a,b)
+
+// Compare with random numbers
+a=-10;
+b=10;
+N=1000;
+//
+mu=-8;
+sigma=2;
+[M,V]=distfun_tnormstat(mu,sigma,a,b);
+x=distfun_tnormrnd(mu,sigma,a,b,N,1);
+[M,mean(x)]
+[V,variance(x)]
+//
+mu=0;
+sigma=2;
+[M,V]=distfun_tnormstat(mu,sigma,a,b);
+x=distfun_tnormrnd(mu,sigma,a,b,N,1);
+[M,mean(x)]
+[V,variance(x)]
+//
+mu=9;
+sigma=10;
+[M,V]=distfun_tnormstat(mu,sigma,a,b);
+x=distfun_tnormrnd(mu,sigma,a,b,N,1);
+[M,mean(x)]
+[V,variance(x)]
+//
+mu=0;
+sigma=10;
+[M,V]=distfun_tnormstat(mu,sigma,a,b);
+x=distfun_tnormrnd(mu,sigma,a,b,N,1);
+[M,mean(x)]
+[V,variance(x)]
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Truncated_normal_distribution</para>
+</refsection>
+</refentry>

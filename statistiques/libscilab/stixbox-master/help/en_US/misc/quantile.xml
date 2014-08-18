@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from quantile.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="quantile" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>quantile</refname>
+    <refpurpose>Empirical quantile</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   q=quantile(x,p)
+   q=quantile(x,p,method)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a n-by-1 matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a m-by-1 matrix of doubles, the probabilities</para></listitem></varlistentry>
+   <varlistentry><term>method :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, available values are method=1,2,3 (default=1)</para></listitem></varlistentry>
+   <varlistentry><term>q :</term>
+      <listitem><para> a m-by-1 matrix of doubles, the quantiles. q(i)is greater than p(i) percents of the values in x</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+The empirical quantile of the sample x, a value
+that is greater than p percent of the values in x
+If input x is a matrix then the quantile is
+computed for  every column.
+If p is a vector then q is a matrix, each line contain
+the quantiles  computed for a value of p.
+   </para>
+   <para>
+The empirical quantile is computed by one of three ways
+determined by a third input argument (with default 1).
+   </para>
+   <para>
+<itemizedlist>
+<listitem><para>
+method=1. Interpolation so that F(X_(k)) == (k-0.5)/n.
+</para></listitem>
+<listitem><para>
+method=2. Interpolation so that F(X_(k)) == k/(n+1).
+</para></listitem>
+<listitem><para>
+method=3. Based on the empirical distribution.
+</para></listitem>
+</itemizedlist>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=[
+0.4827129   0.3431706  -0.4127328    0.3843994
+-0.7107495  -0.2547306   0.0290803    0.1386087
+-0.7698385   1.0743628   1.0945652    0.4365680
+-0.5913411  -0.7426987   1.609719     0.8079680
+-2.1700554  -0.7361261   0.0069708    1.4626386
+];
+// Make a column vector:
+x=x(:);
+p=linspace(0.1,0.9,10)';
+q=quantile(x,p) // Same as : q=quantile(x,p,1)
+// Check the property
+p(1)
+length(find(x<q(1)))/length(x)
+p(5)
+length(find(x<q(5)))/length(x)
+q=quantile(x,p,2)
+q=quantile(x,p,3)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   <member>Copyright (C) 1998 - 2000 - Mathematique Universite de Paris-Sud - Jean Coursol</member>
+   </simplelist>
+</refsection>
+</refentry>

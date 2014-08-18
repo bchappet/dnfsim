@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_lognpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_lognpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_lognpdf</refname>
+    <refpurpose>Lognormal PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_lognpdf ( x , mu , sigma )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>mu:</term>
+      <listitem><para> a matrix of doubles, the mean of the underlying normal variable.</para></listitem></varlistentry>
+   <varlistentry><term>sigma:</term>
+      <listitem><para> a matrix of doubles, the variance of the underlying normal variable. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>y:</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the Lognormal PDF.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+The Lognormal distribution with parameters mu and sigma has density
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) =
+\left\{
+\begin{array}{l}
+\frac{1}{\sigma x \sqrt{2 \pi}} \exp\left(-\frac{(\ln(x) - \mu)^2}{2 \sigma^2}\right), \textrm{ if } x> 0, \\
+0, \textrm{ otherwise.}
+\end{array}
+\right.
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// See Dider Pelat
+// "Bases et méthodes pour le traitement de données"
+scf();
+x = linspace ( 0 , 5 , 1000 );
+y = distfun_lognpdf ( x , 0.0 , 1.0 );
+plot ( x , y );
+xtitle("The log-normale PDF","x","f");
+
+// See wikipedia
+
+// Examples from wikipedia
+scf();
+x = linspace ( 0 , 5 , 1000 );
+y = distfun_lognpdf ( x , 0.0 , 10 );
+plot ( x , y , "k" );
+y = distfun_lognpdf ( x , 0.0 , 3/2 );
+plot ( x , y , "b" );
+y = distfun_lognpdf ( x , 0.0 , 1 );
+plot ( x , y , "g" );
+y = distfun_lognpdf ( x , 0.0 , 1/2 );
+plot ( x , y , "y" );
+y = distfun_lognpdf ( x , 0.0 , 1/4 );
+plot ( x , y , "r" );
+legend ( ["s=10" "s=3/2" "s=1" "s=1/2" "s=1/4"] );
+xtitle("Log-normal PDF","x","y");
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2008-2011 - INRIA - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Dider Pelat, "Bases et méthodes pour le traitement de données", section 8.2.8, "Loi log-normale".</para>
+   <para>Wikipedia, Lognormal probability distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_PDF.png</para>
+   <para>Wikipedia, Lognormal cumulated distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_CDF.png</para>
+</refsection>
+</refentry>

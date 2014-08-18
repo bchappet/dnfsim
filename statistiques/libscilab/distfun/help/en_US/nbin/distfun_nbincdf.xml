@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_nbincdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_nbincdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_nbincdf</refname>
+    <refpurpose>Negative Binomial CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_nbincdf(x,R,P)
+   p = distfun_nbincdf(x,R,P,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the extra trials for R successes, in the set {0,1,2,3,...}.</para></listitem></varlistentry>
+   <varlistentry><term>R :</term>
+      <listitem><para> a matrix of doubles, the number of successes. R belongs to the set {0,1,2,3,4,.......}</para></listitem></varlistentry>
+   <varlistentry><term>P :</term>
+      <listitem><para> a matrix of doubles, the probability of getting success in a Bernoulli trial. P in [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Negative Binomial distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Check with x scalar, R scalar, P scalar
+computed = distfun_nbincdf(10,4,0.5)
+expected = 0.9713135
+
+// Check with expanded x
+computed = distfun_nbincdf([5 10],4,0.5)
+expected = [0.7460937    0.9713135]
+
+// Check with expanded R
+computed = distfun_nbincdf(5,[5 10],0.5)
+expected = [0.6230469    0.1508789]
+
+// Check with expanded P
+computed = distfun_nbincdf(5,4,[0.5 0.7])
+expected = [0.7460937    0.9747052]
+
+// Check with two arguments expanded
+computed = distfun_nbincdf([5 10],[5 7],0.5)
+expected = [0.6230469    0.8338470]
+
+// Check with all the arguments expanded
+computed = distfun_nbincdf([5 10],[4 7],[0.5 0.6])
+expected = [0.7460937    0.9651873]
+
+//Plot the function
+scf();
+x = (0:20)';
+p1=distfun_nbincdf(x,20,0.5);
+p2=distfun_nbincdf(x,20,0.7);
+p3=distfun_nbincdf(x,40,0.5);
+legendspec=["P=0.5, N=20","P=0.7, N=20","P=0.5, N=40"];
+distfun_plotintcdf(x,[p1,p2,p3],["b" "g" "r"],legendspec);
+xtitle("Negative Binomial CDF")
+
+//check upper tail
+p = distfun_nbincdf(3,5,0.5)
+lt_expected = 0.3632813
+
+q = distfun_nbincdf(3,5,0.5,%f)
+ut_expected = 0.6367187
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Binomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

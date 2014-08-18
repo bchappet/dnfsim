@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_logninv.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_logninv" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_logninv</refname>
+    <refpurpose>Lognormal Inverse CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_logninv ( p , mu , sigma )
+   x = distfun_logninv ( p , mu , sigma , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability. Must be in the range [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>mu:</term>
+      <listitem><para> a matrix of doubles, the mean of the underlying normal variable.</para></listitem></varlistentry>
+   <varlistentry><term>sigma:</term>
+      <listitem><para> a matrix of doubles, the variance of the underlying normal variable. sigma>0.</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the Lognormal quantile.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = distfun_logninv ( 0.6 , 1. , 2. )
+xexpected = 4.5117910634839439865
+
+// Check the inverse lognormale
+mu = 1;
+sigma=10;
+x=2;
+p = distfun_logncdf ( x , mu , sigma ); // 0.4877603
+x = distfun_logninv ( p , mu , sigma ) // Must be 2
+
+// See upper tail: 21481242.111263956875
+x = distfun_logninv ( 1.e-15 , 1. , 2. , %f )
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2008-2011 - INRIA - Michael Baudin</member>
+   <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Dider Pelat, "Bases et méthodes pour le traitement de données", section 8.2.8, "Loi log-normale".</para>
+   <para>Wikipedia, Lognormal probability distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_PDF.png</para>
+   <para>Wikipedia, Lognormal cumulated distribution function, http://en.wikipedia.org/wiki/File:Lognormal_distribution_CDF.png</para>
+</refsection>
+</refentry>

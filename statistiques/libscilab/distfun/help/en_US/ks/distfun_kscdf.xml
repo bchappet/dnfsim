@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_kscdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_kscdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_kscdf</refname>
+    <refpurpose>Kolmogorov-Smirnov CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_kscdf(x,N)
+   p = distfun_kscdf(x,N,lowertail)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome. x in [0,1]</para></listitem></varlistentry>
+   <varlistentry><term>N :</term>
+      <listitem><para> a matrix of doubles , the number of observations. N belongs to the set {1,2,3,4,.......,2147483647}</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p :</term>
+      <listitem><para> a matrix of doubles, the probability.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the cumulative distribution function of
+the Kolmogorov-Smirnov distribution function.
+   </para>
+   <para>
+Computes
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+K(n,x) = Prob(D_n &lt; x),
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+where
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+D_n = max_{1\leq i\leq n} \left( u_i-\frac{i-1}{n} , \frac{i}{n}-u_i \right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+with
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+0\leq u_1&lt;u_2,...&lt;u_n \leq 1
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+a set of n independent uniform [0,1)
+random variables sorted into increasing order.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+computed = distfun_kscdf(0.274,10)
+expected = .6284796154565043
+
+//Plot the function
+scf();
+x = linspace(0.,0.5);
+p1=distfun_kscdf(x,5);
+p2=distfun_kscdf(x,10);
+p3=distfun_kscdf(x,20);
+plot(x,p1,"r-");
+plot(x,p2,"b-");
+plot(x,p3,"g-");
+legend(["N=5","N=10","N=20"],2);
+xtitle("Kolmogorov Smirnov CDF","x","$P(D_n\leq x)$")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Kolmogorov%E2%80%93Smirnov_test</para>
+   <para>Evaluating Kolmogorov’s Distribution, George Marsaglia, Wai Wan Tsang, Journal of Statistical Software, Vol. 8, Issue 18, Nov 2003</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

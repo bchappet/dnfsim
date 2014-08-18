@@ -1,0 +1,33 @@
+// Copyright (C) 2014 - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// Samples from Uniform distribution with 
+// a=12 and b=42
+data = [
+    36.441711  
+    16.06431   
+    39.173758  
+    37.050258  
+    15.809604  
+    41.066033  
+    39.401276  
+    18.631021  
+    30.970777  
+    21.245012  
+];
+parmhat=distfun_uniffitmm(data);
+exact=[11.447954    47.722798];
+assert_checkalmostequal(parmhat,exact,1.e-7);
+// Check that the parameters are equal to the 
+// moments
+a=parmhat(1);
+b=parmhat(2);
+[M,V]=distfun_unifstat(a,b);
+M_data=mean(data);
+V_data=variance(data);
+assert_checkalmostequal(M,M_data);
+assert_checkalmostequal(V,V_data);

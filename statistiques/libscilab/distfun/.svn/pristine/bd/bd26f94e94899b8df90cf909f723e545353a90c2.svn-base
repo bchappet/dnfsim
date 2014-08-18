@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_wblfit.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_wblfit" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_wblfit</refname>
+    <refpurpose>Weibull parameter estimates</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   parmhat = distfun_wblfit( data )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a matrix of doubles, the data, data>=0</para></listitem></varlistentry>
+   <varlistentry><term>parmhat :</term>
+      <listitem><para> a 1-by-2 matrix of doubles, the parameters of the Weibull distribution</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Estimates the parameters of the Weibull distribution
+with maximum likelihood method.
+The parameters are chosen so that they minimize the
+negative log-likelihood function.
+   </para>
+   <para>
+The implementation first estimates the parameters
+by the method of moments.
+This first estimate is then used a the starting
+guess for the optimization algorithm.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Samples from Weibull distribution with
+// a=5432 and b=3.21
+data = [
+3303.
+3172.
+2473.
+5602.
+3109.
+4415.
+6471.
+5952.
+3945.
+3534.
+]
+parmhat = distfun_wblfit(data)
+expected=[4673.7712    3.5090456]
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

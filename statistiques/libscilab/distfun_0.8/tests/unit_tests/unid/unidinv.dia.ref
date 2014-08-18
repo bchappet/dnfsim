@@ -1,0 +1,80 @@
+// Copyright (C) 2012 - Michael Baudin
+// Copyright (C) 2009 - 2011 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+//
+N=30;
+rtol=1.e-12;
+p=linspace(0.,1.,10);
+CheckInverseCDF("distfun_unidinv",list(distfun_unidinv,N),p,rtol);
+CheckInverseCDF: Checking empty matrix...
+CheckInverseCDF: x=distfun_unidinv([],[])
+CheckInverseCDF: ... OK
+CheckInverseCDF: Get reference quantiles...
+CheckInverseCDF: x(1)=distfun_unidinv(0,30)
+CheckInverseCDF: x(2)=distfun_unidinv(0.1111111,30)
+CheckInverseCDF: x(3)=distfun_unidinv(0.2222222,30)
+CheckInverseCDF: x(4)=distfun_unidinv(0.3333333,30)
+CheckInverseCDF: x(5)=distfun_unidinv(0.4444444,30)
+CheckInverseCDF: x(6)=distfun_unidinv(0.5555556,30)
+CheckInverseCDF: x(7)=distfun_unidinv(0.6666667,30)
+CheckInverseCDF: x(8)=distfun_unidinv(0.7777778,30)
+CheckInverseCDF: x(9)=distfun_unidinv(0.8888889,30)
+CheckInverseCDF: x(10)=distfun_unidinv(1,30)
+CheckInverseCDF: ... OK
+CheckInverseCDF: Compute complementary quantiles...
+CheckInverseCDF: Check that invfun(p,%t)==invfun(1-p,%f)
+CheckInverseCDF: x=distfun_unidinv([1,0.8888889,0.7777778,0.6666667,0.5555556,0.4444444,0.3333333,0.2222222,0.1111111,0],30,%F)
+CheckInverseCDF: ... OK
+CheckInverseCDF: With arguments expanded...
+CheckInverseCDF: x=distfun_unidinv([0,0.1111111,0.2222222,0.3333333,0.4444444,0.5555556,0.6666667,0.7777778,0.8888889,1],30)
+CheckInverseCDF: x=distfun_unidinv([0,0.1111111,0.2222222,0.3333333,0.4444444,0.5555556,0.6666667,0.7777778,0.8888889,1],[30,30,30,30,30,30,30,30,30,30])
+CheckInverseCDF: ... OK
+// See upper tail
+x=distfun_unidinv(1/3,30,%t);
+assert_checkalmostequal ( x , 10 );
+x=distfun_unidinv(1-1/3,30,%f);
+assert_checkalmostequal ( x , 10 );
+//
+// Test accuracy
+//
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","unid","unid.dataset.csv");
+table = readCsvDataset(dataset);
+precision = 1.e-12;
+nt = size(table,"r");
+for k = 1 : nt
+    x = table(k,1);
+    N = table(k,2);
+    p = table(k,4);
+    q = table(k,5);
+    if (x<1 | x>4) then
+        // Skip these tests : inversion is not 
+        // possible here.
+        continue
+    end
+    if (p<q) then
+        computed = distfun_unidinv ( p , N );
+    else
+        computed = distfun_unidinv ( q , N , %f );
+    end
+    if ( %f ) then
+        digits = assert_computedigits ( computed , x );
+        digits = floor(digits);
+        if (p<q) then
+            mprintf("Test #%3d/%3d: Digits p=%.g, X= %d\n",k,nt,p,digits);
+        else
+            mprintf("Test #%3d/%3d: Digits q=%.g, X= %d\n",k,nt,q,digits);
+        end
+    end
+    assert_checkalmostequal ( computed , x , precision );
+end

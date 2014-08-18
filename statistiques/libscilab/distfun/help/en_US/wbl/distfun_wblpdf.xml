@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_wblpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_wblpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_wblpdf</refname>
+    <refpurpose>Weibull PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_wblpdf ( x , a , b )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a matrix of doubles, the outcome, x>=0</para></listitem></varlistentry>
+   <varlistentry><term>a :</term>
+      <listitem><para> a matrix of doubles, the scale parameter, a>0.</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a matrix of doubles, the shape parameter, b>0.</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the Weibull probability distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,a,b)=\frac{b}{a} \left(\frac{x}{a}\right)^{b-1}
+\exp\left(-(x/a)^b\right)
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x>=0.
+   </para>
+   <para>
+If b=1, this corresponds to the Exponential distribution.
+   </para>
+   <para>
+If b=2, this corresponds to the Rayleigh distribution.
+   </para>
+   <para>
+The value of the density at x=0 depends on b.
+<itemizedlist>
+<listitem>
+<para>
+If 0&lt;b&lt;1, then f(x) → infinity when x → zero.
+</para>
+</listitem>
+<listitem>
+<para>
+If b=1, then f(x) → 1/a when x → zero.
+</para>
+</listitem>
+<listitem>
+<para>
+If b>1, then f(x) → zero when x → zero.
+</para>
+</listitem>
+</itemizedlist>
+   </para>
+   <para>
+Compatibility
+   </para>
+   <para>
+This distribution has the same parameters as in Matlab.
+   </para>
+   <para>
+In R, the parameters a and b are switched, so that
+the statement in distfun :
+   </para>
+   <para>
+<programlisting>
+y=distfun_wblpdf(x,a,b)
+</programlisting>
+   </para>
+   <para>
+is the same as the statement in R :
+   </para>
+   <para>
+<programlisting>
+y=dweibull(x,b,a)
+</programlisting>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Check with a and b to be expanded
+computed = distfun_wblpdf ( 0.1:0.2:0.7 , 2 , 3 )
+expected = [0.0037495  0.0336363  0.0922965  0.1760382]
+
+// Plot the function
+a = 1;
+b = [0.5 1 1.5 5];
+cols = [1 2 3 5];
+nf = size(cols,"*");
+lgd = [];
+scf();
+for k = 1 : nf
+x = linspace(0,2.5,1000);
+y = distfun_wblpdf(x,a,b(k));
+plot(x,y)
+str = msprintf("a=%s, b=%s",..
+string(a),string(b(k)));
+lgd($+1) = str;
+end
+h = gcf();
+for k = 1 : nf
+hk = h.children.children.children(nf - k + 1);
+hk.foreground = cols(k);
+end
+xtitle("Weibull PDF","x","y");
+legend(lgd);
+h.children.data_bounds=[0,0;2.5,2.5];
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_inthisto.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_inthisto" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_inthisto</refname>
+    <refpurpose>Discrete histogram</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   distfun_inthisto(data)
+   distfun_inthisto(data,nrmlz)
+   H = distfun_inthisto(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a n-by-1 or 1-by-n matrix of doubles, integer value, the discrete data.</para></listitem></varlistentry>
+   <varlistentry><term>nrmlz :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, true to normalize the histogram, false to plot the unnormalized histogram (default nrmlz=%t)</para></listitem></varlistentry>
+   <varlistentry><term>H :</term>
+      <listitem><para> a n-by-2 matrix of doubles. H(:,1) is the X coordinate of the histogram and contains the unique data entries. H(:,2) is the Y coordinate of the histogram. If nrmlz is false, H(:,2) is the number of occurences of the corresponding value in H(:,1). If nrmlz is true, H(:,2) is the fraction of the data equal to the corresponding value in H(:,1).</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Plots the empirical histogram of a set of discrete values.
+   </para>
+   <para>
+The data is not normalized, then the entries in H(:,2) have
+integer values in the range {0,1,2,...,n} and sum(H(:,2))==n.
+In this case, H(i,2) is the number of times H(i,1)==data,
+where i=1,2,...,n.
+   </para>
+   <para>
+The data is normalized, then the entries in H(:,2) are real values in the
+range [0,1] and sum(H(:,2))==1.
+In this case, H(i,2) is the number of times H(i,1)==data divided by n,
+where i=1,2,...,n.
+   </para>
+   <para>
+The difference with the histplot function is that histplot
+is well suited for real values, while distfun_inthisto
+well suited for integer values.
+More preciselly, the classes in distfun_inthisto are
+the unique entries in the data, while histplot
+considers intervals.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+pr=0.7;
+N=10000;
+R=distfun_geornd(pr,1,N);
+scf();
+T = distfun_inthisto(R)
+scf();
+T = distfun_inthisto(R,%f)
+
+// Compare with PDF
+pr=0.7;
+N=1000;
+R=distfun_geornd(pr,1,N);
+scf();
+T = distfun_inthisto(R)
+x=0:6;
+y = distfun_geopdf(x,pr);
+plot(x,y,"ro-")
+legend(["N=1000","PDF"])
+xlabel("X")
+ylabel("P")
+title("Geometric Distribution pr=0.7")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>See also</title>
+   <simplelist type="inline">
+   <member><link linkend="tabul">tabul</link></member>
+   <member><link linkend="bar">bar</link></member>
+   <member><link linkend="histplot">histplot</link></member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

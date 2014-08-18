@@ -1,0 +1,206 @@
+// Copyright (C) 2012 - Michael Baudin
+// Copyright (C) 2010 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+//
+// <-- JVM NOT MANDATORY -->
+// <-- ENGLISH IMPOSED -->
+[x,txt] = getdata(10);
+assert_checkequal ( size(x) , [38,8] );
+assert_checkequal ( size(txt) , [48,1] );
+assert_checkequal ( typeof(x) , "constant" );
+assert_checkequal ( typeof(txt) , "string" );
+//
+for i = 1 : 23
+  [x,txt] = getdata(i);
+  assert_checkequal ( typeof(x) , "constant" );
+  assert_checkequal ( typeof(txt) , "string" );
+end
+//
+// A short abstract of all datasets
+for i = 1 : 23
+[x,txt] = getdata(i);
+txt_title=txt(1);
+mprintf("Dataset #%3d: %-30s (%3d-by-%-3d)\n",i,txt_title,size(x,"r"),size(x,"c"));
+end
+Dataset #  1: Phosphorus                     ( 18-by-3  )
+Dataset #  2: Scottish Hill Race             ( 35-by-3  )
+Dataset #  3: Salary Survey                  ( 31-by-6  )
+Dataset #  4: Health Club                    ( 30-by-5  )
+Dataset #  5: Brain and Body Weight          ( 28-by-2  )
+Dataset #  6: Cement                         ( 14-by-6  )
+Dataset #  7: Colon Cancer                   ( 17-by-4  )
+Dataset #  8: Growth Data                    ( 24-by-2  )
+Dataset #  9: Consumption Function           ( 27-by-6  )
+Dataset # 10: Cost-of-Living                 ( 38-by-8  )
+Dataset # 11: Demography                     ( 49-by-7  )
+Dataset # 12: Cables                         (  9-by-12 )
+Dataset # 13: Service calls                  ( 14-by-2  )
+Dataset # 14: Phone call                     ( 64-by-3  )
+Dataset # 15: Turnover                       ( 11-by-3  )
+Dataset # 16: Unemployment                   ( 11-by-3  )
+Dataset # 17: Quality control                (  4-by-5  )
+Dataset # 18: Graphics cards                 (  8-by-5  )
+Dataset # 19: Processing system development  ( 11-by-4  )
+Dataset # 20: Paper                          ( 62-by-1  )
+Dataset # 21: Bulbs                          ( 24-by-1  )
+Dataset # 22: Memory chips datas             ( 20-by-1  )
+Dataset # 23: French firms datas             ( 45-by-3  )
+// A longer abstract of all datasets
+for i = 1 : 23
+[x,txt] = getdata(i);
+txt_title=txt(1);
+txt_source=txt(2);
+txt_from=txt(3);
+txt_dims=txt(4);
+txt_descr=txt(5:$);
+abstract = strcat(txt_descr(:)," ");
+abstract = part(abstract,1:80)+"...";
+mprintf("\nDataset #%3d: %-30s (%3d-by-%-3d)\n",i,txt_title,size(x,"r"),size(x,"c"));
+mprintf("\t%s\n",txt_source);
+mprintf("\t%s\n",txt_from);
+mprintf("\t%s\n",txt_dims);
+mprintf("\t%s\n",abstract);
+end
+
+Dataset #  1: Phosphorus                     ( 18-by-3  )
+	Source: Snedecor, G. W. and Cochran, W. G. (1967),Statistical Methods, (6 Edition), Iowa State University, Ames, Iowa, p. 384.
+	Taken From: Chatterjee and Hadi (1988), p. 82.
+	Dimension:   18 observations on 3 variables
+	Description: An investigation of the source from which corn plants obtain   thei...
+
+Dataset #  2: Scottish Hill Race             ( 35-by-3  )
+	Source: Scottish Hill Runners Association
+	Taken From: Atkinson s discussion of Chatterjee and Hadi (1986), Statistical Science, p. 400.
+	Dimension:   35 observations on 3 variables
+	Description: The observations are:   1. Greenmantle New Year Dash   19. Black Hi...
+
+Dataset #  3: Salary Survey                  ( 31-by-6  )
+	Source: Chatterjee, S. and Hadi, A. S. (1988),p. 88
+	Taken From: Source
+	Dimension:   31 observations on 6 variables
+	Description: The data set is a result of a study relating the monthly   salary o...
+
+Dataset #  4: Health Club                    ( 30-by-5  )
+	Source: Chatterjee, S. and Hadi, A. S. (1988), Sensitivity Analysis in Linear Regression, New York: John Wiley and Sons, Table 4.9, p. 129.
+	Taken From: Source
+	Dimension:  30 observations on 5 variables
+	Description: The data set is taken from health records of 30 employees   who wer...
+
+Dataset #  5: Brain and Body Weight          ( 28-by-2  )
+	Source: Jerison, H. J. (1973), Evolution of the Brain and Intelligence, New York: Academic Press.
+	Taken From: Rousseeuw, P. J. and Leroy, A. M. (1987), Robust Regression and Outlier Detection, New York: John Wiley & Sons, p. 57.
+	Dimension: 28 observations on 2 variables
+	Description: The sample was taken from a larger data set. It is to be   determin...
+
+Dataset #  6: Cement                         ( 14-by-6  )
+	Source: Daniel, C. and Wood, F. S. (1980), Fitting Equations to Data: Computer Analysis of Multifactor Data, Second Edition, New York: John Wiley and Sons
+	Taken From: Chatterjee and Hadi (1988), p. 259.
+	Dimension:   14 observations on 6 variables
+	Description: The data set is one of a sequence of several data sets taken   at d...
+
+Dataset #  7: Colon Cancer                   ( 17-by-4  )
+	Source: Carmeron and Pauling(1978)
+	Taken From: Rawlings (1988), Applied Regression Analysis, Wadsworth, p. 83.
+	Dimension:   22 observations on 4 variables.
+	Description: A study of the effects of supplemental ascorbate, vitamin C   on th...
+
+Dataset #  8: Growth Data                    ( 24-by-2  )
+	Source:     Rawlings (1988), page 325
+	Taken From: Rawlings (1988), Applied Regression Analysis, Wadsworth, p. 325
+	Dimension:  24 observations on 2 variables
+	Description: The growth data taken on four different independent   experimental ...
+
+Dataset #  9: Consumption Function           ( 27-by-6  )
+	Source: Belsley (1991), Conditioning Diagnostics: Collinearity and Weak data in Regression, New York: Wiley, Exhibit 5.10.
+	Taken From: Source
+	Dimension:   28 observations on 4 variables
+	Description: Annual aggregate consumption function for the U.S. for the   years ...
+
+Dataset # 10: Cost-of-Living                 ( 38-by-8  )
+	Source: Beck, J.H. and Quan, N.T. (1983)
+	Taken From: Quan, N.T. (1988), JBES, 6, 4, 501-504.
+	Dimension:   38 observations on 8 variables
+	Description: A study of the effects of right-to-work laws and geographic   diffe...
+
+Dataset # 11: Demography                     ( 49-by-7  )
+	Source: Gunst, R. F., and Mason, R. L. (1980), Regression Analysis and Its Application: A Data-Oriented Approach, New York: Marcel Dekker, p. 358.
+	Taken From: Source
+	Dimension:   49 observations on 7 variables
+	Description: As described in Gunst and Mason, the data set is a subset of   larg...
+
+Dataset # 12: Cables                         (  9-by-12 )
+	Source: Rao (1973), "Linear Statistical Inference and its applications", (2nd Edition), Wiley.
+	Taken From:   J Bickel, A. Doksum (1977), "Mathematical Statistics", Holden Day.
+	Dimension:  9*12 observations 
+	Description: force de tension moins 340 des fils contenus dans 9  cables (lignes...
+
+Dataset # 13: Service calls                  ( 14-by-2  )
+	Source: S. Chatterjee, B. Price, (1991) "Regression analysis by example" (2nd Edition), Wiley.
+	Taken From: source.
+	Dimension: 14 observations portant sur  2 variables
+	Description:  nombre de composants electriques en panne dans un  ordinateur (1er...
+
+Dataset # 14: Phone call                     ( 64-by-3  )
+	Source: Factures de France Telecom
+	Taken From: source  
+	Dimensions: 64 observations de 3 variables
+	Description:  details de 2 factures de telephone pour deux  periodes  non consec...
+
+Dataset # 15: Turnover                       ( 11-by-3  )
+	Source: J-P Lecoutre, S. Legait-Maille, Ph. Tassi (1990), "statistique, exercices corriges avec rappels de cours", Masson.
+	Taken From: source
+	Dimensions: 11 observations de  3 variables
+	Description: Le chiffre d'affaire en millions de francs (2eme colonne)  et le no...
+
+Dataset # 16: Unemployment                   ( 11-by-3  )
+	Source: OCDE et INSEE
+	Taken From: J-P Lecoutre, S. Legait-Maille, Ph. Tassi (1990), "statistique, exercices corriges avec rappels de cours", Masson.
+	Dimensions: 11 observations de 3 variables
+	Description: Le taux de chomage en France (2eme colonne) et le taux  d'inflation...
+
+Dataset # 17: Quality control                (  4-by-5  )
+	Source: J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", McGraw-Hill international editions
+	Taken From: source
+	Dimensions: 4 observations de 5 variables
+	Description:  Un echantillon de 500 pieces a ete choisi au hasard dans  le stock...
+
+Dataset # 18: Graphics cards                 (  8-by-5  )
+	Source: "Gauging Video Speed" dans MAC WORLD, Juin 1993
+	Taken From: J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", p 586, McGraw-Hill international editions
+	Dimensions: 8 observations de 5 variables
+	Description: temps en secondes necessaire pour qu'une page d'un  document de typ...
+
+Dataset # 19: Processing system development  ( 11-by-4  )
+	Source: "A Software Matrix for Cost Estimation and Efficiency Measurement in Data Processing System Development" in Journal of Systems Software, Vol 3, 1983.
+	Taken From:   J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", p 522, McGraw-Hill international edition.
+	Dimensions: 8 observations de 5 variables
+	Description: Pour 11 logiciels de traitement de donnees, on donne le  cout de de...
+
+Dataset # 20: Paper                          ( 62-by-1  )
+	Source: "White paper Recycling", MIT Technology Review, August-September, 1992
+	Taken From: J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", p 379, McGraw-Hill international editions
+	Dimensions: 62 observations de 1 variable
+	Description: Quantite de papiers jetes (en centaines de livres) par an  par  des...
+
+Dataset # 21: Bulbs                          ( 24-by-1  )
+	Source: "Lighting Comes of Age with New Technology" in Research and Development, Novembre 1992.
+	Taken From: J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", p 215,  McGraw-Hill international editions
+	Dimensions: 24 observations de 1 variable
+	Description: Duree de vie (en milliers d'heures) d'un echantillon d'ampoules ele...
+
+Dataset # 22: Memory chips datas             ( 20-by-1  )
+	Source: J. Milton, J. Arnold (1995), "Introduction to Probability and statistics", p 699, McGraw-Hill international editions
+	Taken From: source
+	Dimensions: 20 observations de 1 variable
+	Description: Un echantillon de 300 puces memoires a ete preleve     chaque jour ...
+
+Dataset # 23: French firms datas             ( 45-by-3  )
+	Source: "Les 500 premiers groupes francais et europeens" dans Enjeux-Les Echos, hors-serie, novembre 1998.
+	Taken From: 'La France en faits et chiffres' (2000), INSEE http://www.insee.fr/fr/home/home_page.asp
+	Dimensions: 45 observations de 3 variables
+	Description:     Donnees sur 45 groupes francais de l'industrie et des       ser...

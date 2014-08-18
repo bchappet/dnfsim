@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_uniffitmm.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_uniffitmm" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_uniffitmm</refname>
+    <refpurpose>Uniform parameter estimates with method of moments</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   parmhat = distfun_uniffitmm( data )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>data :</term>
+      <listitem><para> a matrix of doubles, the data</para></listitem></varlistentry>
+   <varlistentry><term>parmhat :</term>
+      <listitem><para> a 1-by-2 matrix of doubles, the parameters of the Uniform distribution. parmhat(1) is a, parmhat(2) is b.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Estimates the parameters of the Uniform distribution
+with method of moments.
+In other words, finds the parameters so that
+the mean and variance of the distribution are
+equal to the empirical mean and empirical variance of the
+data.
+   </para>
+   <para>
+The implementation uses direct inversion.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Samples from Uniform distribution with
+// a=12 and b=42
+data = [
+36.441711
+16.06431
+39.173758
+37.050258
+15.809604
+41.066033
+39.401276
+18.631021
+30.970777
+21.245012
+]
+parmhat = distfun_uniffitmm(data)
+a=parmhat(1);
+b=parmhat(2);
+// Compare the (mean,variance) of the
+// distribution against the data :
+// must be equal.
+[M,V]=distfun_unifstat(a,b)
+M_data=mean(data)
+V_data=variance(data)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

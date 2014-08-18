@@ -1,0 +1,82 @@
+// Copyright (C) 2014 - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+//
+// Consistency Checks
+//
+n=5;
+rtol=1.e-12;
+x=[0.1 0.2 0.3 0.4 0.5];
+CheckCDF("distfun_kscdf",list(distfun_kscdf,n),x,rtol);
+CheckCDF: Checking empty matrix...
+CheckCDF: p=distfun_kscdf([],[])
+CheckCDF: ... OK
+CheckCDF: Get reference quantiles...
+CheckCDF: p(1)=distfun_kscdf(0.1,5)
+CheckCDF: p(2)=distfun_kscdf(0.2,5)
+CheckCDF: p(3)=distfun_kscdf(0.3,5)
+CheckCDF: p(4)=distfun_kscdf(0.4,5)
+CheckCDF: p(5)=distfun_kscdf(0.5,5)
+CheckCDF: ... OK
+CheckCDF: Compute complementary probabilities...
+CheckCDF: (check that p+q=1)
+CheckCDF: q=distfun_kscdf([0.1,0.2,0.3,0.4,0.5],5,%F)
+CheckCDF: ... OK
+CheckCDF: With arguments expanded...
+CheckCDF: p=distfun_kscdf([0.1,0.2,0.3,0.4,0.5],5)
+CheckCDF: p=distfun_kscdf([0.1,0.2,0.3,0.4,0.5],[5,5,5,5,5])
+CheckCDF: ... OK
+//
+// Test accuracy
+// See http://forge.scilab.org/index.php/p/distfun/issues/1404/
+// The min of p and q can be wrong.
+// The max of p and q is accurate up to 6 digits.
+//
+path=distfun_getpath();
+dataset = fullfile(path,"tests","unit_tests","ks","ks.dataset.csv");
+table = readCsvDataset(dataset);
+digitsmin = 0;
+nt = size(table,"r");
+for k = 1 : nt
+    x = table(k,1);
+    n = table(k,2);
+    q = table(k,3);
+    computedP = distfun_kscdf ( x, n );
+    computedQ = distfun_kscdf ( x, n, %f );
+    dp = assert_computedigits ( computedP , 1-q );
+    dq = assert_computedigits ( computedQ , q );
+    assert_checktrue( dp+dq>digitsmin );
+    if ( %t ) then
+        mprintf("Test #%d/%d: P Digits = %.1f, Q Digits = %.1f\n",k,nt,dp,dq);
+    end
+end
+Test #1/23: P Digits = 14.9, Q Digits = 16.0
+Test #2/23: P Digits = 15.1, Q Digits = 16.0
+Test #3/23: P Digits = 16.0, Q Digits = 16.0
+Test #4/23: P Digits = 15.4, Q Digits = 16.0
+Test #5/23: P Digits = 16.0, Q Digits = 16.0
+Test #6/23: P Digits = 16.0, Q Digits = 16.0
+Test #7/23: P Digits = 16.0, Q Digits = 16.0
+Test #8/23: P Digits = 16.0, Q Digits = 16.0
+Test #9/23: P Digits = 16.0, Q Digits = 16.0
+Test #10/23: P Digits = 16.0, Q Digits = 16.0
+Test #11/23: P Digits = 16.0, Q Digits = 16.0
+Test #12/23: P Digits = 16.0, Q Digits = 16.0
+Test #13/23: P Digits = 16.0, Q Digits = 16.0
+Test #14/23: P Digits = 16.0, Q Digits = 16.0
+Test #15/23: P Digits = 15.5, Q Digits = 16.0
+Test #16/23: P Digits = 16.0, Q Digits = 16.0
+Test #17/23: P Digits = 16.0, Q Digits = 16.0
+Test #18/23: P Digits = 16.0, Q Digits = 16.0
+Test #19/23: P Digits = 16.0, Q Digits = 16.0
+Test #20/23: P Digits = 16.0, Q Digits = 16.0
+Test #21/23: P Digits = 16.0, Q Digits = 16.0
+Test #22/23: P Digits = 16.0, Q Digits = 16.0
+Test #23/23: P Digits = 16.0, Q Digits = 16.0

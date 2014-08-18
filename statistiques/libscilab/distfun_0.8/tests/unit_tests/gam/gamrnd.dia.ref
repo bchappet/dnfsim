@@ -1,0 +1,124 @@
+// Copyright (C) 2012 - Michael Baudin
+// Copyright (C) 2011 - DIGITEO - Michael Baudin
+//
+// This file must be used under the terms of the CeCILL.
+// This source file is licensed as described in the file COPYING, which
+// you should have received as part of this distribution.  The terms
+// are also available at
+// http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+// <-- JVM NOT MANDATORY -->
+path = distfun_getpath (  );
+exec(fullfile(path,"tests","unit_tests","testingutilities.sce"));
+// Check expansion of arguments
+a = matrix(1:6,2,3);
+b = a+1;
+checkRNG ( 2 , 3 , list(distfun_gamrnd ,a,b));
+checkRNG : Check empty matrix...
+checkRNG : Check f(a,m,n)...
+checkRNG : Check expansion of a and b I...
+checkRNG : Check expansion of a and b II...
+checkRNG : Check expansion of a and b III...
+checkRNG : ...OK
+//
+// Test the distribution of random numbers
+//
+rtol = 1.e-1;
+atol = 1.e-1;
+// The number of classes in the histogram
+// NC must be even.
+NC = 2*12;
+N=10000;
+// Set the seed to always get the same random numbers
+distfun_seedset(0);
+A = 5;
+B = 3;
+[M,V] = distfun_gamstat(A,B);
+R = distfun_gamrnd(A,B,400,800);
+checkMeanVariance ( 400 , 800 , R , M , V , rtol );
+//
+for A = linspace(1,15,4)
+  for B = linspace(1,15,4)
+    R = distfun_gamrnd(A,B,1,N);
+    checkRNGLaw ( R , list(distfun_gamcdf,A,B) , N , NC , rtol , atol );
+  end
+end
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=1
+checkRNGLaw: A(2)=1
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=1
+checkRNGLaw: A(2)=5.6666667
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=1
+checkRNGLaw: A(2)=10.333333
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=1
+checkRNGLaw: A(2)=15
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=5.6666667
+checkRNGLaw: A(2)=1
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=5.6666667
+checkRNGLaw: A(2)=5.6666667
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=5.6666667
+checkRNGLaw: A(2)=10.333333
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=5.6666667
+checkRNGLaw: A(2)=15
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=10.333333
+checkRNGLaw: A(2)=1
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=10.333333
+checkRNGLaw: A(2)=5.6666667
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=10.333333
+checkRNGLaw: A(2)=10.333333
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=10.333333
+checkRNGLaw: A(2)=15
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=15
+checkRNGLaw: A(2)=1
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=15
+checkRNGLaw: A(2)=5.6666667
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=15
+checkRNGLaw: A(2)=10.333333
+checkRNGLaw: ...OK
+checkRNGLaw: Checking distribution of random numbers...
+checkRNGLaw: Parameters:
+checkRNGLaw: A(1)=15
+checkRNGLaw: A(2)=15
+checkRNGLaw: ...OK

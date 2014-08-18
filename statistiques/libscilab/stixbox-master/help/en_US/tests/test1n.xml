@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from test1n.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="test1n" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>test1n</refname>
+    <refpurpose>Test that mean equals zero (Normal)</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   pval=test1n(x)
+   pval=test1n(x,c)
+   [pval,cimean]=test1n(...)
+   [pval,cimean,cistd]=test1n(...)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x :</term>
+      <listitem><para> a m-by-n matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>c :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, c in [0,1], the confidence level for the confidence intervals (default=0.95)</para></listitem></varlistentry>
+   <varlistentry><term>b :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, b>=1, the number of bootstrap samples (default=2000)</para></listitem></varlistentry>
+   <varlistentry><term>pval :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, probability that Student variate based on x is as far from 0 as it is actually, or further away under hypothesis that theoretical mean is 0.</para></listitem></varlistentry>
+   <varlistentry><term>cimean :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the mean</para></listitem></varlistentry>
+   <varlistentry><term>cistd :</term>
+      <listitem><para> a 1-by-3 matrix of doubles, the confidence interval for the standard deviation</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Assume that the sample is normal, test and compute confidence
+intervals.
+   </para>
+   <para>
+The confidence intervals are of the form
+<screen>
+[LeftLimit, PointEstimate, RightLimit]
+</screen>
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x=distfun_normrnd(0,1,20,1);
+pval=test1n(x)
+// Get a 95% confidence interval for the mean
+[pval,cimean]=test1n(x)
+// Get a 90% confidence interval for the mean
+[pval,cimean]=test1n(x,0.9)
+// Get a 95% confidence interval for the standard
+// deviation
+[pval,cimean,cistd]=test1n(x)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   <member>Copyright (C) 2010 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 1993 - 1995 - Anders Holtsberg</member>
+   <member>Copyright (C) 1998 - 2000 - Mathematique Universite de Paris-Sud - Jean Coursol</member>
+   </simplelist>
+</refsection>
+</refentry>

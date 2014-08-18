@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_mnrnd.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_mnrnd" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_mnrnd</refname>
+    <refpurpose>Multinomial random numbers</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   x = distfun_mnrnd(n,P)
+   x = distfun_mnrnd(n,P,m)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>n :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the number of balls</para></listitem></varlistentry>
+   <varlistentry><term>P :</term>
+      <listitem><para> a 1-by-k matrix of doubles, the probabilities of each category</para></listitem></varlistentry>
+   <varlistentry><term>m :</term>
+      <listitem><para> a 1-by-1 matrix of doubles, the total number of trials (default m=1). m must be in the set {1,2,3,4,.......}.</para></listitem></varlistentry>
+   <varlistentry><term>x:</term>
+      <listitem><para> a m-by-k matrix of doubles, the random numbers, in the set {0,1,2,3,...}.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Generates n observations from the Multinomial distribution.
+   </para>
+   <para>
+x is of size m-by-k,
+each column x(:,j) represents a category,
+each row x(i,:) contains an outcome and
+x(i,j) the number of events falling
+in category j for the i-th observation.
+   </para>
+   <para>
+On output, we have :
+   </para>
+   <para>
+<programlisting>
+sum(x(i,:)) = n
+</programlisting>
+   </para>
+   <para>
+i.e. after n trials, the total number of successes
+in all categories is n.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// With 2 balls in 3 categories.
+x=distfun_mnrnd(2,[0.1,0.2,0.7])
+
+// With 2 balls in 3 categories : do this 10 times.
+x=distfun_mnrnd(2,[0.1,0.2,0.7],10)
+
+// Plot empirical distribution of
+// trinomial random numbers
+P = [1/2 1/3 1/6]; // Outcome probabilities
+n = 6; // Sample size
+m=100000;
+x=distfun_mnrnd(n,P,m);
+scf();
+for x2=0:n
+subplot(3,3,x2+1)
+// Get the outcomes equal to x2
+data=x(x(:,1)==x2,2);
+// Plot normalized histogram
+H=tabul(data,"i");
+H(:,2)=H(:,2)/m;
+bar(H(:,1),H(:,2));
+xlabel("X1")
+ylabel("P")
+xtitle("X2="+string(x2))
+g=gca();
+g.data_bounds(:,1)=[-0.5;n];
+g.data_bounds(:,2)=[0;0.15];
+end
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Multinomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

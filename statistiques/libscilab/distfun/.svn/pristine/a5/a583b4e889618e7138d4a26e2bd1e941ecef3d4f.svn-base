@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_logupdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_logupdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_logupdf</refname>
+    <refpurpose>LogUniform PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_logupdf ( x , a , b )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>a:</term>
+      <listitem><para> a matrix of doubles, the minimum of the underlying uniform variable.</para></listitem></varlistentry>
+   <varlistentry><term>b:</term>
+      <listitem><para> a matrix of doubles, the maximum of the underlying uniform variable. b>a.</para></listitem></varlistentry>
+   <varlistentry><term>y:</term>
+      <listitem><para> a matrix of doubles, the density</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the LogUniform PDF.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+The LogUniform distribution with parameters a and b has density
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x) = \frac{1}{x} \frac{1}{b-a}
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+if x in [exp(a),exp(b)].
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+y=distfun_logupdf(exp(4),3,5)
+
+// Compare random numbers with PDF
+a=2;
+b=3.5;
+N=10000;
+x=linspace(exp(a),exp(b),1000);
+y=distfun_logupdf(x,a,b);
+r=distfun_logurnd(a,b,N,1);
+scf();
+histplot(20,r)
+plot(x,y)
+xtitle("Log-Uniform","X","");
+legend(["Data","PDF"]);
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2013 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

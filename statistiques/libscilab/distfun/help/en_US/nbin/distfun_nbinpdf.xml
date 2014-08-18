@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_nbinpdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_nbinpdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_nbinpdf</refname>
+    <refpurpose>Negative Binomial PDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   y = distfun_nbinpdf(x,R,P)
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles, the extra trials for R successes, in the set {0,1,2,3,...}.</para></listitem></varlistentry>
+   <varlistentry><term>R :</term>
+      <listitem><para> a matrix of doubles, the number of successes. R belongs to the set {0,1,2,3,4,.......}</para></listitem></varlistentry>
+   <varlistentry><term>P :</term>
+      <listitem><para> a matrix of doubles, the probability of getting success in a Bernoulli trial. P in [0,1].</para></listitem></varlistentry>
+   <varlistentry><term>y :</term>
+      <listitem><para> a matrix of doubles, the probability density.</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+Computes the probability distribution function of
+the Negative Binomial distribution function.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles
+of the same size as the other input arguments.
+   </para>
+   <para>
+The function definition is:
+   </para>
+   <para>
+<latex>
+\begin{eqnarray}
+f(x,R,P) = \frac{\Gamma(x+R)}{x!\Gamma(R)} P^R (1-P)^x
+\end{eqnarray}
+</latex>
+   </para>
+   <para>
+Analysis of the random variable.
+   </para>
+   <para>
+Consider successive random trials, each having a constant
+probability P of success.
+The number of extra trials we perform in order to observe a given
+number R of successes has a negative binomial distribution.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+// Check with x scalar, R scalar, P scalar
+p = distfun_nbinpdf(5,2,0.2)
+expected = 0.0786432
+
+// Check with expanded x
+computed = distfun_nbinpdf([5 7],5,0.5)
+expected = [0.1230469    0.0805664]
+
+// Check with expanded R
+computed = distfun_nbinpdf(5,[5 7],0.5)
+expected = [0.1230469    0.1127930]
+
+// Check with two arguments expanded
+computed = distfun_nbinpdf([5 10],[5 7],0.5)
+expected = [0.1230469    0.0610962]
+
+// Check with all the arguments expanded
+computed = distfun_nbinpdf([5 10],[5 20],[0.5 0.7])
+expected = [0.1230469    0.0943745]
+
+// Check y = distfun_nbinpdf(x,R,P) with large value of R
+computed = distfun_nbinpdf(2,1000,0.5)
+expected = 1.16D-296
+
+// Plot the function
+scf();
+x = 0:60;
+y1 = distfun_nbinpdf(x,20,0.5);
+plot(x,y1,"bo-")
+y2 = distfun_nbinpdf(x,20,0.7);
+plot(x,y2,"go-")
+y3 = distfun_nbinpdf(x,40,0.5);
+plot(x,y3,"ro-")
+legend(["P=0.5, R=20","P=0.7, R=20","P=0.5, R=40"]);
+xtitle("Negative Binomial PDF","x","P(X=x)")
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>http://en.wikipedia.org/wiki/Negative_binomial_distribution</para>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2014 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+</refentry>

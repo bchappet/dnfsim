@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+ *
+ * This help file was generated from distfun_expcdf.sci using help_from_sci().
+ *
+ -->
+
+<refentry version="5.0-subset Scilab" xml:id="distfun_expcdf" xml:lang="en"
+          xmlns="http://docbook.org/ns/docbook"
+          xmlns:xlink="http://www.w3.org/1999/xlink"
+          xmlns:svg="http://www.w3.org/2000/svg"
+          xmlns:ns3="http://www.w3.org/1999/xhtml"
+          xmlns:mml="http://www.w3.org/1998/Math/MathML"
+          xmlns:scilab="http://www.scilab.org"
+          xmlns:db="http://docbook.org/ns/docbook">
+
+  <refnamediv>
+    <refname>distfun_expcdf</refname>
+    <refpurpose>Exponential CDF</refpurpose>
+  </refnamediv>
+
+
+<refsynopsisdiv>
+   <title>Calling Sequence</title>
+   <synopsis>
+   p = distfun_expcdf ( x , mu )
+   p = distfun_expcdf ( x , mu , lowertail )
+   
+   </synopsis>
+</refsynopsisdiv>
+
+<refsection>
+   <title>Parameters</title>
+   <variablelist>
+   <varlistentry><term>x:</term>
+      <listitem><para> a matrix of doubles</para></listitem></varlistentry>
+   <varlistentry><term>mu :</term>
+      <listitem><para> a matrix of doubles, the average. mu>0</para></listitem></varlistentry>
+   <varlistentry><term>lowertail :</term>
+      <listitem><para> a 1-by-1 matrix of booleans, the tail (default lowertail=%t). If lowertail is true (the default), then considers P(X&lt;=x) otherwise P(X&gt;x).</para></listitem></varlistentry>
+   <varlistentry><term>p:</term>
+      <listitem><para> a matrix of doubles, the probability</para></listitem></varlistentry>
+   </variablelist>
+</refsection>
+
+<refsection>
+   <title>Description</title>
+   <para>
+This function computes the Exponential CDF.
+   </para>
+   <para>
+Any scalar input argument is expanded to a matrix of doubles of the same size
+as the other input arguments.
+   </para>
+   <para>
+Any optional input argument equal to the empty matrix will be set to its
+default value.
+   </para>
+   <para>
+</para>
+</refsection>
+
+<refsection>
+   <title>Examples</title>
+   <programlisting role="example"><![CDATA[
+x = 2
+mu = 1/3
+computed = distfun_expcdf ( x , mu )
+expected = 9.975212478233337e-1
+
+// http://en.wikipedia.org/wiki/Exponential_distribution
+scf();
+x = linspace(0,5,1000);
+p = distfun_expcdf ( x , 2 );
+plot(x,p, "r-" );
+p = distfun_expcdf ( x , 1 );
+plot(x,p, "m-" );
+p = distfun_expcdf ( x , 2/3 );
+plot(x,p, "c-" );
+xtitle("Exponential CDF","x","$P(X\leq x)$");
+legend(["mu=2","mu=1","mu=2/3"]);
+
+// See upper tail
+p = distfun_expcdf ( 2 , 1/3 )
+q = distfun_expcdf ( 2 , 1/3 , %f )
+p+q
+
+// See accuracy for small x
+p = distfun_expcdf ( 1.e-20 , 1 )
+expected = 1.e-20
+
+// For negative inputs, the probability is
+// zero
+distfun_expcdf(-10,2)
+
+   ]]></programlisting>
+</refsection>
+
+<refsection>
+   <title>Authors</title>
+   <simplelist type="vert">
+   <member>Copyright (C) 2008-2011 - INRIA - Michael Baudin</member>
+   <member>Copyright (C) 2011 - DIGITEO - Michael Baudin</member>
+   <member>Copyright (C) 2012 - Michael Baudin</member>
+   </simplelist>
+</refsection>
+
+<refsection>
+   <title>Bibliography</title>
+   <para>Wikipedia, Exponential distribution function, http://en.wikipedia.org/wiki/Exponential_distribution</para>
+</refsection>
+</refentry>
