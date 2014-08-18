@@ -9,13 +9,13 @@ w_excit = 0.7//0.7;
 t_inhib = 3//3;
 t_excit = 5;//5//5;
 
-taille = 9;
+taille = 19;
 
-N = 20;
+N = 50;//20;
 
-aE = 4*0.3*(1/7)/N;
-aI = 1*0.3*(1/7)/N;
-bE = -0.5;
+aE = 1;//4*0.3*(1/7)/N;
+aI = 1;//1*0.3*(1/7)/N;
+bE = 0;//-0.5;
 bI = 0;
 initialisation_packet = 'a_send_'+string(N);//string(taille)+'_a_send_'+string(N);
 maxiteration = 1000;
@@ -38,8 +38,9 @@ plot2d(x, aI*inhib+bI,style=[color('blue')]);
 plot2d(x, aE* excit+bE,style=[color('red')]);
 emi = aE*excit+bE-(aI*inhib+bI);
 varE = computeVarianceDiagonal(excit,initialisation_packet,taille,t_excit,w_excit,maxiteration,dt);
-varI = computeVarianceDiagonal(excit,initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt);
-vemi = aE*aE *varE - aI*aI*varI;
+varI = computeVarianceDiagonal(inhib,initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt);
+vemi = aE * aE * varE + (-aI) * (-aI) * varI;
+vemi = sqrt(vemi);
 plot2d(x, emi,style=[color('green')]);
 plot2d(x,vemi);
 legend(string(aI)+'*inhibiteur +'+string(bI)+' '+string(w_inhib)+'w '+string(t_inhib)+'s (en moyenne)',string(aE)+'*excitateur +'+string(bE)+' '+string(w_excit)+'w '+string(t_excit)+'s (en moyenne)','difference (en moyenne)','difference(variance)');
