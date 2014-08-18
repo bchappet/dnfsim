@@ -1,0 +1,76 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>T and extra arguments</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_dbdfbd5fe6933cb862f6884408659fc7.html">&lt;&lt; Resampling Techniques</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_dbdfbd5fe6933cb862f6884408659fc7.html">Resampling Techniques</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="ciboot.html">ciboot &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">Stixbox</a> &gt;&gt; <a href="section_cce9628cc64593deeb951aad185f80cd.html">Stixbox</a> &gt; <a href="section_dbdfbd5fe6933cb862f6884408659fc7.html">Resampling Techniques</a> &gt; T and extra arguments</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">T and extra arguments</h1>
+    <p class="refpurpose">How to use extra-arguments in T.</p></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">The function T must have the following header:
+<div class="screen"><pre>
+p=T(x)
+</pre></div>
+where <code class="literal">x</code> is the sample or the resample
+and <code class="literal">p</code> is a m-by-1 matrix of doubles.</p>
+   <p class="para">It may happen that the function T require extra-arguments.
+In this case, the argument T can be the list
+<code class="literal">(Tfunc,arg1,arg2,...)</code> where Tfunc is a function
+with calling sequence
+<div class="screen"><pre>
+p=T(x,arg1,arg2,...)
+</pre></div>
+where arg1, arg2, etc... are automatically added at the end
+of the calling sequence of <code class="literal">Tfunc</code>.</p></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="section_dbdfbd5fe6933cb862f6884408659fc7.html">&lt;&lt; Resampling Techniques</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_dbdfbd5fe6933cb862f6884408659fc7.html">Resampling Techniques</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="ciboot.html">ciboot &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

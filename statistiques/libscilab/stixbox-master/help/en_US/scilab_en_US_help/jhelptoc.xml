@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 1.0//EN" "http://java.sun.com/products/javahelp/toc_1_0.dtd">
+<toc version="1.0">
+<tocitem target="index" text="Stixbox">
+<tocitem target="section_cce9628cc64593deeb951aad185f80cd" text="Stixbox">
+<tocitem target="stixbox_contents" text="Stixbox Overview"/>
+<tocitem target="section_8b7f94754b6498b988408ff5b1cd0373" text="Cumulated Distribution Functions">
+<tocitem target="pks" text="pks"/>
+</tocitem>
+<tocitem target="section_2c4953d671c2d9fb7d098c7b59259558" text="Datasets">
+<tocitem target="getdata" text="getdata"/>
+</tocitem>
+<tocitem target="section_126c95a7e2303051b4ab4f543976e3b5" text="Graphics">
+<tocitem target="stixbox_graphics" text="Tutorial"/>
+<tocitem target="bubblechart" text="bubblechart"/>
+<tocitem target="bubblematrix" text="bubblematrix"/>
+<tocitem target="histo" text="histo"/>
+<tocitem target="identify" text="identify"/>
+<tocitem target="plotmatrix" text="plotmatrix"/>
+<tocitem target="plotsym" text="plotsym"/>
+<tocitem target="qqnorm" text="qqnorm"/>
+<tocitem target="qqplot" text="qqplot"/>
+<tocitem target="stairs" text="stairs"/>
+</tocitem>
+<tocitem target="section_e860784322f491c1e24023b42f0201b3" text="Logistic Regression">
+<tocitem target="lodds" text="lodds"/>
+<tocitem target="loddsinv" text="loddsinv"/>
+<tocitem target="logitfit" text="logitfit"/>
+</tocitem>
+<tocitem target="section_93e8f6378c33494f566912b733ee416d" text="Miscellaneous">
+<tocitem target="betaln" text="betaln"/>
+<tocitem target="corrcoef" text="corrcoef"/>
+<tocitem target="cov" text="cov"/>
+<tocitem target="ksdensity" text="ksdensity"/>
+<tocitem target="quantile" text="quantile"/>
+</tocitem>
+<tocitem target="section_80a15e3808956c9b3f15fdfde516198a" text="Polynomials">
+<tocitem target="polyfit" text="polyfit"/>
+<tocitem target="polyval" text="polyval"/>
+</tocitem>
+<tocitem target="section_b7d81dd1b7e4216cb2aab2924126bba6" text="Random Numbers">
+<tocitem target="rexpweib" text="rexpweib"/>
+</tocitem>
+<tocitem target="section_6113a9137744f426975718324677774a" text="Regression">
+<tocitem target="cmpmod" text="cmpmod"/>
+<tocitem target="lsfit" text="lsfit"/>
+<tocitem target="lsselect" text="lsselect"/>
+<tocitem target="regres" text="regres"/>
+<tocitem target="regresprint" text="regresprint"/>
+</tocitem>
+<tocitem target="section_dbdfbd5fe6933cb862f6884408659fc7" text="Resampling Techniques">
+<tocitem target="stixbox_resamplingT" text="T and extra arguments"/>
+<tocitem target="ciboot" text="ciboot"/>
+<tocitem target="covboot" text="covboot"/>
+<tocitem target="covjack" text="covjack"/>
+<tocitem target="rboot" text="rboot"/>
+<tocitem target="stdboot" text="stdboot"/>
+<tocitem target="stdjack" text="stdjack"/>
+</tocitem>
+<tocitem target="section_792996f704e3069f10a4545f9a6739ad" text="Tests">
+<tocitem target="ciquant" text="ciquant"/>
+<tocitem target="kstwo" text="kstwo"/>
+<tocitem target="test1b" text="test1b"/>
+<tocitem target="test1n" text="test1n"/>
+<tocitem target="test1r" text="test1r"/>
+<tocitem target="test2n" text="test2n"/>
+<tocitem target="test2r" text="test2r"/>
+</tocitem>
+</tocitem>
+</tocitem>
+</toc>

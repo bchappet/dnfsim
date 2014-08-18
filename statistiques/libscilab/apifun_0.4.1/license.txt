@@ -1,0 +1,5 @@
+Apifun Scilab Toolbox
+
+This toolbox is released under the terms of the CeCILL_V2 license :
+http://www.cecill.info/licences/Licence_CeCILL_V2-en.txt
+

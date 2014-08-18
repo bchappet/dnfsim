@@ -1,0 +1,103 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>lsselect</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="lsfit.html">&lt;&lt; lsfit</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_6113a9137744f426975718324677774a.html">Regression</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="regres.html">regres &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">Stixbox</a> &gt;&gt; <a href="section_cce9628cc64593deeb951aad185f80cd.html">Stixbox</a> &gt; <a href="section_6113a9137744f426975718324677774a.html">Regression</a> &gt; lsselect</span>
+
+    <br /><br />
+    <div class="info"></div><div class="refnamediv"><h1 class="refname">lsselect</h1><p class="refpurpose">Select a predictor subset for regression</p></div>
+  
+  
+  
+  
+  
+  <div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3><div class="synopsis"><pre><span class="default">[</span><span class="default">Q</span><span class="default">, </span><span class="default">I</span><span class="default">, </span><span class="default">B</span><span class="default">, </span><span class="default">BB</span><span class="default">] = </span><span class="functionid">lsselect</span><span class="default">(</span><span class="default">y</span><span class="default">,</span><span class="default">x</span><span class="default">,</span><span class="default">crit</span><span class="default">,</span><span class="default">how</span><span class="default">,</span><span class="default">pmax</span><span class="default">,</span><span class="default">level</span><span class="default">)</span></pre></div></div>
+  <div class="refsection"><h3 class="title">Parameters</h3>
+    <dl><dt><span class="term">y</span>
+	<dd><p class="para">dependant variate (column vector)</p></dd></dt>
+      <dt><span class="term">x</span>
+	<dd><p class="para">regressor variates</p></dd></dt>
+      <dt><span class="term">crit</span>
+	<dd><p class="para">selection criterion (string):</p>
+	  <p class="para">&#0039;HT&#0039; :   Hypothesis Test (default level = 0.05)</p>
+	<p class="para">&#0039;AIC&#0039; :  Akaike&#0039;s Information Criterion</p>
+	<p class="para">&#0039;BIC&#0039;:  Bayesian Information Criterion</p>
+	<p class="para">&#0039;CMV&#0039; :  Cross Model Validation (inner criterion RSS)</p></dd></dt>
+    <dt><span class="term">how</span>
+      <dd><p class="para">(string)  choses between :</p>
+	<p class="para">&#0039;AS&#0039; :   All Subsets</p>
+	<p class="para">&#0039;FI&#0039; :  Forward Inclusion</p>
+	<p class="para">&#0039;BE&#0039; :   Backward Elimination</p></dd></dt>
+    <dt><span class="term">pmax</span>
+      <dd><p class="para">limits the number of included parameters (scalar).</p></dd></dt>
+    <dt><span class="term">level</span>
+      <dd><p class="para">optional input argument, p-value reference used for inclusion or deletion.</p></dd></dt>
+    <dt><span class="term">Q</span>
+      <dd><p class="para">criterion as a function of the number of parameters; might be interpreted as an estimate of the prediction standard deviation. For the method &#0039;HT&#0039;, Q is instead the successive p-values for inclusion or elimination.</p></dd></dt>
+    <dt><span class="term">I</span>
+      <dd><p class="para">index numbers of the included columns.</p></dd></dt>
+    <dt><span class="term">B</span>
+      <dd><p class="para">vector of coefficients, ie the suggested model is Y = X*B.</p></dd></dt>
+    <dt><span class="term">BB</span>
+      <dd><p class="para">Column p of BB is the best B of parameter size p.</p></dd></dt></dl></div>
+  <div class="refsection"><h3 class="title">Description</h3>
+    <p class="para">Selects a good subset of regressors in a multiple linear regression
+    model.</p>
+    <p class="para">The last column of the prediction matrix x must be an intercept
+    column, ie all elements are ones. This column is never excluded in the
+    search for a good model. If it is not present it is added.</p>
+    <p class="para">This function is not highly optimized for speed but rather for
+    flexibility. It would be faster if &#0039;all subsets&#0039; were in a  separate
+    routine and &#0039;forward&#0039; and &#0039;backward&#0039; were in another routine,
+    especially for CMV.</p></div>
+  <div class="refsection"><h3 class="title">See Also</h3><ul class="itemizedlist"><li class="member"><a href="lsfit.html" class="link">lsfit</a></li>     <li class="member"><a href="scilab://linreg" class="link">linreg</a></li></ul></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="lsfit.html">&lt;&lt; lsfit</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_6113a9137744f426975718324677774a.html">Regression</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="regres.html">regres &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

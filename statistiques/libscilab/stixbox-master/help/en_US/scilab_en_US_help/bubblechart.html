@@ -1,0 +1,308 @@
+<html><head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <title>bubblechart</title>
+    <style type="text/css" media="all">
+      @import url("scilab_code.css");
+      @import url("xml_code.css");
+      @import url("c_code.css");
+      @import url("style.css");
+    </style>
+  </head>
+  <body>
+    <div class="manualnavbar">
+    <table width="100%"><tr>
+      <td width="30%">
+    	<span class="previous"><a href="stixbox_graphics.html">&lt;&lt; Tutorial</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_126c95a7e2303051b4ab4f543976e3b5.html">Graphics</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="bubblematrix.html">bubblematrix &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+
+
+
+    <span class="path"><a href="index.html">Stixbox</a> &gt;&gt; <a href="section_cce9628cc64593deeb951aad185f80cd.html">Stixbox</a> &gt; <a href="section_126c95a7e2303051b4ab4f543976e3b5.html">Graphics</a> &gt; bubblechart</span>
+
+    <br /><br />
+    <div class="refnamediv"><h1 class="refname">bubblechart</h1>
+    <p class="refpurpose">Plot a bubble chart</p></div>
+
+
+<div class="refsynopsisdiv"><h3 class="title">Calling Sequence</h3>
+   <div class="synopsis"><pre><span class="functionid">bubblechart</span><span class="default">(</span><span class="default">data</span><span class="default">)</span>
+<span class="functionid">bubblechart</span><span class="default">(</span><span class="default">data</span><span class="default">,</span><span class="default">legen</span><span class="default">)</span>
+<span class="functionid">bubblechart</span><span class="default">(</span><span class="default">data</span><span class="default">,</span><span class="default">legen</span><span class="default">,</span><span class="default">fill</span><span class="default">)</span>
+<span class="functionid">bubblechart</span><span class="default">(</span><span class="default">data</span><span class="default">,</span><span class="default">legen</span><span class="default">,</span><span class="default">fill</span><span class="default">,</span><span class="default">maxR</span><span class="default">)</span>
+<span class="functionid">bubblechart</span><span class="default">(</span><span class="default">data</span><span class="default">,</span><span class="default">legen</span><span class="default">,</span><span class="default">fill</span><span class="default">,</span><span class="default">maxR</span><span class="default">,</span><span class="default">scale</span><span class="default">)</span></pre></div></div>
+
+<div class="refsection"><h3 class="title">Parameters</h3>
+   <dl><dt><span class="term">data :</span>
+      <dd><p class="para">a n-by-3 matrix of doubles, the X, Y and Z data</p></dd></dt>
+   <dt><span class="term">legen :</span>
+      <dd><p class="para">a n-by-1 matrix of strings, the labels of each data (default legend=[])</p></dd></dt>
+   <dt><span class="term">fill :</span>
+      <dd><p class="para">a 1-by-1 or n-by-1 matrix of doubles, integer value, the color (default fill=4)</p></dd></dt>
+   <dt><span class="term">maxR :</span>
+      <dd><p class="para">a 1-by-1 matrix of doubles, positive, the maximum radius (default maxR=1)</p></dd></dt>
+   <dt><span class="term">scale :</span>
+      <dd><p class="para">a boolean, set to %f to disable scaling (default scale=%t)</p></dd></dt></dl></div>
+
+<div class="refsection"><h3 class="title">Description</h3>
+   <p class="para">Plots a bubble chart for the data.
+For each row i in data, a colored bubble with center
+x=data(i,1), y=x=data(i,2) is plotted.
+The radius of the i-th bubble is computed depending
+on z=data(i,3), so that the area of the bubble is
+proportionnal to z.</p>
+   <p class="para">The radius are scaled, so that the bubbles have a radius proportionnal
+to maxR.
+Reduce this parameter if the bubbles are too large,
+hiding other bubbles.</p>
+   <p class="para">If scale is true, then scales the circles into ellipses,
+so that the X/Y scaling makes the ellipse look like
+a circle.
+Otherwise, really create circles.
+In this case, we recommend to set the isoview option to &#0034;on&#0034;.</p>
+   <p class="para">Any argument equal to the empty matrix [] is
+replaced by its default value.</p>
+   <p class="para">Comments on this type of graphics</p>
+   <p class="para">The goal of this function is to be able to plot a 3D data
+into a 2D plot.
+This avoids the need for 3D histograms, which can lead
+to false conclusion because of the perspective error :
+a bar which is in the front of the picture may
+look larger than a bar which is in the back of the picture,
+even if its absolute value is smaller.
+In a 2D bubble chart, a bubble with a larger
+area has a larger Z-value, without a possibility
+of confusion.</p>
+   <p class="para">If the color is used, a 4D data can be presented
+in a 2D plot.
+But be warned that some users do not perceive the color :
+this is &#0034;color blindness&#0034; (8% of males, 0.5% of females,
+according to Wikipedia [2]).</p>
+   <p class="para">One problem solved by the bubblechart function is that
+the area of the bubble is proportionnal to the Z value.
+This provides a linear relationship between the information
+and the data.
+If, instead, the radius was used, then the relationship
+between the area and Z would be nonlinear, which can potentially
+lead to wrong conclusion.</p>
+   <p class="para">A potential problem with bubble charts is that they
+consume a significant amount of ink when we print them.
+This is why the default value of the fill argument was
+chosen to be as nice as possible, with a reasonable
+level of ink.</p>
+   <p class="para"></p></div>
+
+<div class="refsection"><h3 class="title">Examples</h3>
+   <div class="programlisting"><table border="0" width="100%"><tr><td width="98%"><pre class="scilabcode"><span class="scilabcomment">// Source: [7]</span>
+<span class="scilabcomment">// </span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">Life Expectancy</span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">, </span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">Fertility Rate</span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">, </span><span class="scilabcomment">&#0034;</span><span class="scilabcomment">Population</span><span class="scilabcomment">&#0034;</span>
+<span class="scilabid">data</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabnumber">80.66</span><span class="scilabdefault">,</span> <span class="scilabnumber">1.67</span><span class="scilabdefault">,</span> <span class="scilabnumber">33739900</span>
+<span class="scilabnumber">79.84</span><span class="scilabdefault">,</span> <span class="scilabnumber">1.36</span><span class="scilabdefault">,</span> <span class="scilabnumber">81902307</span>
+<span class="scilabnumber">78.6</span><span class="scilabdefault">,</span>  <span class="scilabnumber">1.84</span><span class="scilabdefault">,</span> <span class="scilabnumber">5523095</span>
+<span class="scilabnumber">72.73</span><span class="scilabdefault">,</span> <span class="scilabnumber">2.78</span><span class="scilabdefault">,</span> <span class="scilabnumber">79716203</span>
+<span class="scilabnumber">80.05</span><span class="scilabdefault">,</span> <span class="scilabnumber">2</span><span class="scilabdefault">,</span>    <span class="scilabnumber">61801570</span>
+<span class="scilabnumber">72.49</span><span class="scilabdefault">,</span> <span class="scilabnumber">1.7</span><span class="scilabdefault">,</span>  <span class="scilabnumber">73137148</span>
+<span class="scilabnumber">68.09</span><span class="scilabdefault">,</span> <span class="scilabnumber">4.77</span><span class="scilabdefault">,</span> <span class="scilabnumber">31090763</span>
+<span class="scilabnumber">81.55</span><span class="scilabdefault">,</span> <span class="scilabnumber">2.96</span><span class="scilabdefault">,</span> <span class="scilabnumber">7485600</span>
+<span class="scilabnumber">68.6</span><span class="scilabdefault">,</span>  <span class="scilabnumber">1.54</span><span class="scilabdefault">,</span> <span class="scilabnumber">141850000</span>
+<span class="scilabnumber">78.09</span><span class="scilabdefault">,</span> <span class="scilabnumber">2.05</span><span class="scilabdefault">,</span> <span class="scilabnumber">307007000</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">legen</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">CAN</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">DEU</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">DNK</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">EGY</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">GBR</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">IRN</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">IRQ</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">ISR</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">RUS</span><span class="scilabstring">&#0039;</span>
+<span class="scilabstring">&#0039;</span><span class="scilabstring">USA</span><span class="scilabstring">&#0039;</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// Just the data</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// Disable scaling, set isoview on.</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabconstants">%f</span><span class="scilabopenclose">)</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">children</span><span class="scilaboperator">.</span><span class="scilabfield">isoview</span><span class="scilaboperator">=</span><span class="scilabstring">&#0034;</span><span class="scilabstring">on</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// One single color, with datatips</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// Different colors, with datatips</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// With a separate legend</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span>
+<a class="scilabmacro" href="scilab://legend">legend</a><span class="scilabopenclose">(</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">in_upper_right</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">// Change the color depending on the world zone</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">// 1 = CAN, USA (North America)</span>
+<span class="scilabcomment">// 2 = Europe (DEU, DNK, GBR, RUS)</span>
+<span class="scilabcomment">// 3 = Arab/Persian/Hebrew (EGY,IRN,IRQ,ISR)</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">fill</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabnumber">1</span>
+<span class="scilabnumber">2</span>
+<span class="scilabnumber">2</span>
+<span class="scilabnumber">3</span>
+<span class="scilabnumber">2</span>
+<span class="scilabnumber">3</span>
+<span class="scilabnumber">3</span>
+<span class="scilabnumber">3</span>
+<span class="scilabnumber">2</span>
+<span class="scilabnumber">1</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabid">fill</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// Without contours on the bubbles</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Life Expectancy</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span> <span class="scilabstring">&#0034;</span><span class="scilabstring">Fertility Rate</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilaboperator">-</span><span class="scilabid">fill</span><span class="scilabopenclose">)</span>
+
+<span class="scilabcomment">// Reference : [3]</span>
+<span class="scilabid">data</span> <span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabnumber">14</span> <span class="scilabnumber">12200</span> <span class="scilabnumber">15</span>
+<span class="scilabnumber">20</span> <span class="scilabnumber">60000</span> <span class="scilabnumber">23</span>
+<span class="scilabnumber">18</span> <span class="scilabnumber">24400</span> <span class="scilabnumber">10</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Industry Market Share Study</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Number of products</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabspecial">...</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Sales</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">legen</span><span class="scilaboperator">=</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabopenclose">)</span>
+
+<span class="scilabcomment">// Reference : [4]</span>
+<span class="scilabid">data</span> <span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabnumber">10</span> <span class="scilabnumber">10</span> <span class="scilabnumber">100</span>
+<span class="scilabnumber">5</span> <span class="scilabnumber">5</span> <span class="scilabnumber">75</span>
+<span class="scilabnumber">8</span> <span class="scilabnumber">5</span> <span class="scilabnumber">65</span>
+<span class="scilabnumber">3</span> <span class="scilabnumber">2</span> <span class="scilabnumber">60</span>
+<span class="scilabnumber">5</span> <span class="scilabnumber">3</span> <span class="scilabnumber">50</span>
+<span class="scilabnumber">1</span> <span class="scilabnumber">2</span> <span class="scilabnumber">35</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">legen</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Smith</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">West</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Miller</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Carlson</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Redmond</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Dillar</span><span class="scilabstring">&#0034;</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Salary Study</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Years with Firm</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabspecial">...</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">% Salary Increase</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">6</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">6</span><span class="scilabopenclose">)</span>
+<span class="scilabcomment">//</span>
+<span class="scilabcomment">// With a separate legend</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Salary Study</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Years with Firm</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabspecial">...</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">% Salary Increase</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">6</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabopenclose">[</span><span class="scilabopenclose">]</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">6</span><span class="scilabopenclose">)</span>
+<a class="scilabmacro" href="scilab://legend">legend</a><span class="scilabopenclose">(</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">in_upper_left</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+
+<span class="scilabcomment">// Reference [5-6]</span>
+<span class="scilabid">legen</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Harvard University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Yale University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">University of Texas</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Princeton University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Stanford University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">MIT</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">University of Michigan</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Columbia University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Northwestern University</span><span class="scilabstring">&#0034;</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Texas A</span><span class="scilabstring">&#0038;</span><span class="scilabstring">M</span><span class="scilabstring">&#0034;</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabid">data</span><span class="scilaboperator">=</span><span class="scilabopenclose">[</span>
+<span class="scilabnumber">52652</span>  <span class="scilabnumber">31728080000</span> <span class="scilabnumber">21000</span>
+<span class="scilabnumber">52700</span>  <span class="scilabnumber">19374000000</span> <span class="scilabnumber">11875</span>
+<span class="scilabnumber">9816</span>   <span class="scilabnumber">17148649000</span> <span class="scilabnumber">51112</span>
+<span class="scilabnumber">54780</span>  <span class="scilabnumber">17109508000</span> <span class="scilabnumber">7859</span>
+<span class="scilabnumber">52860</span>  <span class="scilabnumber">16502606000</span> <span class="scilabnumber">19945</span>
+<span class="scilabnumber">40460</span>  <span class="scilabnumber">9712628000</span>  <span class="scilabnumber">10894</span>
+<span class="scilabnumber">25204</span>  <span class="scilabnumber">7834752000</span>  <span class="scilabnumber">42716</span>
+<span class="scilabnumber">59208</span>  <span class="scilabnumber">7789578000</span>  <span class="scilabnumber">28221</span>
+<span class="scilabnumber">40223</span>  <span class="scilabnumber">7182745000</span>  <span class="scilabnumber">20284</span>
+<span class="scilabnumber">19035</span>  <span class="scilabnumber">6999517000</span>  <span class="scilabnumber">49861</span>
+<span class="scilabopenclose">]</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">// Scale the Undergraduate tuition</span>
+<span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilaboperator">=</span><span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabopenclose">)</span><span class="scilaboperator">/</span><span class="scilabnumber">1.e3</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">// Scale the endowment funds</span>
+<span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilaboperator">=</span><span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">2</span><span class="scilabopenclose">)</span><span class="scilaboperator">/</span><span class="scilabnumber">1.e9</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">// Scale the Number of Students</span>
+<span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilaboperator">=</span><span class="scilabid">data</span><span class="scilabopenclose">(</span><span class="scilabspecial">:</span><span class="scilabdefault">,</span><span class="scilabnumber">3</span><span class="scilabopenclose">)</span><span class="scilaboperator">/</span><span class="scilabnumber">1.e3</span><span class="scilabdefault">;</span>
+<span class="scilabcomment">// The color is the rank</span>
+<span class="scilabid">h</span><span class="scilaboperator">=</span><a class="scilabmacro" href="scilab://scf">scf</a><span class="scilabopenclose">(</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<a class="scilabcommand" href="scilab://xtitle">xtitle</a><span class="scilabopenclose">(</span><span class="scilabstring">&#0034;</span><span class="scilabstring">Area of bubble : Number of Students Fall 2011</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabspecial">..</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">Undergraduate tuition ($ Thousands)</span><span class="scilabstring">&#0034;</span><span class="scilabdefault">,</span><span class="scilabspecial">..</span>
+<span class="scilabstring">&#0034;</span><span class="scilabstring">2011 endowment funds ($ Billions)</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span>
+<span class="scilabid">h</span><span class="scilaboperator">.</span><span class="scilabfield">color_map</span> <span class="scilaboperator">=</span> <a class="scilabmacro" href="scilab://rainbowcolormap">rainbowcolormap</a><span class="scilabopenclose">(</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">tags</span><span class="scilaboperator">=</span><a class="scilabcommand" href="scilab://string">string</a><span class="scilabopenclose">(</span><span class="scilabopenclose">(</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">10</span><span class="scilabopenclose">)</span><span class="scilaboperator">&#0039;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span>
+<span class="scilabid">bubblechart</span><span class="scilabopenclose">(</span><span class="scilabid">data</span><span class="scilabdefault">,</span><span class="scilabid">tags</span><span class="scilabdefault">,</span><span class="scilabnumber">1</span><span class="scilabspecial">:</span><span class="scilabnumber">10</span><span class="scilabdefault">,</span><span class="scilabnumber">4</span><span class="scilabopenclose">)</span>
+<a class="scilabmacro" href="scilab://legend">legend</a><span class="scilabopenclose">(</span><span class="scilabid">tags</span><span class="scilaboperator">+</span><span class="scilabstring">&#0034;</span><span class="scilabstring">:</span><span class="scilabstring">&#0034;</span><span class="scilaboperator">+</span><span class="scilabid">legen</span><span class="scilabdefault">,</span><span class="scilabstring">&#0034;</span><span class="scilabstring">in_upper_left</span><span class="scilabstring">&#0034;</span><span class="scilabopenclose">)</span><span class="scilabdefault">;</span></pre></td><td valign="top"><a href="scilab://scilab.execexample/"><img src="ScilabExecute.png" border="0"/></a></td><td valign="top"><a href="scilab://scilab.editexample/"><img src="ScilabEdit.png" border="0"/></a></td><td></td></tr></table></div></div>
+
+<div class="refsection"><h3 class="title">Authors</h3>
+   <ul class="itemizedlist"><li class="member">Copyright (C) 2013 - Michael Baudin</li></ul></div>
+
+<div class="refsection"><h3 class="title">Bibliography</h3>
+   <p class="para">[1] Bubble chart, http://en.wikipedia.org/wiki/Bubble_chart</p>
+   <p class="para">[2] Color blindness, http://en.wikipedia.org/wiki/Color_blindness</p>
+   <p class="para">[3] Creating a bubble chart, http://office.microsoft.com/en-us/excel-help/creating-a-bubble-chart-HA001117076.aspx</p>
+   <p class="para">[4] Add data labels to your Excel bubble charts, Mary Ann Richardson, 2008, http://www.techrepublic.com/blog/msoffice/add-data-labels-to-your-excel-bubble-charts/513</p>
+   <p class="para">[5] Bubble Chart of America’s 10 Richest Colleges, Posted on May 10, 2012 by George F Huhn, http://www.bubblechartpro.com/bubble-chart-of-americas-10-richest-colleges/</p>
+   <p class="para">[6] The 10 Richest Colleges in America, http://finance.yahoo.com/news/the-10-richest-colleges-in-america.html</p>
+   <p class="para">[7] Google Chart Tools, Visualization: Bubble Chart, https://developers.google.com/chart/interactive/docs/gallery/bubblechart</p></div>
+    <br />
+
+    <div class="manualnavbar">
+    <table width="100%">
+    <tr><td colspan="3" class="next"><a href="http://bugzilla.scilab.org/enter_bug.cgi?product=Scilab%20software&component=Documentation%20pages" class="ulink">Report an issue</a></td></tr>
+<tr>
+      <td width="30%">
+    	<span class="previous"><a href="stixbox_graphics.html">&lt;&lt; Tutorial</a></span>
+
+      </td>
+      <td width="40%" class="center">
+      	<span class="top"><a href="section_126c95a7e2303051b4ab4f543976e3b5.html">Graphics</a></span>
+
+      </td>
+      <td width="30%" class="next">
+      	<span class="next"><a href="bubblematrix.html">bubblematrix &gt;&gt;</a></span>
+
+      </td>
+    </tr></table>
+      <hr />
+    </div>
+  </body>
+</html>

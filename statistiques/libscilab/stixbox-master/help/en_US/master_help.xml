@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book [
+<!--Begin Entities-->
+<!ENTITY afe816ea9ba44bb7d0f7c5b8a74b985f0 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/Contents.xml">
+<!ENTITY ad950df1f2fcba1ed692264ae5995aad0 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/cdf/pks.xml">
+<!ENTITY a4511639ae0b5b7a7de86baab8e079734 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/datasets/getdata.xml">
+<!ENTITY a8a5680c6ef607b6e7b5596738d204c19 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/0-graphics.xml">
+<!ENTITY a874b07736a3f668a2266c294653e4cb3 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/bubblechart.xml">
+<!ENTITY a0accc1319abfcc548672d1c8bf28122f SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/bubblematrix.xml">
+<!ENTITY ab9ae7b3338cec55128445c8ceb2cc343 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/histo.xml">
+<!ENTITY a6e60cb7a47699339d31c8f3898e39bbc SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/identify.xml">
+<!ENTITY ab6d79537604d849e00f97a09e1bd781c SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/plotmatrix.xml">
+<!ENTITY adf8e4dd872126287794ab842efe1d984 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/plotsym.xml">
+<!ENTITY a08ae2e43ab964998eff3a279c8cb6844 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/qqnorm.xml">
+<!ENTITY a56c4623ed663e46d5c84343903696ec3 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/qqplot.xml">
+<!ENTITY a1e813a2eec49b6fca2639d5fc41d9ace SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/graphics/stairs.xml">
+<!ENTITY aae2232e7f2ba4845201363f3073c1990 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/logisticregression/lodds.xml">
+<!ENTITY a6319e011c0568378361e36f0ef9a6f51 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/logisticregression/loddsinv.xml">
+<!ENTITY aa705bf31434b856aca03be7727574363 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/logisticregression/logitfit.xml">
+<!ENTITY a6a794f00741cb93d5d270f72b3dc6251 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/misc/betaln.xml">
+<!ENTITY a5c871a011e4e2dc48fe1932708468646 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/misc/corrcoef.xml">
+<!ENTITY abd66502f9cc1e4b8480f7410adbc80db SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/misc/cov.xml">
+<!ENTITY a1200e3cd5a9481d8b784d3eff406a30e SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/misc/ksdensity.xml">
+<!ENTITY a643317a0d720765d2c2827b3b35e3e9f SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/misc/quantile.xml">
+<!ENTITY a3ca8014da8df162305d07e143fef190a SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/polynomials/polyfit.xml">
+<!ENTITY a57fb7ea26e9a585dcadc52b480a1eaee SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/polynomials/polyval.xml">
+<!ENTITY aed0853a968bb38f5c45600056695ad93 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/randomgenerators/rexpweib.xml">
+<!ENTITY aa9cc538277d354f55a362478d2084f3d SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/regression/cmpmod.xml">
+<!ENTITY a2c77e1cf511b3fb85f83cdbf3e8df2bd SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/regression/lsfit.xml">
+<!ENTITY a1a77bb4984c7ea4cb70ca1360c690af3 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/regression/lsselect.xml">
+<!ENTITY aab804513a4da5808b55e2955dc133c86 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/regression/regres.xml">
+<!ENTITY a9a64c001ef384ac5d9e5d6b8e3d0e783 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/regression/regresprint.xml">
+<!ENTITY a2f26151423c8060960a57ccdc7f35612 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/0-Tspecifications.xml">
+<!ENTITY a84bd93fa60a8d52caf5c32227a402704 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/ciboot.xml">
+<!ENTITY a6cd3a0deaf9d0b68ff1f6dfd0a69cbb4 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/covboot.xml">
+<!ENTITY a24245c7ff4e8c81abd645ee58256d319 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/covjack.xml">
+<!ENTITY a6786f8c05375b2a29f23038ad774c397 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/rboot.xml">
+<!ENTITY a4712a77b8ed7012def1ed84acde18b89 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/stdboot.xml">
+<!ENTITY a7419861b76454b13a9701097fa89bb28 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/resampling/stdjack.xml">
+<!ENTITY a0adbe623415a8d2ffa2c37f975d3c3fb SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/ciquant.xml">
+<!ENTITY a1bf53f0d2453cf2aded537a58e626485 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/kstwo.xml">
+<!ENTITY a7d147646d2e87cd2f06da38e32b1e997 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/test1b.xml">
+<!ENTITY a4392f997c933f0c53cb9cd16ee4f16e7 SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/test1n.xml">
+<!ENTITY a9ebc0f443b462be9835576ed8fb6317e SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/test1r.xml">
+<!ENTITY aaf5a19dfb48ad507ee67f1e0e12e53ee SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/test2n.xml">
+<!ENTITY a44ea3cd0a1283a4ce7a1c6460581f80b SYSTEM "/home/nikolai/Work/Loria2014/dnfsim2/statistiques/libscilab/stixbox-master/help/en_US/tests/test2r.xml">
+<!--End Entities-->
+]>
+<book version="5.0-subset Scilab" xml:lang="en_US"
+      xmlns="http://docbook.org/ns/docbook"
+      xmlns:xlink="http://www.w3.org/1999/xlink"
+      xmlns:xi="http://www.w3.org/2001/XInclude"
+      xmlns:svg="http://www.w3.org/2000/svg"
+      xmlns:mml="http://www.w3.org/1998/Math/MathML"
+      xmlns:html="http://www.w3.org/1999/xhtml"
+      xmlns:db="http://docbook.org/ns/docbook">
+  <info xml:id='stixbox_manual'>
+    <title>Stixbox</title>
+  </info>
+
+<part xml:id='section_cce9628cc64593deeb951aad185f80cd'>
+<title>Stixbox</title>
+&afe816ea9ba44bb7d0f7c5b8a74b985f0;
+<chapter xml:id='section_8b7f94754b6498b988408ff5b1cd0373'>
+<title>Cumulated Distribution Functions</title>
+&ad950df1f2fcba1ed692264ae5995aad0;
+</chapter>
+<chapter xml:id='section_2c4953d671c2d9fb7d098c7b59259558'>
+<title>Datasets</title>
+&a4511639ae0b5b7a7de86baab8e079734;
+</chapter>
+<chapter xml:id='section_126c95a7e2303051b4ab4f543976e3b5'>
+<title>Graphics</title>
+&a8a5680c6ef607b6e7b5596738d204c19;
+&a874b07736a3f668a2266c294653e4cb3;
+&a0accc1319abfcc548672d1c8bf28122f;
+&ab9ae7b3338cec55128445c8ceb2cc343;
+&a6e60cb7a47699339d31c8f3898e39bbc;
+&ab6d79537604d849e00f97a09e1bd781c;
+&adf8e4dd872126287794ab842efe1d984;
+&a08ae2e43ab964998eff3a279c8cb6844;
+&a56c4623ed663e46d5c84343903696ec3;
+&a1e813a2eec49b6fca2639d5fc41d9ace;
+</chapter>
+<chapter xml:id='section_e860784322f491c1e24023b42f0201b3'>
+<title>Logistic Regression</title>
+&aae2232e7f2ba4845201363f3073c1990;
+&a6319e011c0568378361e36f0ef9a6f51;
+&aa705bf31434b856aca03be7727574363;
+</chapter>
+<chapter xml:id='section_93e8f6378c33494f566912b733ee416d'>
+<title>Miscellaneous</title>
+&a6a794f00741cb93d5d270f72b3dc6251;
+&a5c871a011e4e2dc48fe1932708468646;
+&abd66502f9cc1e4b8480f7410adbc80db;
+&a1200e3cd5a9481d8b784d3eff406a30e;
+&a643317a0d720765d2c2827b3b35e3e9f;
+</chapter>
+<chapter xml:id='section_80a15e3808956c9b3f15fdfde516198a'>
+<title>Polynomials</title>
+&a3ca8014da8df162305d07e143fef190a;
+&a57fb7ea26e9a585dcadc52b480a1eaee;
+</chapter>
+<chapter xml:id='section_b7d81dd1b7e4216cb2aab2924126bba6'>
+<title>Random Numbers</title>
+&aed0853a968bb38f5c45600056695ad93;
+</chapter>
+<chapter xml:id='section_6113a9137744f426975718324677774a'>
+<title>Regression</title>
+&aa9cc538277d354f55a362478d2084f3d;
+&a2c77e1cf511b3fb85f83cdbf3e8df2bd;
+&a1a77bb4984c7ea4cb70ca1360c690af3;
+&aab804513a4da5808b55e2955dc133c86;
+&a9a64c001ef384ac5d9e5d6b8e3d0e783;
+</chapter>
+<chapter xml:id='section_dbdfbd5fe6933cb862f6884408659fc7'>
+<title>Resampling Techniques</title>
+&a2f26151423c8060960a57ccdc7f35612;
+&a84bd93fa60a8d52caf5c32227a402704;
+&a6cd3a0deaf9d0b68ff1f6dfd0a69cbb4;
+&a24245c7ff4e8c81abd645ee58256d319;
+&a6786f8c05375b2a29f23038ad774c397;
+&a4712a77b8ed7012def1ed84acde18b89;
+&a7419861b76454b13a9701097fa89bb28;
+</chapter>
+<chapter xml:id='section_792996f704e3069f10a4545f9a6739ad'>
+<title>Tests</title>
+&a0adbe623415a8d2ffa2c37f975d3c3fb;
+&a1bf53f0d2453cf2aded537a58e626485;
+&a7d147646d2e87cd2f06da38e32b1e997;
+&a4392f997c933f0c53cb9cd16ee4f16e7;
+&a9ebc0f443b462be9835576ed8fb6317e;
+&aaf5a19dfb48ad507ee67f1e0e12e53ee;
+&a44ea3cd0a1283a4ce7a1c6460581f80b;
+</chapter>
+</part>
+</book>
