@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -115,8 +116,7 @@ public class GlobalView extends JPanel {
 				try {
 //					System.out.println(" playyyyy");
 					cl.parseCommand("play;");
-				} catch (NumberFormatException | NullCoordinateException
-						| CommandLineFormatException | FileNotFoundException e) {
+				} catch (CommandLineFormatException | FileNotFoundException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 					System.exit(-1);
 				
@@ -131,8 +131,7 @@ public class GlobalView extends JPanel {
 				try {
 //					System.out.println(" playyyyy");
 					cl.parseCommand("reset;");
-				} catch (NumberFormatException | NullCoordinateException
-						| CommandLineFormatException | FileNotFoundException e) {
+				} catch (CommandLineFormatException | FileNotFoundException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 					System.exit(-1);
 				}
@@ -146,8 +145,7 @@ public class GlobalView extends JPanel {
 				try {
 //					System.out.println(" stepppppppp");
 					cl.parseCommand("step;");
-				} catch (NumberFormatException | NullCoordinateException
-						| CommandLineFormatException | FileNotFoundException e) {
+				} catch (CommandLineFormatException | FileNotFoundException | ClassNotFoundException | NoSuchMethodException | SecurityException | IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 					e.printStackTrace();
 					System.exit(-1);
 				}

@@ -19,16 +19,15 @@ public class VectorFileReaderMap extends MatrixCSVFileReader {
 
 	protected String sep;
 	protected BufferedReader br;
+	
+	/**Boolean : True if we wrap the signal over time**/
+	protected static final int WRAP = 2;
 
 	public VectorFileReaderMap(String name, Var<BigDecimal> dt,
 			Space<Integer> space, Parameter... params) throws FileNotFoundException {
 		super(name, dt, space, params);
-
-		String fileName = ((Var<String>) getParam(FILE_NAME)).get();
-		sep = ((Var<String>) getParam(SEP)).get();
-
-		FileReader fr = new FileReader(fileName);
-		br = new BufferedReader(fr);
+		this.initStream();
+		
 	}
 
 	@Override
@@ -36,8 +35,15 @@ public class VectorFileReaderMap extends MatrixCSVFileReader {
 		String line;
 		try {
 			line = br.readLine();
-			if(line == null){
-				throw new NoMoreDataException("The file " + getParam(FILE_NAME).getIndex(0) + " does not have any more data to read.");
+			if(line == null ){
+				if(((Boolean)getParam(WRAP).getIndex(0))){	
+					this.initStream();
+					line = br.readLine();
+				}else{
+					throw new NoMoreDataException("The file " + getParam(FILE_NAME).getIndex(0) + 
+							" does not have any more data to read. Time = " + this.getTime());
+				}
+					
 			}
 			String[] valuesS = line.split(sep);
 			for(int i = 0 ; i < valuesS.length ; i++){
@@ -48,6 +54,14 @@ public class VectorFileReaderMap extends MatrixCSVFileReader {
 			e.printStackTrace();
 			System.exit(-1);
 		}
+	}
+	
+	protected void initStream() throws FileNotFoundException{
+		String fileName = ((Var<String>) getParam(FILE_NAME)).get();
+		sep = ((Var<String>) getParam(SEP)).get();
+
+		FileReader fr = new FileReader(fileName);
+		br = new BufferedReader(fr);
 	}
 
 

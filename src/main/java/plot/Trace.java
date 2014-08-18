@@ -217,6 +217,61 @@ public class Trace {
 		}
 		return sum/values.size();
 	}
+
+	/**
+	 * Mean on the last data
+	 * @param lengthError
+	 * @return
+	 */
+	public double getMean(int sizeFromEnd) {
+		return getSum(sizeFromEnd)/sizeFromEnd;
+	}
+
+	/**
+	 * 
+	 * @param sizeFromEnd
+	 * @return
+	 */
+	public double getSum(int sizeFromEnd) {
+		double sum = 0;
+		int size = values.size();
+		for(int i = 1 ; i <= sizeFromEnd ; i ++)
+    		sum += values.get(size - i);
+		return sum;
+	}
+	
+	/**
+	 * Return the variance of the trace
+	 * @return
+	 */
+	public double getVar(int sizeFromEnd) {
+		double sum = 0;
+		int size = values.size();
+		double mean = this.getMean(sizeFromEnd);
+		for(int i = 1 ; i <= sizeFromEnd ; i ++){
+			double d = values.get(size - i);
+			sum += (d - mean)*(d-mean);
+		}
+		return sum/sizeFromEnd;
+	}
+
+	/**
+	 * Get the range of values for the sizeFromEnd last values
+	 * @param iterationError
+	 * @return
+	 */
+	public double getRange(int sizeFromEnd) {
+		double min = Double.MAX_VALUE;
+		double max = Double.MIN_VALUE;
+		int size = values.size();
+		for(int i = 1 ; i <= sizeFromEnd ; i ++){
+			double d = values.get(size - i);
+			if(d > max) max = d;
+			if(d < min) min = d;
+		}
+		
+		return max - min;
+	}
 	
 	
 }

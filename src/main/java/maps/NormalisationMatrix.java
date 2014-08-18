@@ -4,6 +4,11 @@ import java.math.BigDecimal;
 
 import main.java.space.Space;
 
+/**
+ * Just multiplie MAP per INPUT_scale
+ * @author bchappet
+ *
+ */
 public class NormalisationMatrix extends MatrixDouble2D {
 
 	private static final int MAP =0;

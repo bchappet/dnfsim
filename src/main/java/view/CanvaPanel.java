@@ -44,18 +44,7 @@ public class CanvaPanel extends ViewPanel {
 	
 	
 
-	/**
-	 * Factorization function to make border of a panel
-	 * @param pv
-	 * @return
-	 */
-	private static JPanel constructBorderPane(ParameterView pv){
-		JPanel borderPanel = new JPanel();
-		borderPanel.setLayout(new BoxLayout(borderPanel, BoxLayout.PAGE_AXIS));
-		borderPanel.setBorder(BorderFactory.createTitledBorder(pv.getName()));
-		borderPanel.add((Component) pv);
-		return borderPanel;
-	}
+	
 
 	/**
 	 * Add a map in the display vue

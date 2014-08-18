@@ -4,19 +4,27 @@ import java.util.List;
 
 import main.java.console.CommandLineFormatException;
 import main.java.controler.ComputableControler;
+import main.java.controler.MapControler;
 import main.java.controler.ParameterControler;
+import main.java.maps.Map;
 import main.java.maps.Parameter;
+import main.java.reservoirComputing.ComputationOutOfMemoryError;
+import main.java.reservoirComputing.DeterminantErrror;
 import main.java.reservoirComputing.LearningWeightMatrix;
 import main.resources.utils.ArrayUtils;
 
-public class LearningWeightMatrixControler extends ComputableControler {
+public class LearningWeightMatrixControler extends MapControler {
 
-	public LearningWeightMatrixControler(Parameter param) {
+	public LearningWeightMatrixControler(Map param) {
 		super(param);
 	}
 	
-	public void learnWeights() throws CommandLineFormatException{
+	public void learnWeights() throws CommandLineFormatException, DeterminantErrror, ComputationOutOfMemoryError{
 		((LearningWeightMatrix)this.getParam()).computeOutputWeights();
+	}
+	
+	public void resetStates(){
+		((LearningWeightMatrix)this.getParam()).resetStates();
 	}
 
 	public double[] getArray1D(){

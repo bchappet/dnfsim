@@ -4,6 +4,8 @@ import java.util.EventObject;
 
 import main.java.console.CommandLineFormatException;
 import main.java.maps.Var;
+import main.java.reservoirComputing.ComputationOutOfMemoryError;
+import main.java.reservoirComputing.DeterminantErrror;
 import main.scripts.gui.LearningWeightMatrixControler;
 
 public class LearningWeightMatrixView extends View1D {
@@ -23,6 +25,8 @@ public class LearningWeightMatrixView extends View1D {
 			this.vc.learnWeights();
 		} catch (CommandLineFormatException e1) {
 			e1.printStackTrace();
+		} catch (DeterminantErrror | ComputationOutOfMemoryError e2) {
+			e2.printStackTrace();
 		}
 	}
 

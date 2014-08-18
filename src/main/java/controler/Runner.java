@@ -3,6 +3,7 @@ package main.java.controler;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.io.FileNotFoundException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.List;
 import java.util.Scanner;
@@ -136,12 +137,16 @@ public class Runner extends JFrame implements Runnable {
 	 * Command interpreter
 	 * @param command
 	 * @return
-	 * @throws NumberFormatException
-	 * @throws NullCoordinateException
 	 * @throws CommandLineFormatException
 	 * @throws FileNotFoundException 
+	 * @throws InvocationTargetException 
+	 * @throws IllegalArgumentException 
+	 * @throws IllegalAccessException 
+	 * @throws SecurityException 
+	 * @throws NoSuchMethodException 
+	 * @throws ClassNotFoundException 
 	 */
-	public String interpret(String command) throws NumberFormatException, NullCoordinateException, CommandLineFormatException, FileNotFoundException{
+	public String interpret(String command) throws CommandLineFormatException, FileNotFoundException, ClassNotFoundException, NoSuchMethodException, SecurityException, IllegalAccessException, IllegalArgumentException, InvocationTargetException{
 		return cl.parseCommand(command);
 	}
 
