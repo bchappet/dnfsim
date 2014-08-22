@@ -21,6 +21,11 @@ public class MatrixDouble2DWrapper extends MatrixDouble2D {
 		this(param.getName()+"_MatrixWrapper", param.getDt(), (Space)param.getSpace(), param);
 	}
 	
+	public MatrixDouble2DWrapper(String name, Trajectory param) {
+		this(name, param.getDt(), (Space)param.getSpace(), param);
+	}
+
+
 	@Override
 	public void compute() {
 		Map<Number,Integer> map = (Map<Number,Integer>) getParam(PARAMETER);

@@ -6,7 +6,6 @@ ESN2
 	DetailsPanel
 	CanvaPanel
 		input:MapCurve2DAdapter
-		input_normalised:MapCurve2DAdapter
 		reservoir:MapView1DAdapter
 		output:MapCurve2DAdapter
 		target_output:MapCurve2DAdapter

@@ -115,14 +115,14 @@ public class ViewFactory {
 	}
 
 	public ParameterView constructView(String name){
-//		System.err.println("construct view of " + name);
+		System.err.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
-//		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
+		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		
-		//System.out.println(pcTree);
+		System.err.println(pcTree);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
-//			System.out.println("parameter controler " + pc );
+			System.err.println("parameter controler " + pc );
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
 				//we assume that it is a panel

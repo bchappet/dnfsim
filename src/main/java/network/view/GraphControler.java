@@ -54,7 +54,7 @@ public class GraphControler extends ComputableControler {
 		
 			List<Double> list = new ArrayList<Double>(listN.size()); //TODO optimize
 			for (int i = 0; i < listN.size(); i++) {
-				list.add((double) listN.get(i).getTotalPacketReceived());
+				list.add((double) listN.get(i).getLoad());
 				
 			}
 			

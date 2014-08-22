@@ -26,9 +26,9 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 
 	@Override
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
-		Var<String> write = (Var<String>)((PFCommandLine)command).get(PFSCommandLine.WRITE_TRANSITION_MATRIX_FILE);
-		if("True".equals(write.get())){
-			System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
+		Var<String> write = (Var<String>)((PFCommandLine)command).get(PFCommandLine.WRITE_TRANSITION_MATRIX_FILE);
+		if("true".equals(write.get())){
+			System.out.println("ecriture du fichier ..." +  command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get()); // todo debug apparait deux fois
 			try {
 				int  size = (int) command.get(PFCommandLine.SIZE).get();
 				String path = (String) command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get();
@@ -40,8 +40,8 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 		}
 		super.initializeParameters();
 
-		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(PFSCommandLine.MAIN_DT);
-		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(PFSCommandLine.SIZE);
+		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(PFCommandLine.NETWORK_DT);
+		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(PFCommandLine.SIZE);
 
 
 		AccumulationUnitMap receivePacketUnitMap = new AccumulationUnitMap("ReceiveMap",getSpreadingGraph(), dt, size);

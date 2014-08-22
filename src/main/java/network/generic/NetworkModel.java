@@ -88,7 +88,7 @@ public /*abstract*/ class NetworkModel<N extends Node<P, E>,P extends Packet,E e
 //		System.out.println("file : " +pathMatrixTransitionFile);
 		File f = new File(pathMatrixTransitionFile);
 		if(NetworkCommandLine.NO_TRANSITION_FILE.equals(pathMatrixTransitionFile)||!f.exists()){
-			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice");
+			throw new CommandLineFormatException("Impossible de charger le fichier de transition de la matrice " + f);
 		}else{
 			try {
 				constructGraph(f);

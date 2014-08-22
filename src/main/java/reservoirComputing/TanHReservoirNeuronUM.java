@@ -14,10 +14,8 @@ import main.java.unitModel.UnitModel;
  */
 public class TanHReservoirNeuronUM extends UnitModel<Double> {
 	
-	public static final int LEAK = 0;
-	public static final int RESERVOIR = 1;
-	public static final int conv_WRR_R = 2;
-	public static final int conv_WIR_I = 3;
+	public static final int conv_WRR_R = 0;
+	public static final int conv_WIR_I = 1;
 	
 //	public static final int ALPHA = 4; //lateral influence over input 0.5 = neutral
 
@@ -29,8 +27,6 @@ public class TanHReservoirNeuronUM extends UnitModel<Double> {
 
 	@Override
 	protected Double compute(BigDecimal time, int index,List<Parameter> params) {
-		double leak = (double) params.get(LEAK).getIndex(index);
-		double x_1 = (double) params.get(RESERVOIR).getIndex(index);
 		double input = (double) params.get(conv_WIR_I).getIndex(index);
 		double lateral = (double) params.get(conv_WRR_R).getIndex(index);
 		//double alpha = (double) params.get(ALPHA).getIndex(index);
@@ -38,7 +34,7 @@ public class TanHReservoirNeuronUM extends UnitModel<Double> {
 	//	System.out.println("x-1: " + x_1 + " input: " + input + " lateral: " +  lateral);
 		
 		
-		return Math.tanh((1-leak)*x_1 +  leak*( input +  lateral));
+		return Math.tanh(  input +  lateral);
 	}
 
 }

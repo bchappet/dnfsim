@@ -33,6 +33,7 @@ import main.java.space.Space1D;
 import main.java.space.Space2D;
 import main.java.space.SpaceFactory;
 import main.java.statistics.Statistics;
+import main.java.unitModel.NARMAnthOrderUM;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.UnitModel;
 
@@ -98,7 +99,7 @@ public class ModelESN2 extends Model {
 	}
 	
 //	public static void main(String[] args) throws IOException{
-//		generateRRWeightMatrix(100,3,"../../weights/weights100_3_0.csv");
+//		generateRRWeightMatrix(100,0.8,"../../weights/weights100_0.8_0.csv");
 //	}
 	
 /**
@@ -108,15 +109,29 @@ public class ModelESN2 extends Model {
 	 * @throws IOException 
 	 * @throws FileNotFoundException 
 	 */
+	protected Trajectory inputMem;
 	protected Parameter getInput() throws CommandLineFormatException, FileNotFoundException, IOException{
 		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
-		Var<String> input_file = command.get(ESNCommandLine.INPUT_FILE);
-		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_INPUT);
-		MatrixDouble2D inputRes  = new VectorFileReaderMap(
-				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
-		MatrixDouble2D normalize = new NormalisationMatrix(inputRes,command.get(ESNCommandLine.INPUT_SCALE));
-		return normalize;
+//		Var<String> input_file = command.get(ESNCommandLine.INPUT_FILE);
+//		Var<String> currentSep = command.get(ESNCommandLine.SEP);
+//		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_INPUT);
+//		MatrixDouble2D inputRes  = new VectorFileReaderMap(
+//				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
+//		MatrixDouble2D normalize = new NormalisationMatrix(inputRes,command.get(ESNCommandLine.INPUT_SCALE));
+//		return normalize;
+		
+		Var<Integer> N = command.get(ESNCommandLine.ORDER_OUTPUT);
+		inputMem =new Trajectory<Double>(INPUT, dt_input, 
+				new RandTrajUnitModel(0d),new Var<>("center",0.25),new Var<>("radius",0.25) );
+		Double[] mem = new Double[N.get()];
+		for(int i = 0 ; i < N.get() ; i++){
+			mem[i] = Math.random()*0.5;
+		}
+		inputMem.addMemories(N.get(),mem);
+		
+		MatrixDouble2D inputRes = new MatrixDouble2DWrapper(inputMem);
+		return inputRes;
+		
 	}
 	/**
 	 * Separate the output generation for a better modularity
@@ -127,13 +142,20 @@ public class ModelESN2 extends Model {
 	 * @throws FileNotFoundException 
 	 */
 	protected Parameter getTargetOutput() throws CommandLineFormatException, FileNotFoundException, IOException{
-		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
-		Var<String> input_file = command.get(ESNCommandLine.TGT_OUTPUT_FILE);
-		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_TGT_OUTPUT);
-		Parameter ret  = new VectorFileReaderMap(
-				TARGET_OUTPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
-		return ret;
+		Var<BigDecimal> dt= command.get(ESNCommandLine.DT);
+//		Var<String> input_file = command.get(ESNCommandLine.TGT_OUTPUT_FILE);
+//		Var<String> currentSep = command.get(ESNCommandLine.SEP);
+//		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_TGT_OUTPUT);
+//		Parameter ret  = new VectorFileReaderMap(
+//				TARGET_OUTPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
+//		return ret;
+		Var<Integer> N = command.get(ESNCommandLine.ORDER_OUTPUT);
+		Trajectory target = new Trajectory<Double>(TARGET_OUTPUT+"_tmp", dt, new NARMAnthOrderUM(0d));
+		target.addParameters(inputMem,target,N);
+		target.addMemories(N.get());
+		
+		MatrixDouble2D targetRes = new MatrixDouble2DWrapper(TARGET_OUTPUT,target);
+		return targetRes;
 
 	}
 
@@ -158,7 +180,7 @@ public class ModelESN2 extends Model {
 //		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(
 //				new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,
 //						new RandomlyChoosenFromUniformUM(0d), new Var<Double>(-0.1d),new Var<Double>(0.1d))));
-		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.5d))));
+		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.1d))));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
 		weightsRO = new  LearningWeightMatrix(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
 		input = getInput();
@@ -170,7 +192,8 @@ public class ModelESN2 extends Model {
 		Map dot_WRR_R = new MultiplicationMatrix("dot_WRR_R", dt, spaceReservoir.transpose()); 
 		Map dot_WIR_I = new MultiplicationMatrix("dot_WIR_I",dt,spaceReservoir.transpose(), weightsIR, input);
 		reservoir = new UnitMap(RESERVOIR,dt,spaceReservoir,new TanHReservoirNeuronUM(0d));
-		reservoir.addParameters(command.get(ESNCommandLine.LEAK),reservoir,dot_WRR_R,dot_WIR_I,command.get(ESNCommandLine.ALPHA));
+//		reservoir.addParameters(command.get(ESNCommandLine.LEAK),reservoir,dot_WRR_R,dot_WIR_I,command.get(ESNCommandLine.ALPHA));
+		reservoir.addParameters(dot_WRR_R,dot_WIR_I);
 		
 		MatrixDouble2D matReservoir = new MatrixDouble2DWrapper((Map) reservoir);
 		MatrixDouble2D columnVectorMatReservoir = new TransposedMatrix(matReservoir);

@@ -118,6 +118,7 @@ public class SpreadingGraphFactory {
 				return res;
 
 			case PROBABILISTIC_FLOODING:
+				System.err.println("stimulis files : " + ((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_FILE).get());
 				sm = new StimulisMap(
 						(Var<String>)((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_FILE),
 						(Var<BigDecimal>)((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_DT),

@@ -72,6 +72,10 @@ public class UnitMap<T,C> extends Map<T,C> implements UnitParameter<T>
 		return this.units.get(0).getNbMemory();
 	}
 	
+	
+	public void addMemories(int nb){
+		this.addMemories(nb,null);
+	}
 	/**
 	 * Add memories using an historic (optional)
 	 * other wise we use the current value as historic
