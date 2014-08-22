@@ -1,8 +1,11 @@
 package main.java.maps;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
+
+import main.resources.utils.ArrayUtils;
 
 /**
 	* A Var is an object which has a name and can be modified from the controller
@@ -11,10 +14,19 @@ import java.util.Observable;
  */
 public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam<T>{
 
+	/**
+	 * Interval indexes
+	 */
+	public static final int START = 0;
+	public static final int END = 1;
+	public static final int STEP = 2;
+	
 	/**Current value **/
 	private T val; 
 	/**Name (optional) **/
 	private String name;
+	/**Interval optional min,max,step**/
+	private List<T> interval;
 	
 	private T initialValue;
 	
@@ -41,7 +53,20 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 		this.name = name;
 //		System.out.println("init val = " + val + " name " + name);
 	}
+	public Var(String name,T val,List<T> interval)
+	{
+		this.val = val;
+		this.initialValue = val;
+		this.name = name;
+		this.interval = interval;
+//		System.out.println("init val = " + val + " name " + name);
+	}
 	
+	
+
+	public List<T> getInterval(){
+		return interval;
+	}
 	/**
 	 * Return the value
 	 * @return
@@ -150,6 +175,11 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 		this.set(this.initialValue);
 		
 	}
+	
+	public void setInterval(List<T> interval) {
+		this.interval = interval;
+	}
+	
 	
 	
 

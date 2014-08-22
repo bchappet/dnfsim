@@ -1,5 +1,6 @@
 package main.java.controler;
 
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.logging.Logger;
@@ -26,6 +27,10 @@ public class VarControler extends ParameterControler implements SingleValueContr
 	public void set(Object d) {
 		((Var)getParam()).set(d);
 		
+	}
+	
+	public List<? extends Number> getInterval(){
+		return ((Var<? extends Number>)getParam()).getInterval();
 	}
 
 

@@ -105,6 +105,15 @@ public class ArrayUtils {
 		return array;
 	}
 	
+	public static <T> T[] asArrayObj(List<T> params) {
+		Object[] array = new Object[params.size()];
+		for(int i = 0 ; i < params.size() ; i++)
+		{
+			array[i] = params.get(i);
+		}
+		return (T[]) array;
+	}
+	
 	/**
 	 * Reverse a vector (no construction)
 	 * @param array

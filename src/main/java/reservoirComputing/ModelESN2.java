@@ -12,6 +12,7 @@ import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
+import main.java.maps.HorizontalConcatenationMatrix;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.MatrixCSVFileReader;
@@ -35,12 +36,14 @@ import main.java.space.SpaceFactory;
 import main.java.statistics.Statistics;
 import main.java.unitModel.NARMAnthOrderUM;
 import main.java.unitModel.RandTrajUnitModel;
+import main.java.unitModel.TanhUM;
 import main.java.unitModel.UnitModel;
 
 /**
  * Basic ESN main.java.model 
  * with tanh activation function
  * pseudoInverse linear regression
+ * See Jaeger's Adaptative nonlinear system identification with ESN
  * 
  * @author bchappet
  *
@@ -112,13 +115,9 @@ public class ModelESN2 extends Model {
 	protected Trajectory inputMem;
 	protected Parameter getInput() throws CommandLineFormatException, FileNotFoundException, IOException{
 		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
-//		Var<String> input_file = command.get(ESNCommandLine.INPUT_FILE);
-//		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-//		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_INPUT);
-//		MatrixDouble2D inputRes  = new VectorFileReaderMap(
-//				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
-//		MatrixDouble2D normalize = new NormalisationMatrix(inputRes,command.get(ESNCommandLine.INPUT_SCALE));
-//		return normalize;
+
+		
+		
 		
 		Var<Integer> N = command.get(ESNCommandLine.ORDER_OUTPUT);
 		inputMem =new Trajectory<Double>(INPUT, dt_input, 
@@ -143,12 +142,7 @@ public class ModelESN2 extends Model {
 	 */
 	protected Parameter getTargetOutput() throws CommandLineFormatException, FileNotFoundException, IOException{
 		Var<BigDecimal> dt= command.get(ESNCommandLine.DT);
-//		Var<String> input_file = command.get(ESNCommandLine.TGT_OUTPUT_FILE);
-//		Var<String> currentSep = command.get(ESNCommandLine.SEP);
-//		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_TGT_OUTPUT);
-//		Parameter ret  = new VectorFileReaderMap(
-//				TARGET_OUTPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
-//		return ret;
+
 		Var<Integer> N = command.get(ESNCommandLine.ORDER_OUTPUT);
 		Trajectory target = new Trajectory<Double>(TARGET_OUTPUT+"_tmp", dt, new NARMAnthOrderUM(0d));
 		target.addParameters(inputMem,target,N);
@@ -182,28 +176,30 @@ public class ModelESN2 extends Model {
 //						new RandomlyChoosenFromUniformUM(0d), new Var<Double>(-0.1d),new Var<Double>(0.1d))));
 		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.1d))));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
-		weightsRO = new  LearningWeightMatrix(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
+		weightsRO = new  LearningWeightMatrixWithInput(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
 		input = getInput();
 		
 		
-		
-		
+		//Construct noise map
+		Map mNoise = new UnitMap("Noise",dt,spaceReservoir,new RandTrajUnitModel(0.),
+				new Var(0),command.get(ESNCommandLine.NOISE_AMP));		
+
 		
 		Map dot_WRR_R = new MultiplicationMatrix("dot_WRR_R", dt, spaceReservoir.transpose()); 
 		Map dot_WIR_I = new MultiplicationMatrix("dot_WIR_I",dt,spaceReservoir.transpose(), weightsIR, input);
 		reservoir = new UnitMap(RESERVOIR,dt,spaceReservoir,new TanHReservoirNeuronUM(0d));
-//		reservoir.addParameters(command.get(ESNCommandLine.LEAK),reservoir,dot_WRR_R,dot_WIR_I,command.get(ESNCommandLine.ALPHA));
-		reservoir.addParameters(dot_WRR_R,dot_WIR_I);
+		reservoir.addParameters(dot_WRR_R,dot_WIR_I,mNoise);
 		
 		MatrixDouble2D matReservoir = new MatrixDouble2DWrapper((Map) reservoir);
 		MatrixDouble2D columnVectorMatReservoir = new TransposedMatrix(matReservoir);
 		dot_WRR_R.addParameters(weightsRR,columnVectorMatReservoir);
 		
 		targetOutput = getTargetOutput();
-		weightsRO.addParameters(matReservoir,targetOutput,command.get(ESNCommandLine.REGULARIZATION_FACTOR));
+		weightsRO.addParameters(command.get(ESNCommandLine.REGULARIZATION_FACTOR),matReservoir,targetOutput,input);
 
-		output = new MultiplicationMatrix(OUTPUT,dt,new NoDimSpace(),weightsRO,columnVectorMatReservoir);
-		//The output is a linear identity activation function
+		output = new UnitMap(OUTPUT,dt,new NoDimSpace(),new TanhUM(0d),
+				new MultiplicationMatrix(OUTPUT+"_lin",dt,new NoDimSpace(),weightsRO,new HorizontalConcatenationMatrix(input,columnVectorMatReservoir)));
+		//The output is a tanh activation function
 		
 		
 		

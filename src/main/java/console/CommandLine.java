@@ -211,6 +211,7 @@ public class CommandLine  {
 									Integer inte = Integer.parseInt(numbers[0]);
 									Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
 									var.set(inte);
+									var.setInterval(defSet.getValues());
 									this.definitionSet.put(key, defSet);
 								}catch(NumberFormatException e){
 									throw new CommandLineFormatException("There was an error trying to parse the var: " + key + " " + obj,e);
@@ -228,6 +229,7 @@ public class CommandLine  {
 								var.set(Double.parseDouble(numbers[0]));
 								Coord<Double> defSet = (Coord<Double>) this.definitionSet.get(key);
 								defSet.set(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+								var.setInterval(defSet.getValues());
 
 							}
 							else if(obj.matches("[-+]?[0-9]*\\.?[0-9]+([eE][-+]?[0-9]+)?") )// double
@@ -242,6 +244,7 @@ public class CommandLine  {
 								Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
 								var.set(bd);
 								this.definitionSet.put(key, defSet);
+								var.setInterval(defSet.getValues());
 							}
 							else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )//Big Decimal
 							{
@@ -613,8 +616,8 @@ public class CommandLine  {
 						try{
 							String[] numbers = obj.split(",");
 //							System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-							Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]));
 							Coord<Integer> defSet = new Coord<Integer>(Integer.parseInt(numbers[1]),Integer.parseInt(numbers[2]),Integer.parseInt(numbers[3]));
+							Var<Integer> var = new Var<Integer>(key,Integer.parseInt(numbers[0]),defSet.getValues());
 							map.put(key,var);
 							this.definitionSet.put(key, defSet);
 						}catch(NumberFormatException e){
@@ -632,8 +635,8 @@ public class CommandLine  {
 						String[] numbers = obj.split(",");
 //						System.out.println(" key : " + key + " value : " + obj );
 //						System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0].substring(2))  + " reste : " +  Arrays.toString(numbers));
-						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(numbers[0].substring(2)));
 						Coord<BigDecimal> defSet = new Coord<BigDecimal>(new BigDecimal(numbers[1]),new BigDecimal(numbers[2]),new BigDecimal(numbers[3]));
+						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(numbers[0].substring(2)),defSet.getValues());
 //						System.out.println(System.identityHashCode(var));
 						map.put(key,var);
 						this.definitionSet.put(key, defSet);
@@ -649,8 +652,8 @@ public class CommandLine  {
 					{
 						String[] numbers = obj.split(",");
 						//	System.out.println("map.add " + key + " val : " +Double.parseDouble(numbers[0])  + " reste : " +  Arrays.toString(numbers));
-						Var<Double> var = new Var<Double>(key,Double.parseDouble(numbers[0]));
 						Coord<Double> defSet = new Coord<Double>(Double.parseDouble(numbers[1]),Double.parseDouble(numbers[2]),Double.parseDouble(numbers[3]));
+						Var<Double> var = new Var<Double>(key,Double.parseDouble(numbers[0]),defSet.getValues());
 						map.put(key,var);
 						this.definitionSet.put(key, defSet);
 

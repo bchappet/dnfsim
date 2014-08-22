@@ -102,6 +102,9 @@ public class PlotCoord2D extends ParameterViewDB {
 		List<Double> val_y = curveY.getValues();
 		if(val_x.size() > 0){
 			
+			int origin = curveY.transformValue(0, dy);
+			origin = dy -origin;
+			
 			int val_nb = Math.min(val_x.size(),val_y.size());
 			double[] xy = new double[2*val_nb];
 			for (int i=0; i<val_nb; i++) {
@@ -126,6 +129,20 @@ public class PlotCoord2D extends ParameterViewDB {
 							xy[2*i],xy[2*i+1],1,1));
 				}
 			}
+			
+			//draw information min max Y
+			g.drawString(String.format("%.2f", curveY.getMax()), offsetX, 15);
+			g.drawString(String.format("%.2f", curveY.getMin()), offsetX, dy);
+			
+			g.drawString("0", offsetX, origin-5);
+			
+			//Offset to see all the number of time
+			int nbComputation = curveX.getNbComputation();
+			int xoffset = ((int) Math.log10(nbComputation)+1)*8;
+			g.drawString(String.format("%d", nbComputation), dx-xoffset, 15);
+			
+			//draw line for origin
+			g.drawLine(offsetX, origin, dx, origin);
 		}
 	}
 		
