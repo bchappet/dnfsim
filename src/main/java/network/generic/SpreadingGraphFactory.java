@@ -147,8 +147,8 @@ public class SpreadingGraphFactory {
 				Var<Integer> size = (Var<Integer>) pfscl.get(PFSCommandLine.SIZE);
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				Map focus = (Map) params[0];
-				Var weigth = ((Var)pfscl.get(PFSCommandLine.I_WEIGTH));
-
+				Var<? extends Number> weigth = pfscl.get(PFSCommandLine.I_WEIGTH);
+				System.out.println("weight : " + weigth + " val " + weigth.get());
 
 				/*public static final int FOCUS = 6;
 				public static final int NB_SPIKE = 5;

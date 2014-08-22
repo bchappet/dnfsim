@@ -7,35 +7,36 @@ import main.java.network.generic.packet.Packet;
 
 public class PFNode<P extends Packet> extends Node<P,DirectedEdge<P,PFNode<P>>> {
 
-	private Var<Double> weight;
+	private Var<? extends Number> weight;
 	
-	public PFNode( Var<Double>  weight) {
+	public PFNode( Var<? extends Number>  weight) {
         super(DirectedEdge.class);
         this.weight = weight;
     }
 
-    public PFNode( Var<Double> weight, PFNode... neightbors) {
+    public PFNode( Var<? extends Number> weight, PFNode... neightbors) {
         super(DirectedEdge.class,neightbors);
         this.weight = weight;
     }
-    public PFNode(int sizeMax, Var<Double> weight) {
+    public PFNode(int sizeMax, Var<? extends Number> weight) {
         super(DirectedEdge.class,sizeMax);
         this.weight = weight;
     }
 
 
-    public PFNode(int sizeMax, Var<Double> weight, PFNode... neightbors) {
+    public PFNode(int sizeMax, Var<? extends Number> weight, PFNode... neightbors) {
         super(DirectedEdge.class,sizeMax,neightbors);
         this.weight = weight;
     }
 	
 	@Override
     public void send() {
+
         if (isEnabled()) {
             P p = pollPacket();
             if (p != null) {
             	double proba = Math.random();
-                if ((proba > weight.get())) {
+                if ((proba > weight.get().doubleValue())) {
                     for (DirectedEdge<P,PFNode<P>> e : getEdges()) {
                         e.transfer(p);
                     }
