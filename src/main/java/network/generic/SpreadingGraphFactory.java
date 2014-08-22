@@ -145,6 +145,7 @@ public class SpreadingGraphFactory {
 				Var<BigDecimal> threshold = (Var<BigDecimal>) pfscl.get(PFSCommandLine.THRESHOLD);
 				Var<Integer> nbSpike = (Var<Integer>) pfscl.get(PFSCommandLine.NB_SPIKE);
 				Var<Integer> size = (Var<Integer>) pfscl.get(PFSCommandLine.SIZE);
+				Var<String> mode = pfscl.get(PFSCommandLine.MODE);
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				Map focus = (Map) params[0];
 				Var<? extends Number> weigth = pfscl.get(PFSCommandLine.I_WEIGTH);
@@ -156,7 +157,8 @@ public class SpreadingGraphFactory {
 				public static final int NB_COMPUTATION = 3;
 				public static final int MAIN_DT = 2;*/
 
-				res = new PFSSpreadingGraph(tempdt,sm, maindt,nbcomputation, threshold, nbSpike, focus,new Var("IPFSSpreadingGraph"));
+				res = new PFSSpreadingGraph(tempdt,sm, maindt,nbcomputation, threshold, nbSpike,
+						focus,new Var("IPFSSpreadingGraph"),mode);
 				for (int i = 0; i < matrice.length; i++) {
 					res.getNodes().add(new PFNode(weigth));
 				}
@@ -176,11 +178,12 @@ public class SpreadingGraphFactory {
 				threshold = (Var<BigDecimal>) pfscl.get(PFSCommandLine.THRESHOLD);
 				nbSpike = (Var<Integer>) pfscl.get(PFSCommandLine.NB_SPIKE);
 				size = (Var<Integer>) pfscl.get(PFSCommandLine.SIZE);
+				mode = pfscl.get(PFSCommandLine.MODE);
 				System.out.println("size : "+size.get());
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				focus = (Map) params[0];
 				weigth = pfscl.get(PFSCommandLine.E_WEIGTH);
-				res = new PFSSpreadingGraph(tempdt, sm,maindt,nbcomputation, threshold, nbSpike, focus,new Var("EPFSSpreadingGraph"));
+				res = new PFSSpreadingGraph(tempdt, sm,maindt,nbcomputation, threshold, nbSpike, focus,new Var("EPFSSpreadingGraph"),mode);
 				for (int i = 0; i < matrice.length; i++) {
 					res.getNodes().add(new PFNode(weigth));
 				}

@@ -3,6 +3,7 @@ package main.java.model;
 import java.lang.reflect.InvocationTargetException;
 
 import main.java.network.probalisticFlooding.PFModel;
+import main.java.network.probalisticFlooding.PFSModelTest1;
 import main.java.network.rsdnf.RSDNFNetworkModel;
 import main.java.pfspike.PFSModel;
 import main.java.reservoirComputing.ModelESN;
@@ -47,7 +48,8 @@ public enum Models{
 	DMADSom("DMADSom",ModelDMADSom.class,false),
 	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
 	PFModel("PFModel",PFModel.class,false),
-	PFSModel("PFSModel",PFSModel.class,false)
+	PFSModel("PFSModel",PFSModel.class,false),
+	PFSModelTest1("PFSModelTest1",PFSModelTest1.class,false)
 	;
 	
 	private final boolean assynch;
