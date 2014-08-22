@@ -15,7 +15,6 @@ import main.java.network.generic.NetworkException;
 import main.java.network.generic.NetworkModel;
 import main.java.network.generic.TypeGraph;
 import main.java.network.generic.packet.Packet;
-import main.java.pfspike.PFSCommandLine;
 
 public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Packet,PFNode<Packet>>>{
 
@@ -39,7 +38,7 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 			}
 		}
 		super.initializeParameters();
-
+		System.out.println(command.getScript());
 		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(PFCommandLine.NETWORK_DT);
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(PFCommandLine.SIZE);
 

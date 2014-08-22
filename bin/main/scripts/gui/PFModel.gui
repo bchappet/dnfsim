@@ -6,6 +6,7 @@ PFModel
 	DetailsPanel
 	CanvaPanel
 		ReceiveMap
+		PFSpreadingGraph
 	stats
 		Plot2D
 			Time

@@ -53,7 +53,7 @@ public class PFSCommandLine extends CNFTCommandLine{
 				MAIN_DT+ "=bd0.1;"+
 				NB_SPIKE+"=20;"+
 				THRESHOLD+"=bd1.0;"+
-				TRANSITION_MATRIX_FILE+"=PFTransitionMatrixFile"+DEFAULT_SIZE+";"+
+				TRANSITION_MATRIX_FILE+"=transitonMatrixFiles/PFTransitionMatrixFile"+DEFAULT_SIZE+";"+
 				WRITE_TRANSITION_MATRIX_FILE + "=False;"+
 				A_E+"=bd"+DEFAULT_A_E+";"+
 				A_I+"=bd"+DEFAULT_A_I+";"+

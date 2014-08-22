@@ -5,7 +5,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,7 +12,6 @@ import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.Var;
 import main.java.network.generic.packet.Packet;
-import main.java.network.generic.packet.Spike;
 import main.java.space.Space2D;
 
 import org.jdom2.DataConversionException;
@@ -41,6 +39,7 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 	
 	public static final StimulisMap NO_STIMULIS_MAP = new StimulisMap<>();
 	
+	private boolean keepCompute ;
 
 	public StimulisMap(Var<String> file,Var<BigDecimal> dt,Var<Integer> size) throws DataConversionException, NetworkException{
 		super("Stimulis Map",dt,new Space2D(size, size),file);
@@ -56,9 +55,11 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 			packetclass = Class.forName(racine.getAttribute("class").getValue());
 			packetConstructor = packetclass.getConstructors()[0];//todo pas beau, faire avec getDeclared pour recup celui avec Object ... en params
 			times = racine.getChildren("time").iterator();
-			if(keepCompute = times.hasNext()){
+			//System.out.println("times : "+times.next());
+			keepCompute = times.hasNext();
+			if(keepCompute){
 				nextTime = (Element) times.next();
-				nextTimeValue = new BigDecimal(nextTime.getAttribute("t").getFloatValue());
+				nextTimeValue = new BigDecimal(nextTime.getAttribute("t").getFloatValue());				
 			}
 			ajouts = new ArrayList<>();
 		}catch (ClassNotFoundException e) {
@@ -75,7 +76,7 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 		keepCompute = false;
 	}
 
-	private boolean keepCompute = true;
+
 
 
 
@@ -108,7 +109,11 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 					| InvocationTargetException e) {
 				e.printStackTrace();
 			}
+		}else{
+			ajouts.clear();
 		}
+		System.out.println("=============== > keepCompute : "+keepCompute);
+		System.out.println("=============== > ajouts : "+ajouts);
 	}
 
 	@Override
