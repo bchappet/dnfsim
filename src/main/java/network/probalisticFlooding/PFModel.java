@@ -31,7 +31,8 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 			try {
 				int  size = (int) command.get(PFCommandLine.SIZE).get();
 				String path = (String) command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get();
-				PFUtils.writePFAdjacentMatrix(path,size);
+				boolean isToric= (boolean) command.get(PFCommandLine.TORIC).get();
+				PFUtils.writePFAdjacentMatrix(path,size,isToric);
 			} catch (IOException e) {
 				e.printStackTrace();
 				System.exit(-1);

@@ -9,7 +9,7 @@ import org.junit.Test;
 public class PFUtilsTest {
 
 	@Test
-	public void test() throws CommandLineFormatException {
+	public void test() {
 		double[][] tab = {
 				{0,1,1,1,0,0,1,0,0},
 				{1,0,1,0,1,0,0,1,0},

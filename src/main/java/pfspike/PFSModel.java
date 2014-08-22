@@ -96,7 +96,7 @@ public class PFSModel extends ModelNSpike{
 			ConcentrationUnitMap concE = new ConcentrationUnitMap("ConcentrationMapE",pfssge, pfssge.getDt()/*dt*/, size);
 			UnitMap subMap = new UnitMap(CNFT, dt, space, new Sum(0.), e, i,concI, concE);
 			cnft = subMap;
-
+			this.addParameters(command.get(PFSCommandLine.NB_SPIKE));
 		} catch (NetworkException e1) {
 			e1.printStackTrace();
 		}

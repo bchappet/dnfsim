@@ -38,35 +38,23 @@ public class PFUtils {
 		return adj;
 	}
 
-	public static double[][] generateToricAdjacentMatrix(int size)
-			throws CommandLineFormatException {
+	public static double[][] generateToricAdjacentMatrix(int size){
 
 		double[][] adj = new double[size * size][size * size];
 		for (int j = 0; j < size; j++) {
 			for (int i = 0; i < size; i++) {
 
+				// on lie chaque noeud avec son voisin de droite
 				int a = i + j * size;
 				int s = i == (size - 1) ? size : 0;
-				int b = (i + 1 + j * size) - s;
-//				System.out.println("----i "+i+"---j "+j+"------");
-//				System.out.println("a : " + a);
-//				System.out.println("b : " + b);
-//				System.out.println("s : " + s);
-
-				// on lie chaque noeud avec son voisin de droite
+				int b = (i + 1 + j * size) - s;				
 				adj[a][b] = 1;
-//				System.out.println("++++++");
-				a = i + j * size;
-				s = j == (size - 1) ? size * size : 0;
-				b = (i + (j + 1) * size) - s;
-
-//				System.out.println("a : " + a);
-//				System.out.println("b : " + b);
-//				System.out.println("s : " + s);
 
 				// on lie chanque noeud avec son voisin du dessous
+				a = i + j * size;
+				s = j == (size - 1) ? size * size : 0;
+				b = (i + (j + 1) * size) - s;				
 				adj[a][b] = 1;
-
 			}
 		}
 
@@ -79,12 +67,12 @@ public class PFUtils {
 			}
 		}
 
-		System.out.println(Arrays.deepToString(adj));
+		//System.out.println(Arrays.deepToString(adj));
 
 		return adj;
 	}
 
-	public static void writePFAdjacentMatrix(String path, int size)
+	public static void writePFAdjacentMatrix(String path, int size, boolean isToric)
 			throws IOException, CommandLineFormatException {
 
 		// System.out.println(path.get());
@@ -93,7 +81,14 @@ public class PFUtils {
 		FileWriter fw = new FileWriter(path, false);
 		PrintWriter pw = new PrintWriter(fw);
 
-		double[][] adj = generateToricAdjacentMatrix(size);
+
+		double[][] adj = null;
+		if(isToric){
+			adj = generateToricAdjacentMatrix(size);
+		}else{
+			adj = generateAdjacentMatrix(size);
+		}
+
 		String str = ArrayUtils.toString(adj);
 		pw.print(str);
 		// System.out.println(str);
