@@ -93,7 +93,7 @@ public class PFUtils {
 		FileWriter fw = new FileWriter(path, false);
 		PrintWriter pw = new PrintWriter(fw);
 
-		double[][] adj = generateAdjacentMatrix(size);
+		double[][] adj = generateToricAdjacentMatrix(size);
 		String str = ArrayUtils.toString(adj);
 		pw.print(str);
 		// System.out.println(str);
