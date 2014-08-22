@@ -1,6 +1,8 @@
 package main.java.maps;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import main.java.space.NoDimSpace;
 import main.java.unitModel.UnitModel;
@@ -41,6 +43,26 @@ public class Trajectory<T> extends UnitMap<T,Integer> implements SingleValuePara
 	public Trajectory<T> clone(){
 		Trajectory<T> clone = (Trajectory<T>) super.clone();
 		return clone;
+	}
+	
+	/**
+	 * Add memories using an historic 
+	 * @param nb
+	 * @param historic from more recent to oldest
+	 */
+	public void addMemories(int nb, T[] historic) {
+		if(historic.length != nb)
+			throw new IllegalArgumentException("The historic size should be the same as nb");
+		Unit<T> unit = getUnit(0);
+		UnitModel<T> um = unit.getUnitModel();
+		List<UnitModel<T>> list = new ArrayList<UnitModel<T>>(historic.length);
+		for(int i = historic.length-1 ;i >=0 ; i--){
+			UnitModel<T> current = um.clone();
+			current.set(historic[i]);
+			list.add(current);
+		}
+		unit.addMemories(nb,list);
+		
 	}
 
 }

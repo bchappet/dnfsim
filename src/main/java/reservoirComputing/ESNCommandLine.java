@@ -36,6 +36,8 @@ public class ESNCommandLine extends CommandLine {
 
 	public static final String REGULARIZATION_FACTOR = "regularization";
 
+	public static final String ORDER_OUTPUT = "order_output";
+
 	
 	
 	
@@ -63,6 +65,7 @@ public class ESNCommandLine extends CommandLine {
 				+ TGT_OUTPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat;" + LEAK+"=0.1;"
 				+ INPUT_FILE+"=1.0,0.0,1.0,0.01;" + WRAP_INPUT+"=T;" + WRAP_TGT_OUTPUT+"=F;"
 				+ ALPHA+"=0.5;" +LENGTH_ERROR+"=50.0;" + REGULARIZATION_FACTOR+"=1.0E-8;"
+				+ORDER_OUTPUT+"=10;"
 				
 				;
 		

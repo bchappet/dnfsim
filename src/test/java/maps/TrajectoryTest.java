@@ -36,14 +36,14 @@ public class TrajectoryTest {
 	
 	@Test
 	public void testGetNbMemory(){
-		uut.addMemories(10, null);
+		uut.addMemories(10);
 		assertEquals("The number of memory should be 10",10,uut.getNbMemory());
 		assertEquals("Hence we can access the 10th memory :",new Double(-1), uut.getDelay(0, 10));
 	}
 	
 	@Test
 	public void testMemoryNull(){
-		uut.addMemories(10, null);
+		uut.addMemories(10);
 		assertEquals("the memory should be accessible: ",new Double(-1),uut.getDelay(0, 1));
 		assertEquals("the memory should be accessible: ",new Double(-1),uut.getDelay(0, 10));
 	}
@@ -66,7 +66,7 @@ public class TrajectoryTest {
 		for(int i = 0 ; i < 10 ; i ++){
 			var.set(new Double(i));
 			uut.compute();
-			uut.addMemories(1,null);
+			uut.addMemories(1);
 		}
 		
 		assertEquals("The last value after computation should be 9",new Double(9),uut.get());
@@ -86,7 +86,7 @@ public class TrajectoryTest {
 	
 	@Test(expected=ArrayIndexOutOfBoundsException.class)
 	public void testMemoryException(){
-		uut.addMemories(10, null);
+		uut.addMemories(10);
 		uut.getDelay(0, 11);
 	}
 
@@ -123,15 +123,25 @@ public class TrajectoryTest {
 		assertEquals("getIndex(0) should return the good value" , new Double(-1d),uut.getIndex(0));
 	}
 	
-	@Test(expected=IndexOutOfBoundsException.class)
+	@Test//(expected=IndexOutOfBoundsException.class)
 	public void testGetIndexExcpetion() {
-		assertEquals("getIndex(2) should rise an exception" , new Double(-1d),uut.getIndex(1));
+		assertEquals("getIndex(2) should not rise exception" , new Double(-1d),uut.getIndex(1));
 	}
 
 
 	@Test
 	public void testGetValues() {
 		assertEquals("the values should be the initValue",Arrays.asList(new Double[]{-1d}),uut.getValues());
+	}
+	
+	@Test
+	public void testAddMemoriesArray(){
+		uut.addMemories(10, new Double[]{0.,1.,2.,3.,4.,5.,6.,7.,8.,9.});
+		assertEquals("Get should initialy return the init value",new Double(-1d),uut.get());
+		assertEquals("Get delay(0,0) should initialy return the init value",new Double(-1d),uut.getDelay(0, 0));
+		assertEquals("the memory should be accessible: ",new Double(0),uut.getDelay(0, 1));
+		assertEquals("the memory should be accessible: ",new Double(4),uut.getDelay(0, 5));
+		assertEquals("the memory should be accessible: ",new Double(9),uut.getDelay(0, 10));
 	}
 	
 

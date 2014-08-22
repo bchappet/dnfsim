@@ -19,10 +19,12 @@ public class LearningWeightMatrix extends MatrixDouble2D {
 	
 	private static final int RESERVOIR = 0;
 	private static final int TARGET = 1;
-	private static final int REGULARIZATION_FACTOR = 2;
+	private static final int INPUT = 2;
+	private static final int REGULARIZATION_FACTOR = 3;
 	
 	protected StateSaver<Double> res_save;
 	protected StateSaver<Double> target_save;
+	protected StateSaver<Double> input_save;
 	
 
 
@@ -37,6 +39,7 @@ public class LearningWeightMatrix extends MatrixDouble2D {
 			res_save = new StateSaver<>(getParam(RESERVOIR));
 		if(target_save == null)
 			target_save = new StateSaver<>(getParam(TARGET));
+		if(in)
 		res_save.compute();
 		target_save.compute();
 	}
