@@ -14,20 +14,22 @@ import main.java.space.Space;
  * @author bchappet
  *
  */
-public class LearningWeightMatrix extends MatrixDouble2D {
+public class LearningWeightMatrixWithInput extends MatrixDouble2D {
 	
 	
 	private static final int REGULARIZATION_FACTOR = 0;
 	private static final int RESERVOIR = 1;
 	private static final int TARGET = 2;
+	private static final int INPUT = 3;
 	
 	
 	protected StateSaver<Double> res_save;
 	protected StateSaver<Double> target_save;
+	protected StateSaver<Double> input_save;
 	
 
 
-	public LearningWeightMatrix(String name, Var<BigDecimal> dt,
+	public LearningWeightMatrixWithInput(String name, Var<BigDecimal> dt,
 			Space space,Parameter...params) {
 		super(name,dt,space,params);
 	}
@@ -38,9 +40,11 @@ public class LearningWeightMatrix extends MatrixDouble2D {
 			res_save = new StateSaver<>(getParam(RESERVOIR));
 		if(target_save == null)
 			target_save = new StateSaver<>(getParam(TARGET));
-	
+		if(input_save == null)
+			input_save = new StateSaver<>(getParam(INPUT));
 		res_save.compute();
 		target_save.compute();
+		input_save.compute();
 	}
 	
 	/**
@@ -145,6 +149,7 @@ public class LearningWeightMatrix extends MatrixDouble2D {
 	public void resetStates(){
 		res_save.reset();
 		target_save.reset();
+		input_save.reset();
 	}
 
 	

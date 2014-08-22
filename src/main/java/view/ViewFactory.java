@@ -4,6 +4,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 
+import main.java.controler.LearningWeightMatrixControler;
 import main.java.controler.MapControler;
 import main.java.controler.ModelControler;
 import main.java.controler.ParameterControler;
@@ -12,7 +13,6 @@ import main.java.controler.SingleValueControler;
 import main.java.controler.StatisticsControler;
 import main.java.model.Model;
 import main.java.network.view.GraphControler;
-import main.scripts.gui.LearningWeightMatrixControler;
 
 /**
  * The view factory will construct the view thanks to a provided ParameterControler
@@ -98,9 +98,9 @@ public class ViewFactory {
 	}
 	
 	public ParameterView constructView(ParameterControler pc){
-		System.err.println("constructing : " + pc.getName() + " pc type : " + pc.getClass());
+//		System.err.println("constructing : " + pc.getName() + " pc type : " + pc.getClass());
 		String pvaName = viewConfiguration.getViewAdapter(pc.getName());
-		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
+//		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		if(pvaName == null){
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
@@ -115,14 +115,14 @@ public class ViewFactory {
 	}
 
 	public ParameterView constructView(String name){
-		System.err.println("construct view of " + name);
+//		System.err.println("construct view of " + name);
 		String pvaName = viewConfiguration.getViewAdapter(name);
-		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
+//		System.err.println("!!!!!!!!!!! pvA name = " + pvaName);
 		
-		System.err.println(pcTree);
+//		System.err.println(pcTree);
 		if(pvaName == null){
 			ParameterControler pc = this.getParameterControler(name); 
-			System.err.println("parameter controler " + pc );
+//			System.err.println("parameter controler " + pc );
 			pvaName = this.defaultParamViewAdapter(pc);
 			if(pvaName == null){
 				//we assume that it is a panel

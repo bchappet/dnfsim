@@ -112,8 +112,8 @@ public class StimulisMap<P extends Packet> extends Map {//implements /*HasChildr
 		}else{
 			ajouts.clear();
 		}
-		System.out.println("=============== > keepCompute : "+keepCompute);
-		System.out.println("=============== > ajouts : "+ajouts);
+//		System.out.println("=============== > keepCompute : "+keepCompute);
+//		System.out.println("=============== > ajouts : "+ajouts);
 	}
 
 	@Override

@@ -15,7 +15,7 @@ public class PFCommandLine extends NetworkCommandLine{
 	protected String defaultScript() {
 		return super.defaultScript() + 
 				/* PFCommandLine */
-				WEIGTH + "=0.0;" +  
+				WEIGTH + "=0.0,0.0,1.0,0.01;" +  
 				TRANSITION_MATRIX_FILE + "=transitionMatrixFiles/PFTransitionMatrixFile;"+
 				/*PACKET_INTIALISATION+ "=" + AB_SEND + ";"+*/
 				WRITE_TRANSITION_MATRIX_FILE + "="+"true;";

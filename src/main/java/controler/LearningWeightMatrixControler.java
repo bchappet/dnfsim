@@ -1,11 +1,8 @@
-package main.scripts.gui;
+package main.java.controler;
 
 import java.util.List;
 
 import main.java.console.CommandLineFormatException;
-import main.java.controler.ComputableControler;
-import main.java.controler.MapControler;
-import main.java.controler.ParameterControler;
 import main.java.maps.Map;
 import main.java.maps.Parameter;
 import main.java.reservoirComputing.ComputationOutOfMemoryError;

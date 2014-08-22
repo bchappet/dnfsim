@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import main.java.maps.Array2DDouble;
 import main.java.maps.Parameter;
 
 
@@ -325,6 +326,40 @@ public class ArrayUtils {
 		}
 		
 		return ret;
+	}
+	
+	/**
+	 * Concatenate A(na,ma) with B(nb,mb) (A,B)(na=nb,ma+mb)
+	 * @param a
+	 * @param b
+	 * @return
+	 * @throws IllegalArgumentException if the number of row is different
+	 */
+	public static double[][]horizontalConcatenation(double[][] a,double[][] b){
+	
+	
+		int xA = a[0].length;
+		int yA = a.length;
+		int xB = b[0].length;
+		int yB = b.length;
+		if(yA != yB){
+			throw new IllegalArgumentException("The matrices A and B should ave the same number or row. A("+yA+","+xA+") B("+yB+","+xB+")");
+		}
+		
+		double res[][] = new double[yA][xA+xB];
+		for(int i = 0 ; i < yA ; i++){
+			for(int j = 0 ; j < xA+xB ; j++){
+				double value;
+				if(j < xA){
+					value = a[i][j];
+				}else{
+					value = b[i][j-xA];
+				}
+				res[i][j] = value;
+			}
+		}
+		
+		return res;
 	}
 
 	

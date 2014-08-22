@@ -10,7 +10,6 @@ import main.java.reservoirComputing.LearningWeightMatrix;
 import main.java.space.Space;
 import main.java.statistics.Characteristics;
 import main.java.statistics.Statistics;
-import main.scripts.gui.LearningWeightMatrixControler;
 /**
  * Affect a ParameterControler to each parameter
  * @author benoit

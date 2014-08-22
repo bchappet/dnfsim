@@ -1,0 +1,9 @@
+leak=0.01;
+wait=20.0;
+exec=WeightsRO.resetStates;
+wait=120.0
+exec=WeightsRO.learnWeights;
+wait=340.0
+length_error=200.0;
+exec=stats.saveStats
+print=all;

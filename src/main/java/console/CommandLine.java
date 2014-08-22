@@ -641,7 +641,7 @@ public class CommandLine  {
 					}
 					else if(obj.matches("bd[-+]?[0-9]*\\.[0-9]+([eE][-+]?[0-9]+)?") )//Big Decimal
 					{
-						System.out.println("map.add " + key + " val : " +(obj) );
+//						System.out.println("map.add " + key + " val : " +(obj) );
 						Var<BigDecimal> var = new Var<BigDecimal>(key,new BigDecimal(obj.substring(2)));
 						map.put(key,var);
 					}

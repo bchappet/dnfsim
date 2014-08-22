@@ -27,7 +27,7 @@ public class View2DTest extends JFrame{
 		
 			borderPanel = uut.getBorderPane();
 			this.add(borderPanel);
-			this.setSize(300, 200);
+			this.setSize(600, 600);
 	}
 	
 	@Test
@@ -37,7 +37,7 @@ public class View2DTest extends JFrame{
 		
 		this.setVisible(true);
 		this.repaint();
-		Thread.sleep(1000);
+		Thread.sleep(500);
 	}
 
 	@Test
@@ -47,6 +47,22 @@ public class View2DTest extends JFrame{
 		this.repaint();
 		Thread.sleep(500);
 		uut.update(new double[][]{{-1,-2,-3},{-4,-5,-6}});
+		this.repaint();
+		Thread.sleep(500);
+	}
+	
+	@Test
+	public void testDoubleBigArrayArray() throws InterruptedException {
+		
+		this.setVisible(true);
+		uut.update(new double[][]{{-1,-2,-3,4,3,2,1},
+									{-4,-5,-6,-2,-3,4,3},
+									{-4,-5,-6,-2,-3,4,3},
+									{-4,-5,-6,-2,-3,4,3},
+									{-4,-5,-6,-2,-3,4,3},
+									{-4,-5,-6,-2,-3,4,3},
+									{-1,-2,-3,4,3,2,1}
+									});
 		this.repaint();
 		Thread.sleep(50000000);
 	}

@@ -9,9 +9,9 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import main.java.console.CommandLineFormatException;
+import main.java.controler.LearningWeightMatrixControler;
 import main.java.reservoirComputing.ComputationOutOfMemoryError;
 import main.java.reservoirComputing.DeterminantErrror;
-import main.scripts.gui.LearningWeightMatrixControler;
 
 /**
  * Display the weights according to the given argument in GUI
