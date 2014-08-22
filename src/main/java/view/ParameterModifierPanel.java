@@ -17,6 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.Timer;
 
 import main.java.controler.VarControler;
+import main.java.maps.Var;
 
 /**
  * Special modifier with button + - //TODO use min max step
@@ -40,7 +41,11 @@ public class  ParameterModifierPanel extends JPanel {
 		formater = new DecimalFormat("####.####");
 		this.var = var;
 		if(var.get() instanceof Number){
-			amount = computeAmount(var);
+			if(var.getInterval() == null){
+				amount = computeAmount(var);
+			}else{
+				amount = ((Number) var.getInterval().get(Var.STEP)).doubleValue();
+			}
 			initRunnerGUI();
 		}
 		

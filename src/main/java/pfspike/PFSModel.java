@@ -46,7 +46,7 @@ public class PFSModel extends ModelNSpike{
 			Var<BigDecimal> b_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_E);
 			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
 			System.out.println("size.get() : "+size.get());
-			if("True".equals(write.get())){
+			if("true".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
 				try {
 					PFUtils.writePFAdjacentMatrix(path,size.get());

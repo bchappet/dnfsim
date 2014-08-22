@@ -1,7 +1,7 @@
 package main.java.view;
 
+import main.java.controler.LearningWeightMatrixControler;
 import main.java.controler.ParameterControler;
-import main.scripts.gui.LearningWeightMatrixControler;
 
 public class LearningWeightMatrixViewAdapter extends ParamViewAdapter {
 

@@ -38,15 +38,15 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	 * @param name
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[][] values,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[][] values,Parameter... params){
 		this(name,dt,new Space2D(values[0].length,values.length),values,params);
 	}
 	
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Matrix mat,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Matrix mat,Parameter... params){
 		this(name,dt,new Space2D(mat.getRowDimension(),mat.getColumnDimension()),mat,params);
 	}
 
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[] values,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,double[] values,Parameter... params){
 		this(name,dt,new Space1D(values.length),new double[][]{values},params);
 	}
 
@@ -57,11 +57,11 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	 * @param main.java.space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double[][] values,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double[][] values,Parameter... params){
 		this(name,dt,space,new Matrix(values),params);
 	}
 	
-	public MatrixDouble2D(String name, Var<BigDecimal> dt,Space<Integer> space, Matrix mat,Parameter<Double>... params) {
+	public MatrixDouble2D(String name, Var<BigDecimal> dt,Space<Integer> space, Matrix mat,Parameter... params) {
 		super(name,dt,space,params);
 		this.jamat = mat;
 		this.initJamat = (Matrix) this.jamat.clone();
@@ -74,7 +74,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	 * @param main.java.space
 	 * @param values
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double cst,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,double cst,Parameter... params){
 		super(name,dt,space,params);
 		int dimY,dimX;
 		if(space instanceof ISpace2D){
@@ -98,7 +98,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	 * @param name
 	 * @param main.java.space
 	 */
-	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,Parameter<Double>... params){
+	public MatrixDouble2D(String name,Var<BigDecimal> dt,Space<Integer> space,Parameter... params){
 		this(name,dt,space,0.,params);
 	}
 
@@ -208,6 +208,16 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 	public void reset() {
 		this.jamat= (Matrix) this.initJamat.clone();
 		super.reset();
+	}
+
+	@Override
+	public void set2DArrayDouble(double[][] newArray) {
+		for (int i = 0; i < newArray.length; i++) {
+			for (int j = 0; j < newArray[0].length; j++) {
+				
+			}
+		}
+		
 	}
 
 	//	@Override

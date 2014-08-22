@@ -177,6 +177,10 @@ public class Curve2D extends ParameterViewDB{
 		return minMax.y;
 	}
 
+	public int getNbComputation() {
+		return nbComputation;
+	}
+
 	
 
 }

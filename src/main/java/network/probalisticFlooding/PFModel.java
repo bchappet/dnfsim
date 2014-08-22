@@ -27,7 +27,7 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 	protected void initializeParameters() throws CommandLineFormatException, NullCoordinateException{
 		Var<String> write = (Var<String>)((PFCommandLine)command).get(PFCommandLine.WRITE_TRANSITION_MATRIX_FILE);
 		if("true".equals(write.get())){
-			System.out.println("ecriture du fichier ..." +  command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get()); // todo debug apparait deux fois
+//			System.out.println("ecriture du fichier ..." +  command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get()); // todo debug apparait deux fois
 			try {
 				int  size = (int) command.get(PFCommandLine.SIZE).get();
 				String path = (String) command.get(PFCommandLine.TRANSITION_MATRIX_FILE).get();
@@ -38,7 +38,7 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 			}
 		}
 		super.initializeParameters();
-		System.out.println(command.getScript());
+		//System.out.println(command.getScript());
 		Var<BigDecimal> dt = (Var<BigDecimal>)((NetworkCommandLine)command).get(PFCommandLine.NETWORK_DT);
 		Var<Integer> size = (Var<Integer>)((NetworkCommandLine)command).get(PFCommandLine.SIZE);
 
@@ -48,6 +48,7 @@ public class PFModel extends NetworkModel<PFNode<Packet>,Packet,DirectedEdge<Pac
 
 		//		UnitMap<Integer,Integer> concentrationMap = new UnitMap<>("concentrationMap", dt, new Space2D(size,size), null, spreadingGraph);
 		addParameters(receivePacketUnitMap/*,concentrationMap*/);
+		addParameters(command.get(PFCommandLine.WEIGTH));
 	}
 
 	

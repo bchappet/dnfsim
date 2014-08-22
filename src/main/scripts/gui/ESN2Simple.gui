@@ -1,0 +1,22 @@
+colormap=AdaptiveAndEquilibratedColorMap
+grid=false
+---------------------------------------------
+ESN2Simple
+	ParameterTreePanel
+	DetailsPanel
+	CanvaPanel
+		input:MapCurve2DAdapter
+		reservoir:MapView1DAdapter
+		output:MapCurve2DAdapter
+		target_output:MapCurve2DAdapter
+		WeightsIR:MapBarPlot1DAdapter
+		WeightsRR
+		LearningWeightMatrixView2
+			WeightsRO:MapBarPlot1DAdapter
+	stats
+		Plot2D
+			Time
+			error_dist
+			target_output
+			output
+			CompTime

@@ -52,7 +52,7 @@ public class SpreadingGraphFactory {
 	 * @throws NetworkException 
 	 */
 	public SpreadingGraph constructGraph(File file, TypeGraph typeGraph, CommandLine commandLine,Parameter ... params) throws CommandLineFormatException, NetworkException {
-		System.out.println("fichier de transition : "+file);
+//		System.out.println("fichier de transition : "+file);
 		double[][] matrice = Utils.parseCSVFile(file);
 		return constructGraph(matrice, typeGraph, commandLine,params);
 	}
@@ -118,7 +118,7 @@ public class SpreadingGraphFactory {
 				return res;
 
 			case PROBABILISTIC_FLOODING:
-				System.err.println("stimulis files : " + ((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_FILE).get());
+//				System.err.println("stimulis files : " + ((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_FILE).get());
 				sm = new StimulisMap(
 						(Var<String>)((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_FILE),
 						(Var<BigDecimal>)((NetworkCommandLine)commandLine).get(NetworkCommandLine.STIMULIS_DT),
@@ -128,7 +128,7 @@ public class SpreadingGraphFactory {
 				res = new PFSpreadingGraph((Var<BigDecimal>) pfcl.get(PFCommandLine.NETWORK_DT),sm);
 				//                System.out.println("poids : "+((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get());
 				for (int i = 0; i < matrice.length; i++) {
-					res.getNodes().add(new PFNode(((Var<Double>)pfcl.get(PFCommandLine.WEIGTH)).get()));
+					res.getNodes().add(new PFNode(((Var<Double>)pfcl.get(PFCommandLine.WEIGTH))));
 				}
 				for (int l = 0; l < matrice.length; l++) {
 					for (int c = 0; c < matrice[l].length; c++) {
@@ -147,8 +147,8 @@ public class SpreadingGraphFactory {
 				Var<Integer> size = (Var<Integer>) pfscl.get(PFSCommandLine.SIZE);
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				Map focus = (Map) params[0];
-				BigDecimal weigth = ((Var<BigDecimal>)pfscl.get(PFSCommandLine.I_WEIGTH)).get();
-
+				Var<? extends Number> weigth = pfscl.get(PFSCommandLine.I_WEIGTH);
+				System.out.println("weight : " + weigth + " val " + weigth.get());
 
 				/*public static final int FOCUS = 6;
 				public static final int NB_SPIKE = 5;
@@ -158,7 +158,7 @@ public class SpreadingGraphFactory {
 
 				res = new PFSSpreadingGraph(tempdt,sm, maindt,nbcomputation, threshold, nbSpike, focus,new Var("IPFSSpreadingGraph"));
 				for (int i = 0; i < matrice.length; i++) {
-					res.getNodes().add(new PFNode(weigth.doubleValue()));
+					res.getNodes().add(new PFNode(weigth));
 				}
 				for (int l = 0; l < matrice.length; l++) {
 					for (int c = 0; c < matrice[l].length; c++) {
@@ -179,10 +179,10 @@ public class SpreadingGraphFactory {
 				System.out.println("size : "+size.get());
 				sm = StimulisMap.NO_STIMULIS_MAP;
 				focus = (Map) params[0];
-				weigth = ((Var<BigDecimal>)pfscl.get(PFSCommandLine.E_WEIGTH)).get();
+				weigth = pfscl.get(PFSCommandLine.E_WEIGTH);
 				res = new PFSSpreadingGraph(tempdt, sm,maindt,nbcomputation, threshold, nbSpike, focus,new Var("EPFSSpreadingGraph"));
 				for (int i = 0; i < matrice.length; i++) {
-					res.getNodes().add(new PFNode(weigth.doubleValue()));
+					res.getNodes().add(new PFNode(weigth));
 				}
 				for (int l = 0; l < matrice.length; l++) {
 					for (int c = 0; c < matrice[l].length; c++) {

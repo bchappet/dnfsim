@@ -3,10 +3,10 @@ package main.java.view;
 import java.util.EventObject;
 
 import main.java.console.CommandLineFormatException;
+import main.java.controler.LearningWeightMatrixControler;
 import main.java.maps.Var;
 import main.java.reservoirComputing.ComputationOutOfMemoryError;
 import main.java.reservoirComputing.DeterminantErrror;
-import main.scripts.gui.LearningWeightMatrixControler;
 
 public class LearningWeightMatrixView extends View1D {
 	

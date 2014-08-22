@@ -81,7 +81,7 @@ public class View2D extends ParameterViewDB{
 			for (int j = 0; j < buffer.length; j++) { //Y
 				int y = j * (dy/buffer.length);
 				y += offsetY;
-				g.drawLine(0, y, dx, y);
+				g.drawLine(0+offsetX, y, dx+offsetX, y);
 			}
 			
 		}

@@ -1,7 +1,7 @@
 package main.java.maps;
 
 /**
- * Provide a fsater access to the double data
+ * Provide a faster access to the double data
  * @author benoit
  * @version 09/06/2014
  *
@@ -13,6 +13,11 @@ public interface Array2DDouble extends Array2D<Double> {
 	 * @return
 	 */
 	public double[][] get2DArrayDouble();
+	
+	/**
+	 * set the  2D Array
+	 */
+	public void set2DArrayDouble(double[][] newArray);
 	
 	/**
 	 * Acces the element at discrete coordinate

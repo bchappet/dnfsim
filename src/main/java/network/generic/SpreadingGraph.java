@@ -148,7 +148,6 @@ public class SpreadingGraph<N extends Node, E extends DirectedEdge, P extends Pa
     	// on récupère ma map des stimulis
     	StimulisMap<P> sm = (StimulisMap<P>)getParameters().get(STIMULIS_MAP);
     	for(Ajout<P> l: sm.getValues()){
-    		System.err.println("add to fifo " + l.indice);
     		addToFIFO(l.indice,l.packet);
     	}
     	
