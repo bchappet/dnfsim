@@ -34,6 +34,7 @@ public class PFSModel extends ModelNSpike{
 	protected void initLateralWeights() throws NullCoordinateException, CommandLineFormatException 
 	{
 		try {
+			System.out.println(getCommandLine().getClass().getName());
 			Var<BigDecimal> dt = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.MAIN_DT);
 			Var<Integer> size = (Var<Integer>) getCommandLine().get(PFSCommandLine.SIZE);
 			String path = (String) command.get(PFSCommandLine.TRANSITION_MATRIX_FILE).get();
@@ -44,11 +45,10 @@ public class PFSModel extends ModelNSpike{
 			Var<BigDecimal> a_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.A_I);
 			Var<BigDecimal> b_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_E);
 			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
-
+			System.out.println("size.get() : "+size.get());
 			if("True".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
 				try {
-
 					PFUtils.writePFAdjacentMatrix(path,size.get());
 				} catch (IOException e) {
 					e.printStackTrace();

@@ -70,15 +70,16 @@ for packet_initialisation in args.packet_initialisation:
 				iteration = int(args.iterations)
 				path = "./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth
 				writeDir(path)
-				if not forcerewrite :
-					# on recupere la valeur de la computation la plus elevee pour ne pas tout refaire.
-					c = getLastComputation(path)
 				print("\n\n"+
 					"initialisation : "+packet_initialisation + 
 					" tailleGrille : "+ tailleGrille + 
 					" time : " + time + 
 					" weigth : " + weigth
 				)
+				if not forcerewrite :
+					# on recupere la valeur de la computation la plus elevee pour ne pas tout refaire.
+					c = getLastComputation(path)
+				
 				if forcerewrite  or c < iteration : 
 					if not forcerewrite :
 						firstIteration = c + 1
