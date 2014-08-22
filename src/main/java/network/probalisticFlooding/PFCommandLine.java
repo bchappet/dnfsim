@@ -4,6 +4,7 @@ import main.java.network.generic.NetworkCommandLine;
 
 public class PFCommandLine extends NetworkCommandLine{
 	public static final String WEIGTH = "weigth";
+	public static final String TORIC = "toric";
 	//public static final String PACKET_INTIALISATION = "packet_initialisation";
 
 	/*public static final String A_SEND = "a_send";
@@ -18,7 +19,8 @@ public class PFCommandLine extends NetworkCommandLine{
 				WEIGTH + "=0.0,0.0,1.0,0.01;" +  
 				TRANSITION_MATRIX_FILE + "=transitionMatrixFiles/PFTransitionMatrixFile;"+
 				/*PACKET_INTIALISATION+ "=" + AB_SEND + ";"+*/
-				WRITE_TRANSITION_MATRIX_FILE + "="+"true;";
+				WRITE_TRANSITION_MATRIX_FILE + "="+"true;"+
+				TORIC + "=T;";
 		/* NetworkCommandLine */
 		//                NETWORK_DT + "=bd0.1,0.01,1,0.01;";
 	}
