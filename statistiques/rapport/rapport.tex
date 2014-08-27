@@ -41,14 +41,42 @@
 
 \part{Introduction}
 
-Ce rapport s'inscrit dans une étude des champs neuronaux dynamiques. Jusqu'alors nous travaillons sur le modèle CNFT (INSERT REF HERE) . Rappelons tout d'abord en quoi consiste ce modèle. Nous avons un réseau de neurones. Chaque neurone est connecté avec l'ensemble des autres neurones. Chaque neurone dispose d'un seuil d'activation. Après avoir reçu une charge suffisamment importante en tension, le neurone s'active et envoie un signal aux neurones afférents. Cet envoie suit un routage bien particulier. L'idée est d'envoyer des tensions plus faibles aux neurones les plus éloignés en suivant une courbe type différence de deux gaussiennes. Le problème de ce modèle est qu'il requière une interconnexion de neurones globale. Chaque neurone est lié aux autres neurones. Cet état de fait implique qu'il sera difficile d'implémenter ce routage sur une carte FPGA par exemple. 
+Ce rapport s'inscrit dans une étude des champs neuronaux dynamiques. Dans ce papier il sera question d'étudier plusieurs routages, c'est à dire les manières de faire communiquer les neurones entre eux. On va ,la plupart du temps, étudier le routage d'un graphe ou d'une superposition de graphe de taille 9x9. En général un nœud du graphe fera office de neurone et une arrête entre deux nœuds, une synapse.
 
-Afin d'alléger le modèle dans son ensemble, on va s'intéresser à des type de routage qui ne nécessite pas autant de connexions neurales. Ce rapport a donc pour objectif d'exposer les différents outils mis à disposition afin de tester différents routages dans le cadre de ce modèle. On va voir comment générer des données relatifs à ce routage et comment les analyser. La mise en pratique sera faite avec le routage "Probabilistic flooding" (INSERT REF HERE)
+Jusqu'alors nous travaillons sur le modèle CNFT (ref) . Rappelons tout d'abord en quoi consiste ce modèle. Nous avons un réseau de neurones. Chaque neurone est connecté avec l'ensemble des autres neurones. Chaque neurone dispose d'un seuil d'activation. Après avoir reçu une charge suffisamment importante en tension, le neurone s'active et envoie un spike (une décharger en tension) aux neurones afférents. Cet envoie suit un routage bien particulier : l'idée est d'envoyer des tensions plus faibles aux neurones les plus éloignés en suivant une courbe type différence de deux gaussiennes. Le problème de ce modèle est qu'il requière une interconnexion de neurones globale. Chaque neurone est lié aux autres neurones. Du fait du nombre de connexions,il sera difficile d'implémenter ce routage sur une carte FPGA par exemple. Or c'est notre objectif ici. Un tel modèle pourrait permettre à un robot de faire de la reconnaissance de forme et du suivi de cible par exemple.
 
+Afin d'alléger le modèle CNFT dans son ensemble, on va s'intéresser à des type de routage qui ne nécessite pas autant de connexions neurales. Ce rapport a donc pour objectif d'exposer les différents outils mis à disposition afin de tester différents routages dans le cadre de ce modèle. On va voir comment générer des données relatifs à ces routages et comment les analyser. La mise en pratique sera faite avec le routage "Probabilistic flooding" (ref). Ce routage connecte les neurones seulement voisins de manière 4-connexe. Avant l'envoie d'un spike, le neurone emmeteur fait un test de Bernouilli avec un poids particulier (qu'on appellera weigth ou poids par la suite) commun à tous les neurones du modèle, si le test est raté, alors il envoie le spike sinon il le détruit.
+
+Ce rapport résume le travail que réalisé au cour des deux mois d'été ,juillet-août 2014, dans l'équipe Cortex sous la direction de Benoit Chapellet de Vangel et Bernard Girau. Il a été question de développer un framework de simulation pour différents routages puis un framework de test de ces routages. Le framework de simulation est écrit en Java et se greffe au logiciel DNFSim de Benoit Chapellet de Vangel. Il permet de créer visualiser et analyser un réseau. La conception du framework est telle qu'il est assez générique pour créer tout type de graphe. Dans un second temps, nous nous sommes concentré sur un framework de test pour ces réseaux. Ce dernier permet de générer un jeu de donnée produit par DNFSim,d'analyser la répartition des paquets sur ce réseau et de vérifier l'émergence de certaines propriétés du réseau. Afin de valider ce travail et par la même occasion émettre une piste de nouveau routage, on a prit pour exemple le routage "Probabilistic flooding" qu'on a par la suite intégrer au modèle CNFT.
+
+%-----------------------------------------------------------------------------------------------
+\part{Network}
+
+Dans cette partie, nous allons présenter le framework de simulation de réseaux ainsi que son application sur plusieurs exemples.
+
+\section{Objectif}
+
+Notre but est de pouvoir concevoir des réseaux de manières génériques et assez intuitive. Le programme se doit d'être évolutif. On s'oriente vers la creation d'un framework en java afin de le greffer sur le logiciel DNFSim déjà existant.
+
+\section{Genericité}
+
+Dans l'optique de représenter différents routage, le framework se doit d'être générique. On doit être capable de créer un graphe avec des nœuds et des arêtes avec un comportement particulier. Les informations circulant sur le réseau (paquet) sont eux aussi déclinables sous plusieurs formes. Très succinctement, un réseau est représenté par un \textbf{SpreadingGraph.java} . Ce réseau possède des nœuds \textbf{Node.java} ainsi que des arêtes qui lient ces nœuds. Sur ce réseau circulent des informations sous forme de paquet \textbf{Packet.java} . Toutes ces classes sont paramétrables et déclinables sous des classes filles. Voir la javadoc pour plus d'informations.
+
+
+\section{Le routage probabilistic flooding}
+
+Le routage probabilistic flooding se base sur la notion de probabilistic flooding à la spécificité près que les nœuds sont liés de manières 4 connexes i.e chaque nœud est lié à son voisin nord, sud, est et ouest. On associe à tout les noeuds un poids commun. Ce poids est utilisé à chaque computation du graphe. Lors d'une computation, le nœud choisit un paquet qu'il possède en file d'attente (FIFO). Il lance alors une expérience de Bernouilli paramétré par le poids donné. Si il réussit alors il détruit le paquet, si il rate il le laisse passer.
+On retrouve toutes les classes relatives à ce routage dans le package main.java.network.probabilisticFlooding
+
+\section{Le modèle probabilistic flooding spike}
+
+Afin de tester l'efficacité du routage probabilistic flooding sur le modèle CNFT, nous avons crée le modèle probabilistic flooding spike (PFS). Rappelons que le modèle CNFT représente une interconnexion de neurones qui envoient deux types de signaux : inhibiteur et excitateur. C'est la différence des deux qui définit quel voltage le neurone reçoit. La propagation de chaque type de signal ressemble à une courbe gaussienne. Distinguons maintenant les deux couches dans ce modèle. Les nœuds qui envoient des signaux excitateurs et les nœuds qui envoient des signaux inhibiteurs. Ces deux couches suivent donc un routage bien particulié. C'est ce routage que l'on va remplacer par le routage probabilistic flooding. Ces deux routages sont paramétrés suite aux tests qu'on a pu faire (en partie grâce au framework de test) afin de copier la répartition gaussienne des routages initiaux.
 
 %-----------------------------------------------------------------------------------------------
 
 \part{Stimulus}
+
+Après la création d'un réseau grâce au framework présenté précédemment, il est possible de paramétrer un certain nombre d'événement sur ce réseau. Ça consistera à envoyer des paquets sur le graphes pendant ses computations.
 
 \section{Objectif}
 
@@ -56,7 +84,7 @@ On peut exciter chacun des nœuds du graphe à différents moments. L'objectif e
 
 \section{Utilisation}
 
-Le framework pour la programmation d'envoi de stimulus se base sur le format xml. Tout les fichiers de programmation doivent se trouver sous le dossier statistiques/stimulis avec l'extension .stimulis (et non .xml). Cette extension est nécessaire aux fichiers de scripts notamment.
+Le framework pour la programmation d'envoi de stimulus se base sur le format xml. Tous les fichiers de programmation doivent se trouver sous le dossier statistiques/stimulis avec l'extension .stimulis (et non .xml). Cette extension est nécessaire aux fichiers de scripts notamment.
 
 Commençons par un exemple. Admettons que l'on veuille envoyer un paquet de type spike au nœud zéro du graphe à l'instant t=0 :
 \\
@@ -71,7 +99,7 @@ On retrouve ici trois balise :
 \[dtStimulis = k\ *\ dtGraphe\ \forall{k \epsilon{\mathbb{N}^*}}   \] 
 
 i.e on ne peut pas envoyer des stimulis entre deux computations.
-\item <add> : On envoie un paquet à l'indice indice. Notez que les indices sont en représentation 1D du graphe.
+\item <add> : On envoie un paquet à l'indice indice. Notez que les indices sont en représentation 1D row-major du graphe.
 \end{itemize}
 
 Un exemple d'envoi de paquets ipv4 sur un réseau :\\
@@ -141,7 +169,7 @@ Dans cette section, nous allons nous intéressé à la génération du jeu de do
 Pour ce faire, il faut utiliser le script generateData.py.
 Ce script s'occupe de lancer cette expérience :\\
 
-\textit{J'ai un graphe de routage type probabilistic flooding model, j'envoie des stimulis à un ou plusieurs moments de la propagation. Ce graphe a une taille et un poids (probabilité de détruire un spike sortant d'un nœud). Je laisse tourner la propagation pendant t secondes.Je récupère la matrice représentant le nombre total de spikes reçus par chaque nœuds jusqu'à l'instant t}\\
+\textit{Alice travaille sur le PFModel (probabilistic flooding model), elle envoie des stimulis sur le graphe associé à un ou plusieurs moments de la propagation. Le graphe a une taille et un poids (probabilité de détruire un spike sortant d'un nœud). Alice laisse tourner la propagation pendant t secondes.Elle récupère la matrice représentant le nombre total de spikes reçus par chaque nœuds jusqu'à l'instant t}\\
 
 On lance cette expérience plusieurs fois (itérations) et selon différents paramètres (taille, poids, programmation des stimulis).
 
@@ -176,7 +204,7 @@ pour plus d'informations
 
 Il est nécessaire de conserver la propriété d'additivité du réseau lors de l'utilisation de nouveaux routages. Pour cela, posons une définition théorique de l'additivité.
 
-\section{Théorie( à finir)}
+\section{Théorie}
 
 A partir de maintenant, on considère un graphe G(N,E) avec N l'ensemble de ses nœuds et E l'ensemble de ses arêtes. Chaque nœud possède une file d'attente FIFO. On peut lancer une propagation sur ce graphe.
 
@@ -298,50 +326,41 @@ On rappelle que l'objectif est de trouver un modèle de réseau neural simulant 
 
 \section{Utilisation du script}
 
-Je n'ai pas fais de mode bash sur le script InhibiteurExcitateur.sce (todo?), donc pour l'utiliser il faudra  modifier directement le fichier scilab. Pour cela on a plusieurs paramètres : 
+Le script InhibiteurExcitateur.sce permet d'observer la répartition voltaïque sur la diagonale d'un réseau de neurones. Comme expliquer précedement, on superpose deux couches de graphes suivant le routage probabilistic flooding puis on fait leur applique à chacun une transformation affine. Ce script va afficher la fonction 
 
-\begin{minted}[frame=single]{python}
-w_inhib = 0.5; 
-w_excit = 0.7;
-t_inhib = 3;
-t_excit = 5;
-taille = 19;
-aE = 1;
-aI = 1;
-bE = 0;
-bI = 0;
-initialisation_packet = 'a_send_20';
-maxiteration = 1000;
+\[a_{e} * E(w_{e},t_{e}) + b_{e} - (a_{i} * I(w_{i},t_{i}) + b_{i})\] 
+
+L'interface du script :
+
+\begin{minted}[frame=single]{sh} 
+scilab -nw -f InhibiteurExcitateur.sce -args 
+taille configuration repetition wi ti ai bi we te ae be
 \end{minted}
 
+avec respectivement comme arguments :
+
 \begin{itemize}
-	\item w\textunderscore inhib : le poids des nœuds du réseau inhibiteur (RI)
-	\item w\textunderscore excit : le poids des nœuds du réseau excitateur (RE)
-	\item t\textunderscore inhib : le temps de computation du RI
-	\item t\textunderscore excit : le temps de computation du RE
-	\item taille : la taille du réseau de neurone
-	\item aE : coefficient directeur de la transformation affine sur le RE
-	\item aI :  coefficient directeur de la transformation affine sur le RI
-	\item bE :	 base de la transformation affine sur le RE
-	\item bI :  base de la transformation affine sur le RI
-	\item initialisation\textunderscore packet :  configuration des stimulis 
-	\item maxiteration :  nombre de répétition de l'expérience
+  \item taille : la taille du réseau (la racine)
+  \item configuration : la configuration (asend, bsend ...)
+  \item repetition : le nombre d'expérience qu'on utilise pour calculer nos statistiques
+  \item wi : le poids pour le graphe d'inhibition
+  \item ti : le temps de computation pour le graphe d'inhibition
+  \item ai : le coefficient directeur de la fonction affine du graphe inhibiteur
+  \item bi : la constante de la fonction affine du graphe inhibiteur 
+  \item we : le poids pour le graphe d'excitation
+  \item te : le temps de computation pour le graphe d'excitation
+  \item ae : le coefficient directeur de la fonction affine du graphe d'excitation
+  \item be : la constante de la fonction affine du graphe d'excitation
 \end{itemize}
 
 \section{Résultats}
 
-On veut obtenir une courbe de \href{run:images/figure_1.png}{cette forme}. Pour ça on pose comme paramètres : 
+On veut obtenir une courbe de \href{run:images/figure_1.png}{cette forme}.On lance : 
 
-\begin{itemize}
-	\item w\textunderscore inhib = 0.5
-	\item w\textunderscore excit = 0.7
-	\item t\textunderscore inhib = 3
-	\item t\textunderscore excit = 5
-	\item aE = 0.1714286
-	\item aI = 0.0428571
-	\item bE = -0.5
-	\item bI = 0.0
-\end{itemize}
+\begin{minted}[frame=single]{sh} 
+scilab -nw -f InhibiteurExcitateur.sce -args 
+9 a_send 1000 0.5 3 0.0428571 0.0 0.7 5 0.001 -0.5
+\end{minted}
 
 Et on récupère une courbe de \href{run:images/InhibExit2.png}{cette forme}. La correspondance nous a semblé suffisante pour des tests en conditions réelles.
 
