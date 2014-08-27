@@ -1,7 +1,3 @@
-
-
-# pour tester Stat.sce
-
 #python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 --times 1 2 --packet_initialisation a_send b_send ab_send --iterations 100 --tailles_grilles 9 #--forcerewrite
 #scilab -nw -f Additivite.sce -args '9' '1 2' '0.0 0.1 0.2 0.3 0.4' '5 20 50 75 100' 'a_send b_send' ab_send 0
 
@@ -12,10 +8,6 @@
 # pour test MeanAndVariance
 #python generateData.py --weigths 0.0 0.1 0.2 --times 1 2 --packet_initialisation twoa --iterations 100 --tailles_grilles 9
 #scilab -nw -f MeanAndVariance.sce -args 9 '1 2' '0.0 0.1 0.2' 100 twoa temp
-
-
-
-# pour generer toutes les données
 
 #python generateData.py --weigths 0.65 0.655 0.66 0.665 0.67 0.675 0.68 0.685 0.69 0.695 0.7 0.705 0.71 0.715 0.72 0.725 0.73 0.735 0.74 0.745 0.75 0.755 0.8 --times 1 3 5 --iterations 1000 --tailles_grilles 9 --packet_initialisation a_send b_send ab_send
 #python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0 --times 1 3 5 --iterations 1000 --tailles_grilles 9 --packet_initialisation twoa twob twoab
@@ -35,4 +27,21 @@
 #scilab -nw -f InhibiteurExcitateur.sce
 #python generateData.py --weigths 0.7  --iterations 1000 --times 5 --taille 9 19 --packet_initialisation a_send_20
 
-scilab -nw -f MeanAndVariance.sce -args 9 '5' '0.7' 1000 a_send_20 temp/
+#scilab -nw -f MeanAndVariance.sce -args 9 '5' '0.7' 1000 a_send_20 temp/
+
+
+
+#python generateData.py --weigths 0.0 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 0.95 1.0  --iterations 100 --times 1 3 5 7 9 11 --taille 9 --packet_initialisation first_four first_four_20 a_send a_send_20
+
+#python generateData.py --weigths 0.0 0.05 0.1 0.15 0.2 0.25 0.3 0.35 0.4 0.45 0.5 0.55 0.6 0.65 0.7 0.75 0.8 0.85 0.9 0.95 1.0  --iterations 100 --times 1 3 5 7 9 11 --taille 9 --packet_initialisation first_four first_four_20 a_send a_send_20 --toric
+
+#sudo shutdown -r now
+
+#python generateData.py --weigths 0.0 --iterations 100 --times 11 --taille 9 --packet_initialisation first_four
+
+
+#python generateData.py --weigths 0.4 --iterations 1000 --times 3 --taille 9 --packet_initialisation b_send --forcerewrite
+
+#python generateData.py --weigths 0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0  --iterations 1000 --times 1 3 5 --taille 9 --packet_initialisation a_send b_send ab_send
+
+#scilab -nw -f Additivite.sce -args '9' '1 3 5' '0.0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0' '10 50 100 500 1000' 'a_send b_send' ab_send 0
