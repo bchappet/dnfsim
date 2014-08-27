@@ -1,10 +1,8 @@
 package main.java.reservoirComputing;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -12,31 +10,25 @@ import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.maps.HorizontalConcatenationMatrix;
 import main.java.maps.InfiniteDt;
 import main.java.maps.Map;
 import main.java.maps.MatrixCSVFileReader;
 import main.java.maps.MatrixDouble2D;
 import main.java.maps.MatrixDouble2DWrapper;
 import main.java.maps.MultiplicationMatrix;
-import main.java.maps.NormalisationMatrix;
 import main.java.maps.Parameter;
 import main.java.maps.Trajectory;
 import main.java.maps.TransposedMatrix;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
-import main.java.maps.VectorFileReaderMap;
 import main.java.model.Model;
 import main.java.plot.Trace;
-import main.java.space.NoDimSpace;
 import main.java.space.Space;
 import main.java.space.Space1D;
 import main.java.space.Space2D;
-import main.java.space.SpaceFactory;
 import main.java.statistics.Statistics;
 import main.java.unitModel.NARMAnthOrderUM;
 import main.java.unitModel.RandTrajUnitModel;
-import main.java.unitModel.TanhUM;
 import main.java.unitModel.UnitModel;
 
 /**
@@ -197,17 +189,11 @@ public class ModelESN2 extends Model {
 		targetOutput = getTargetOutput();
 		weightsRO.addParameters(command.get(ESNCommandLine.REGULARIZATION_FACTOR),matReservoir,targetOutput,input);
 
-		output = new UnitMap(OUTPUT,dt,new NoDimSpace(),new TanhUM(0d),
-				new MultiplicationMatrix(OUTPUT+"_lin",dt,new NoDimSpace(),weightsRO,new HorizontalConcatenationMatrix(input,columnVectorMatReservoir)));
+//		output = new UnitMap(OUTPUT,dt,new NoDimSpace(),new TanhUM(0d),
+//				new MultiplicationMatrix(OUTPUT+"_lin",dt,new NoDimSpace(),weightsRO,new HorizontalConcatenationMatrix(input,columnVectorMatReservoir)));
 		//The output is a tanh activation function
 		
-		
-		
-				
-				
-		
 		this.root = output;
-		addParameters(command.get(ESNCommandLine.LEAK),command.get(ESNCommandLine.INPUT_SCALE),command.get(ESNCommandLine.ALPHA));
 	}
 	
 	

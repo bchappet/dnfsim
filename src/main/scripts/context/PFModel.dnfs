@@ -3,3 +3,4 @@ transition_matrix_file=src/main/java/network/ressource/RSDNFNetworkTransitionMat
 stimulis_file=statistiques/stimulis/9_a_send_20_v4;
 weigth=0.68;
 time_speed_ratio=1.0;
+toric=T;
