@@ -15,6 +15,7 @@ import main.java.network.generic.ConcentrationUnitMap;
 import main.java.network.generic.NetworkException;
 import main.java.network.generic.SpreadingGraphFactory;
 import main.java.network.generic.TypeGraph;
+import main.java.network.probalisticFlooding.PFCommandLine;
 import main.java.network.probalisticFlooding.PFUtils;
 import main.java.space.Space2D;
 import main.java.unitModel.Sum;
@@ -45,11 +46,12 @@ public class PFSModel extends ModelNSpike{
 			Var<BigDecimal> a_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.A_I);
 			Var<BigDecimal> b_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_E);
 			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
+			boolean isToric= (boolean) command.get(PFSCommandLine.TORIC).get();
 			System.out.println("size.get() : "+size.get());
 			if("true".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
 				try {
-					PFUtils.writePFAdjacentMatrix(path,size.get());
+					PFUtils.writePFAdjacentMatrix(path,size.get(),isToric);
 				} catch (IOException e) {
 					e.printStackTrace();
 					System.exit(-1);

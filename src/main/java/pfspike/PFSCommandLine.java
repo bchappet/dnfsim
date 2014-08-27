@@ -20,6 +20,7 @@ public class PFSCommandLine extends CNFTCommandLine{
 	public static final String A_I = "a_i";
 	public static final String B_E = "b_e";
 	public static final String B_I = "b_i";
+	public static final String TORIC = "toric";
 	
 	private static final int DEFAULT_SIZE = 9;
 	private static final double DEFAULT_A_E = 1.2*(1./7.)/20.;
@@ -58,7 +59,8 @@ public class PFSCommandLine extends CNFTCommandLine{
 				A_E+"=bd"+DEFAULT_A_E+";"+
 				A_I+"=bd"+DEFAULT_A_I+";"+
 				B_E+"=bd"+DEFAULT_B_E+";"+
-				B_I+"=bd"+DEFAULT_B_I+";";
+				B_I+"=bd"+DEFAULT_B_I+";"+
+				TORIC + "=F;";
 				
 	}
 }
