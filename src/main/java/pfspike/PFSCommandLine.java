@@ -60,7 +60,7 @@ public class PFSCommandLine extends CNFTCommandLine{
 				A_E+"=bd"+DEFAULT_A_E+";"+
 				A_I+"=bd"+DEFAULT_A_I+";"+
 				B_E+"=bd"+DEFAULT_B_E+";"+
-				B_I+"=bd"+DEFAULT_B_I+";" +
+				B_I+"=bd"+DEFAULT_B_I+";"+				
 				TORIC + "=F;"		
 				+MODE+"=normal;"
 				

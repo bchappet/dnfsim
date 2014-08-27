@@ -46,7 +46,7 @@ public class PFSModel extends ModelNSpike{
 			Var<BigDecimal> a_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.A_I);
 			Var<BigDecimal> b_e = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_E);
 			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
-			boolean isToric= (boolean) command.get(PFCommandLine.TORIC).get();
+			boolean isToric= (boolean) command.get(PFSCommandLine.TORIC).get();
 			System.out.println("size.get() : "+size.get());
 			if("true".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
