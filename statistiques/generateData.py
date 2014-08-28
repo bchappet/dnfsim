@@ -32,6 +32,9 @@ parser.add_argument('--forcerewrite',
                    help='Force this script to generate a file even if this one exists (default : False)',
                    action='store_true')
 
+parser.add_argument('--toric',
+                   help='Use toric map',
+                   action='store_true')
 
 
 
@@ -51,24 +54,32 @@ def getLastComputation(path):
 	else :
 		return sorted(listNum)[len(listNum)-1]
 
-writeDir("./data")
+
 
 forcerewrite = bool(args.forcerewrite)
 
+storic = "F"
+
+if bool(args.toric) :
+	storic = "T"
+
+writeDir("./data/toric_"+storic)
+
+pathdata = "./data/toric_"+storic+"/"
 
 nbCores = str(multiprocessing.cpu_count())
 
 print(nbCores)
 	
 for packet_initialisation in args.packet_initialisation:
-	writeDir("./data/" + packet_initialisation)
+	writeDir(pathdata + packet_initialisation)
 	for tailleGrille in args.tailles_grilles: 
-		writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille)
+		writeDir(pathdata + packet_initialisation + "/size"+ tailleGrille)
 		for time in args.times:
-			writeDir("./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time)
+			writeDir(pathdata + packet_initialisation + "/size"+ tailleGrille + "/time" + time)
 			for weigth in args.weigths:
 				iteration = int(args.iterations)
-				path = "./data/" + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth
+				path = pathdata + packet_initialisation + "/size"+ tailleGrille + "/time" + time + "/weigth" + weigth
 				writeDir(path)
 				print("\n\n"+
 					"initialisation : "+packet_initialisation + 
@@ -88,7 +99,7 @@ for packet_initialisation in args.packet_initialisation:
 					iteration = iteration - firstIteration
 					if iteration > 0 or forcerewrite :
 						print("-> firstIteration : "+str(firstIteration)+" iteration a effectuer : "+str(iteration))
-						transitionFile = "../PFTransitionMatrixFile"+tailleGrille
+						transitionFile = "../transitionMatrixFiles/PFTransitionMatrixFile"+tailleGrille
 						writeTransitionMatrixFile = not(os.path.isfile(transitionFile))
 						os.system(
 							"java "+
@@ -106,6 +117,7 @@ for packet_initialisation in args.packet_initialisation:
 								"pathToSave="+path+"/;"+
 								"transition_matrix_file="+transitionFile+";"+
 								"write_transition_matrix_file="+str(writeTransitionMatrixFile)+";"+
+								"toric="+storic+";"+
 							"\" " +
 							"it="+ str(iteration) + " "+
 							"scenario=\""+
