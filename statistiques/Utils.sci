@@ -27,9 +27,13 @@ endfunction
 // recupère toutes les matrices de différentes itérations dans un tableau sous le dossier data 
 // (doit suivre l'arborescence des sous dossier générés par le fichier generateData.py)
 // @return matrices,une matrice de taille TxTxN où T=taille et N=maxiteration
-function[matrices]= dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt)
+function[matrices]= dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)
     matrices = zeros(taille,taille,maxiteration);
     //disp(size(M));
+    sisToric = "F";
+    if isToric ==1 then
+        sisToric = "T";
+    end
     for iteration = 0:maxiteration-1
         if weigth == 0.0 then
             sweigth = "0.0";
@@ -40,7 +44,7 @@ function[matrices]= dataToMatrices(initialisation_packet,taille,time,weigth,maxi
                 sweigth = string(weigth);
             end
         end
-        matrice = read_csv(here+"/data/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
+        matrice = read_csv(here+"/data/toric_"+sisToric+"/"+initialisation_packet+"/size"+string(taille)+"/time"+string(time)+"/weigth"+sweigth+"/ReceiveMap_"+string(iteration)+"_"+string(time-dt)+".csv");
         
         matrice =  strtod(matrice);
         //disp(size(matrice));
@@ -147,20 +151,20 @@ endfunction
 
 
 
-function[diagonal]=computeAverageDiagonal(initialisation_packet,taille,time,weigth,maxiteration,dt)
-    diagonal = meansDiags(matricesToDiagonales(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt)));
+function[diagonal]=computeAverageDiagonal(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)
+    diagonal = meansDiags(matricesToDiagonales(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)));
 endfunction
 
-function[SOMMES]=computeAverageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt)
-    SOMMES = meansMatrices(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt));
+function[SOMMES]=computeAverageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)
+    SOMMES = meansMatrices(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric));
 endfunction
 
-function[VARIANCES]=computeVarianceMatrix(moyennes,initialisation_packet,taille,time,weigth,maxiteration,dt)
-    VARIANCES = variancesMatrices(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt));
+function[VARIANCES]=computeVarianceMatrix(moyennes,initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)
+    VARIANCES = variancesMatrices(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric));
 endfunction
 
-function[VARIANCES]=computeVarianceDiagonal(moyennes,initialisation_packet,taille,time,weigth,maxiteration,dt)
-    VARIANCES = variancesDiags(matricesToDiagonales(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt)));
+function[VARIANCES]=computeVarianceDiagonal(moyennes,initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)
+    VARIANCES = variancesDiags(matricesToDiagonales(dataToMatrices(initialisation_packet,taille,time,weigth,maxiteration,dt,isToric)));
 endfunction
 
 function[SOMMES]=averageMatrixFiles(files,taille)
