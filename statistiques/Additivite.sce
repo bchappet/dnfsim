@@ -17,9 +17,9 @@ function[fitness] = allDiagonalFitBinaire(time,taille,weigths,maxiteration,dt,a,
 
         weigth = weigths(i);
         //disp(" weigth : "+string(weigth));
-        d_a = computeAverageDiagonal(a,taille,time,weigth,maxiteration,dt);
-        d_b = computeAverageDiagonal(b,taille,time,weigth,maxiteration,dt);
-        d_ab = computeAverageDiagonal(ab,taille,time,weigth,maxiteration,dt);
+        d_a = computeAverageDiagonal(a,taille,time,weigth,maxiteration,dt,0);
+        d_b = computeAverageDiagonal(b,taille,time,weigth,maxiteration,dt,0);
+        d_ab = computeAverageDiagonal(ab,taille,time,weigth,maxiteration,dt,0);
         fitness(i)= fitBinaire(d_a,d_b,d_ab,eps);
         i = i+1;
     end
@@ -35,11 +35,11 @@ function[fitness] = allFitBinaire(time,taille,weigths,maxiteration,dt,a,b,ab,eps
         //        disp('weigth : '+string(weigths(i)));
         weigth = weigths(i);
         //disp(" weigth : "+string(weigth));
-        M_a = computeAverageMatrix(a,taille,time,weigth,maxiteration,dt);
+        M_a = computeAverageMatrix(a,taille,time,weigth,maxiteration,dt,0);
         //        disp(M_a);
-        M_b = computeAverageMatrix(b,taille,time,weigth,maxiteration,dt);
+        M_b = computeAverageMatrix(b,taille,time,weigth,maxiteration,dt,0);
         //        disp(M_b);
-        M_ab = computeAverageMatrix(ab,taille,time,weigth,maxiteration,dt);
+        M_ab = computeAverageMatrix(ab,taille,time,weigth,maxiteration,dt,0);
         //        disp('M_ab :');
         //        disp(M_ab);             
         fitness(i)= fitBinaire(M_a,M_b,M_ab,eps);//fitBinaire(M_a,M_b,M_ab,eps); ça donne les memes results du coup, donc le prob devrait
@@ -112,10 +112,10 @@ function[fitness] = allFitNaire(time,taille,weigths,maxiteration,dt,sd,ssd,eps)
         sdsize = size(sd,'*');
         s = zeros(taille,taille,sdsize);
         for k=1:sdsize            
-            s(:,:,k)= computeAverageMatrix(sd(k),taille,time,weigth,maxiteration,dt);
+            s(:,:,k)= computeAverageMatrix(sd(k),taille,time,weigth,maxiteration,dt,0);
             //disp( s(:,:,k));
         end
-        ss = computeAverageMatrix(ssd,taille,time,weigth,maxiteration,dt);    
+        ss = computeAverageMatrix(ssd,taille,time,weigth,maxiteration,dt,0);    
         //        disp('s : ' );
         //        disp(s);
         //        disp('ss : '); 

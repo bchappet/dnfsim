@@ -2,14 +2,16 @@ clear
 xdel();xdel();
 exec('loader.sce');
 
-Ns=[20,40,60,80];
+Ns=[1,20,40,60,80];
 
 
+args = sciargs();
 
-taille = 9;
-weight = 0.7;
-time = 5;
-maxiteration = 1000;
+
+taille = strtod(args(6));//9;
+weight = strtod(args(7));//0.7;
+time = strtod(args(8));//5;
+maxiteration = strtod(args(9));//1000;
 dt = 0.1;
 confiance = 0.95
 x= linspace(1,taille,taille);
@@ -23,15 +25,15 @@ x= linspace(1,taille,taille);
 //disp(ciboot(diags(3,:),mean,1,0.95,1000));
 
 
-//cmap = rainbowcolormap(32);
-disp(cmap);
+cmap = rainbowcolormap(32);
+//disp(cmap);
 scmap = size(cmap,'r');
 rand('seed',0)
 
 for N=Ns
     initialisation_packet = 'a_send_'+string(N);
     disp(initialisation_packet,'running')
-    matrices = dataToMatrices(initialisation_packet,taille,time,weight,maxiteration,dt);    
+    matrices = dataToMatrices(initialisation_packet,taille,time,weight,maxiteration,dt,0);    
     diags = matricesToDiagonales(matrices); 
     index =  scmap * rand(1,1);    
     if index < 1 then
@@ -74,7 +76,7 @@ for i=1:size(Ns,'*')
     leg((i-1) * 3 + 1)= 'inf '+ initialisation_packet;
     leg((i-1) * 3 + 2) = initialisation_packet;
     leg((i-1) * 3 + 3) = 'sup '+initialisation_packet;
-    matrices = dataToMatrices(initialisation_packet,taille,time,weight,maxiteration,dt);    
+    matrices = dataToMatrices(initialisation_packet,taille,time,weight,maxiteration,dt,0);    
     diags = matricesToDiagonales(matrices);    
     //disp(diags,'diags');
     bootstarp = bootstrapDiagonales(diags,confiance,variance);

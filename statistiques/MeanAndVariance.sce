@@ -56,21 +56,21 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
                 xtitle(label+label2+' sender : '+sender+' taille : '+string(taille)+' time : '+string(time)+ ' weigth : '+string(weigth), 'x', label+label2+' des spikes reçus');
                 select stats
                 case MOYENNE then
-                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt,0);
                     plot2d(x,z);
                 case VARIANCE then
-                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
-                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt,0);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt,0);
                     plot2d(x,z);
                 case ECART_TYPE then
-                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
-                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt,0);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt,0);
                     z = sqrt(z);
                     plot2d(x,z);
                 case ECART_TYPE_AND_MOYENNE then                    
-                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt,0);
                     plot2d(x,z,style=[color('red')]);
-                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt,0);
                     z = sqrt(z);     
                     plot2d(x,z);
                     legend(label2,label);               
@@ -80,18 +80,18 @@ function[]=goGirl(sender,taille,times,weigths,maxiteration,dt,doSingleView,doDia
                 set(gcf(), "color_map", jetcolormap(64));
                 select stats
                 case MOYENNE then
-                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt,0);
                 case VARIANCE then
-                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
-                    z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt,0);
+                    z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt,0);
                 case ECART_TYPE then
-                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt);
-                    z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageMatrix(sender,taille,time,weigth,maxiteration,dt,0);
+                    z = computeVarianceMatrix(z,sender,taille,time,weigth,maxiteration,dt,0);
                     z = sqrt(z);
                 case ECART_TYPE_AND_MOYENNE then
-                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt);
+                    z = computeAverageDiagonal(sender,taille,time,weigth,maxiteration,dt,0);
                     plot3d1(x, y, z);
-                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt);
+                    z = computeVarianceDiagonal(z,sender,taille,time,weigth,maxiteration,dt,0);
                     z = sqrt(z);
                 end
                 plot3d1(x, y, z);

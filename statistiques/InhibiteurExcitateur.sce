@@ -24,8 +24,8 @@ dt = 0.1;
 //ci=ciboot(x,T,method,c);
 
 //computeAverageMatrix(initialisation_packet,taille,time,weigth,maxiteration,dt)
-inhib = computeAverageDiagonal(initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt);
-excit = computeAverageDiagonal(initialisation_packet,taille,t_excit,w_excit,maxiteration,dt);
+inhib = computeAverageDiagonal(initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt,0);
+excit = computeAverageDiagonal(initialisation_packet,taille,t_excit,w_excit,maxiteration,dt,0);
 
 x = linspace(1,taille,taille);
 
@@ -35,8 +35,8 @@ clf();
 plot2d(x, aI*inhib+bI,style=[color('blue')]);
 plot2d(x, aE* excit+bE,style=[color('red')]);
 emi = aE*excit+bE-(aI*inhib+bI);
-varE = computeVarianceDiagonal(excit,initialisation_packet,taille,t_excit,w_excit,maxiteration,dt);
-varI = computeVarianceDiagonal(inhib,initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt);
+varE = computeVarianceDiagonal(excit,initialisation_packet,taille,t_excit,w_excit,maxiteration,dt,0);
+varI = computeVarianceDiagonal(inhib,initialisation_packet,taille,t_inhib,w_inhib,maxiteration,dt,0);
 vemi = aE * aE * varE + (-aI) * (-aI) * varI;
 vemi = sqrt(vemi);
 plot2d(x, emi,style=[color('green')]);
