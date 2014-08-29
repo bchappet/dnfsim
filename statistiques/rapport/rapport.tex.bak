@@ -225,7 +225,7 @@ Un \textbf{stimulis} $\mathtt{S}_{p,n,t}$ est le placement du paquet $\mathtt{p}
 \begin{mydef}
 (Configuration)
 
-Une \textbf{configuration} $\mathtt{C}$ est un ensemble de stimulis. On parle d'initialisation $\mathtt{I}$ si c'est un ensemble d'activation.
+Une \textbf{configuration} $\mathtt{C}$ est un ensemble de stimulis. On parle d'initialisation $\mathtt{I}$ si c'est un ensemble d'activations.
 \end{mydef}
 
 \begin{mydef}
@@ -252,7 +252,7 @@ Note : On pourrait parler d'additivité pour une configuration qui n'utilise que
 
 \section{Utilisation du script}
 
-Afin de tester cette propriété d'additivité sur des résultats expérimentaux, nous avons crée un script en Scilab. Ce dernier lit un ensemble de donnée de plusieurs répétition d'expériences afin d'extraire une moyenne de ces données, puis il va calculer à quel point le routage est additif sur ces résultats moyens.
+Afin de tester cette propriété d'additivité sur des résultats expérimentaux, nous avons crée un script en Scilab. Ce dernier lit un ensemble de donnée de plusieurs répétitions d'expériences afin d'extraire une moyenne de ces données, puis il va calculer à quel point le routage est additif sur ces résultats moyens.
 
 
 Par exemple 
@@ -273,7 +273,7 @@ vérifie l'additivité twoa+twob=twoab sur les combinaisons possibles entre\\
 
 \section{Résultats}
 
-On veut tester l'additivité dans un milieu épuré. On prend une grille 9x9 de nœuds. On rajoute un spike en haut à gauche(a\textunderscore send) et en bas à droite(b\textunderscore send).On distingue les deux scénarios.On regarde la répartition des spikes au bout de 1,3 et 5s. On fait de même en rajoutant les spikes au deux endroits dès le début (ab\textunderscore send).
+On veut tester l'additivité dans un milieu épuré. On prend une grille 9x9 de nœuds. On rajoute un spike en haut à gauche(a\textunderscore send) et en bas à droite(b\textunderscore send).On distingue les deux scénarios. On regarde la répartition des spikes au bout de 1,3 et 5s. On fait de même en rajoutant les spikes au deux endroits dès le début (ab\textunderscore send).
 
 On lance la commande suivante : 
 
@@ -326,11 +326,11 @@ On voit un optima autour du poids 0.6 à 5s de computations. Il faudrait voir ap
 
 \part{Propagation des spikes}
 
-Pour qu'un nouveau model soit viable, en plus d'avoir un comportement additif, il doit avec une répartition voltaïque de type "différence de deux gaussienne". Dans cette partie on va voir comment vérifier cette propriété et si notre modèle "Probabilistic flooding" permet d'obtenir la répartition désirée.
+Pour qu'un nouveau modèle soit viable, en plus d'avoir un comportement additif, il doit avoir une répartition voltaïque de type "différence de deux gaussienne". Dans cette partie on va voir comment vérifier cette propriété et si notre modèle "Probabilistic flooding" permet d'obtenir la répartition désirée.
 
 \section{Utilisation du script}
 
-Le script MeanAndVariance.sce permet d'obtenir les statistiques moyennes variances et écart type sur un échantillon d'expérience et ce en utilisant différents paramètres. Un exemple de cette commande : 
+Le script MeanAndVariance.sce permet d'obtenir les statistiques moyennes variances et écart type sur un échantillon d'expériences et ce en utilisant différents paramètres. Un exemple de cette commande : 
 
 \begin{minted}[frame=single]{python} 
 scilab -nw -f MeanAndVariance.sce -args 
@@ -343,12 +343,12 @@ avec respectivement comme arguments :
   \item 9 : la taille du réseau (la racine)
   \item '1 3 5' : les temps de computations 
   \item '0.3 0.7' : les poids
-  \item 1000 :le nombre d'expérience qu'on utilise pour calculer nos statistiques
-  \item a\textunderscore send\textunderscore 20 : le scénario des expérience (a \textunderscore send \textunderscore 20.stimulis doit de trouver sous le dossier stimulis/)
-  \item temp/ : le dossier sous lequel les images vont être enregistrer
+  \item 1000 :le nombre d'expériences qu'on utilise pour calculer nos statistiques
+  \item a\textunderscore send\textunderscore 20 : le scénario des expériences (a \textunderscore send \textunderscore 20.stimulis doit de trouver sous le dossier stimulis/)
+  \item temp/ : le dossier sous lequel les images vont être enregistrées
 \end{itemize}
 
-Cette commande va générer sous le dossier temp un ensemble de graphique représentant les 3 statistiques sur l'ensemble du graphe et sur la diagonale.
+Cette commande va générer sous le dossier temp un ensemble de graphiques représentant les 3 statistiques sur l'ensemble du graphe et sur la diagonale.
 
 \section{Résultats}
 
@@ -374,7 +374,7 @@ Le problème c'est que l'écart type est élevé comme on peut le voir sur l'ima
 
 \section{Réflexions}
 
-Afin de voir si ce modèle est fiable et pas trop aléatoire on se penche sur le calcul d'un intervalle de confiance autour de la moyenne. Le seul problème c'est que la distribution ne suit pas une loi de probabilité connu,comme on peut le voir sur sur l'image ~\ref{fig:violin} de la page~\pageref{fig:violin}, du coup on pourrait s'orienter vers des méthodes bootstrap.
+Afin de voir si ce modèle est fiable et pas trop aléatoire on se penche sur le calcul d'un intervalle de confiance autour de la moyenne. Le seul problème c'est que la distribution ne suit pas une loi de probabilité connu, comme on peut le voir sur sur l'image ~\ref{fig:violin} de la page~\pageref{fig:violin}, du coup on pourrait s'orienter vers des méthodes bootstrap.
 
 \begin{figure}[htbp]
 \begin{center}
@@ -387,11 +387,11 @@ Afin de voir si ce modèle est fiable et pas trop aléatoire on se penche sur le
 %-----------------------------------------------------------------------------------------------
 \part{Probabilistic flooding et I/E}
 
-On rappelle que l'objectif est de trouver un modèle de réseau neural simulant le comportement de DNF tout en consommant moins de ressource. Pour cela on va utiliser le routage probabilitic flooding. Ce routage comme vu précédemment s'avère additif et suit une distribution exponentielle/gaussienne selon certains paramètre. On a donc le candidat idéal pour simuler le routage originel de DNF. On va donc mettre en place de couche de graphes utilisant le routage PF (probabilitic flooding). Une couche avec des signaux excitateurs et une autre avec des signaux inhibiteurs. On applique une transformation affine a ce deux couches puis on soustrait l'une et l'autre. On obtient à la fin la distribution du potentiel des neurones en fonction de leur éloignement aux stimulis. On veut que cette distribution ressemble à la différence de gaussienne du routage de DNF. Pour ça on doit trouver les paramètres des transformations affines ainsi que les poids et les temps de computations des deux graphes. C'est le script InhibiteurExcitateur.sce qui nous permet d'observer l'effet de tel ou tel paramètre sur le comportement voltaïque du réseau de neurones.
+On rappelle que l'objectif est de trouver un modèle de réseau neuronal simulant le comportement de DNF tout en consommant moins de ressources. Pour cela on va utiliser le routage probabilitic flooding. Ce routage comme vu précédemment s'avère additif et suit une distribution exponentielle/gaussienne selon certains paramètres. On a donc le candidat idéal pour simuler le routage originel de DNF. On va donc mettre en place deux couches de graphes utilisant le routage PF (probabilitic flooding). Une couche avec des signaux excitateurs et une autre avec des signaux inhibiteurs. On applique une transformation affine à ces deux couches puis on soustrait l'une et l'autre. On obtient à la fin la distribution du potentiel des neurones en fonction de leur éloignement aux stimulis. On veut que cette distribution ressemble à la différence de gaussienne du routage de DNF. Pour ça on doit trouver les paramètres des transformations affines ainsi que les poids et les temps de computations des deux graphes. C'est le script InhibiteurExcitateur.sce qui nous permet d'observer l'effet de tel ou tel paramètre sur le comportement voltaïque du réseau de neurones.
 
 \section{Utilisation du script}
 
-Le script InhibiteurExcitateur.sce permet d'observer la répartition voltaïque sur la diagonale d'un réseau de neurones. Comme expliquer précedement, on superpose deux couches de graphes suivant le routage probabilistic flooding puis on fait leur applique à chacun une transformation affine. Ce script va afficher la fonction 
+Le script InhibiteurExcitateur.sce permet d'observer la répartition voltaïque sur la diagonale d'un réseau de neurones. Comme expliqué précédemment, on superpose deux couches de graphes suivant le routage probabilistic flooding puis on leur applique à chacun une transformation affine. Ce script va afficher la fonction 
 
 \[a_{e} * E(w_{e},t_{e}) + b_{e} - (a_{i} * I(w_{i},t_{i}) + b_{i})\] 
 
@@ -407,7 +407,7 @@ avec respectivement comme arguments :
 \begin{itemize}
   \item taille : la taille du réseau (la racine)
   \item configuration : la configuration (asend, bsend ...)
-  \item repetition : le nombre d'expérience qu'on utilise pour calculer nos statistiques
+  \item repetition : le nombre d'expériences qu'on utilise pour calculer nos statistiques
   \item wi : le poids pour le graphe d'inhibition
   \item ti : le temps de computation pour le graphe d'inhibition
   \item ai : le coefficient directeur de la fonction affine du graphe inhibiteur
@@ -457,7 +457,7 @@ Par contre sur l'image ~\ref{fig:wantedcurveexpvar} de la page~\pageref{fig:want
 
 \section{Application sur dnfsim}
 
-On va donc utiliser cette combinaison linéaire de Probabilistic flooding graphes afin de simuler DNF. Pour cela, on incorpore les différents graphes au logiciel dnfsim. On run un scénario avec deux bulles à des positions opposées qui tournent. Ça fonctionne très mal, la variance est très élevée, on a rarement le focus d'une bulle. De toutes façon on aurait du s'en douterne voyant l'image  ~\ref{fig:wantedcurveexpvar} de la page~\pageref{fig:wantedcurveexpvar}. Pour palier à ce problème de variance on s'oriente sur l'envoi de {\{20,40,60,80\} spikes par activation de neurone pour voir ce que ça donne. On part de l'idée qu'envoyer plusieurs spikes en même temps permettrait la diminution de variance, en effet c'est comme si on répétait l'expérience plusieurs fois. Afin de voir si notre hypothèse est plausible, on va faire quelques simulations dans cette configuration.
+On va donc utiliser cette combinaison linéaire de Probabilistic flooding graphes afin de simuler DNF. Pour cela, on incorpore les différents graphes au logiciel dnfsim. On run un scénario avec deux bulles à des positions opposées qui tournent. Ça fonctionne très mal, la variance est très élevée, on a rarement le focus d'une bulle. De toutes façons on aurait du s'en douter en voyant l'image  ~\ref{fig:wantedcurveexpvar} de la page~\pageref{fig:wantedcurveexpvar}. Pour palier à ce problème de variance, on s'oriente sur l'envoi de {\{20,40,60,80\} spikes par activation de neurone pour voir ce que ça donne. On part de l'idée qu'envoyer plusieurs spikes en même temps permettrait la diminution de variance, en effet c'est comme si on répétait l'expérience plusieurs fois. Afin de voir si notre hypothèse est plausible, on va faire quelques simulations dans cette configuration.
 
 \section{Variance pour \{20,40,60,80\}\textunderscore asend}
 
@@ -486,7 +486,7 @@ Ce script affiche la variance selon les configurations 1/20/40/60/80 ainsi que l
 
 
 
-Afin de voir si on a de meilleurs resultats en terme de variance que les images ~\ref{fig:varw7s3} de la page~\pageref{fig:varw7s3} et ~\ref{fig:varw7s7} de la page~\pageref{fig:varw7s7}
+Afin de voir si on a de meilleurs résultats en terme de variance que les images ~\ref{fig:varw7s3} de la page~\pageref{fig:varw7s3} et ~\ref{fig:varw7s7} de la page~\pageref{fig:varw7s7}
 
 \begin{figure}[htbp]
 \begin{center}
@@ -558,7 +558,7 @@ Voici les résultats :
 
 
 
-Comme on peut le constater, notre hypothèse se révèle être complètement fausse, on a beaucoup plus de variance en multipliant les spikes à l'origine. (problème de programmation ?) . A mon avis c'est normal. La variance est plus élévé car la moyenne est plus elevé. Il faudrait calculer la variance sur la même variable aléatoire (nombre de spike reçu sur la diagonale) mais divisée par le nombre de spikes envoyés. Par contre, ça n'expliquerait pas pourquoi les variances avec 20/40/60/80 spikes sont similaires.
+Comme on peut le constater, notre hypothèse se révèle être complètement fausse, on a beaucoup plus de variance en multipliant les spikes à l'origine. (problème de programmation ?) . A mon avis c'est normal. La variance est plus élevée car la moyenne est plus élevée. Il faudrait calculer la variance sur la même variable aléatoire (nombre de spikes reçus sur la diagonale) mais divisée par le nombre de spikes envoyés. Par contre, ça n'expliquerait pas pourquoi les variances avec 20/40/60/80 spikes sont similaires.
 
 On a quelques pistes pour diminuer la variance du routage : 
 
@@ -566,8 +566,8 @@ On a quelques pistes pour diminuer la variance du routage :
 	\item wrapper les maps 
 	\item connexion 8-connexe
 	\item superposer plusieurs maps E et plusieurs map I et faire la moyenne
-	\item rendre certains le transfert des spike aux quatres premiers voisins
-	\item rendre des connexions obsolètes avec une ou deux computations suite au transfert d'un spike
+	\item rendre certain le transfert des spike aux quatre premiers voisins
+	\item rendre des connexions obsolètes après une ou deux computations suite au transfert d'un spike
 
 \end{itemize}
  
@@ -577,7 +577,7 @@ On a quelques pistes pour diminuer la variance du routage :
 \begin{itemize}
 	\item expliquer les résultats pour avoir une meilleur compréhension des paramètres
 	\item g1 additif,g2 additif => a*g1+b*g2+c additif ?
-	\item tout les scripts scilab travaillent avec le dossier toric\textunderscore F, faire en sorte de choisir.
+	\item tous les scripts scilab travaillent avec le dossier toric\textunderscore F, faire en sorte de choisir entre toric et non toric.
 \end{itemize}
 
 \end{document}
