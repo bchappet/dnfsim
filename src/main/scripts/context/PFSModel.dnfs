@@ -1,3 +1,2 @@
 resolution=9;
 write_transition_matrix_file=true;
-transition_matrix_file=src/main/java/network/ressource/RSDNFNetworkTransitionMatrix.pf;

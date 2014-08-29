@@ -24,10 +24,10 @@ public class PFSCommandLine extends CNFTCommandLine{
 	public static final String MODE = "mode"; //mode excitation spike cf PFSpreadingGraph
 	
 	private static final int DEFAULT_SIZE = 9;
-	private static final double DEFAULT_A_E = 1.2*(1./7.)/20.;
-	private static final double DEFAULT_A_I = -0.3/20.;
-	private static final double DEFAULT_B_E = -0.5;//-5.0;
-	private static final double DEFAULT_B_I = 0.0;
+	private static final double DEFAULT_A_E = 4.5;
+	private static final double DEFAULT_B_E = -0.9;//-5.0;
+	private static final double DEFAULT_A_I = -1.; // faut mettre un - car on fait E-I (à refaire un peu mieux)
+	private static final double DEFAULT_B_I = -0.0;// faut mettre un - car on fait E-I (à refaire un peu mieux)
 	
 	
 	@Override
@@ -46,16 +46,16 @@ public class PFSCommandLine extends CNFTCommandLine{
 //				WRITE_TRANSITION_MATRIX_FILE + "=False;"+
 //				COEFF_E+"=bd4.0;"+
 //				COEFF_I+"=bd-1.0;";
-				I_WEIGTH+"=bd0.5;"+
+				I_WEIGTH+"=bd0.7;"+
 				E_WEIGTH+"=bd0.7;"+
-				I_NBCOMPUTATION+"=30;"+
-				E_NBCOMPUTATION+"=50;"+
+				I_NBCOMPUTATION+"=70;"+
+				E_NBCOMPUTATION+"=30;"+
 				SIZE+"="+DEFAULT_SIZE+";"+
 				//RESOLUTION+"=19;"+
 				MAIN_DT+ "=bd0.1;"+
 				NB_SPIKE+"=20;"+
 				THRESHOLD+"=bd1.0;"+
-				TRANSITION_MATRIX_FILE+"=transitonMatrixFiles/PFTransitionMatrixFile"+DEFAULT_SIZE+";"+
+				TRANSITION_MATRIX_FILE+"=transitionMatrixFiles/PFTransitionMatrixFile"+DEFAULT_SIZE+";"+
 				WRITE_TRANSITION_MATRIX_FILE + "=False;"+
 				A_E+"=bd"+DEFAULT_A_E+";"+
 				A_I+"=bd"+DEFAULT_A_I+";"+

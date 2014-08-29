@@ -41,7 +41,7 @@ public class PFSFiltreLineaire extends UnitModel<BigDecimal>  {
 			//UnitMap x = (UnitMap) params.get(X);
 			a =  ((Var<BigDecimal>) params.get(A)).get().doubleValue();
 			b =  ((Var<BigDecimal>) params.get(B)).get().doubleValue();
-			System.out.println(a+"*"+x+"+"+b+"="+(a*x+b));
+			//System.out.println(a+"*"+x+"+"+b+"="+(a*x+b));
 			axpb = a * x + b;
 		}
 		return new BigDecimal(axpb);

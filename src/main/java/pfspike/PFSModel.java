@@ -48,6 +48,7 @@ public class PFSModel extends ModelNSpike{
 			Var<BigDecimal> b_i = (Var<BigDecimal>)getCommandLine().get(PFSCommandLine.B_I);
 			boolean isToric= (boolean) command.get(PFSCommandLine.TORIC).get();
 			System.out.println("size.get() : "+size.get());
+			System.out.println("write : "+write);
 			if("true".equals(write.get())){
 				System.out.println("ecriture du fichier ..."); // todo debug apparait deux fois
 				try {
@@ -96,7 +97,7 @@ public class PFSModel extends ModelNSpike{
 
 			ConcentrationUnitMap concI = new ConcentrationUnitMap("ConcentrationMapI",pfssgi, pfssgi.getDt()/*dt*/, size);
 			ConcentrationUnitMap concE = new ConcentrationUnitMap("ConcentrationMapE",pfssge, pfssge.getDt()/*dt*/, size);
-			UnitMap subMap = new UnitMap(CNFT, dt, space, new Sum(0.), e, i,concI, concE);
+			UnitMap subMap = new UnitMap(CNFT, dt, space, new Sum(0.), e, i,/* on met conI et concE juste pour le debug*/concI, concE);
 			cnft = subMap;
 			this.addParameters(command.get(PFSCommandLine.NB_SPIKE));
 		} catch (NetworkException e1) {
