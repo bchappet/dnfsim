@@ -74,12 +74,23 @@ public class  ParameterModifierPanel extends JPanel {
 	
 
 	protected void addToValue() {
-		var.set((getValue(var)).doubleValue() + amount);
+
+        if(var.get() instanceof Integer) {
+            var.set((Integer)((getValue(var)).intValue() + (int)amount));
+
+        }else{
+            var.set((getValue(var)).doubleValue() + amount);
+        }
 		
 	}
 	
 	protected void subToValue() {
-		var.set((getValue(var)).doubleValue() - amount);
+        if(var.get() instanceof Integer) {
+            var.set((Integer)((getValue(var)).intValue() - (int)amount));
+
+        }else{
+            var.set((getValue(var)).doubleValue() - amount);
+        }
 		
 	}
 

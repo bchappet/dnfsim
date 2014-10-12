@@ -8,6 +8,7 @@ import main.java.maps.Parameter;
 import main.java.reservoirComputing.ComputationOutOfMemoryError;
 import main.java.reservoirComputing.DeterminantErrror;
 import main.java.reservoirComputing.LearningWeightMatrix;
+import main.java.reservoirComputing.RidgeRegressionLearningWeightMatrix;
 import main.resources.utils.ArrayUtils;
 
 public class LearningWeightMatrixControler extends MapControler {

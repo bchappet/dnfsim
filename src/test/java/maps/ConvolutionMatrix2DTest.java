@@ -53,12 +53,15 @@ public class ConvolutionMatrix2DTest {
 		MatrixDouble2D ker = new MatrixDouble2D("kernel", dt,  kernel);
 		
 		MatrixDouble2D conv = new ConvolutionMatrix2D("conv",dt,space,ker,val);
-		conv.compute();
+        long start = System.currentTimeMillis();
+        conv.compute();
+        long end = System.currentTimeMillis();
 		
 		Double[][] res =conv.get2DArray();
 
 		System.out.println("Wrapped");
 		System.out.println(conv.toString());
+        System.out.println("Time : " + (end-start) );
 		assertTrue(ArrayUtils.equals2D(test,res));
 	}
 	
@@ -79,12 +82,14 @@ public class ConvolutionMatrix2DTest {
 				 {9,4,6},
 			};
 		
-		Double[][] test =  //TODO
+		Double[][] test =
 			{
-				{254.0,261.0,247.0},
-				{212.0,219.0,205.0},
-				{179.0,186.0,172.0}
+				{ 67., 106d,  69d},
+				{143d, 219d, 135d},
+				{ 99d, 148d,  80d}
 			};
+
+
 		
 		space= new Space2D(3,3);
 		Var<BigDecimal> dt = new Var<BigDecimal>("dt",new BigDecimal("0.1"));
@@ -94,11 +99,14 @@ public class ConvolutionMatrix2DTest {
 		MatrixDouble2D ker = new MatrixDouble2D("kernel", dt,  kernel);
 		
 		MatrixDouble2D conv = new ConvolutionMatrix2D("conv",dt,space,ker,val);
-		conv.compute();
+        long start = System.currentTimeMillis();
+        conv.compute();
+        long end = System.currentTimeMillis();
 		
 		Double[][] res =conv.get2DArray();
 		System.out.println("NoWrapped");
 		System.out.println(conv.toString());
+        System.out.println("Time : " + (end-start) );
 		assertTrue(ArrayUtils.equals2D(test,res));//TODO
 	}
 

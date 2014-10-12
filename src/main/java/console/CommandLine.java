@@ -1,3 +1,23 @@
+/*
+ * This is a Dynamic Neural Field simulator which is extended to
+ *     several other neural networks and extended to hardware simulation.
+ *
+ *     Copyright (C) 2014  Benoît Chappet de Vangel
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package main.java.console;
 
 
@@ -15,7 +35,6 @@ import main.java.controler.CharacteristicsControler;
 import main.java.controler.ComputationControler;
 import main.java.controler.ModelControler;
 import main.java.controler.ParameterControler;
-import main.java.coordinates.NullCoordinateException;
 import main.java.maps.BadPathException;
 import main.java.maps.SingleValueParam;
 import main.java.maps.Var;
@@ -110,7 +129,7 @@ public class CommandLine  {
 	 * Return the given variable
 	 * @param key
 	 * @return
-	 * @throws CommandLineFormatExceptionAt if the key is not found
+	 * @throws main.java.console.CommandLineFormatException if the key is not found
 	 */
 	public Var get(String key) throws CommandLineFormatException
 	{
@@ -131,7 +150,7 @@ public class CommandLine  {
 
 	/**
 	 * Return the resulting string of the execution
-	 * @param initScript
+	 * @param command
 	 * @return
 	 * @throws CommandLineFormatException
 	 * @throws FileNotFoundException 
@@ -319,8 +338,8 @@ public class CommandLine  {
 	/**
 	 * TODO dirty
 	 * @param old
-	 * @param string
-	 * @param string2
+	 * @param operator
+	 * @param var
 	 * @return
 	 */
 	private double computeOperator(double old, String operator, double var) {
@@ -339,7 +358,7 @@ public class CommandLine  {
 
 	/**
 	 * Return null if nothing was executed (the initScript did not exist here)
-	 * @param initScript
+	 * @param command
 	 * @param value
 	 * @return
 	 * @throws CommandLineFormatException
@@ -375,14 +394,21 @@ public class CommandLine  {
 		{
 			ret =  execScript(value);
 		}
-		else if(command.equals("wait"))
+		else if(command.equals("waitTo"))
 		{
 			get(TIME_TO_REACH).set(new BigDecimal(value));
 			this.get(this.PLAY).set(true);
 			toRun.execute();
 			//System.out.println("time to reach "  +get(TIME_TO_REACH).get());
-			
-		}
+
+		}else if(command.equals("wait")){
+
+            BigDecimal currentTime =toRun.getCurrentTime();
+            get(TIME_TO_REACH).set(currentTime.add(new BigDecimal(value.toString())));
+            this.get(this.PLAY).set(true);
+            toRun.execute();
+			//System.out.println("time to reach "  +get(TIME_TO_REACH).get());
+        }
 //		else if(command.equals("waitNsave"))
 //		{
 //			BigDecimal time =  new BigDecimal(value) ; //second 
@@ -406,12 +432,15 @@ public class CommandLine  {
 				}
 			}
 		}else if(command.equals("exec")){ //format : exec=paramName.method of the controler(no params  allowed now)
-			//System.out.println("exec " + value);
+			System.out.println("exec " + value);
 			String[] split = value.split("\\.");
 			
 			ParameterControler pc = this.currentModelControler.getParameterControler(split[0]);
+			//System.err.println("Exec : " + pc.getName() + " classe " + pc.getClass());
 			Method method = pc.getClass().getMethod(split[1]);
 			method.invoke(pc);
+			
+			
 		}
 
 		//		else if(command.equals("trace")){//return a statistic trace
@@ -520,7 +549,7 @@ public class CommandLine  {
 
 	/**
 	 * Execute a initScript 
-	 * @param initScript
+	 * @param command
 	 * @return true if the initScript was correct
 	 * @throws FileNotFoundException 
 	 * @throws InvocationTargetException 

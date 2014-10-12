@@ -13,24 +13,26 @@ import main.java.maps.MultiplicationMatrix;
 import main.java.maps.TransposedMatrix;
 import main.java.maps.UnitMap;
 import main.java.maps.Var;
-import main.java.reservoirComputing.LearningWeightMatrix;
+import main.java.reservoirComputing.RidgeRegressionLearningWeightMatrix;
 import main.java.reservoirComputing.TanHReservoirNeuronUM;
-import main.java.space.Space;
 import main.java.space.Space1D;
 import main.java.space.Space2D;
 import main.java.unitModel.RandTrajUnitModel;
 import main.resources.utils.ArrayUtils;
 
+import main.resources.utils.JamaMatrix;
+import main.resources.utils.Matrix;
 import org.junit.Before;
 import org.junit.Test;
 
-import Jama.Matrix;
+
 
 public class ModelESN2Test {
-	
-	
 
-	@Before
+
+    private static  double delta = 1e-7;
+
+    @Before
 	public void setUp() throws Exception {
 	}
 
@@ -74,7 +76,7 @@ public class ModelESN2Test {
 	
 	@Test
 	public void testEye(){
-		Matrix eye = Matrix.identity(20, 20);
+		Matrix eye = JamaMatrix.identity(20, 20);
 		//eye.print(2, 10);
 		double reg = 1E-8;
 		eye.timesEquals(reg);
@@ -84,19 +86,19 @@ public class ModelESN2Test {
 	@Test
 	public void compareToPyhtonWeights(){
 		double reg = 2;
-		Matrix X = new Matrix(new double[][]{{1, 3, 3, 3},
+		Matrix X = new JamaMatrix(new double[][]{{1, 3, 3, 3},
 											{2, 4, 4, 7},
 											{3, 5, 3, 9}});
 //		System.out.println(X.getRowDimension() + "," +X.getColumnDimension());
 //		X.print(1,1);
-		Matrix Ytgt = new Matrix(new double[][]{{1, 2, 3, 4}});
+		Matrix Ytgt = new JamaMatrix(new double[][]{{1, 2, 3, 4}});
 		
 		
-		Matrix weight = LearningWeightMatrix.computeWeightMethod2(Ytgt, X, reg);
+		Matrix weight = RidgeRegressionLearningWeightMatrix.ridgeRegression(Ytgt, X, reg);
 //		weight.print(1, 8);
 		
 		assertTrue("Python find that:",
-				ArrayUtils.equals2D(new double[][]{{0.21551724137931094,0.4482758620689662,0.00862068965517171}},weight.getArray())); 
+				ArrayUtils.equals2D(new double[][]{{0.21551724137931094,0.4482758620689662,0.00862068965517171}},weight.getArray(),delta));
 
 	}
 

@@ -18,8 +18,7 @@ public abstract class ParamViewAdapter {
 	 * Construct a main.java.view adpter which can handle several kind of main.java.view
 	 * @paramControler paramControler
 	 * @paramControler paramView
-	 * @param ViewFactory vf optional
-	 */
+     */
 	public ParamViewAdapter(ParameterControler paramControler,ViewConfiguration vc,ViewFactory vf) {
 		if(paramControler == null){
 			throw new IllegalArgumentException("the ParameterControler whas null ");

@@ -1,0 +1,60 @@
+Laptop Windows
+private int size = 700;
+
+
+Process finished with exit code 0
+
+ArrayTimes : 0
+GetArray : 46
+Get : 0
+Set : 0
+Clone : 1
+Times : 167
+Plus : 1
+RowPackedCopy : 48
+Times Equals : 2
+Pinv : 2496
+Transpose : 0
+Times double : 1
+
+
+Tantalum
+size = 1000
+
+/usr/lib/jvm/java-7-openjdk-amd64/bin/java -ea -Djava.library.path=/users/cortex/bchappet/local/bin/opencv-2.4.9/release/lib -Didea.launcher.port=7537 -Didea.launcher.bin.path=/home/bchappet/bin/idea-IC-135.1230/bin -Dfile.encoding=UTF-8 -classpath /home/bchappet/bin/idea-IC-135.1230/lib/idea_rt.jar:/home/bchappet/bin/idea-IC-135.1230/plugins/junit/lib/junit-rt.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/bin1:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/javazic.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/compilefontconfig.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/management-agent.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/java-atk-wrapper.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/pulse-java.jar:/home/bchappet/bin/idea-IC-135.1230/lib/junit-4.11.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/bsh-2.0b4.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/Jama-1.0.3.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/jdom-2.0.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/jffmpeg-1.1.0.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/junit.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/org.hamcrest.core_1.3.0.v201303031735.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/slf4j-api-1.7.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/xuggle-xuggler-5.4.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/opencv-249.jar com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.OpenCVMatrixTest
+ArrayTimes : 1
+GetArray : 77
+Get : 0
+Set : 0
+Clone : 1
+Times : 301
+Plus : 1
+RowPackedCopy : 77
+Times Equals : 3
+Pinv : 6015
+Transpose : 2
+Times double : 1
+Hconcat : 4
+ConvolutionNoWrap : 265
+ConvolutionWrap : 507
+
+WINDOWS
+"C:\Program Files (x86)\Java\jdk1.7.0_17\bin\java" -ea -Djava.library.path=D:\bin\opencv\build\java\x86 -Didea.launcher.port=7550 "-Didea.launcher.bin.path=D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\bin" -Dfile.encoding=UTF-8 -classpath "D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\idea_rt.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\plugins\junit\lib\junit-rt.jar;D:\Dropbox\workspace_these\DNFSim2\bin1;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\deploy.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\javaws.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfxrt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\management-agent.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\plugin.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\rt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\access-bridge-32.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\dnsns.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\jaccess.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\localedata.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunec.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunjce_provider.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunmscapi.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunpkcs11.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\zipfs.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\junit-4.11.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\bsh-2.0b4.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\Jama-1.0.3.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jdom-2.0.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jffmpeg-1.1.0.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\junit.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\org.hamcrest.core_1.3.0.v201303031735.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\slf4j-api-1.7.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\xuggle-xuggler-5.4.jar;D:\bin\opencv\build\java\opencv-249.jar" com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.OpenCVMatrixTestSpeed
+RowPackedCopy : 109
+Hconcat : 4
+Get : 0
+Times double : 1
+Times Equals : 1
+Plus : 2
+ArrayTimes : 1
+ConvolutionNoWrap : 26
+GetArray : 90
+Pinv : 5744
+ConvolutionWrap : 49
+Times : 314
+Transpose : 3
+Clone : 1
+GetValues : 39
+Set : 0
+
+Process finished with exit code 0

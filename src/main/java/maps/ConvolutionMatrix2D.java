@@ -9,8 +9,11 @@ import java.util.List;
 import main.java.neigborhood.WrappedSpace;
 import main.java.space.ISpace2D;
 import main.java.space.Space;
-import Jama.Matrix;
+import main.resources.utils.JamaMatrix;
 
+/***
+ *  the matrix has to be squared TODO fix
+ */
 public class ConvolutionMatrix2D extends MatrixDouble2D {
 
 	/**The two dimension position**/
@@ -90,7 +93,7 @@ public class ConvolutionMatrix2D extends MatrixDouble2D {
 			}
 		}
 		
-		this.setJamat(new Matrix(result));
+		this.setMat(new JamaMatrix(result));
 
 
 		// find center position of kernel (half of kernel size)

@@ -1,10 +1,8 @@
 package main.java.reservoirComputing;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -33,7 +31,6 @@ import main.java.space.Space1D;
 import main.java.space.Space2D;
 import main.java.space.SpaceFactory;
 import main.java.statistics.Statistics;
-import main.java.unitModel.NARMAnthOrderUM;
 import main.java.unitModel.RandTrajUnitModel;
 import main.java.unitModel.UnitModel;
 
@@ -116,7 +113,7 @@ public class ModelESN2Simple extends Model {
 		Var<String> currentSep = command.get(ESNCommandLine.SEP);
 		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_INPUT);
 		MatrixDouble2D inputRes  = new VectorFileReaderMap(
-				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
+				INPUT,dt_input,SpaceFactory.getSpace1D(input_file.get()),input_file);
 		MatrixDouble2D normalize = new NormalisationMatrix(inputRes,command.get(ESNCommandLine.INPUT_SCALE));
 		return normalize;
 
@@ -136,7 +133,7 @@ public class ModelESN2Simple extends Model {
 		Var<String> currentSep = command.get(ESNCommandLine.SEP);
 		Var<Boolean> wrapSignal = command.get(ESNCommandLine.WRAP_TGT_OUTPUT);
 		Parameter ret  = new VectorFileReaderMap(
-				TARGET_OUTPUT,dt,SpaceFactory.getSpace1D(input_file.get(),currentSep.get()),input_file,currentSep,wrapSignal);
+				TARGET_OUTPUT,dt,SpaceFactory.getSpace1D(input_file.get()),input_file);
 		return ret;
 
 
@@ -165,7 +162,7 @@ public class ModelESN2Simple extends Model {
 //						new RandomlyChoosenFromUniformUM(0d), new Var<Double>(-0.1d),new Var<Double>(0.1d))));
 		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.1d))));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
-		weightsRO = new  LearningWeightMatrix(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
+		weightsRO = new RidgeRegressionLearningWeightMatrix(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
 		input = getInput();
 		
 		
@@ -187,11 +184,7 @@ public class ModelESN2Simple extends Model {
 		output = new MultiplicationMatrix(OUTPUT,dt,new NoDimSpace(),weightsRO,columnVectorMatReservoir);
 		//The output is a linear identity activation function
 		
-		
-		
-				
-				
-		
+
 		this.root = output;
 		addParameters(command.get(ESNCommandLine.LEAK),command.get(ESNCommandLine.INPUT_SCALE),command.get(ESNCommandLine.ALPHA));
 	}

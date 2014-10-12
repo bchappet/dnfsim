@@ -39,12 +39,14 @@ public class ESNCommandLine extends CommandLine {
 	public static final String ORDER_OUTPUT = "order_output";
 
 	public static final String NOISE_AMP = "noise_amp";
+    public static final String WITH_INPUT = "withInput";
+    public static final String SQUARED = "squared";
+    public static final String SPECTRAL_RADIUS = "spectralRadius";
+    public static final String SPARSE_WEIGHTS = "sparseWeights";
+    public static final String CONNECTIVITY = "connectivity";
 
-	
-	
-	
 
-	public ESNCommandLine()  {
+    public ESNCommandLine()  {
 		super();
 	}	
 
@@ -64,16 +66,17 @@ public class ESNCommandLine extends CommandLine {
 				+LEARNING_RATE+"=0.01,0,1,0.01;"+LENGHT_OUTPUT+"=1,1,1,1;" 
 				+OUTPUT_MEMORY+"=1,0,10,1;"		+OUTPUT_POLYNOMIAL_DEGREE+"=1,0,10,1;" 
 				+SEP+"=,;" 						+ INPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat"
-				+ TGT_OUTPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat;" + LEAK+"=0.1;"
+				+ TGT_OUTPUT_FILE+"=src/main/java/reservoirComputing/data/input.dat;" + LEAK+"=1.0,0.0,1.0,0.01;"
 				+ INPUT_FILE+"=1.0,0.0,1.0,0.01;" + WRAP_INPUT+"=T;" + WRAP_TGT_OUTPUT+"=F;"
 				+ ALPHA+"=0.5;" +LENGTH_ERROR+"=50.0;" + REGULARIZATION_FACTOR+"=1.0E-8;"
-				+ORDER_OUTPUT+"=10;" + NOISE_AMP+"=0.0;"
-				
+				+ORDER_OUTPUT+"=10,0,20,1;" + NOISE_AMP+"=0.0,0.0,1.0,0.0001;" +WITH_INPUT+"=F;"
+                +SQUARED+"=F;"  + SPECTRAL_RADIUS+"=0.95,0.0,10.0,0.01;" + SPARSE_WEIGHTS+"=F;"
+				+CONNECTIVITY+"=0.05,0.0,1.0,0.01;"
 				;
 		
 	}
 
 
-	
+
 
 }

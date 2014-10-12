@@ -7,11 +7,11 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import main.java.space.Space;
+import main.resources.utils.FluxUtils;
 
 public class MatrixCSVFileReader extends MatrixFileReader  {
 	
-	
-	public final static int SEP = 1;
+
 	
 
 	public MatrixCSVFileReader(String name, Var<BigDecimal> dt, Space<Integer> space, Parameter... params) {
@@ -22,7 +22,7 @@ public class MatrixCSVFileReader extends MatrixFileReader  {
 	public void compute()  {
 		try {
 			String fileName = ((Var<String>) getParam(FILE_NAME)).get();
-			String sep = ((Var<String>) getParam(SEP)).get();
+
 			
 			FileReader fr = new FileReader(fileName+"_"+iteration +".csv");
 			BufferedReader br = new BufferedReader(fr);
@@ -32,7 +32,7 @@ public class MatrixCSVFileReader extends MatrixFileReader  {
 			try{
 				String line;
 				while((line = br.readLine()) != null){
-					String[] values = line.split(sep);
+					String[] values = line.split(FluxUtils.SEP);
 					for(String val : values){
 						try{
 							super.setIndex(i,Double.parseDouble(val)); 

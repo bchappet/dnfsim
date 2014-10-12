@@ -6,7 +6,9 @@ import java.net.URL;
 import java.util.Scanner;
 
 public  class FluxUtils {
-	
+
+
+    public static final String SEP = ",";
 	/**
 	 * Transform a file into a string
 	 * @param url

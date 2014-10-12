@@ -1,0 +1,56 @@
+Laptop Windows
+private int size = 700;
+
+"C:\Program Files (x86)\Java\jdk1.7.0_17\bin\java" -ea -Didea.launcher.port=7541 "-Didea.launcher.bin.path=D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\bin" -Dfile.encoding=UTF-8 -classpath "D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\idea_rt.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\plugins\junit\lib\junit-rt.jar;D:\Dropbox\workspace_these\DNFSim2\bin1;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\deploy.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\javaws.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfxrt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\management-agent.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\plugin.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\rt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\access-bridge-32.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\dnsns.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\jaccess.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\localedata.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunec.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunjce_provider.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunmscapi.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunpkcs11.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\zipfs.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\junit-4.11.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\bsh-2.0b4.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\Jama-1.0.3.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jdom-2.0.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jffmpeg-1.1.0.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\junit.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\org.hamcrest.core_1.3.0.v201303031735.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\slf4j-api-1.7.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\xuggle-xuggler-5.4.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\opencv-249.jar" com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.JamaMatrixTest
+ArrayTimes : 10
+GetArray : 0
+Get : 1
+Set : 0
+Clone : 13
+Times : 342
+Plus : 5
+RowPackedCopy : 14
+Times Equals : 1
+Pinv : 5789
+Transpose : 2
+Times double : 2
+
+
+Tantalum
+size = 1000
+/usr/lib/jvm/java-7-openjdk-amd64/bin/java -ea -Didea.launcher.port=7539 -Didea.launcher.bin.path=/home/bchappet/bin/idea-IC-135.1230/bin -Dfile.encoding=UTF-8 -classpath /home/bchappet/bin/idea-IC-135.1230/lib/idea_rt.jar:/home/bchappet/bin/idea-IC-135.1230/plugins/junit/lib/junit-rt.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/bin1:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/javazic.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/compilefontconfig.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/management-agent.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/java-atk-wrapper.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/pulse-java.jar:/home/bchappet/bin/idea-IC-135.1230/lib/junit-4.11.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/bsh-2.0b4.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/Jama-1.0.3.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/jdom-2.0.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/jffmpeg-1.1.0.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/junit.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/org.hamcrest.core_1.3.0.v201303031735.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/slf4j-api-1.7.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/xuggle-xuggler-5.4.jar:/users/cortex/bchappet/Dropbox/workspace_these/DNFSim2/dnfSim2_lib/opencv-249.jar com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.JamaMatrixTest
+ArrayTimes : 20
+GetArray : 0
+Get : 0
+Clone : 13
+Times : 700
+Plus : 15
+RowPackedCopy : 11
+Times Equals : 0
+Pinv : 20527
+Transpose : 17
+Set : 0
+Times double : 13
+Hconcat : 25
+
+WINDOWS
+"C:\Program Files (x86)\Java\jdk1.7.0_17\bin\java" -ea -Didea.launcher.port=7551 "-Didea.launcher.bin.path=D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\bin" -Dfile.encoding=UTF-8 -classpath "D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\idea_rt.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\plugins\junit\lib\junit-rt.jar;D:\Dropbox\workspace_these\DNFSim2\bin1;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\charsets.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\deploy.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\javaws.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jce.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfr.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jfxrt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\jsse.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\management-agent.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\plugin.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\resources.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\rt.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\access-bridge-32.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\dnsns.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\jaccess.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\localedata.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunec.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunjce_provider.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunmscapi.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\sunpkcs11.jar;C:\Program Files (x86)\Java\jdk1.7.0_17\jre\lib\ext\zipfs.jar;D:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition 13.1.4\lib\junit-4.11.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\bsh-2.0b4.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\Jama-1.0.3.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jdom-2.0.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\jffmpeg-1.1.0.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\junit.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\org.hamcrest.core_1.3.0.v201303031735.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\slf4j-api-1.7.5.jar;D:\Dropbox\workspace_these\DNFSim2\dnfSim2_lib\xuggle-xuggler-5.4.jar;D:\bin\opencv\build\java\opencv-249.jar" com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.JamaMatrixTestSpeed
+RowPackedCopy : 5
+Hconcat : 18
+Get : 0
+Times double : 19
+Times Equals : 1
+Plus : 19
+ArrayTimes : 6
+ConvolutionNoWrap : 59971
+GetArray : 0
+Pinv : 23135
+ConvolutionWrap : 157217
+Times : 1034
+Transpose : 8
+Clone : 23
+GetValues : 60
+Set : 0
+
+Process finished with exit code 0
+

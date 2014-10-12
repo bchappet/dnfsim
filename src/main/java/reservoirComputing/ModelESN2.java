@@ -1,3 +1,23 @@
+/*
+ * This is a Dynamic Neural Field simulator which is extended to
+ *     several other neural networks and extended to hardware simulation.
+ *
+ *     Copyright (C) 2014  Benoît Chappet de Vangel
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package main.java.reservoirComputing;
 
 import java.io.File;
@@ -10,26 +30,15 @@ import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.maps.InfiniteDt;
-import main.java.maps.Map;
-import main.java.maps.MatrixCSVFileReader;
-import main.java.maps.MatrixDouble2D;
-import main.java.maps.MatrixDouble2DWrapper;
-import main.java.maps.MultiplicationMatrix;
-import main.java.maps.Parameter;
-import main.java.maps.Trajectory;
-import main.java.maps.TransposedMatrix;
-import main.java.maps.UnitMap;
-import main.java.maps.Var;
+import main.java.maps.*;
 import main.java.model.Model;
 import main.java.plot.Trace;
+import main.java.space.NoDimSpace;
 import main.java.space.Space;
 import main.java.space.Space1D;
 import main.java.space.Space2D;
 import main.java.statistics.Statistics;
-import main.java.unitModel.NARMAnthOrderUM;
-import main.java.unitModel.RandTrajUnitModel;
-import main.java.unitModel.UnitModel;
+import main.java.unitModel.*;
 
 /**
  * Basic ESN main.java.model 
@@ -97,32 +106,33 @@ public class ModelESN2 extends Model {
 //		generateRRWeightMatrix(100,0.8,"../../weights/weights100_0.8_0.csv");
 //	}
 	
-/**
+    /**
 	 * Separate the input generation for a better modularity
 	 * @return
 	 * @throws CommandLineFormatException
-	 * @throws IOException 
-	 * @throws FileNotFoundException 
+	 * @throws IOException
+	 * @throws FileNotFoundException
 	 */
 	protected Trajectory inputMem;
 	protected Parameter getInput() throws CommandLineFormatException, FileNotFoundException, IOException{
 		Var<BigDecimal> dt_input = command.get(ESNCommandLine.DT);
 
-		
-		
-		
+
 		Var<Integer> N = command.get(ESNCommandLine.ORDER_OUTPUT);
-		inputMem =new Trajectory<Double>(INPUT, dt_input, 
+        this.addParameters(N);
+
+
+		inputMem =new Trajectory<Double>(INPUT, dt_input,
 				new RandTrajUnitModel(0d),new Var<>("center",0.25),new Var<>("radius",0.25) );
 		Double[] mem = new Double[N.get()];
 		for(int i = 0 ; i < N.get() ; i++){
 			mem[i] = Math.random()*0.5;
 		}
 		inputMem.addMemories(N.get(),mem);
-		
+
 		MatrixDouble2D inputRes = new MatrixDouble2DWrapper(inputMem);
 		return inputRes;
-		
+
 	}
 	/**
 	 * Separate the output generation for a better modularity
@@ -168,7 +178,8 @@ public class ModelESN2 extends Model {
 //						new RandomlyChoosenFromUniformUM(0d), new Var<Double>(-0.1d),new Var<Double>(0.1d))));
 		weightsIR = new TransposedMatrix(new  MatrixDouble2DWrapper(new UnitMap(WEIGHTS_IR,new InfiniteDt(), spaceReservoir,new RandTrajUnitModel(0d), new Var<Double>(0d),new Var<Double>(0.1d))));
 		weightsRR = new MatrixCSVFileReader(WEIGHTS_RR, new InfiniteDt(), spaceWeightsReservoir, weightsRRFileName,currentSep);
-		weightsRO = new  LearningWeightMatrixWithInput(WEIGHTS_RO, dt, new Space2D(lenght_reservoir,new Var<Integer>(1)));
+		Var<Integer> lengthWeightRO = new Var<Integer>("lengthWeightRO", lenght_reservoir.get()*2+2);
+		weightsRO = new PseudoInverseLearningWeightMatrixWithInput(WEIGHTS_RO, dt, new Space2D(lengthWeightRO,new Var<Integer>(1)));
 		input = getInput();
 		
 		
@@ -186,11 +197,22 @@ public class ModelESN2 extends Model {
 		MatrixDouble2D columnVectorMatReservoir = new TransposedMatrix(matReservoir);
 		dot_WRR_R.addParameters(weightsRR,columnVectorMatReservoir);
 		
-		targetOutput = getTargetOutput();
-		weightsRO.addParameters(command.get(ESNCommandLine.REGULARIZATION_FACTOR),matReservoir,targetOutput,input);
 
-//		output = new UnitMap(OUTPUT,dt,new NoDimSpace(),new TanhUM(0d),
-//				new MultiplicationMatrix(OUTPUT+"_lin",dt,new NoDimSpace(),weightsRO,new HorizontalConcatenationMatrix(input,columnVectorMatReservoir)));
+        //We are using X squares to compute the output: u,x1,x2...u²,x1²,x2²...
+        MatrixDouble2D horConcat = new  HorizontalConcatenationMatrix((Map)input,matReservoir);
+        MatrixDouble2D squared = new ToSquareMatrix(horConcat);
+        MatrixDouble2D horConcat2 = new HorizontalConcatenationMatrix(horConcat,squared);
+        MatrixDouble2D squaredX = 	new TransposedMatrix(horConcat2);
+
+		MultiplicationMatrix outputPreSignal = 
+				new MultiplicationMatrix(OUTPUT+"_lin",dt,new NoDimSpace(),weightsRO,squaredX);
+		
+		output = new UnitMap(OUTPUT,dt,new NoDimSpace(),new TanhUM(0d),outputPreSignal);
+		
+		targetOutput = getTargetOutput();
+		Map tartgetOutputPresignal = new UnitMap(TARGET_OUTPUT+"_preSignal",dt,new NoDimSpace(),new TanhInvUM(0d),targetOutput);
+		weightsRO.addParameters(command.get(ESNCommandLine.REGULARIZATION_FACTOR),matReservoir,tartgetOutputPresignal,input);
+		
 		//The output is a tanh activation function
 		
 		this.root = output;

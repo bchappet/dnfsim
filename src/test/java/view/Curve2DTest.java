@@ -28,21 +28,16 @@ public class Curve2DTest  extends JFrame {
 
 		
 		this.setVisible(true);
+        this.repaint();
 
-		Thread.sleep(100);
 		uut.update(0.1);
-		System.out.println("repaint");
-//		this.repaint();
-		
-		Thread.sleep(100);
 		uut.update(0.2);
-		System.out.println("repaint");
+        uut.update(0.3);
+        uut.update(0.4);
+        uut.update(0.45);
+
 		this.repaint();
-		Thread.sleep(100);
-		uut.update(0.1);
-		System.out.println("repaint");
-		this.repaint();
-		Thread.sleep(1000);
+		Thread.sleep(10000);
 		assertTrue("visual test ",true);
 	}
 

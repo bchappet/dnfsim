@@ -27,13 +27,15 @@ public class MatrixDouble2DTest {
 		uut = new MatrixDouble2D("uut",dt, new double[][]{{0,1,2},{3,4,5},{6,7,8},{9,10,11}});
 	
 	}
-	
+
+
+
 	@Test
 	public void testConstructFromSpace(){
 		Space2D space = new Space2D(3, 4);
 		uut = new MatrixDouble2D("uut", dt, space);
-		assertEquals("The jamat should be good " ,4,uut.getJamat().getRowDimension());
-		assertEquals("The jamat should be good " ,3,uut.getJamat().getColumnDimension());
+		assertEquals("The jamat should be good " ,4,uut.getMat().getNbColumns());
+		assertEquals("The jamat should be good " ,3,uut.getMat().getNbRows());
 	}
 
 	@Test

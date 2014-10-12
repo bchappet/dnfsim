@@ -9,6 +9,7 @@ import main.java.pfspike.PFSModel;
 import main.java.reservoirComputing.ModelESN;
 import main.java.reservoirComputing.ModelESN2;
 import main.java.reservoirComputing.ModelESN2Simple;
+import main.java.reservoirComputing.ModelESN3;
 
 
 public enum Models{
@@ -45,6 +46,7 @@ public enum Models{
 	ESN("ESN",ModelESN.class,false),
 	ESN2Simple("ESN2Simple",ModelESN2Simple.class,false),
 	ESN2("ESN2",ModelESN2.class,false),
+    ESN3("ESN3",ModelESN3.class,false),
 	DMADSom("DMADSom",ModelDMADSom.class,false),
 	RSDNFNetwork("RSDNFNetwork",RSDNFNetworkModel.class,false),
 	PFModel("PFModel",PFModel.class,false),

@@ -3,10 +3,7 @@ package main.java.view;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
-import java.util.EventObject;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 import main.java.space.Coord2D;
 
@@ -58,14 +55,14 @@ public class Curve2D extends ParameterViewDB{
 	public synchronized void update(Double coor)
 	{
 		nbComputation ++;
-		values.addFirst(coor);
+		values.addLast(coor);
 		
 		if(values.size() > nbDotMax){
 			reachNbDotMax  = true;
 		}
 		
 		if(reachNbDotMax){
-			values.removeLast();
+			values.removeFirst();
 		}
 		computeMinMax(values);
 //		System.out.println("Min : " + min);
@@ -74,9 +71,7 @@ public class Curve2D extends ParameterViewDB{
 
 	/**
 	 * Compute min and max from values
-	 * @param coords2
-	 * @param min2
-	 * @param max2
+	 * @param coords
 	 */
 	private  void computeMinMax(List<Double> coords){
 		double minX = Double.MAX_VALUE;
@@ -101,7 +96,7 @@ public class Curve2D extends ParameterViewDB{
 	 */
 	public int transformValue(double val,int plotSize){
 		double size = minMax.y - minMax.x;
-		return  (int) ((val-minMax.x)/size * plotSize);
+		return (int) ((val-minMax.x)/size * plotSize);
 	}
 
 	@Override
@@ -116,15 +111,16 @@ public class Curve2D extends ParameterViewDB{
 		int offsetY = (int) ((dim.height - dy)/2d);
 		int origin = transformValue(0, dy);
 		origin = dy -origin;
-		double sizeX = values.size()-1;
-		
+        //System.out.println("origin : " + origin);
+        double sizeX = values.size()-1;
+
+        Iterator<Double> it = values.iterator();
 		/**element t-1**/
-		Double coord1 = values.getFirst();
+		Double coord1 = it.next();
 		int i = 0;
-		for(Double coord2 : values){//element t
-			
+		while(it.hasNext()){//element t
 			//System.out.println("sizeX : " + sizeX + " sizeY : "+ sizeY);
-			
+			Double coord2 = it.next();
 			int x1 = (int) (i/sizeX* dx);
 			int x2 = (int) ((i+1)/sizeX * dx);
 			int y1 = transformValue(coord1,dy);

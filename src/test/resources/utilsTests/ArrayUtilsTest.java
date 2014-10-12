@@ -13,6 +13,8 @@ import org.junit.Test;
 
 public class ArrayUtilsTest {
 
+    double delta = 1e-7;
+
 	@Before
 	public void setUp() throws Exception {
 	}
@@ -28,7 +30,29 @@ public class ArrayUtilsTest {
 											{0,0,0}};
 		
 		
-		assertTrue("Two array should be the same",ArrayUtils.equals2D(expected, result));
+		assertTrue("Two array should be the same",ArrayUtils.equals2D(expected, result,delta));
 	}
+	
+	
+	@Test
+	public void testHorizontalConcatenation(){
+		double[][] a = new double[][]{{0,1,2},
+									{3,4,5}};
+		double[][] b = new double[][]{{9,10},
+									{11,12}};
+		
+		double[][] expected  = new double[][]{{0,1,2,9,10},
+											{3,4,5,11,12}};
+		
+		
+		double[][] result = ArrayUtils.horizontalConcatenation(a, b);
+		
+		//System.out.println(ArrayUtils.toString(result));
+
+		
+		assertTrue("Two array should be the same",ArrayUtils.equals2D(expected, result,delta));
+	}
+	
+	
 
 }

@@ -109,7 +109,7 @@ public class PlotCoord2D extends ParameterViewDB {
 			double[] xy = new double[2*val_nb];
 			for (int i=0; i<val_nb; i++) {
 				xy[2*i]=curveX.transformValue(val_x.get(i),dx);
-				xy[2*i+1]=curveY.transformValue(val_y.get(i),dy);
+				xy[2*i+1]=dy - curveY.transformValue(val_y.get(i),dy);
 			}
 			//trans.transform(xy,0,xy,0,val_nb);
 
@@ -135,11 +135,13 @@ public class PlotCoord2D extends ParameterViewDB {
 			g.drawString(String.format("%.2f", curveY.getMin()), offsetX, dy);
 			
 			g.drawString("0", offsetX, origin-5);
+            double maxX = curveX.getMax();
+            int xoffset = ((int) Math.log10(maxX)+1)*8;
+            g.drawString(String.format("%.2f", curveX.getMax()),dx -xoffset-20, 15);
 			
-			//Offset to see all the number of time
-			int nbComputation = curveX.getNbComputation();
-			int xoffset = ((int) Math.log10(nbComputation)+1)*8;
-			g.drawString(String.format("%d", nbComputation), dx-xoffset, 15);
+
+
+
 			
 			//draw line for origin
 			g.drawLine(offsetX, origin, dx, origin);

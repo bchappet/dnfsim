@@ -165,6 +165,7 @@ public class Statistics implements HasChildren<Parameter>,Computable{
 		String[] ret = new String[paramNodes.size()];
 		for(int i = 0 ; i < paramNodes.size() ; i++)
 		{
+			//System.out.println(paramNodes.get(i));
 			ret[i] = (paramNodes.get(i)).getName();
 		}
 		return ret;

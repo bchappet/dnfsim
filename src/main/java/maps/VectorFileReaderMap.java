@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import main.java.space.Space;
+import main.resources.utils.FluxUtils;
 
 /**
  * Read a signal file (csv) considering that every line is a computational state.
@@ -17,11 +18,10 @@ import main.java.space.Space;
  */
 public class VectorFileReaderMap extends MatrixCSVFileReader {
 
-	protected String sep;
 	protected BufferedReader br;
 	
 	/**Boolean : True if we wrap the signal over time**/
-	protected static final int WRAP = 2;
+	//protected static final int WRAP = 2;
 
 	public VectorFileReaderMap(String name, Var<BigDecimal> dt,
 			Space<Integer> space, Parameter... params) throws FileNotFoundException {
@@ -36,16 +36,16 @@ public class VectorFileReaderMap extends MatrixCSVFileReader {
 		try {
 			line = br.readLine();
 			if(line == null ){
-				if(((Boolean)getParam(WRAP).getIndex(0))){	
+			/*	if(((Boolean)getParam(WRAP).getIndex(0))){
 					this.initStream();
 					line = br.readLine();
-				}else{
+				}else{*/
 					throw new NoMoreDataException("The file " + getParam(FILE_NAME).getIndex(0) + 
 							" does not have any more data to read. Time = " + this.getTime());
-				}
+//				}
 					
 			}
-			String[] valuesS = line.split(sep);
+			String[] valuesS = line.split(FluxUtils.SEP);
 			for(int i = 0 ; i < valuesS.length ; i++){
 				String val = valuesS[i];
 				super.setIndex(i,Double.parseDouble(val)); 
@@ -58,7 +58,7 @@ public class VectorFileReaderMap extends MatrixCSVFileReader {
 	
 	protected void initStream() throws FileNotFoundException{
 		String fileName = ((Var<String>) getParam(FILE_NAME)).get();
-		sep = ((Var<String>) getParam(SEP)).get();
+
 
 		FileReader fr = new FileReader(fileName);
 		br = new BufferedReader(fr);

@@ -158,6 +158,8 @@ public  class WaitRunner implements Runnable{
 
 	}
 
-	
 
+    public BigDecimal getCurrentTime() {
+        return time;
+    }
 }

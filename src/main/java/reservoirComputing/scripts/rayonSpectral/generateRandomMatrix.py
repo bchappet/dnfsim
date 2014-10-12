@@ -7,7 +7,8 @@ import sys
 from numpy import *
 
 resSize = eval(sys.argv[1])
-fileName = sys.argv[2]
+scale = eval(sys.argv[2]) #default = 1 : uniform distribution for non zero weighs in [-1,1]
+fileName = sys.argv[3]
 
 def exportToCSV(m,fileName):
         a = asarray(m)
@@ -17,5 +18,5 @@ def exportToCSV(m,fileName):
 
 random.seed(42)
 
-W = random.rand(resSize,resSize)-0.5
+W = random.rand(resSize,resSize)*scale*2-scale
 exportToCSV(W,fileName)

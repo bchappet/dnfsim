@@ -30,7 +30,7 @@ public class MatrixDouble2DWrapper extends MatrixDouble2D {
 	public void compute() {
 		Map<Number,Integer> map = (Map<Number,Integer>) getParam(PARAMETER);
 		//copy values in jama matrix
-		double[][] val = getJamat().getArray();
+		double[][] val = getMat().getArray();
 		for(int i = 0 ; i < val[0].length ; i++){
 			for(int j = 0 ; j < val.length ; j++){
 				val[j][i] = map.getIndex(map.getSpace().coordIntToIndex(new Coord<Integer>(i,j))).doubleValue();

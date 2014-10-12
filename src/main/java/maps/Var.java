@@ -119,9 +119,9 @@ public class Var<T> extends Observable  implements Parameter<T>,SingleValueParam
 
 	public String toString(){
 		if(name!=null)
-			return name;
+			return name + "(" + get()+  ")";
 		else
-			return super.toString();
+			return get().toString();
 	}
 
 	@Override

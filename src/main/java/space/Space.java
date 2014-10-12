@@ -87,6 +87,7 @@ public abstract class Space<T> implements Parameter< Integer>{
 	
 	@Override
 	public String toString(){
+//		System.out.println(this.dimensions.getSize());
 		return "" + this.getClass() + " dim:" + this.dimensions;
 	
 	}
@@ -182,6 +183,11 @@ public abstract class Space<T> implements Parameter< Integer>{
 	public Space2D transpose() {
 		//nothing by default
 		throw new IllegalAccessError("You should use 2DSpace or 1D space or NoDimSpace for this method");
+	}
+	
+	public static Space horizontalConcatenationSpace(Space a, Space b) {
+		//nothing by default
+				throw new IllegalAccessError("You should use 2DSpace or 1D space or NoDimSpace for this method");
 	}
 	
 

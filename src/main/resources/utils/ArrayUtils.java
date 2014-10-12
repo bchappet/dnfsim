@@ -1,3 +1,23 @@
+/*
+ * This is a Dynamic Neural Field simulator which is extended to
+ *     several other neural networks and extended to hardware simulation.
+ *
+ *     Copyright (C) 2014  Benoît Chappet de Vangel
+ *
+ *     This program is free software: you can redistribute it and/or modify
+ *     it under the terms of the GNU General Public License as published by
+ *     the Free Software Foundation, either version 3 of the License, or
+ *     (at your option) any later version.
+ *
+ *     This program is distributed in the hope that it will be useful,
+ *     but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *     GNU General Public License for more details.
+ *
+ *     You should have received a copy of the GNU General Public License
+ *     along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package main.resources.utils;
 
 import java.nio.Buffer;
@@ -64,7 +84,7 @@ public class ArrayUtils {
 	 * If the main.java.coordinates are incompatible with the accessed map,
 	 * its value will be null
 	 * @param params
-	 * @param coord
+	 * @param index
 	 * @return
 	 */
 	public static double[] getValues(List<Parameter> params, int index) {
@@ -259,11 +279,13 @@ public class ArrayUtils {
 		return ret;
 	}
 
-	public static boolean equals2D(double[][] expected, double[][] result) {
+	public static boolean equals2D(double[][] expected, double[][] result,double delta) {
 		boolean ret = true;
 		for(int i = 0 ; i < expected.length ; i++){
 			for(int j = 0 ; j < expected[0].length ; j++){
-				ret &= (expected[i][j] == result[i][j]);
+                double diff = Math.abs(expected[i][j] - result[i][j]);
+
+				ret &= diff <= delta;
 			}
 		}
 		return ret;
@@ -271,7 +293,8 @@ public class ArrayUtils {
 
 	public static String toString(double[][] val) {
 		String ret = "";
-		for(int i = 0 ; i < val.length-1 ; i++){ //colulmn Width Y
+       // System.out.println("dim " + val[0].length + " ," +val.length);
+        for(int i = 0 ; i < val.length-1 ; i++){ //colulmn Width Y
 			for(int j = 0 ; j < val[0].length-1 ; j++){ //row width X
 				ret += val[i][j] + ",";
 			}
@@ -339,12 +362,13 @@ public class ArrayUtils {
 	
 	/**
 	 * Concatenate A(na,ma) with B(nb,mb) (A,B)(na=nb,ma+mb)
+	 * array must have the same number of row
 	 * @param a
 	 * @param b
 	 * @return
 	 * @throws IllegalArgumentException if the number of row is different
 	 */
-	public static double[][]horizontalConcatenation(double[][] a,double[][] b){
+	public static double[][] horizontalConcatenation(double[][] a,double[][] b){
 	
 	
 		int xA = a[0].length;
@@ -371,8 +395,33 @@ public class ArrayUtils {
 		return res;
 	}
 
-	
 
-	
+    /**
+     * Return the element wise power of 2
+     * @param array
+     * @return
+     */
+    public static double[][] dotPower2(double[][] array) {
+        double[][] res = new double[array.length][array[0].length];
+        for(int i  = 0 ; i < array.length ; i ++){
+            for(int j  = 0 ; j < array[0].length ; j ++) {
+                res[i][j] = Math.pow(array[i][j],2);
+
+            }
+        }
+        return res;
+    }
+
+
+    public static double[][] randomMatrix(int n,int m){
+        double[][] mat = new double[m][n];
+        for (int i = 0; i <m ; i++) {
+            for (int j = 0; j < n; j++) {
+                mat[i][j] = Math.random();
+            }
+        }
+        return mat;
+    }
+
 
 }

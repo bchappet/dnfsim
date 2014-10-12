@@ -38,7 +38,7 @@ public class Utils {
     public final static double[][] parseCSVFile(File file) {
         BufferedReader br = null;
         String line;
-        List<String[]> lignes = new ArrayList<>();
+        List<String[]> lignes = new ArrayList<String[]>();
         int maxWidth = 0;
         try {
             br = new BufferedReader(new FileReader(file));

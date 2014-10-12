@@ -6,9 +6,9 @@ ESN2
 	DetailsPanel
 	CanvaPanel
 		input:MapCurve2DAdapter
-		reservoir:MapView1DAdapter
 		output:MapCurve2DAdapter
 		target_output:MapCurve2DAdapter
+		reservoir:MapView1DAdapter
 		WeightsIR:MapBarPlot1DAdapter
 		WeightsRR
 		LearningWeightMatrixView2

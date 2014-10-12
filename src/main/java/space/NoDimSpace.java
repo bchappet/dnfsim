@@ -6,6 +6,9 @@ public class NoDimSpace extends Space {
 		super();
 	}
 	
+	public  String toString(){
+		return "NoDimSpace";
+	}
 	
 	@Override
 	public int getVolume(){

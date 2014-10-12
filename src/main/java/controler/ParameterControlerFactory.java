@@ -7,6 +7,7 @@ import main.java.maps.Var;
 import main.java.network.generic.SpreadingGraph;
 import main.java.network.view.GraphControler;
 import main.java.reservoirComputing.LearningWeightMatrix;
+import main.java.reservoirComputing.RidgeRegressionLearningWeightMatrix;
 import main.java.space.Space;
 import main.java.statistics.Characteristics;
 import main.java.statistics.Statistics;

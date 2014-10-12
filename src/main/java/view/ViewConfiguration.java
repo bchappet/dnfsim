@@ -82,7 +82,7 @@ public class ViewConfiguration {
 					Color[] colors = {Color.BLUE,Color.WHITE,Color.RED};
 					Class<?> clazz = Class.forName("main.java.view."+keyval[1]);
 					Constructor<?> constructor = clazz.getConstructor(Color[].class);
-					this.map.put(keyval[0], new Var<>(keyval[0],(ColorMap) constructor.newInstance((Object)colors))) ;
+					this.map.put(keyval[0], new Var<ColorMap>(keyval[0],(ColorMap) constructor.newInstance((Object)colors))) ;
 					break;
 				default:
 					if(keyval[1].contains("true") || keyval[1].contains("false")){
