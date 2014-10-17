@@ -264,7 +264,7 @@ public class MatrixDouble2D extends Map<Double,Integer> implements Array2DDouble
 
 	@Override
 	public void set2DArrayDouble(double[][] newArray) {
-		this.mat = new JamaMatrix(newArray);
+		this.mat = new OpenCVMatrix(newArray);
 		
 	}
 

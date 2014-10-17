@@ -9,13 +9,7 @@ import main.java.console.CNFTCommandLine;
 import main.java.console.CommandLine;
 import main.java.console.CommandLineFormatException;
 import main.java.coordinates.NullCoordinateException;
-import main.java.maps.ConvolutionMatrix2D;
-import main.java.maps.InfiniteDt;
-import main.java.maps.Map;
-import main.java.maps.Parameter;
-import main.java.maps.Trajectory;
-import main.java.maps.UnitMap;
-import main.java.maps.Var;
+import main.java.maps.*;
 import main.java.space.DoubleSpace2D;
 import main.java.space.Space;
 import main.java.space.WrappableDouble2DSpace;
@@ -201,11 +195,14 @@ public class ModelCNFT extends Model{
 	{
 		Var<BigDecimal> dt = command.get(CNFTCommandLine.DT); //default dt
 		initLateralWeights();
-		cnft = new ConvolutionMatrix2D(CNFT,dt,space);
+		//cnft = new ConvolutionMatrix2D(CNFT,dt,space);
+        cnft = new Convolution2Matrix2D(CNFT,dt,space);
 		potential = new UnitMap<Double, Double>(POTENTIAL,dt,space,new RateCodedUnitModel(0.));
 		potential.addParameters(potential,pTau,
 				input,cnft,command.get(CNFTCommandLine.RESTING_POTENTIAL),dt);
-		cnft.addParameters(cnftW,potential);
+        MatrixDouble2D cnftW2D = new MatrixDouble2DWrapper(cnftW);
+        MatrixDouble2D potential2D = new MatrixDouble2DWrapper(potential);
+		cnft.addParameters(cnftW2D,potential2D);
 		this.root = potential;
 	}
 

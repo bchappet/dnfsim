@@ -107,7 +107,7 @@
         <SOURCES />
       </library>
     </orderEntry>
-    <orderEntry type="library" name="opencv-249" level="application" />
+    <orderEntry type="library" name="opencv-249" level="project" />
   </component>
 </module>
 

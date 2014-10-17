@@ -36,7 +36,7 @@ public class Run {
 
 
         int iteration = 1;
-        int[] ress = {999};
+        int[] ress = {399};
 
 
         String context =
@@ -60,7 +60,7 @@ public class Run {
 
             String patSave = "save/focus"+res;
             Runtime.getRuntime().exec("mkdir "+patSave);
-            String argss = "model=NSpike show=true context="+context+"resolution="+res+";" +
+            String argss = "model=NSpike context="+context+"resolution="+res+";" +
                     " savemap=Focus savepath=save/focus"+res+"/ scenario=load=competition.dnfs;"+
                     " it="+iteration+" cores=7";
             String[] args2 = argss.split(" ");

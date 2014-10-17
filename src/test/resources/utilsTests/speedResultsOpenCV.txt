@@ -58,3 +58,24 @@ GetValues : 39
 Set : 0
 
 Process finished with exit code 0
+
+
+
+/usr/lib/jvm/java-7-openjdk-amd64/bin/java -ea -Djava.library.path=/home/bchappet/bin/opencv-2.4.9/build/lib/ -Didea.launcher.port=7538 -Didea.launcher.bin.path=/home/bchappet/bin/idea-IC-135.1230/bin -Dfile.encoding=UTF-8 -classpath /home/bchappet/bin/idea-IC-135.1230/lib/idea_rt.jar:/home/bchappet/bin/idea-IC-135.1230/plugins/junit/lib/junit-rt.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/bin1:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jsse.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/charsets.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rhino.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/javazic.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/jce.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/compilefontconfig.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/management-agent.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/resources.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/rt.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/dnsns.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunjce_provider.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/localedata.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/java-atk-wrapper.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/sunpkcs11.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/zipfs.jar:/usr/lib/jvm/java-7-openjdk-amd64/jre/lib/ext/pulse-java.jar:/home/bchappet/bin/idea-IC-135.1230/lib/junit-4.11.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/bsh-2.0b4.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/Jama-1.0.3.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/jdom-2.0.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/jffmpeg-1.1.0.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/junit.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/org.hamcrest.core_1.3.0.v201303031735.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/slf4j-api-1.7.5.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/xuggle-xuggler-5.4.jar:/users/cortex/bchappet/Dropbox/workspace_these/dnfsim2/dnfSim2_lib/opencv-249.jar com.intellij.rt.execution.application.AppMain com.intellij.rt.execution.junit.JUnitStarter -ideVersion5 test.resources.utilsTests.OpenCVMatrixTestSpeed
+RowPackedCopy : 136
+Hconcat : 8
+Get : 0
+Times double : 7
+Plus : 25
+ArrayTimes : 17
+ConvolutionNoWrap : 108
+GetArray : 85
+ConvolutionWrap : 340
+Times : 1649
+Transpose : 8
+Clone : 2
+GetValues : 109
+Times Equals : 5
+Pinv : 30887
+Set : 0
+

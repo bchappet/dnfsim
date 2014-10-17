@@ -8,6 +8,7 @@ import main.java.maps.MatrixDouble2DWrapper;
 import main.java.space.Space2D;
 import main.resources.utils.ArrayUtils;
 
+import main.resources.utils.Matrix;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,5 +30,20 @@ public class MatrixDouble2DWrapperTest {
 		uut.compute();
 		assertEquals("The value should be good",ArrayUtils.toString(values),uut.toString());
 	}
+
+    @Test
+    public void testComputeSpeed(){ //1063
+        int size = 2000;
+        double[][] tabA = ArrayUtils.randomMatrix(size/2, size );
+        double[][] tabB = ArrayUtils.randomMatrix(size,size/2);
+        Map<Double,Integer> map = new MatrixDouble2D("map",new InfiniteDt(),tabA);
+        uut = new MatrixDouble2DWrapper(map);
+        long start = System.currentTimeMillis();
+        uut.compute();
+        long end = System.currentTimeMillis();
+        System.out.println("ComputeSpeed: " + (end-start));
+
+
+    }
 
 }
