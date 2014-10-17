@@ -107,6 +107,7 @@ public class Utils {
             writer.close();
         } catch (IOException ex) {
             Logger.getLogger(Utils.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         } 
        
 //        System.out.println("\nNombre de case écrite  : "+i);

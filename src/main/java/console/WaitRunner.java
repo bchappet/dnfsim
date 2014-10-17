@@ -17,13 +17,12 @@ public  class WaitRunner implements Runnable{
 	private Var<Double> timeSpeedRatio;
 	
 	private BigDecimal time; //simulation time
-	private Var<String> mapToSave;
-	private Var<String> pathToSave;
 	private boolean maxSpeed;
 	
 	
 	
-	public WaitRunner(ComputationControler cc,boolean maxSpeed,Var<Boolean> play,Var<BigDecimal> timeToReach,Var<BigDecimal> timeMax,
+	public WaitRunner(ComputationControler cc,boolean maxSpeed,Var<Boolean> play,Var<BigDecimal> timeToReach,
+                      Var<BigDecimal> timeMax,
 			Var<Double> timeSpeedRatio,Var<String> mapToSave,Var<String> pathToSave){
 		this.play = play;
 		this.timeToReach = timeToReach;
@@ -31,8 +30,6 @@ public  class WaitRunner implements Runnable{
 		this.computationControler = cc;
 		this.timeSpeedRatio = timeSpeedRatio;
 		this.time = BigDecimal.ZERO;
-		this.mapToSave = mapToSave;
-		this.pathToSave = pathToSave;
 		this.maxSpeed = maxSpeed;
 				
 	}
@@ -56,12 +53,12 @@ public  class WaitRunner implements Runnable{
 					while((this.time.compareTo(timeToReach.get()) < 0)){
 //						System.out.println(" current time : " + this.time + " timetoReach " + timeToReach.get());
 						if((Boolean) play.get()){
-							String maps = this.mapToSave.get();
-							if(!maps.isEmpty()){
-								
-								String[] mapsToSaveArray = maps.split(",");
-								computationControler.saveMap(mapsToSaveArray,pathToSave.get());
-							}
+//							String maps = this.mapToSave.get();
+//							if(maps != null || !maps.isEmpty()){
+//                                //System.err.println("maps : " + maps);
+//                                String[] mapsToSaveArray = maps.split(",");
+//								computationControler.saveMap(mapsToSaveArray,pathToSave.get());
+//							}
 							
 							computationControler.compute();
 							time = computationControler.getTime();

@@ -93,7 +93,7 @@ public interface Matrix extends java.lang.Cloneable{
      * @param b
      * @return
      */
-    public Matrix times(Matrix b) throws BadMatrixDimensionException ;
+    public Matrix times(Matrix b) throws BadMatrixDimensionException;
 
     /**
      * Point to point multiplication this .* b
