@@ -1,8 +1,0 @@
-init;
-wait=10;
-distr_dt=1;
-distr_nb=5;
-noise_dt=1;
-noise_amp=1;
-wait=20;
-print=Convergence,MeanError;

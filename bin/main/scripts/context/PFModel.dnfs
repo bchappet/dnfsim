@@ -1,3 +1,0 @@
-size=9;
-transition_matrix_file=src/main/java/network/ressource/RSDNFNetworkTransitionMatrix.pf;
-stimulis_file=statistiques/stimulis/9_a_send_20;

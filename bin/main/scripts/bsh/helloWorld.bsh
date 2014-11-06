@@ -1,3 +1,0 @@
-helloWorld() { 
-    print("Hello World!");
-}
