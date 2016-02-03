@@ -1,16 +1,14 @@
 package optimisation;
 
-import gui.GUI;
+import applet.AppletStub;
 import gui.Printer;
 import gui.RunnerGUI;
-
-import java.awt.Dimension;
-import java.net.URL;
-import java.util.concurrent.BlockingQueue;
-
 import model.Model;
 import model.Root;
-import applet.AppletStub;
+
+import java.awt.*;
+import java.net.URL;
+import java.util.concurrent.BlockingQueue;
 
 public class GAScenarioPrinter extends Printer implements Runnable{
 
@@ -58,7 +56,7 @@ public class GAScenarioPrinter extends Printer implements Runnable{
 					Root root = new Root();
 					root.addModel(currentModel);
 					root.setActiveModel(currentModel);
-					GUI applet =  new RunnerGUI(runner,root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
+					RunnerGUI applet =  new RunnerGUI(runner,root,contextPath,new Dimension(GetScreenWorkingWidth(),GetScreenWorkingHeight()-50));
 					// Configure the frame to display the Applet
 					applet.setStub(new AppletStub(applet, "CNFT simulation"));
 					runner.setLock(applet.getLock());

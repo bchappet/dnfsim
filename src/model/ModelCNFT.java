@@ -1,50 +1,18 @@
 package model;
 
-import static java.lang.Math.PI;
-import static java.lang.Math.cos;
-import gui.Suscriber;
-
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-
-import maps.AbstractMap;
-import maps.ConvolutionMatrix2D;
-import maps.Leaf;
-import maps.Map;
-import maps.Parameter;
-import maps.TrajectoryUnitMap;
-import maps.Var;
-import statistics.Charac;
-import statistics.CharacAccError;
-import statistics.CharacMaxMax;
-import statistics.CharacMeanCompTime;
-import statistics.CharacConvergence;
-import statistics.CharacMeanError;
-import statistics.CharacMaxSum;
-import statistics.CharacNoFocus;
-import statistics.CharacObstinacy;
-import statistics.CharacTestConvergence;
-import statistics.CharacteristicsCNFT;
-import statistics.Stat;
-import statistics.StatMapCNFT;
-import statistics.StatisticsCNFT;
-import unitModel.CosTraj;
-import unitModel.GaussianND;
-import unitModel.RandTrajUnitModel;
-import unitModel.RateCodedUnitModel;
-import unitModel.Sum;
-import unitModel.UnitModel;
 import console.CNFTCommandLine;
 import console.CommandLineFormatException;
 import coordinates.DefaultRoundedSpace;
 import coordinates.NullCoordinateException;
 import coordinates.Space;
-import draft.RandomTestAbstractMap;
+import gui.Suscriber;
+import maps.*;
+import statistics.*;
+import unitModel.*;
+
+import java.util.Arrays;
+import java.util.LinkedList;
+import java.util.List;
 
 
 /**
@@ -290,11 +258,7 @@ public class ModelCNFT extends Model{
 	}
 	/**
 	 * init the default input 
-	 * @param width : width of the tracks and distracters gaussian
-	 * @param intensity : intensity of the tracks and distracters gaussian
-	 * @param nbDistr : number of distracters
-	 * @param noiseAmpl : amplitude of noise
-	 * @throws CommandLineFormatException 
+	 * @throws CommandLineFormatException
 	 * @throws NullCoordinateException 
 	 * @throws CloneNotSupportedException 
 	 */
@@ -533,29 +497,29 @@ public class ModelCNFT extends Model{
 
 	
 
-	public void test() throws Exception{
-		// change the input
-		Map map = new RandomTestAbstractMap(INPUT,
-				command.get(CNFTCommandLine.NOISE_DT),space2d,
-				new Var(0),command.get(CNFTCommandLine.NOISE_AMP));
-
-		for(AbstractMap p : input.getParents()){
-			p.replaceParameter(map);
-		}
-
-		removeParameters(command.get(CNFTCommandLine.NB_TRACKS),
-				command.get(CNFTCommandLine.TRACK_DT),
-				command.get(CNFTCommandLine.NB_DISTRACTERS),
-				command.get(CNFTCommandLine.DISTR_DT),
-				command.get(CNFTCommandLine.NOISE_AMP),
-				command.get(CNFTCommandLine.NOISE_DT));
-
-
-		addParameters(command.get(CNFTCommandLine.NOISE_AMP));
-		addParameters(command.get(CNFTCommandLine.NOISE_DT));
-
-		this.input = map;
-	}
+//	public void test() throws Exception{
+//		// change the input
+//		Map map = new RandomTestAbstractMap(INPUT,
+//				command.get(CNFTCommandLine.NOISE_DT),space2d,
+//				new Var(0),command.get(CNFTCommandLine.NOISE_AMP));
+//
+//		for(AbstractMap p : input.getParents()){
+//			p.replaceParameter(map);
+//		}
+//
+//		removeParameters(command.get(CNFTCommandLine.NB_TRACKS),
+//				command.get(CNFTCommandLine.TRACK_DT),
+//				command.get(CNFTCommandLine.NB_DISTRACTERS),
+//				command.get(CNFTCommandLine.DISTR_DT),
+//				command.get(CNFTCommandLine.NOISE_AMP),
+//				command.get(CNFTCommandLine.NOISE_DT));
+//
+//
+//		addParameters(command.get(CNFTCommandLine.NOISE_AMP));
+//		addParameters(command.get(CNFTCommandLine.NOISE_DT));
+//
+//		this.input = map;
+//	}
 	
 	public Space getRefSpace() {
 		return refSpace;
@@ -574,7 +538,7 @@ public class ModelCNFT extends Model{
 	/**
 	 * Return the trackable object with the given hashcode
 	 * 
-	 * @param trackedStimulis
+	 * @param hashcode
 	 * @return null if no trackable have the corresponding hashh code
 	 */
 	public AbstractMap getTracked(double hashcode) {

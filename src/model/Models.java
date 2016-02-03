@@ -4,7 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 
 import reservoirComputing.ModelESN;
 
-import modelCMSVA.ModelCMSVA;
+//import modelCMSVA.ModelCMSVA;
 
 
 public enum Models{
@@ -25,16 +25,16 @@ public enum Models{
 	NSPIKE2("NSpikeAssynch",ModelNSpike2.class,true),
 	BILAYER_SPIKE("BilayerSpike",ModelBilayerSpike.class,false),
 	RSDNF("RSDNF",ModelRSDNF.class,false),
-	RSDNF_MIXTE("RSDNF_Mixte",ModelRSDNFMixte.class,false),
+//	RSDNF_MIXTE("RSDNF_Mixte",ModelRSDNFMixte.class,false),
 	HARDWARE("Hardware",ModelHardware.class,false),
 	CNFT_SLOW("CNFTAssynch",ModelCNFTSlow.class,true),
-	CMSVA("CMSVA",ModelCMSVA.class,false),
+//	CMSVA("CMSVA",ModelCMSVA.class,false),
 	NSPIKE_REAL_PARAM("NSPikeRealParam",ModelNSpikeWithTrueParameters.class,false),
 	MODEL_Hardware_VALIDATION("HardwareValidation",ModelHardwareValidation.class,false),
-	TEST_SOM("TestSOM",TestSOM.class,false),
+//	TEST_SOM("TestSOM",TestSOM.class,false),
 	DNF_SOM("DNFSom",ModelDNFSom.class,false),
 	DNF_SOM_Supervise("DNFSomSupervise",ModelDNFSomSupervise.class,false),
-	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
+//	CNFT_InputFile("CNFTInputFile",ModelCNFTInputFile.class,false),
 	MVT_DETECTION("MvtDetection",ModelMvtDetection.class,false),
 	CNFT_PREDICTIVE("CNFTPredictive",ModelCNFTPredictive.class,false),
 	ESN("ESN",ModelESN.class,false);

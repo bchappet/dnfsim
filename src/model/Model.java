@@ -61,6 +61,7 @@ public abstract class Model implements Node {
 	 * dt in the parameter tree and the stats
 	 */
 	protected BigDecimal clockStep;
+	private List<AbstractMap> tracks;
 
 	/**
 	 * Dafault constructor
@@ -409,11 +410,9 @@ public abstract class Model implements Node {
 	 * @return the defult displayed stat
 	 */
 	public  abstract String getDefaultDisplayedStatistic() ;
-		
-	
 
 
-
-
-
+	public List<AbstractMap> getTracks() {
+		return tracks;
+	}
 }

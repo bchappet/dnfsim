@@ -1,21 +1,15 @@
 package optimisation;
 
-import gui.GUI;
-import gui.RunnerGUI;
+import console.CommandLineFormatException;
 import gui.Printer;
+import model.Model;
+import model.Models;
 
-import java.awt.Dimension;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Arrays;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-
-import applet.AppletStub;
-
-import model.Model;
-import model.Models;
-import console.CommandLineFormatException;
 
 public class CNFTGALauncher extends GALauncher {
 

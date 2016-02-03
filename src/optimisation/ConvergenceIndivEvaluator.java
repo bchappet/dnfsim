@@ -2,10 +2,9 @@ package optimisation;
 
 import java.util.concurrent.BlockingQueue;
 
-import maps.Parameter;
 import model.Model;
+import statistics.Characteristics;
 import statistics.CharacteristicsCNFT;
-import statistics.StatisticsCNFT;
 
 public class ConvergenceIndivEvaluator extends IndivEvaluator  {
 
@@ -87,7 +86,7 @@ public class ConvergenceIndivEvaluator extends IndivEvaluator  {
 	}
 
 
-	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId,CharacteristicsCNFT charac){
+	protected  double  getScenarioFitness(int numInd,int numIt,int scenarioId, Characteristics charac){
 		charac.compute();
 		double conv =  charac.getParam(CharacteristicsCNFT.TEST_CONV).get();
 		return conv;
