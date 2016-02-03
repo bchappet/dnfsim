@@ -7,4 +7,5 @@
 ### How do I get set up? ###
 
 main class: gui.Printer
+
 arguments: model=CNFT show=true 
