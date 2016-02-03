@@ -1,4 +1,0 @@
-length_reservoir=49;
-alpha=0.01;
-output_memory=1;
-output_polynomial_degree=1;

@@ -1,4 +1,0 @@
-tck_nb=2;
-tck_period=1E-5;
-init;
-wait=100;

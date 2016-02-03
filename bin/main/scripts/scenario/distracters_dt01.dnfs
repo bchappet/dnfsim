@@ -1,7 +1,0 @@
-noise_amp=0;
-tck_nb=1;
-init;
-wait=1;
-distr_nb=4;
-distr_dt=0.1;
-wait=10;

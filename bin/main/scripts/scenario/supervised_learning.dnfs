@@ -1,5 +1,0 @@
-waitNSave=1;
-wro_file=files/weightsOutput;
-wait=1;
-print=all;
-exit;
