@@ -29,6 +29,8 @@ import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
+import static org.opencv.core.Core.copyMakeBorder;
+
 /**
  * Created by bchappet on 26/09/14.
  */
@@ -278,15 +280,16 @@ public class OpenCVMatrix implements Matrix{
    public static Mat  conv2(Mat img, Mat kernel, int type ) {
         Mat source = img;
         Mat dest = new Mat();
-       int borderMode = Imgproc.BORDER_CONSTANT;
+       int borderMode = Core.BORDER_CONSTANT;
+
 
         if(type == CONVOLUTION_FULL || type == CONVOLUTION_WRAP) {
             if(type == CONVOLUTION_WRAP)
-                borderMode = Imgproc.BORDER_WRAP;
+                borderMode = Core.BORDER_WRAP;
             source = new  Mat();
             int additionalRows = kernel.rows()-1, additionalCols = kernel.cols()-1;
-            Imgproc.copyMakeBorder(img, source, (additionalRows+1)/2, additionalRows/2, (additionalCols+1)/2,
-                    additionalCols/2, borderMode, new Scalar(0));
+            copyMakeBorder(img, source, (additionalRows + 1) / 2, additionalRows / 2, (additionalCols + 1) / 2,
+                    additionalCols / 2, borderMode, new Scalar(0));
         }
 
         Point anchor = new Point(kernel.cols() - kernel.cols()/2 - 1, kernel.rows() - kernel.rows()/2 - 1);
@@ -294,7 +297,7 @@ public class OpenCVMatrix implements Matrix{
 
         Mat kernel2 = kernel.clone();
         Core.flip(kernel,kernel2,-1);
-        Imgproc.filter2D(source, dest, img.depth(),kernel2 , anchor, 0,Imgproc.BORDER_CONSTANT);
+        Imgproc.filter2D(source, dest, img.depth(),kernel2 , anchor, 0,Core.BORDER_CONSTANT);
 
         if( type == CONVOLUTION_VALID || type == CONVOLUTION_WRAP) {
             dest = dest.colRange((kernel.cols()-1)/2, dest.cols() - kernel.cols()/2)
